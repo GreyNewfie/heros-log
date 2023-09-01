@@ -22,3 +22,19 @@
     gap: 15px;
     margin-right: 10px;
 }
+
+.character-sheet {
+    border: 1px solid black;
+}
+
+/* for character sheet skull icon */
+.material-symbols-outlined {
+  font-variation-settings:
+  'FILL' 0,
+  'wght' 400,
+  'GRAD' 0,
+  'opsz' 24
+}
+
+
+

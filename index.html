@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <link rel="stylesheet" href="styles.css">
     <script src="app.js" defer></script>
     <title>HeroQuest Tracker</title>
@@ -17,7 +18,88 @@
                     <h3>Quests</h3>
             </div>
         </div>
-        <div class="character-sheet-container"></div>
+        <div class="character-sheet-container">
+            <div class="character-sheet">
+                <div>
+                    <label for="character-name">Name</label>
+                    <input type="text" id="character-name" name="character-name" required>
+                </div>
+                <div>
+                    <label for="character-type">Character</label>
+                    <input type="text" id="character-type" name="character-type" required>
+                </div>
+                <div>
+                    <span class="material-symbols-outlined">skull</span>
+                </div>
+                <div>
+                    <div class="attack-dice">
+                        <p>Attack Dice</p>
+                        <div>
+                            <button>-</button>
+                            <p>2</p>
+                            <button>+</button>
+                        </div>
+                    </div>
+                    <div class="defend-dice">
+                        <p>Defend Dice</p>
+                        <div>
+                            <button>-</button>
+                            <p>2</p>
+                            <button>+</button>
+                        </div>
+                    </div>
+                    <div class="starting-points">
+                        <p>Starting Points</p>
+                        <div class="starting-body-points">
+                            <p>Body</p>
+                            <div>
+                                <button>-</button>
+                                <p>2</p>
+                                <button>+</button>
+                            </div>
+                        </div>
+                        <div class="starting-mind-points">
+                            <p>Mind</p>
+                            <div>
+                                <button>-</button>
+                                <p>2</p>
+                                <button>+</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <label for="character-weapons">Weapons</label>
+                    <input type="text" id="character-weapons" name="character-weapons">
+                </div>
+                <div>
+                    <label for="character-armor">Character Armor</label>
+                    <input type="text" id="character-armor" name="character-armor">
+                </div>
+                <div class="current-tracker">
+                    <div class="current-body-points">
+                        <p>Body Points</p>
+                        <div>
+                            <button>-</button>
+                            <p>2</p>
+                            <button>+</button>
+                        </div>
+                    </div>
+                    <div class="current-gold-coins">
+                        <p>Gold Coins</p>
+                        <div>
+                            <button>-</button>
+                            <p>2</p>
+                            <button>+</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="potions-items">
+                    <label for="potions-items">Potions & Other Items</label>
+                    <textarea name="potions-items" id="potions-items" cols="30" rows="10" placeholder="Healing, Invisible, etc."></textarea>
+                </div>
+            </div>
+        </div>
     </div>
 </body>
 </html>
