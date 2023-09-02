@@ -25,6 +25,8 @@
 
 .character-sheet {
     border: 1px solid black;
+    width: 350px;
+    position: relative;
 }
 
 /* for character sheet skull icon */
@@ -36,5 +38,9 @@
   'opsz' 24
 }
 
-
+.killed-button {
+    position: absolute;
+    right: 10px;
+    top: 5px;
+}
 
