@@ -23,10 +23,19 @@
     margin-right: 10px;
 }
 
+.character-sheet-container {
+    display: flex;
+    gap: 15px;
+}
+
 .character-sheet {
     border: 1px solid black;
     width: 350px;
     position: relative;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
 /* for character sheet skull icon */

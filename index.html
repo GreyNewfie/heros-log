@@ -14,11 +14,14 @@
             <div class="logo-container"><img src="images/hq-logo.png" alt="heroquest logo"></div>
             <div><h1>Character & Quest Tracker</h1></div>
             <div>
-                    <h3>Characters</h3>
-                    <h3>Quests</h3>
+                    <h2>Characters</h2>
+                    <h2>Quests</h2>
             </div>
         </div>
         <div class="character-sheet-container">
+            <div id="create-character-sheet" class="character-sheet">
+                <button type="button" id="add-character-button">Add Character</button>
+            </div>
             <div class="character-sheet">
                 <div>
                     <label for="character-name">Name</label>
@@ -32,7 +35,7 @@
                     <button class="killed-button"><i class="material-symbols-outlined">skull</i></button>
                 </div>
                 <div class="initial-stats-trackers">
-                    <div class="numeric-tracker" id="attack-dice">
+                    <div id="attack-dice" class="numeric-tracker">
                         <p>Attack Dice</p>
                         <div>
                             <button>-</button>
@@ -40,7 +43,7 @@
                             <button>+</button>
                         </div>
                     </div>
-                    <div class="numeric-tracker" id="defend-dice">
+                    <div id="defend-dice" class="numeric-tracker">
                         <p>Defend Dice</p>
                         <div>
                             <button>-</button>
@@ -50,7 +53,7 @@
                     </div>
                     <div class="starting-points">
                         <p>Starting Points</p>
-                        <div class="numeric-tracker" id="starting-body-points">
+                        <div id="starting-body-points" class="numeric-tracker">
                             <p>Body</p>
                             <div>
                                 <button>-</button>
@@ -58,7 +61,7 @@
                                 <button>+</button>
                             </div>
                         </div>
-                        <div class="numeric-tracker" id="starting-mind-points">
+                        <div id="starting-mind-points" class="numeric-tracker">
                             <p>Mind</p>
                             <div>
                                 <button>-</button>
@@ -77,7 +80,7 @@
                     <input type="text" id="character-armor" name="character-armor">
                 </div>
                 <div class="current-tracker">
-                    <div class="numeric-tracker" id="current-body-points">
+                    <div id="current-body-points" class="numeric-tracker">
                         <p>Body Points</p>
                         <div>
                             <button>-</button>
@@ -85,7 +88,7 @@
                             <button>+</button>
                         </div>
                     </div>
-                    <div class="numeric-tracker" id="current-gold-coins">
+                    <div id="current-gold-coins" class="numeric-tracker">
                         <p>Gold Coins</p>
                         <div>
                             <button>-</button>
