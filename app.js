@@ -15,10 +15,16 @@ const newCharacterSheet = () => {
     const characterNameInput = document.createElement('input');
     setAttributes(characterNameInput, {'type': 'text', 'id': 'character-name', 'name': 'character-name', 'required': ''});
     characterNameDiv.append(characterNameLabel, characterNameInput);
-
+    
     const characterTypeDiv = document.createElement('div');
-
-    characterSheetDiv.append(characterNameDiv);
+    const characterTypeLabel = document.createElement('label');
+    characterTypeLabel.setAttribute('for', 'character-type');
+    characterTypeLabel.append('Character');
+    const characterTypeInput = document.createElement('input');
+    setAttributes(characterTypeInput, {'type': 'text', 'id': 'character-type', 'name': 'character-type', 'required': ''});
+    characterTypeDiv.append(characterTypeLabel, characterTypeInput);
+    
+    characterSheetDiv.append(characterNameDiv, characterTypeDiv);
 
     const createCharacterSheetDiv = document.getElementById('create-character-sheet');
     createCharacterSheetDiv.before(characterSheetDiv);
