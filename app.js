@@ -39,11 +39,20 @@ const newCharacterSheet = () => {
     setAttributes(attackDiceSelect, {'id': 'attack-dice', 'class': 'numeric-tracker'});
     const attackDiceOption = document.createElement('option');
     addOptions(attackDiceSelect, 6);
-
     attackDiceDiv.append(attackDiceP, attackDiceSelect)
 
-    initialStatsDiv.append(attackDiceDiv);
-    
+    //Defend dice select
+    const defendDiceDiv = document.createElement('div');
+    const defendDiceP = document.createElement('p');
+    defendDiceP.append('Defend');
+    defendDiceDiv.append(defendDiceP);
+    const defendDiceSelect = document.createElement('select');
+    setAttributes(defendDiceSelect, {'name': 'defend-dice-number', 'id': 'defend-dice-number'});
+    addOptions(defendDiceSelect, 6);
+    defendDiceDiv.append(defendDiceP, defendDiceSelect);
+
+    //Append elements to each section and then to character sheet
+    initialStatsDiv.append(attackDiceDiv, defendDiceDiv);
     characterSheetDiv.append(characterNameDiv, characterTypeDiv, initialStatsDiv);
 
     const createCharacterSheetDiv = document.getElementById('create-character-sheet');
@@ -56,8 +65,8 @@ function setAttributes(element, attributes) {
     }
 }
 
-function addOptions(element, numOfOptions) {
-    for (let i = 0; i <= numOfOptions; i++) {
+function addOptions(element, maxValue) {
+    for (let i = 0; i <= maxValue; i++) {
         const option = document.createElement('option');
         option.setAttribute('value', i);
         option.append(`${i}`);
