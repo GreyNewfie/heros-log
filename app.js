@@ -26,6 +26,16 @@ const newCharacterSheet = () => {
     setAttributes(characterTypeInput, {'type': 'text', 'id': 'character-type', 'name': 'character-type', 'required': ''});
     characterTypeDiv.append(characterTypeLabel, characterTypeInput);
 
+    //Character killed button
+    const characterKilledBtnDiv = document.createElement('div');
+    const characterKilledBtn = document.createElement('button');
+    characterKilledBtn.setAttribute('class', 'killed-button');
+    const characterKilledSpan = document.createElement('span');
+    characterKilledSpan.setAttribute('class', 'material-symbols-outlined');
+    characterKilledSpan.append('skull');
+    characterKilledBtn.append(characterKilledSpan);
+    characterKilledBtnDiv.append(characterKilledBtn);
+
     //Initial attack dice, defend dice and starting body and mind points
     const initialStatsDiv = document.createElement('div');
     initialStatsDiv.setAttribute('class', 'initial-stats');
@@ -53,7 +63,7 @@ const newCharacterSheet = () => {
 
     //Append elements to each section and then to character sheet
     initialStatsDiv.append(attackDiceDiv, defendDiceDiv);
-    characterSheetDiv.append(characterNameDiv, characterTypeDiv, initialStatsDiv);
+    characterSheetDiv.append(characterNameDiv, characterTypeDiv, characterKilledBtnDiv, initialStatsDiv);
 
     const createCharacterSheetDiv = document.getElementById('create-character-sheet');
     createCharacterSheetDiv.before(characterSheetDiv);
@@ -71,6 +81,5 @@ function addOptions(element, maxValue) {
         option.setAttribute('value', i);
         option.append(`${i}`);
         element.appendChild(option);
-        console.log(option);
     }
 }
