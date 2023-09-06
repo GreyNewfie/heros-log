@@ -75,8 +75,19 @@ const newCharacterSheet = () => {
     const startingBodyPointsSelect = document.createElement('select');
     setAttributes(startingBodyPointsSelect, {'name': 'starting-body-points-number', 'id': 'starting-body-points-number'});
     addOptions(startingBodyPointsSelect, 8);
+    startingBodyPointsDiv.append(startingBodyPointsP, startingBodyPointsSelect)    
 
-    startingPointsDiv.append(startingPointsP, startingBodyPointsP, startingBodyPointsSelect);
+    //Mind points select
+    const startingMindPointsDiv = document.createElement('div');
+    setAttributes(startingMindPointsDiv, {'id': 'starting-mind-points', 'class': 'starting-mind-points'});
+    const startingMindPointsP = document.createElement('p');
+    startingMindPointsP.append('Mind');
+    const startingMindPointsSelect = document.createElement('select');
+    setAttributes(startingMindPointsSelect, {'name': 'starting-mind-points-number', 'id': 'starting-mind-points-number'});
+    addOptions(startingMindPointsSelect, 6);
+    startingMindPointsDiv.append(startingMindPointsP, startingMindPointsSelect);
+
+    startingPointsDiv.append(startingPointsP, startingBodyPointsDiv, startingMindPointsDiv);
 
     //Append elements to each section and then to character sheet
     initialStatsDiv.append(attackDiceDiv, defendDiceDiv);
