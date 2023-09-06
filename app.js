@@ -61,9 +61,26 @@ const newCharacterSheet = () => {
     addOptions(defendDiceSelect, 6);
     defendDiceDiv.append(defendDiceP, defendDiceSelect);
 
+    //Starting body and mind points div
+    const startingPointsDiv = document.createElement('div');
+    startingPointsDiv.setAttribute('class', 'starting-points');
+    const startingPointsP = document.createElement('p');
+    startingPointsP.append('Starting Points');
+
+    //Body points select
+    const startingBodyPointsDiv = document.createElement('div');
+    setAttributes(startingBodyPointsDiv, {'id': 'starting-body-points', 'class': 'numeric-tracker'});
+    const startingBodyPointsP = document.createElement('p');
+    startingBodyPointsP.append('Body');
+    const startingBodyPointsSelect = document.createElement('select');
+    setAttributes(startingBodyPointsSelect, {'name': 'starting-body-points-number', 'id': 'starting-body-points-number'});
+    addOptions(startingBodyPointsSelect, 8);
+
+    startingPointsDiv.append(startingPointsP, startingBodyPointsP, startingBodyPointsSelect);
+
     //Append elements to each section and then to character sheet
     initialStatsDiv.append(attackDiceDiv, defendDiceDiv);
-    characterSheetDiv.append(characterNameDiv, characterTypeDiv, characterKilledBtnDiv, initialStatsDiv);
+    characterSheetDiv.append(characterNameDiv, characterTypeDiv, characterKilledBtnDiv, initialStatsDiv, startingPointsDiv);
 
     const createCharacterSheetDiv = document.getElementById('create-character-sheet');
     createCharacterSheetDiv.before(characterSheetDiv);
