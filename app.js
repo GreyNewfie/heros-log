@@ -90,13 +90,25 @@ const newCharacterSheet = () => {
     setAttributes(startingMindPointsSelect, {'name': 'starting-mind-points-number', 'id': 'starting-mind-points-number'});
     addOptions(startingMindPointsSelect, 6);
     startingMindPointsDiv.append(startingMindPointsP, startingMindPointsSelect);
-
     startingPointsDiv.append(startingPointsP, startingBodyPointsDiv, startingMindPointsDiv);
+
+    //Character weapons and armor container
+    const characterWeaponsArmorDiv = document.createElement('div');
+    characterWeaponsArmorDiv.setAttribute('class', 'character-weapons-armor-container');
+
+    //Character weapons input
+    const characterWeaponsDiv = document.createElement('div');
+    const characterWeaponsLabel = document.createElement('label');
+    characterWeaponsLabel.append('Weapons');
+    const characterWeaponsInput = document.createElement('input');
+    setAttributes(characterWeaponsInput, {'type': 'text', 'id': 'character-weapons', 'name': 'character-weapons'});
+    characterWeaponsDiv.append(characterWeaponsLabel, characterWeaponsInput);
 
     //Append elements to character sheet
     CharacterNameTypeDiv.append(characterNameDiv, characterTypeDiv);
     initialStatsDiv.append(attackDiceDiv, defendDiceDiv, startingPointsDiv);
-    characterSheetDiv.append(CharacterNameTypeDiv, characterKilledBtnDiv, initialStatsDiv);
+    characterWeaponsArmorDiv.append(characterWeaponsDiv);
+    characterSheetDiv.append(CharacterNameTypeDiv, characterKilledBtnDiv, initialStatsDiv, characterWeaponsArmorDiv);
 
     const createCharacterSheetDiv = document.getElementById('create-character-sheet');
     createCharacterSheetDiv.before(characterSheetDiv);
