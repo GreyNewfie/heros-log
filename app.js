@@ -104,10 +104,18 @@ const newCharacterSheet = () => {
     setAttributes(characterWeaponsInput, {'type': 'text', 'id': 'character-weapons', 'name': 'character-weapons'});
     characterWeaponsDiv.append(characterWeaponsLabel, characterWeaponsInput);
 
+    //Character armor input
+    const characterArmorDiv = document. createElement('div');
+    const characterArmorLabel = document.createElement('label');
+    characterArmorLabel.append('Character Armor');
+    const characterArmorInput = document.createElement('input');
+    setAttributes(characterArmorInput, {'type': 'text', 'id': 'character-armor', 'name': 'character-armor'});
+    characterArmorDiv.append(characterArmorLabel, characterArmorInput);
+
     //Append elements to character sheet
     CharacterNameTypeDiv.append(characterNameDiv, characterTypeDiv);
     initialStatsDiv.append(attackDiceDiv, defendDiceDiv, startingPointsDiv);
-    characterWeaponsArmorDiv.append(characterWeaponsDiv);
+    characterWeaponsArmorDiv.append(characterWeaponsDiv, characterArmorDiv);
     characterSheetDiv.append(CharacterNameTypeDiv, characterKilledBtnDiv, initialStatsDiv, characterWeaponsArmorDiv);
 
     const createCharacterSheetDiv = document.getElementById('create-character-sheet');
