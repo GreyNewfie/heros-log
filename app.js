@@ -89,9 +89,9 @@ const newCharacterSheet = () => {
 
     startingPointsDiv.append(startingPointsP, startingBodyPointsDiv, startingMindPointsDiv);
 
-    //Append elements to each section and then to character sheet
-    initialStatsDiv.append(attackDiceDiv, defendDiceDiv);
-    characterSheetDiv.append(characterNameDiv, characterTypeDiv, characterKilledBtnDiv, initialStatsDiv, startingPointsDiv);
+    //Append elements to character sheet
+    initialStatsDiv.append(attackDiceDiv, defendDiceDiv, startingPointsDiv);
+    characterSheetDiv.append(characterNameDiv, characterTypeDiv, characterKilledBtnDiv, initialStatsDiv);
 
     const createCharacterSheetDiv = document.getElementById('create-character-sheet');
     createCharacterSheetDiv.before(characterSheetDiv);
