@@ -146,13 +146,22 @@ const newCharacterSheet = () => {
     currentGoldCoinsNumDiv.append(currentGoldCoinsNegBtn, currentGoldCoinsNumP, currentGoldCoinsPosBtn);
     currentBodyPointsDiv.append(currentGoldCoinsP, currentGoldCoinsNumDiv);
 
+    //Potions Items Div
+    const potionsItemsDiv = document.createElement('div');
+    potionsItemsDiv.setAttribute('class', 'potions-items');
+    const potionsItemsLabel = document.createElement('label');
+    potionsItemsLabel.setAttribute('for', 'potions-items');
+    potionsItemsLabel.append('Potions & Other Items');
+    const potionsItemsText = document.createElement('textarea');
+    setAttributes(potionsItemsText, {'name': 'potions-items', 'id':'potions-items', 'cols': '30', 'rows': '10', 'placeholder': 'Healing, invisible, etc.'});
+    potionsItemsDiv.append(potionsItemsLabel, potionsItemsText);
 
     //Append elements to character sheet
     currentStatsTrackerDiv.append(currentBodyPointsDiv, currentGoldCoinsDiv);
     CharacterNameTypeDiv.append(characterNameDiv, characterTypeDiv);
     initialStatsDiv.append(attackDiceDiv, defendDiceDiv, startingPointsDiv);
     characterWeaponsArmorDiv.append(characterWeaponsDiv, characterArmorDiv);
-    characterSheetDiv.append(CharacterNameTypeDiv, characterKilledBtnDiv, initialStatsDiv, characterWeaponsArmorDiv, currentStatsTrackerDiv);
+    characterSheetDiv.append(CharacterNameTypeDiv, characterKilledBtnDiv, initialStatsDiv, characterWeaponsArmorDiv, currentStatsTrackerDiv, potionsItemsDiv);
 
     const createCharacterSheetDiv = document.getElementById('create-character-sheet');
     createCharacterSheetDiv.before(characterSheetDiv);
