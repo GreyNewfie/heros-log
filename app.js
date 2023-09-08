@@ -112,33 +112,43 @@ const newCharacterSheet = () => {
     setAttributes(characterArmorInput, {'type': 'text', 'id': 'character-armor', 'name': 'character-armor'});
     characterArmorDiv.append(characterArmorLabel, characterArmorInput);
 
-    //Current tracker div
+    //Current stats tracker div
     const currentStatsTrackerDiv = document.createElement('div');
     currentStatsTrackerDiv.setAttribute('class', 'current-stats-tracker');
 
     //Current body points div
     const currentBodyPointsDiv = document.createElement('div');
     setAttributes(currentBodyPointsDiv, {'id': 'current-body-points', 'class': 'numeric-tracker'});
-
     const currentBodyPointsP = document.createElement('p');
     currentBodyPointsP.append('Body Points');
-
     const currentBodyPointsNumDiv = document.createElement('div');
-
     const currentBodyPointsNegBtn = document.createElement('button');
     currentBodyPointsNegBtn.append('-');
-
     const currentBodyPointsNumP = document.createElement('p');
     currentBodyPointsNumP.append('0');
-
     const currentBodyPointsPosBtn = document.createElement('button');
     currentBodyPointsPosBtn.append('+');
-
     currentBodyPointsNumDiv.append(currentBodyPointsNegBtn, currentBodyPointsNumP, currentBodyPointsPosBtn);
     currentBodyPointsDiv.append(currentBodyPointsP, currentBodyPointsNumDiv);
 
+    //Current gold points div
+    const currentGoldCoinsDiv = document.createElement('div');
+    setAttributes(currentGoldCoinsDiv, {'id': 'current-gold-coins', 'class': 'numeric-tracker'});
+    const currentGoldCoinsP = document.createElement('p');
+    currentGoldCoinsP.append('Gold Coins');
+    const currentGoldCoinsNumDiv = document.createElement('div');
+    const currentGoldCoinsNegBtn = document.createElement('button');
+    currentGoldCoinsNegBtn.append('-');
+    const currentGoldCoinsNumP = document.createElement('p');
+    currentGoldCoinsNumP.append('0');
+    const currentGoldCoinsPosBtn = document.createElement('button');
+    currentGoldCoinsPosBtn.append('+');
+    currentGoldCoinsNumDiv.append(currentGoldCoinsNegBtn, currentGoldCoinsNumP, currentGoldCoinsPosBtn);
+    currentBodyPointsDiv.append(currentGoldCoinsP, currentGoldCoinsNumDiv);
+
+
     //Append elements to character sheet
-    currentStatsTrackerDiv.append(currentBodyPointsDiv)
+    currentStatsTrackerDiv.append(currentBodyPointsDiv, currentGoldCoinsDiv);
     CharacterNameTypeDiv.append(characterNameDiv, characterTypeDiv);
     initialStatsDiv.append(attackDiceDiv, defendDiceDiv, startingPointsDiv);
     characterWeaponsArmorDiv.append(characterWeaponsDiv, characterArmorDiv);
