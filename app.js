@@ -26,9 +26,11 @@ const newCharacterSheet = () => {
     const characterTypeLabel = document.createElement('label');
     characterTypeLabel.setAttribute('for', 'character-type');
     characterTypeLabel.append('Character');
-    const characterTypeInput = document.createElement('input');
-    setAttributes(characterTypeInput, {'type': 'text', 'id': 'character-type', 'name': 'character-type', 'required': ''});
-    characterTypeDiv.append(characterTypeLabel, characterTypeInput);
+    const characterTypeSelect = document.createElement('select');
+    setAttributes(characterTypeSelect, {'id': 'character-type', 'name': 'character-type', 'required': ''});
+    addTypeOptions(characterTypeSelect, {'default': '- Select Option -', 'barabarian': 'Barbarian', 'wizard': 'Wizard', 'elf': 'Elf', 'dwarf': 'Dwarf'});
+
+    characterTypeDiv.append(characterTypeLabel, characterTypeSelect);
 
     //Character killed button
     const characterKilledBtnDiv = document.createElement('div');
@@ -179,5 +181,14 @@ function addOptions(element, maxValue) {
         option.setAttribute('value', i);
         option.append(`${i}`);
         element.appendChild(option);
+    }
+}
+
+function addTypeOptions(parent, types) {
+    for (let type in types) {
+        const typeOption = document.createElement('option');
+        typeOption.setAttribute('value', type);
+        typeOption.append(`${types[type]}`);
+        parent.appendChild(typeOption);
     }
 }
