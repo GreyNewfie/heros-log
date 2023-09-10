@@ -21,7 +21,7 @@ const newCharacterSheet = () => {
     setAttributes(characterNameInput, {'type': 'text', 'id': 'character-name', 'name': 'character-name', 'required': ''});
     characterNameDiv.append(characterNameLabel, characterNameInput);
     
-    //Character type input field
+    //Character type select
     const characterTypeDiv = document.createElement('div');
     const characterTypeLabel = document.createElement('label');
     characterTypeLabel.setAttribute('for', 'character-type');
