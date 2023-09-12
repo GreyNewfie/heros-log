@@ -41,6 +41,7 @@ const newCharacterSheet = () => {
     characterKilledSpan.append('skull');
     characterKilledBtn.append(characterKilledSpan);
     characterKilledBtnDiv.append(characterKilledBtn);
+    characterKilledBtn.addEventListener('click', characterDied);
 
     //Initial attack dice, defend dice and starting body and mind points
     const initialStatsDiv = document.createElement('div');
@@ -191,4 +192,12 @@ function addTypeOptions(parent, types) {
         typeOption.append(`${types[type]}`);
         parent.appendChild(typeOption);
     }
+}
+
+function characterDied (event) {
+    console.log(event);
+    const firstParent = event.target.parentNode;
+    const secondParent = firstParent.parentNode;
+    const targetCharSheet = secondParent.parentNode;
+    targetCharSheet.remove();
 }
