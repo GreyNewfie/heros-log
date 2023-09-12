@@ -194,7 +194,7 @@ function addTypeOptions(parent, types) {
     }
 }
 
-function characterDied (event) {
+function characterDied(event) {
     const firstParent = event.target.parentNode;
     const secondParent = firstParent.parentNode;
     const targetCharSheet = secondParent.parentNode;
