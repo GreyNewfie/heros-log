@@ -137,10 +137,14 @@ const newCharacterSheet = () => {
 
     const currentBodyPointsPosBtn = document.createElement('button');
     currentBodyPointsPosBtn.append('+');
+    currentBodyPointsPosBtn.addEventListener('click', () => {
+        increaseNumber(currentBodyPointsNumP, currentBodyPointsNumP.textContent);
+    });
+
     currentBodyPointsNumDiv.append(currentBodyPointsNegBtn, currentBodyPointsNumP, currentBodyPointsPosBtn);
     currentBodyPointsDiv.append(currentBodyPointsP, currentBodyPointsNumDiv);
 
-    //Current gold points div
+    //Current gold coins div
     const currentGoldCoinsDiv = document.createElement('div');
     setAttributes(currentGoldCoinsDiv, {'id': 'current-gold-coins', 'class': 'numeric-tracker'});
     const currentGoldCoinsP = document.createElement('p');
@@ -209,12 +213,14 @@ function characterDied(event) {
 
 function decreaseNumber(element, currentNum) {
     const testNum = parseInt(currentNum);
-    console.log(testNum);
     if (testNum === 0) {
-        console.log(`DecreaseNumber ran. currentNum = ${testNum}`);
         return;
     } else {
-        console.log(`CurrnetNum - 1 = ${testNum}`);
         return element.textContent = testNum - 1;
     }
+}
+
+function increaseNumber(element, currentNum) {
+    const testNum = parseInt(currentNum);
+    return element.textContent = testNum < 12 ? testNum + 1 : testNum;
 }
