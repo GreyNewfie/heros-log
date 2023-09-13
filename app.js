@@ -125,10 +125,16 @@ const newCharacterSheet = () => {
     const currentBodyPointsP = document.createElement('p');
     currentBodyPointsP.append('Body Points');
     const currentBodyPointsNumDiv = document.createElement('div');
+    const currentBodyPointsNumP = document.createElement('p');
+    currentBodyPointsNumP.append('2');
+
     const currentBodyPointsNegBtn = document.createElement('button');
     currentBodyPointsNegBtn.append('-');
-    const currentBodyPointsNumP = document.createElement('p');
-    currentBodyPointsNumP.append('0');
+
+    currentBodyPointsNegBtn.addEventListener('click',  () => {
+        decreaseNumber(currentBodyPointsNumP, currentBodyPointsNumP.textContent)
+    });
+
     const currentBodyPointsPosBtn = document.createElement('button');
     currentBodyPointsPosBtn.append('+');
     currentBodyPointsNumDiv.append(currentBodyPointsNegBtn, currentBodyPointsNumP, currentBodyPointsPosBtn);
@@ -199,4 +205,16 @@ function characterDied(event) {
     const secondParent = firstParent.parentNode;
     const targetCharSheet = secondParent.parentNode;
     targetCharSheet.remove();
+}
+
+function decreaseNumber(element, currentNum) {
+    const testNum = parseInt(currentNum);
+    console.log(testNum);
+    if (testNum === 0) {
+        console.log(`DecreaseNumber ran. currentNum = ${testNum}`);
+        return;
+    } else {
+        console.log(`CurrnetNum - 1 = ${testNum}`);
+        return element.textContent = testNum - 1;
+    }
 }
