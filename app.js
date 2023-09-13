@@ -55,7 +55,7 @@ const newCharacterSheet = () => {
     const attackDiceSelect = document.createElement('select');
     setAttributes(attackDiceSelect, {'id': 'attack-dice', 'class': 'numeric-tracker'});
     const attackDiceOption = document.createElement('option');
-    addOptions(attackDiceSelect, 6);
+    addNumOptions(attackDiceSelect, 6);
     attackDiceDiv.append(attackDiceP, attackDiceSelect)
 
     //Defend dice select
@@ -65,7 +65,7 @@ const newCharacterSheet = () => {
     defendDiceDiv.append(defendDiceP);
     const defendDiceSelect = document.createElement('select');
     setAttributes(defendDiceSelect, {'name': 'defend-dice-number', 'id': 'defend-dice-number'});
-    addOptions(defendDiceSelect, 6);
+    addNumOptions(defendDiceSelect, 6);
     defendDiceDiv.append(defendDiceP, defendDiceSelect);
 
     //Starting body and mind points div
@@ -81,7 +81,7 @@ const newCharacterSheet = () => {
     startingBodyPointsP.append('Body');
     const startingBodyPointsSelect = document.createElement('select');
     setAttributes(startingBodyPointsSelect, {'name': 'starting-body-points-number', 'id': 'starting-body-points-number'});
-    addOptions(startingBodyPointsSelect, 8);
+    addNumOptions(startingBodyPointsSelect, 8);
     startingBodyPointsDiv.append(startingBodyPointsP, startingBodyPointsSelect);    
 
     //Mind points select
@@ -91,7 +91,7 @@ const newCharacterSheet = () => {
     startingMindPointsP.append('Mind');
     const startingMindPointsSelect = document.createElement('select');
     setAttributes(startingMindPointsSelect, {'name': 'starting-mind-points-number', 'id': 'starting-mind-points-number'});
-    addOptions(startingMindPointsSelect, 6);
+    addNumOptions(startingMindPointsSelect, 6);
     startingMindPointsDiv.append(startingMindPointsP, startingMindPointsSelect);
     startingPointsDiv.append(startingPointsP, startingBodyPointsDiv, startingMindPointsDiv);
 
@@ -182,7 +182,7 @@ function setAttributes(element, attributes) {
     }
 }
 
-function addOptions(element, maxValue) {
+function addNumOptions(element, maxValue) {
     for (let i = 0; i <= maxValue; i++) {
         const option = document.createElement('option');
         option.setAttribute('value', i);
