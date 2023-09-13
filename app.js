@@ -213,11 +213,7 @@ function characterDied(event) {
 
 function decreaseNumber(element, currentNum) {
     const testNum = parseInt(currentNum);
-    if (testNum === 0) {
-        return;
-    } else {
-        return element.textContent = testNum - 1;
-    }
+    return element.textContent = testNum === 0 ? testNum : testNum - 1;
 }
 
 function increaseNumber(element, currentNum) {
