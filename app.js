@@ -127,20 +127,16 @@ const newCharacterSheet = () => {
     const currentBodyPointsNumDiv = document.createElement('div');
     const currentBodyPointsNumP = document.createElement('p');
     currentBodyPointsNumP.append('2');
-
     const currentBodyPointsNegBtn = document.createElement('button');
     currentBodyPointsNegBtn.append('-');
-
     currentBodyPointsNegBtn.addEventListener('click',  () => {
         decreaseNumber(currentBodyPointsNumP, currentBodyPointsNumP.textContent)
     });
-
     const currentBodyPointsPosBtn = document.createElement('button');
     currentBodyPointsPosBtn.append('+');
     currentBodyPointsPosBtn.addEventListener('click', () => {
         increaseNumber(currentBodyPointsNumP, currentBodyPointsNumP.textContent);
     });
-
     currentBodyPointsNumDiv.append(currentBodyPointsNegBtn, currentBodyPointsNumP, currentBodyPointsPosBtn);
     currentBodyPointsDiv.append(currentBodyPointsP, currentBodyPointsNumDiv);
 
