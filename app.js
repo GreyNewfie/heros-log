@@ -2,9 +2,14 @@ const addCharacterButton = document.getElementById('add-character-button');
 
 addCharacterButton.addEventListener('click', () => {
     newCharacterSheet();
-})
+});
+
+const characterSheets = new Array();
 
 const newCharacterSheet = () => {
+    const uniqueId = Date.now();
+    console.log(uniqueId);
+
     const characterSheetDiv = document.createElement('div');
     characterSheetDiv.setAttribute('class', 'character-sheet');
 
@@ -15,19 +20,19 @@ const newCharacterSheet = () => {
     //Character name input field
     const characterNameDiv = document.createElement('div');
     const characterNameLabel = document.createElement('label');
-    characterNameLabel.setAttribute('for', 'character-name');
+    characterNameLabel.setAttribute('for', `character-name-${uniqueId}`);
     characterNameLabel.append('Name');
     const characterNameInput = document.createElement('input');
-    setAttributes(characterNameInput, {'type': 'text', 'id': 'character-name', 'name': 'character-name', 'required': ''});
+    setAttributes(characterNameInput, {'type': 'text', 'id': `character-name-${uniqueId}`, 'name': 'character-name', 'required': ''});
     characterNameDiv.append(characterNameLabel, characterNameInput);
     
     //Character type select
     const characterTypeDiv = document.createElement('div');
     const characterTypeLabel = document.createElement('label');
-    characterTypeLabel.setAttribute('for', 'character-type');
+    characterTypeLabel.setAttribute('for', `character-type-${uniqueId}`);
     characterTypeLabel.append('Character');
     const characterTypeSelect = document.createElement('select');
-    setAttributes(characterTypeSelect, {'id': 'character-type', 'name': 'character-type', 'required': ''});
+    setAttributes(characterTypeSelect, {'id': `character-type-${uniqueId}`, 'name': 'character-type', 'required': ''});
     addTypeOptions(characterTypeSelect, {'default': '- Select Option -', 'barabarian': 'Barbarian', 'wizard': 'Wizard', 'elf': 'Elf', 'dwarf': 'Dwarf'});
 
     characterTypeDiv.append(characterTypeLabel, characterTypeSelect);
@@ -53,7 +58,7 @@ const newCharacterSheet = () => {
     attackDiceP.append('Attack Dice');
     attackDiceDiv.append(attackDiceP);
     const attackDiceSelect = document.createElement('select');
-    setAttributes(attackDiceSelect, {'id': 'attack-dice', 'class': 'numeric-tracker'});
+    setAttributes(attackDiceSelect, {'id': `attack-dice-${uniqueId}`, 'class': 'numeric-tracker'});
     const attackDiceOption = document.createElement('option');
     addNumOptions(attackDiceSelect, 6);
     attackDiceDiv.append(attackDiceP, attackDiceSelect)
@@ -64,7 +69,7 @@ const newCharacterSheet = () => {
     defendDiceP.append('Defend');
     defendDiceDiv.append(defendDiceP);
     const defendDiceSelect = document.createElement('select');
-    setAttributes(defendDiceSelect, {'name': 'defend-dice-number', 'id': 'defend-dice-number'});
+    setAttributes(defendDiceSelect, {'name': 'defend-dice-number', 'id': `defend-dice-number-${uniqueId}`});
     addNumOptions(defendDiceSelect, 6);
     defendDiceDiv.append(defendDiceP, defendDiceSelect);
 
@@ -76,11 +81,11 @@ const newCharacterSheet = () => {
 
     //Body points select
     const startingBodyPointsDiv = document.createElement('div');
-    setAttributes(startingBodyPointsDiv, {'id': 'starting-body-points', 'class': 'numeric-tracker'});
+    setAttributes(startingBodyPointsDiv, {'id': `starting-body-points-${uniqueId}`, 'class': 'numeric-tracker'});
     const startingBodyPointsP = document.createElement('p');
     startingBodyPointsP.append('Body');
     const startingBodyPointsSelect = document.createElement('select');
-    setAttributes(startingBodyPointsSelect, {'name': 'starting-body-points-number', 'id': 'starting-body-points-number'});
+    setAttributes(startingBodyPointsSelect, {'name': 'starting-body-points-number', 'id': `starting-body-points-number-${uniqueId}`});
     addNumOptions(startingBodyPointsSelect, 8);
     startingBodyPointsDiv.append(startingBodyPointsP, startingBodyPointsSelect);    
 
@@ -90,7 +95,7 @@ const newCharacterSheet = () => {
     const startingMindPointsP = document.createElement('p');
     startingMindPointsP.append('Mind');
     const startingMindPointsSelect = document.createElement('select');
-    setAttributes(startingMindPointsSelect, {'name': 'starting-mind-points-number', 'id': 'starting-mind-points-number'});
+    setAttributes(startingMindPointsSelect, {'name': 'starting-mind-points-number', 'id': `starting-mind-points-number-${uniqueId}`});
     addNumOptions(startingMindPointsSelect, 6);
     startingMindPointsDiv.append(startingMindPointsP, startingMindPointsSelect);
     startingPointsDiv.append(startingPointsP, startingBodyPointsDiv, startingMindPointsDiv);
@@ -104,7 +109,7 @@ const newCharacterSheet = () => {
     const characterWeaponsLabel = document.createElement('label');
     characterWeaponsLabel.append('Weapons');
     const characterWeaponsInput = document.createElement('input');
-    setAttributes(characterWeaponsInput, {'type': 'text', 'id': 'character-weapons', 'name': 'character-weapons'});
+    setAttributes(characterWeaponsInput, {'type': 'text', 'id': `character-weapons-${uniqueId}`, 'name': 'character-weapons'});
     characterWeaponsDiv.append(characterWeaponsLabel, characterWeaponsInput);
 
     //Character armor input
@@ -112,7 +117,7 @@ const newCharacterSheet = () => {
     const characterArmorLabel = document.createElement('label');
     characterArmorLabel.append('Character Armor');
     const characterArmorInput = document.createElement('input');
-    setAttributes(characterArmorInput, {'type': 'text', 'id': 'character-armor', 'name': 'character-armor'});
+    setAttributes(characterArmorInput, {'type': 'text', 'id': `character-armor-${uniqueId}`, 'name': 'character-armor'});
     characterArmorDiv.append(characterArmorLabel, characterArmorInput);
 
     //Current stats tracker div
@@ -121,7 +126,7 @@ const newCharacterSheet = () => {
 
     //Current body points div
     const currentBodyPointsDiv = document.createElement('div');
-    setAttributes(currentBodyPointsDiv, {'id': 'current-body-points', 'class': 'numeric-tracker'});
+    setAttributes(currentBodyPointsDiv, {'id': `current-body-points-${uniqueId}`, 'class': 'numeric-tracker'});
     const currentBodyPointsP = document.createElement('p');
     currentBodyPointsP.append('Body Points');
     const currentBodyPointsNumDiv = document.createElement('div');
@@ -142,7 +147,7 @@ const newCharacterSheet = () => {
 
     //Current gold coins div
     const currentGoldCoinsDiv = document.createElement('div');
-    setAttributes(currentGoldCoinsDiv, {'id': 'current-gold-coins', 'class': 'numeric-tracker'});
+    setAttributes(currentGoldCoinsDiv, {'id': `current-gold-coins-${uniqueId}`, 'class': 'numeric-tracker'});
     const currentGoldCoinsP = document.createElement('p');
     currentGoldCoinsP.append('Gold Coins');
     const currentGoldCoinsNumDiv = document.createElement('div');
@@ -168,7 +173,7 @@ const newCharacterSheet = () => {
     potionsItemsLabel.setAttribute('for', 'potions-items');
     potionsItemsLabel.append('Potions & Other Items');
     const potionsItemsText = document.createElement('textarea');
-    setAttributes(potionsItemsText, {'name': 'potions-items', 'id':'potions-items', 'cols': '30', 'rows': '10', 'placeholder': 'Healing, invisible, etc.'});
+    setAttributes(potionsItemsText, {'name': 'potions-items', 'id': `potions-items-${uniqueId}`, 'cols': '30', 'rows': '10', 'placeholder': 'Healing, invisible, etc.'});
     potionsItemsDiv.append(potionsItemsLabel, potionsItemsText);
 
     //Append elements to character sheet
