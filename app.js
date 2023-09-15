@@ -108,6 +108,7 @@ const newCharacterSheet = () => {
     const characterWeaponsDiv = document.createElement('div');
     const characterWeaponsLabel = document.createElement('label');
     characterWeaponsLabel.append('Weapons');
+    characterWeaponsLabel.setAttribute('for', `character-weapons-${uniqueId}`)
     const characterWeaponsInput = document.createElement('input');
     setAttributes(characterWeaponsInput, {'type': 'text', 'id': `character-weapons-${uniqueId}`, 'name': 'character-weapons'});
     characterWeaponsDiv.append(characterWeaponsLabel, characterWeaponsInput);
@@ -116,6 +117,7 @@ const newCharacterSheet = () => {
     const characterArmorDiv = document. createElement('div');
     const characterArmorLabel = document.createElement('label');
     characterArmorLabel.append('Character Armor');
+    characterArmorLabel.setAttribute('for', `character-armor-${uniqueId}`);
     const characterArmorInput = document.createElement('input');
     setAttributes(characterArmorInput, {'type': 'text', 'id': `character-armor-${uniqueId}`, 'name': 'character-armor'});
     characterArmorDiv.append(characterArmorLabel, characterArmorInput);
@@ -170,7 +172,7 @@ const newCharacterSheet = () => {
     const potionsItemsDiv = document.createElement('div');
     potionsItemsDiv.setAttribute('class', 'potions-items');
     const potionsItemsLabel = document.createElement('label');
-    potionsItemsLabel.setAttribute('for', 'potions-items');
+    potionsItemsLabel.setAttribute('for', `potions-items-${uniqueId}`);
     potionsItemsLabel.append('Potions & Other Items');
     const potionsItemsText = document.createElement('textarea');
     setAttributes(potionsItemsText, {'name': 'potions-items', 'id': `potions-items-${uniqueId}`, 'cols': '30', 'rows': '10', 'placeholder': 'Healing, invisible, etc.'});
