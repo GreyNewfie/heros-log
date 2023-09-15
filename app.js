@@ -148,10 +148,16 @@ const newCharacterSheet = () => {
     const currentGoldCoinsNumDiv = document.createElement('div');
     const currentGoldCoinsNegBtn = document.createElement('button');
     currentGoldCoinsNegBtn.append('-');
+    currentGoldCoinsNegBtn.addEventListener('click', () => {
+        decreaseNumber(currentGoldCoinsNumP, currentGoldCoinsNumP.textContent);
+    });
     const currentGoldCoinsNumP = document.createElement('p');
-    currentGoldCoinsNumP.append('0');
+    currentGoldCoinsNumP.append('2');
     const currentGoldCoinsPosBtn = document.createElement('button');
     currentGoldCoinsPosBtn.append('+');
+    currentGoldCoinsPosBtn.addEventListener('click', () => {
+        increaseNumber(currentGoldCoinsNumP, currentGoldCoinsNumP.textContent);
+    });
     currentGoldCoinsNumDiv.append(currentGoldCoinsNegBtn, currentGoldCoinsNumP, currentGoldCoinsPosBtn);
     currentBodyPointsDiv.append(currentGoldCoinsP, currentGoldCoinsNumDiv);
 
