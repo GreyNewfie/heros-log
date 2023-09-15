@@ -8,7 +8,6 @@ const characterSheets = new Array();
 
 const newCharacterSheet = () => {
     const uniqueId = Date.now();
-    console.log(uniqueId);
 
     const characterSheetDiv = document.createElement('div');
     characterSheetDiv.setAttribute('class', 'character-sheet');
@@ -133,7 +132,7 @@ const newCharacterSheet = () => {
     currentBodyPointsP.append('Body Points');
     const currentBodyPointsNumDiv = document.createElement('div');
     const currentBodyPointsNumP = document.createElement('p');
-    currentBodyPointsNumP.append('2');
+    currentBodyPointsNumP.append('0');
     const currentBodyPointsNegBtn = document.createElement('button');
     currentBodyPointsNegBtn.append('-');
     currentBodyPointsNegBtn.addEventListener('click',  () => {
@@ -159,7 +158,7 @@ const newCharacterSheet = () => {
         decreaseNumber(currentGoldCoinsNumP, currentGoldCoinsNumP.textContent);
     });
     const currentGoldCoinsNumP = document.createElement('p');
-    currentGoldCoinsNumP.append('2');
+    currentGoldCoinsNumP.append('0');
     const currentGoldCoinsPosBtn = document.createElement('button');
     currentGoldCoinsPosBtn.append('+');
     currentGoldCoinsPosBtn.addEventListener('click', () => {
