@@ -46,6 +46,9 @@ const newCharacterSheet = () => {
     const characterSaveSpan = document.createElement('span');
     characterSaveSpan.append('Save');
     characterSaveBtn.append(characterSaveSpan);
+    characterSaveBtn.addEventListener('click', () => {
+        saveCharacter(character)
+    });
 
     //Killed button
     const characterKilledBtn = document.createElement('button');
@@ -197,6 +200,10 @@ const newCharacterSheet = () => {
 
     const createCharacterSheetDiv = document.getElementById('create-character-sheet');
     createCharacterSheetDiv.before(characterSheetDiv);
+
+    const character = {
+        name: document.getElementById(`character-name-${uniqueId}`)
+    }
 }
 
 function setAttributes(element, attributes) {
@@ -221,6 +228,10 @@ function addTypeOptions(parent, types) {
         typeOption.append(`${types[type]}`);
         parent.appendChild(typeOption);
     }
+}
+
+function saveCharacter(character) {
+    console.log(character.name.textContent);
 }
 
 function characterDied(event) {
