@@ -4,7 +4,7 @@ addCharacterButton.addEventListener('click', () => {
     newCharacterSheet();
 });
 
-const characterSheets = new Array();
+// const characterSheets = new Array();
 
 const newCharacterSheet = () => {
     const uniqueId = Date.now();

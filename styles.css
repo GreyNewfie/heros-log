@@ -47,11 +47,26 @@
   'opsz' 24
 }
 
+.char-btns {
+    position: absolute;
+    right: 10px;
+    top: 5px;
+
+    display: flex;
+    gap: 5px;
+}
+
+/* .save-button {
+    position: absolute;
+    right: 30px;
+    top: 5px;
+}
+
 .killed-button {
     position: absolute;
     right: 10px;
     top: 5px;
-}
+} */
 
 .numeric-tracker>div {
     display: flex;
