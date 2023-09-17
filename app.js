@@ -36,16 +36,27 @@ const newCharacterSheet = () => {
 
     characterTypeDiv.append(characterTypeLabel, characterTypeSelect);
 
-    //Character killed button
-    const characterKilledBtnDiv = document.createElement('div');
+    //Character buttons div
+    const characterButtonsDiv = document.createElement('div');
+    characterButtonsDiv.setAttribute('class', 'char-btns');
+
+    //Save button
+    const characterSaveBtn = document.createElement('button');
+    characterSaveBtn.setAttribute('class', 'save-button');
+    const characterSaveSpan = document.createElement('span');
+    characterSaveSpan.append('Save');
+    characterSaveBtn.append(characterSaveSpan);
+
+    //Killed button
     const characterKilledBtn = document.createElement('button');
     characterKilledBtn.setAttribute('class', 'killed-button');
     const characterKilledSpan = document.createElement('span');
     characterKilledSpan.setAttribute('class', 'material-symbols-outlined');
     characterKilledSpan.append('skull');
     characterKilledBtn.append(characterKilledSpan);
-    characterKilledBtnDiv.append(characterKilledBtn);
     characterKilledBtn.addEventListener('click', characterDied);
+
+    characterButtonsDiv.append(characterSaveBtn, characterKilledBtn);
 
     //Initial attack dice, defend dice and starting body and mind points
     const initialStatsDiv = document.createElement('div');
@@ -182,7 +193,7 @@ const newCharacterSheet = () => {
     CharacterNameTypeDiv.append(characterNameDiv, characterTypeDiv);
     initialStatsDiv.append(attackDiceDiv, defendDiceDiv, startingPointsDiv);
     characterWeaponsArmorDiv.append(characterWeaponsDiv, characterArmorDiv);
-    characterSheetDiv.append(CharacterNameTypeDiv, characterKilledBtnDiv, initialStatsDiv, characterWeaponsArmorDiv, currentStatsTrackerDiv, potionsItemsDiv);
+    characterSheetDiv.append(CharacterNameTypeDiv, characterButtonsDiv, initialStatsDiv, characterWeaponsArmorDiv, currentStatsTrackerDiv, potionsItemsDiv);
 
     const createCharacterSheetDiv = document.getElementById('create-character-sheet');
     createCharacterSheetDiv.before(characterSheetDiv);
