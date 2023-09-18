@@ -47,7 +47,8 @@ const newCharacterSheet = () => {
     characterSaveSpan.append('Save');
     characterSaveBtn.append(characterSaveSpan);
     characterSaveBtn.addEventListener('click', () => {
-        saveCharacter(character)
+        const character = createCharacter();
+        saveCharacter(character);
     });
 
     //Killed button
@@ -150,7 +151,7 @@ const newCharacterSheet = () => {
     const currentBodyPointsNegBtn = document.createElement('button');
     currentBodyPointsNegBtn.append('-');
     currentBodyPointsNegBtn.addEventListener('click',  () => {
-        decreaseNumber(currentBodyPointsNumP, currentBodyPointsNumP.textContent)
+        decreaseNumber(currentBodyPointsNumP, currentBodyPointsNumP.textContent);
     });
     const currentBodyPointsPosBtn = document.createElement('button');
     currentBodyPointsPosBtn.append('+');
@@ -201,8 +202,19 @@ const newCharacterSheet = () => {
     const createCharacterSheetDiv = document.getElementById('create-character-sheet');
     createCharacterSheetDiv.before(characterSheetDiv);
 
-    const character = {
-        name: document.getElementById(`character-name-${uniqueId}`)
+    const createCharacter = () => {
+        this.name = characterNameInput.value;
+        this.type = characterTypeSelect.value;
+        this.attackDice = attackDiceSelect.value;
+        this.defendDice = defendDiceSelect.value;
+        this.startBodyPts = startingBodyPointsSelect.value;
+        this.startMindPts = startingMindPointsSelect.value;
+        this.weapons = characterWeaponsInput.value;
+        this.armor = characterArmorInput.value;
+        this.curBodyPts = currentBodyPointsNumP.textContent;
+        this.goldCoins = currentGoldCoinsNumP.textContent;
+        this.potionsAndItems = potionsItemsText.value;
+        return({name, type, attackDice, defendDice, startBodyPts, startMindPts, weapons, armor, curBodyPts, goldCoins, potionsAndItems});
     }
 }
 
@@ -231,7 +243,7 @@ function addTypeOptions(parent, types) {
 }
 
 function saveCharacter(character) {
-    console.log(character.name.textContent);
+    console.log(character);
 }
 
 function characterDied(event) {
