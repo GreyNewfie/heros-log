@@ -156,7 +156,7 @@ const newCharacterSheet = () => {
     const currentBodyPointsPosBtn = document.createElement('button');
     currentBodyPointsPosBtn.append('+');
     currentBodyPointsPosBtn.addEventListener('click', () => {
-        increaseNumber(currentBodyPointsNumP, currentBodyPointsNumP.textContent);
+        increaseNumber(currentBodyPointsNumP, currentBodyPointsNumP.textContent, 12);
     });
     currentBodyPointsNumDiv.append(currentBodyPointsNegBtn, currentBodyPointsNumP, currentBodyPointsPosBtn);
     currentBodyPointsDiv.append(currentBodyPointsP, currentBodyPointsNumDiv);
@@ -258,7 +258,7 @@ function decreaseNumber(element, currentNum) {
     return element.textContent = testNum === 0 ? testNum : testNum - 1;
 }
 
-function increaseNumber(element, currentNum) {
+function increaseNumber(element, currentNum, maxNum) {
     const testNum = parseInt(currentNum);
-    return element.textContent = testNum < 12 ? testNum + 1 : testNum;
+    return element.textContent = testNum < maxNum || !maxNum ? testNum + 1 : testNum;
 }
