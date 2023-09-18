@@ -4,7 +4,7 @@ addCharacterButton.addEventListener('click', () => {
     newCharacterSheet();
 });
 
-// const characterSheets = new Array();
+let characters = [];
 
 const newCharacterSheet = () => {
     const uniqueId = Date.now();
@@ -46,8 +46,9 @@ const newCharacterSheet = () => {
     const characterSaveSpan = document.createElement('span');
     characterSaveSpan.append('Save');
     characterSaveBtn.append(characterSaveSpan);
-    characterSaveBtn.addEventListener('click', () => {
+    characterSaveBtn.addEventListener('click', (event) => {
         const character = createCharacter();
+        addCharacter(character);
         saveCharacter(character);
     });
 
@@ -240,6 +241,10 @@ function addTypeOptions(parent, types) {
         typeOption.append(`${types[type]}`);
         parent.appendChild(typeOption);
     }
+}
+
+function addCharacter(character) {
+    characters.push(character);
 }
 
 function saveCharacter(character) {
