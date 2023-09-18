@@ -49,7 +49,6 @@ const newCharacterSheet = () => {
     characterSaveBtn.addEventListener('click', (event) => {
         const character = createCharacter();
         addCharacter(character);
-        saveCharacter(character);
     });
 
     //Killed button
@@ -245,10 +244,12 @@ function addTypeOptions(parent, types) {
 
 function addCharacter(character) {
     characters.push(character);
+    storeCharacters(characters);
 }
 
-function saveCharacter(character) {
-    console.log(character);
+function storeCharacters(characters) {
+    localStorage.setItem('characters', JSON.stringify(characters));
+    console.log(JSON.stringify(characters));
 }
 
 function characterDied(event) {
