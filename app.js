@@ -207,6 +207,7 @@ const newCharacterSheet = () => {
     createCharacterSheetDiv.before(characterSheetDiv);
 
     const createCharacter = () => {
+        this.characterId = uniqueId;
         this.name = characterNameInput.value;
         this.type = characterTypeSelect.value;
         this.attackDice = attackDiceSelect.value;
@@ -218,7 +219,7 @@ const newCharacterSheet = () => {
         this.curBodyPts = currentBodyPointsNumP.textContent;
         this.goldCoins = currentGoldCoinsNumP.textContent;
         this.potionsAndItems = potionsItemsText.value;
-        return({name, type, attackDice, defendDice, startBodyPts, startMindPts, weapons, armor, curBodyPts, goldCoins, potionsAndItems});
+        return({characterId, name, type, attackDice, defendDice, startBodyPts, startMindPts, weapons, armor, curBodyPts, goldCoins, potionsAndItems});
     }
 }
 
