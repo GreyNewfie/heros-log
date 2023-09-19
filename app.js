@@ -4,7 +4,11 @@ addCharacterButton.addEventListener('click', () => {
     newCharacterSheet();
 });
 
-let characters = [];
+if (localStorage.getItem('characters') === null) {
+    let characters = [];
+} else {
+    let characters = JSON.parse(localStorage.getItem('characters'));
+}
 
 const newCharacterSheet = () => {
     const uniqueId = Date.now();
