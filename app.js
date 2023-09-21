@@ -1,17 +1,15 @@
 const addCharacterButton = document.getElementById('add-character-button');
 
 addCharacterButton.addEventListener('click', () => {
-    newCharacterSheet();
+    characterSheet();
 });
 
-if (localStorage.getItem('characters') === null) {
-    let characters = [];
-} else {
-    let characters = JSON.parse(localStorage.getItem('characters'));
-}
-
-const newCharacterSheet = () => {
-    const uniqueId = Date.now();
+const characterSheet = (character) => {
+    if (character) {
+        uniqueId = character.characterId;
+    } else {
+        uniqueId = Date.now();
+    }
 
     const characterSheetDiv = document.createElement('div');
     characterSheetDiv.setAttribute('class', 'character-sheet');
@@ -206,6 +204,20 @@ const newCharacterSheet = () => {
     const createCharacterSheetDiv = document.getElementById('create-character-sheet');
     createCharacterSheetDiv.before(characterSheetDiv);
 
+    if (character) {
+        characterNameInput.value = character.name;
+        characterTypeSelect.value = character.type;
+        attackDiceSelect.value = character.attackDice;
+        defendDiceSelect.value = character.defendDice;
+        startingBodyPointsSelect.value = character.startBodyPts;
+        startingMindPointsSelect.value = character.startMindPts;
+        characterWeaponsInput.value = character.weapons;
+        characterArmorInput.value = character.armor;
+        currentBodyPointsNumP.textContent = character.curBodyPts;
+        currentGoldCoinsNumP.textContent = character.goldCoins;
+        potionsItemsText.value = character.potionsAndItems;
+    }
+
     const createCharacter = () => {
         this.characterId = uniqueId;
         this.name = characterNameInput.value;
@@ -221,6 +233,16 @@ const newCharacterSheet = () => {
         this.potionsAndItems = potionsItemsText.value;
         return({characterId, name, type, attackDice, defendDice, startBodyPts, startMindPts, weapons, armor, curBodyPts, goldCoins, potionsAndItems});
     }
+}
+
+if (localStorage.getItem('characterList') === null) {
+    characters = [];
+} else {
+    characters = JSON.parse(localStorage.getItem('characterList'));
+    console.log('Characters are ' + characters);
+    characters.forEach(character => {
+        characterSheet(character);
+    });
 }
 
 function setAttributes(element, attributes) {
@@ -253,7 +275,7 @@ function addCharacter(character) {
 }
 
 function storeCharacters(characters) {
-    localStorage.setItem('characters', JSON.stringify(characters));
+    localStorage.setItem('characterList', JSON.stringify(characters));
     console.log(JSON.stringify(characters));
 }
 
