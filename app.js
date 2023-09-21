@@ -50,6 +50,7 @@ const characterSheet = (character) => {
     characterSaveBtn.append(characterSaveSpan);
     characterSaveBtn.addEventListener('click', (event) => {
         const character = createCharacter();
+        isCurrentCharacter(characters, character.characterId);
         addCharacter(character);
     });
 
@@ -241,6 +242,7 @@ if (localStorage.getItem('characterList') === null) {
     characters = JSON.parse(localStorage.getItem('characterList'));
     console.log('Characters are ' + characters);
     characters.forEach(character => {
+        console.log(character);
         characterSheet(character);
     });
 }
@@ -277,6 +279,14 @@ function addCharacter(character) {
 function storeCharacters(characters) {
     localStorage.setItem('characterList', JSON.stringify(characters));
     console.log(JSON.stringify(characters));
+}
+
+function isCurrentCharacter(characters, characterId) {
+    console.log('isCurrentCharacter Check');
+    return characters.forEach(character => {
+        console.log(`Checking ${characterId} and ${character.characterId}`);
+        return characterId === character.name;
+    });
 }
 
 function characterDied(event) {
