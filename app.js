@@ -53,7 +53,7 @@ const characterSheet = (character) => {
         characterSaveSpan.append('Save');
         characterSaveBtn.append(characterSaveSpan);
         characterSaveBtn.addEventListener('click', (event) => {
-            // const character = createNewCharacter();
+            const character = createNewCharacter();
             isCurrentCharacter(characters, character.characterId);
             addCharacter(character);
         });
