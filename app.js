@@ -53,15 +53,21 @@ const characterSheet = (character) => {
         characterSaveSpan.append('Save');
         characterSaveBtn.append(characterSaveSpan);
         characterSaveBtn.addEventListener('click', (event) => {
-            //if character is a new character
-            //create new character and store it
+            if (!character) {
+                character = createNewCharacter();
+                console.log(character);
+            }
             //if character already exists
-            //get character
-            //update character object
+            if (isCurrentCharacter(characters, character.characterId)) {
+                console.log('Character exists');
+                storeExistingCharacter(characters, character);
+            //update character
+
+            } else {
+                console.log('character does not exist');
+                addNewCharacter(character);
+            }
             //display characters
-            // const character = createNewCharacter();
-            console.log(isCurrentCharacter(characters, character.characterId));
-            // addCharacter(character);
         });
     
         //Killed button
@@ -203,9 +209,9 @@ const characterSheet = (character) => {
         const potionsItemsLabel = document.createElement('label');
         potionsItemsLabel.setAttribute('for', `potions-items-${uniqueId}`);
         potionsItemsLabel.append('Potions & Other Items');
-        const potionsItemsText = document.createElement('textarea');
-        setAttributes(potionsItemsText, {'name': 'potions-items', 'id': `potions-items-${uniqueId}`, 'cols': '30', 'rows': '10', 'placeholder': 'Healing, invisible, etc.'});
-        potionsItemsDiv.append(potionsItemsLabel, potionsItemsText);
+        const potionsItemsTextarea = document.createElement('textarea');
+        setAttributes(potionsItemsTextarea, {'name': 'potions-items', 'id': `potions-items-${uniqueId}`, 'cols': '30', 'rows': '10', 'placeholder': 'Healing, invisible, etc.'});
+        potionsItemsDiv.append(potionsItemsLabel, potionsItemsTextarea);
     
         //Append elements to character sheet
         currentStatsTrackerDiv.append(currentBodyPointsDiv, currentGoldCoinsDiv);
@@ -222,43 +228,102 @@ const characterSheet = (character) => {
         console.log(characters.find(characterId));
     }
 
+    function getCharacterName(characterId) {
+        return `character-name-${characterId}`;
+    }
+
+    function getCharacterType(characterId) {
+        return `character-type-${characterId}`;
+    }
+
+    function getAttackDice(characterId) {
+        return `attack-dice-${characterId}`;
+    }
+
+    function getDefendDice(characterId) {
+        return `defend-dice-${characterId}`;
+    }
+
+    function getStartBodyPoints(characterId) {
+        return `starting-body-pts-${characterId}`;
+    }
+
+    function getStartMindPoints(characterId) {
+        return `starting-mind-pts-${characterId}`;
+    }
+
+    function getWeapons(characterId) {
+        return `character-weapons-${characterId}`;
+    }
+
+    function getArmor(characterId) {
+        return `character-armor-${characterId}`;
+    }
+
+    function getCurrentBodyPoints(characterId) {
+        return `current-body-pts-num-${characterId}`;
+    }
+
+    function getCurrentGoldCoins(characterId) {
+        return `current-gold-coins-num-${uniqueId}`
+    }
+
+    function getPotionsAndItems(characterId) {
+        return `potions-items-${uniqueId}`;
+    }
+
     function updateCharacter(character) {
-        const nameInput = document.getElementById(`character-name-${character.characterId}`);
+        const nameInput = document.getElementById(getCharacterName(character.characterId));
+        const typeSelect = document.getElementById(getCharacterType(character.characterId));
+        const attDiceSel = document.getElementById(getAttackDice(character.characterId));
+        const defDiceSel = document.getElementById(getDefendDice(character.characterId));
+        const startBodyPtsSel = document.getElementById(getStartBodyPoints(character.characterId));
+        const startMindPtsSel = document.getElementById(getStartMindPoints(character.characterId));
+        const weaponsInput = document.getElementById(getWeapons(character.characterId));
+        const armorInput = document.getElementById(getArmor(character.characterId));
+        const curBodyPtsInput = document.getElementById(getCurrentBodyPoints(character.characterId));
+        const curGoldCoinsNum = document.getElementById(getCurrentGoldCoins(character.characterId));
+        const potionsItemsText = document.getElementById(getPotionsAndItems(character.characterId));
+
         nameInput.value = character.name;
-        const typeSelect = document.getElementById(`character-type-${character.characterId}`);
         typeSelect.value = character.type;
-        const attDiceSel = document.getElementById(`attack-dice-${character.characterId}`);
         attDiceSel.value = character.attackDice;
-        const defDiceSel = document.getElementById(`defend-dice-${character.characterId}`);
         defDiceSel.value = character.defendDice;
-        const startBodyPtsSel = document.getElementById(`starting-body-pts-${character.characterId}`);
         startBodyPtsSel.value = character.startBodyPts;
-        const startMindPtsSel = document.getElementById(`starting-mind-pts-${character.characterId}`);
         startMindPtsSel.value = character.startMindPts;
-        const weaponsInput = document.getElementById(`character-weapons-${character.characterId}`);
         weaponsInput.value = character.weapons;
-        const armorInput = document.getElementById(`character-armor-${character.characterId}`);
         armorInput.value = character.armor;
-        const curBodyPtsInput = document.getElementById(`current-body-pts-num-${character.characterId}`);
         curBodyPtsInput.textContent = character.curBodyPts;
-        const curGoldCoinsNum = document.getElementById(`current-gold-coins-num-${character.characterId}`);
         curGoldCoinsNum.textContent = character.goldCoins;
-        const potionsItemsText = document.getElementById(`potions-items-${character.characterId}`);
+        potionsItemsText.textContent = character.potionsAndItems;
     }
 
 
     const createNewCharacter = () => {
         this.characterId = uniqueId;
-        this.name = characterNameInput.value;
-        this.type = characterTypeSelect.value;
-        this.attackDice = attackDiceSelect.value;
-        this.defendDice = defendDiceSelect.value;
-        this.startBodyPts = startingBodyPointsSelect.value;
-        this.startMindPts = startingMindPointsSelect.value;
-        this.weapons = characterWeaponsInput.value;
-        this.armor = characterArmorInput.value;
-        this.curBodyPts = currentBodyPointsNumP.textContent;
-        this.goldCoins = currentGoldCoinsNumP.textContent;
+
+        const nameInput = document.getElementById(getCharacterName(uniqueId));
+        const typeSelect = document.getElementById(getCharacterType(uniqueId));
+        const attDiceSel = document.getElementById(getAttackDice(uniqueId));
+        const defDiceSel = document.getElementById(getDefendDice(uniqueId));
+        const startBodyPtsSel = document.getElementById(getStartBodyPoints(uniqueId));
+        const startMindPtsSel = document.getElementById(getStartMindPoints(uniqueId));
+        const weaponsInput = document.getElementById(getWeapons(uniqueId));
+        const armorInput = document.getElementById(getArmor(uniqueId));
+        const curBodyPtsInput = document.getElementById(getCurrentBodyPoints(uniqueId));
+        const curGoldCoinsNum = document.getElementById(getCurrentGoldCoins(uniqueId));
+        const potionsItemsText = document.getElementById(getPotionsAndItems(uniqueId));
+
+        this.name = nameInput.value;
+        this.type = typeSelect.value;
+        this.attackDice = attDiceSel.value;
+        this.defendDice = defDiceSel.value;
+        this.startBodyPts = startBodyPtsSel.value;
+        this.startMindPts = startMindPtsSel.value;
+        this.weapons = weaponsInput.value;
+        this.armor = armorInput.value;
+        this.curBodyPts = curBodyPtsInput.textContent;
+        this.goldCoins = curGoldCoinsNum.textContent;
         this.potionsAndItems = potionsItemsText.value;
         return({characterId, name, type, attackDice, defendDice, startBodyPts, startMindPts, weapons, armor, curBodyPts, goldCoins, potionsAndItems});
     }
@@ -299,7 +364,7 @@ function addTypeOptions(parent, types) {
     }
 }
 
-function addCharacter(character) {
+function addNewCharacter(character) {
     characters.push(character);
     storeCharacters(characters);
 }
@@ -307,6 +372,19 @@ function addCharacter(character) {
 function storeCharacters(characters) {
     localStorage.setItem('characterList', JSON.stringify(characters));
     console.log(JSON.stringify(characters));
+}
+
+function storeExistingCharacter(characters, character) {
+    const characterId = character.characterId;
+    const characterIndex = characters.findIndex(checkCharacter);
+
+    function checkCharacter(character) {
+        console.log(`Getting character index. Compare ${character.characterId} and ${characterId}`);
+        return character.characterId === characterId;
+    }
+    console.log(characterIndex);
+
+
 }
 
 function isCurrentCharacter(characters, characterId) {
@@ -329,3 +407,4 @@ function increaseNumber(element, currentNum, maxNum) {
     const testNum = parseInt(currentNum);
     return element.textContent = testNum < maxNum || !maxNum ? testNum + 1 : testNum;
 }
+
