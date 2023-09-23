@@ -53,9 +53,15 @@ const characterSheet = (character) => {
         characterSaveSpan.append('Save');
         characterSaveBtn.append(characterSaveSpan);
         characterSaveBtn.addEventListener('click', (event) => {
-            const character = createNewCharacter();
-            isCurrentCharacter(characters, character.characterId);
-            addCharacter(character);
+            //if character is a new character
+            //create new character and store it
+            //if character already exists
+            //get character
+            //update character object
+            //display characters
+            // const character = createNewCharacter();
+            console.log(isCurrentCharacter(characters, character.characterId));
+            // addCharacter(character);
         });
     
         //Killed button
@@ -212,6 +218,10 @@ const characterSheet = (character) => {
         createCharacterSheetDiv.before(characterSheetDiv);
     }
 
+    function findCharacter(characterId) {
+        console.log(characters.find(characterId));
+    }
+
     function updateCharacter(character) {
         const nameInput = document.getElementById(`character-name-${character.characterId}`);
         nameInput.value = character.name;
@@ -300,11 +310,7 @@ function storeCharacters(characters) {
 }
 
 function isCurrentCharacter(characters, characterId) {
-    console.log('isCurrentCharacter Check');
-    return characters.forEach(character => {
-        console.log(`Checking ${characterId} and ${character.characterId}`);
-        return characterId === character.name;
-    });
+    return characters.some(character => character.characterId === characterId);
 }
 
 function characterDied(event) {
