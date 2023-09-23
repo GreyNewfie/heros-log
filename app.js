@@ -8,7 +8,7 @@ const characterSheet = (character) => {
     if (character) {
         uniqueId = character.characterId;
         createCharacterSheet(uniqueId);
-        updateCharacter(character);
+        createExistingCharacter(character);
     } else {
         uniqueId = Date.now();
         createCharacterSheet(uniqueId);
@@ -272,7 +272,7 @@ const characterSheet = (character) => {
         return `potions-items-${uniqueId}`;
     }
 
-    function updateCharacter(character) {
+    function createExistingCharacter(character) {
         const nameInput = document.getElementById(getCharacterName(character.characterId));
         const typeSelect = document.getElementById(getCharacterType(character.characterId));
         const attDiceSel = document.getElementById(getAttackDice(character.characterId));
@@ -296,6 +296,8 @@ const characterSheet = (character) => {
         curBodyPtsInput.textContent = character.curBodyPts;
         curGoldCoinsNum.textContent = character.goldCoins;
         potionsItemsText.textContent = character.potionsAndItems;
+        console.log(`updating character ${character.type}`);
+
     }
 
 
