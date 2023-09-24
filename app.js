@@ -222,14 +222,6 @@ const characterSheet = (character) => {
         createCharacterSheetDiv.before(characterSheetDiv);
     }
 
-    function findCharacter(characterId) {
-        console.log(characters.find(characterId));
-    }
-
-    function getCharacterId(characterId) {
-        return `character`
-    }
-
     function getCharacterName(characterId) {
         return `character-name-${characterId}`;
     }
