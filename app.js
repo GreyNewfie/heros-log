@@ -64,7 +64,7 @@ const characterSheet = (character) => {
 
             } else {
                 console.log('character does not exist');
-                addNewCharacter(character);
+                addCharacter(character);
             }
         });
     
@@ -388,14 +388,9 @@ function addTypeOptions(parent, types) {
     }
 }
 
-function addNewCharacter(character) {
+function addCharacter(character) {
     characters.push(character);
     storeCharacters(characters);
-}
-
-function storeCharacters(characters) {
-    localStorage.setItem('characterList', JSON.stringify(characters));
-    console.log(JSON.stringify(characters));
 }
 
 function isCurrentCharacter(characters, characterId) {
