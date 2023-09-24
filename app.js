@@ -296,8 +296,6 @@ const characterSheet = (character) => {
         curBodyPtsInput.textContent = character.curBodyPts;
         curGoldCoinsNum.textContent = character.goldCoins;
         potionsItemsText.textContent = character.potionsAndItems;
-        console.log(`updating character ${character.type}`);
-
     }
 
 
@@ -378,15 +376,17 @@ function storeCharacters(characters) {
 
 function storeExistingCharacter(characters, character) {
     const characterId = character.characterId;
-    const characterIndex = characters.findIndex(checkCharacter);
+    const characterIndex = characters.findIndex(checkIfCharacter);
+    const existingCharacter = getExistingCharacter(characterId);
 
-    function checkCharacter(character) {
-        console.log(`Getting character index. Compare ${character.characterId} and ${characterId}`);
-        return character.characterId === characterId;
+    console.log(`This character was found ${existingCharacter.name}, ${existingCharacter.characterId}, ${existingCharacter.type}`);
+    console.log(`This is the current character ${character.name}, ${character.characterId}, ${character.type}`);
+
+    function getExistingCharacter(characterId) {
+        return foundCharacter = characters.find(character => {
+            return character.characterId === characterId;
+        });
     }
-    console.log(characterIndex);
-
-
 }
 
 function isCurrentCharacter(characters, characterId) {
