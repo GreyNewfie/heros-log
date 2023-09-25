@@ -58,12 +58,12 @@ const characterSheet = (character) => {
                 console.log(character);
             }
             if (isCurrentCharacter(characters, character.characterId)) {
-                console.log('Character exists');
+                console.log(`Character exists ${character.name}`);
                 const storedCharacter = getExistingCharacter(characters, character);
                 updateCharacter(storedCharacter, character.characterId);
 
             } else {
-                console.log('character does not exist');
+                console.log(`character does not exist ${character.name}`);
                 addCharacter(character);
             }
         });
@@ -259,11 +259,11 @@ const characterSheet = (character) => {
     }
 
     function getCurrentGoldCoins(characterId) {
-        return `current-gold-coins-num-${uniqueId}`
+        return `current-gold-coins-num-${characterId}`
     }
 
     function getPotionsAndItems(characterId) {
-        return `potions-items-${uniqueId}`;
+        return `potions-items-${characterId}`;
     }
 
     const createNewCharacter = () => {
@@ -334,6 +334,8 @@ const characterSheet = (character) => {
         const potionsItemsText = document.getElementById(getPotionsAndItems(characterId));
         const nameInput = document.getElementById(getCharacterName(characterId));
 
+        console.log(`Potions and items being updated ${potionsItemsText}`);
+
         storedCharacter.type = typeSelect.value;
         storedCharacter.attackDice = attDiceSel.value;
         storedCharacter.defendDice = defDiceSel.value;
@@ -343,7 +345,8 @@ const characterSheet = (character) => {
         storedCharacter.armor = armorInput.value;
         storedCharacter.curBodyPts = curBodyPtsInput.textContent;
         storedCharacter.goldCoins = curGoldCoinsNum.textContent;
-        storedCharacter.potionsAndItems = potionsItemsText.textContent;
+        storedCharacter.potionsAndItems = potionsItemsText.value;
+        console.log(`Text in potions and items field ${potionsItemsText.value} for ${nameInput.value}`);
         storedCharacter.name = nameInput.value;
 
         storeCharacters(characters);
