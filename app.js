@@ -55,15 +55,12 @@ const characterSheet = (character) => {
         characterSaveBtn.addEventListener('click', (event) => {
             if (!character) {
                 character = createNewCharacter();
-                console.log(character);
             }
             if (isCurrentCharacter(characters, character.characterId)) {
-                console.log(`Character exists ${character.name}`);
                 const storedCharacter = getExistingCharacter(characters, character);
                 updateCharacter(storedCharacter, character.characterId);
 
             } else {
-                console.log(`character does not exist ${character.name}`);
                 addCharacter(character);
             }
         });
@@ -334,8 +331,6 @@ const characterSheet = (character) => {
         const potionsItemsText = document.getElementById(getPotionsAndItems(characterId));
         const nameInput = document.getElementById(getCharacterName(characterId));
 
-        console.log(`Potions and items being updated ${potionsItemsText}`);
-
         storedCharacter.type = typeSelect.value;
         storedCharacter.attackDice = attDiceSel.value;
         storedCharacter.defendDice = defDiceSel.value;
@@ -346,7 +341,6 @@ const characterSheet = (character) => {
         storedCharacter.curBodyPts = curBodyPtsInput.textContent;
         storedCharacter.goldCoins = curGoldCoinsNum.textContent;
         storedCharacter.potionsAndItems = potionsItemsText.value;
-        console.log(`Text in potions and items field ${potionsItemsText.value} for ${nameInput.value}`);
         storedCharacter.name = nameInput.value;
 
         storeCharacters(characters);
@@ -358,7 +352,6 @@ if (localStorage.getItem('characterList') === null) {
 } else {
     characters = JSON.parse(localStorage.getItem('characterList'));
     characters.forEach(character => {
-        console.log(character);
         characterSheet(character);
     });
 }
@@ -411,11 +404,8 @@ function getCharacterIndex(characters, characterId) {
 
 function characterDeath(event, characters, character) {
     const targetCharSheet = event.target.parentNode.parentNode.parentNode;
-    console.log(targetCharSheet);
     targetCharSheet.remove();
-    console.log(character);
     const index = getCharacterIndex(characters, character.characterId);
-    console.log(`Dead character index is ${index}`);
     characters.splice(index, 1);
     storeCharacters(characters);
 }
