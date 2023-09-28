@@ -403,11 +403,15 @@ function getCharacterIndex(characters, characterId) {
 }
 
 function characterDeath(event, characters, character) {
-    const targetCharSheet = event.target.parentNode.parentNode.parentNode;
-    targetCharSheet.remove();
-    const index = getCharacterIndex(characters, character.characterId);
-    characters.splice(index, 1);
-    storeCharacters(characters);
+    if (confirm("Are you sure you want to kill your character?")){
+        const targetCharSheet = event.target.parentNode.parentNode.parentNode;
+        targetCharSheet.remove();
+        const index = getCharacterIndex(characters, character.characterId);
+        characters.splice(index, 1);
+        storeCharacters(characters);
+    } else {
+        return
+    }
 }
 
 function decreaseNumber(element, currentNum) {
