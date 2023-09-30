@@ -61,3 +61,13 @@
     gap: 5px;
 }
 
+/* Quest Tracker Site */
+.quests-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, 300px);
+    gap: 25px;
+}
+
+.quest-sheet {
+    width: 300px;
+}
