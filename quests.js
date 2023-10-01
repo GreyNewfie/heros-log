@@ -54,7 +54,9 @@ function displayQuests() {
         {number: 14, name: 'Return to Barak Tor', description: `Now that you have found the Spirit Blade, you must return to Barak Tor and defeat the Witch Lord. The King has ridden forth to meet the eastern ocs at Darkfire Pass. If you fail, the Witch Lord will lead his army of undead and attack His Majesty's forces from the rear. Then nothing remains to prevent the forces of Dread from overrunning the land!`}
     ];
     
-    
+    quests.forEach(quest => {
+        createQuest(quest.number, quest.name);
+    })
 }
 
-const nextQuest = createQuest(1, 'The Trial');
+displayQuests();
