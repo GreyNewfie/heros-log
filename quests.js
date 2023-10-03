@@ -31,6 +31,7 @@ const createQuest = (questNum, questName) => {
     addTypeOptions(questStatusSel, {'not-started': 'Not Started', 'current-quest': 'Current Quest', 'complete': 'Complete'});
     questStatusSel.addEventListener('change', (event) => {
         console.log(event.target.value);
+        updateQuest(event.target.value, event.target.id);
     });
 
     questStatus.append(questStatusSelLabel, questStatusSel);
@@ -60,6 +61,17 @@ function displayQuests() {
     quests.forEach(quest => {
         createQuest(quest.number, quest.name);
     })
+}
+
+function updateQuest(questStatus, questId) {
+    switch (questStatus) {
+        case 'current-quest':
+            console.log(`Currently on ${questId}`);
+            break;
+        case 'complete':
+            console.log((`${questId} complete`));
+            break;
+    }
 }
 
 displayQuests();
