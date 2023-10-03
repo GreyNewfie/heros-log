@@ -30,11 +30,9 @@ const createQuest = (questNum, questName) => {
     setAttributes(questStatusSel, {'id': `quest-${questNum}-status`, 'name': 'quest-status'});
     addTypeOptions(questStatusSel, {'not-started': 'Not Started', 'current-quest': 'Current Quest', 'complete': 'Complete'});
     questStatusSel.addEventListener('change', (event) => {
-        console.log(event.target.value);
-        console.log(event.target.id);
-        const questDescription = getQuestDescription(quests, event.target.id);
-        console.log(questDescription);
-        updateQuest(event.target);
+        const questSheet = event.target.parentNode.parentNode;
+        const questStatus = event.target.value;
+        updateQuest(quests, questSheet, questStatus);
     });
 
     questStatus.append(questStatusSelLabel, questStatusSel);
@@ -66,33 +64,38 @@ function displayQuests() {
     })
 }
 
-function updateQuest(questSheet) {
-    const questStatus = questSheet.value;
-    const questId = questSheet.id;
-    console.log(`questSheet.id = ${questSheet.id}`);
+function updateQuest(quests, questSheet, questStatus) {
+    const questSheetId = questSheet.id;
     switch (questStatus) {
         case 'not-started':
-            console.log(`${questId} not started`);
+            console.log(`${questSheetId} not started`);
+            break;
         case 'current-quest':
-            console.log(`Currently on ${questId}`);
+            console.log(`Currently on ${questSheetId}`);
+            const questDescription = getQuestDescription(quests, questSheetId);
+            addQuestDescription(questSheetId, questDescription);
             break;
         case 'complete':
-            console.log((`${questId} complete`));
+            console.log((`${questSheetId} complete`));
             break;
     }
 }
 
-function addQuestDescription(questNumber) {
+function addQuestDescription(questId, questDescription) {
     const description = document.createElement('div');
     description.setAttribute('class', 'quest-description');
 
     const descriptionP = document.createElement('p');
+    descriptionP.append(questDescription);
+    description.append(descriptionP);
+
+    const questSheet = document.getElementById(`${questId}`);
+    questSheet.append(description);
 }
 
 function getQuestDescription(quests, questId) {
-    const questIdString = questId.split('-');
-    const questNum = parseInt(questIdString[1]);
-    console.log(`Quest number is ${questNum}`);
+    const splitString = questId.split('-');
+    const questNum = parseInt(splitString[1]);
     const questDescription = quests[questNum].description;
     return questDescription;
 }
