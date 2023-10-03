@@ -65,6 +65,8 @@ function displayQuests() {
 
 function updateQuest(questStatus, questId) {
     switch (questStatus) {
+        case 'not-started':
+            console.log(`${questId} not started`);
         case 'current-quest':
             console.log(`Currently on ${questId}`);
             break;
