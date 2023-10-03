@@ -29,6 +29,9 @@ const createQuest = (questNum, questName) => {
     const questStatusSel = document.createElement('select');
     setAttributes(questStatusSel, {'id': `quest-${questNum}-status`, 'name': 'quest-status'});
     addTypeOptions(questStatusSel, {'not-started': 'Not Started', 'current-quest': 'Current Quest', 'complete': 'Complete'});
+    questStatusSel.addEventListener('change', (event) => {
+        console.log(event.target.value);
+    });
 
     questStatus.append(questStatusSelLabel, questStatusSel);
 
