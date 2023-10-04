@@ -69,6 +69,11 @@ function updateQuest(quests, questSheet, questStatus) {
     switch (questStatus) {
         case 'not-started':
             console.log(`${questSheetId} not started`);
+            const currentQuest = document.getElementById(questSheetId);
+            if (currentQuest.querySelector('.quest-description') !== null) {
+                currentQuestDescription = currentQuest.querySelector('.quest-description');
+                currentQuestDescription.remove();
+            }
             break;
         case 'current-quest':
             console.log(`Currently on ${questSheetId}`);
