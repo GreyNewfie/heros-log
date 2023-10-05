@@ -105,4 +105,13 @@ function getQuestDescription(quests, questId) {
     return questDescription;
 }
 
+function getHeroesOnQuest() {
+    if (localStorage.getItem('characterList') === null) {
+        alert('Input your characters before starting your quest');
+    } else {
+        characters = JSON.parse(localStorage.getItem('characterList'));
+    }
+    console.log(characters);
+}
+
 displayQuests();
