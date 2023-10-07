@@ -10,8 +10,8 @@
     <script src="myFunctions.js"></script>
     <title>Quests</title>
 </head>
+<div class="content" id="content">
 <body>
-    <div class="content" id="content">
         <div class="header" id="header">
             <div class="logo-container"><img src="images/hq-logo.png" alt="heroquest logo"></div>
             <div><h1>Character & Quest Tracker</h1></div>
@@ -87,7 +87,7 @@
         </div>
     </div>
     <div class="pick-heroes">
-       <fieldset>
+       <fieldset id="heroes-fieldset">
             <legend>Choose your heroes for this quest:</legend>
             <div>
                 <input type="checkbox" id="barbarian" name="barbarian">
@@ -104,6 +104,9 @@
             <div>
                 <input type="checkbox" id="dwarf" name="dwarf">
                 <label for="dwarf">Dwarf</label>
+            </div>
+            <div>
+                <button class="start-quest-btn" id="start-quest-btn">Start Quest!</button>
             </div>
        </fieldset>
     </div> 

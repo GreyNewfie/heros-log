@@ -79,7 +79,7 @@ function updateQuest(quests, questSheet, questStatus) {
             console.log(`Currently on ${questSheetId}`);
             const questDescription = getQuestDescription(quests, questSheetId);
             addQuestDescription(questSheetId, questDescription);
-            getHeroesOnQuest();
+            getCharacters();
             break;
         case 'complete':
             console.log((`${questSheetId} complete`));
@@ -104,17 +104,6 @@ function getQuestDescription(quests, questId) {
     const questNum = parseInt(splitString[1]);
     const questDescription = quests[questNum].description;
     return questDescription;
-}
-
-function getHeroesOnQuest() {
-    const heroes = JSON.parse(localStorage.getItem('characterList'));
-    if (heroes === null || heroes.length === 0) {
-        alert('Input your characters before starting your quest');
-    } else {
-        heroes.forEach((hero) => {
-            console.log(hero);
-        });
-    }
 }
 
 displayQuests();
