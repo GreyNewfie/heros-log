@@ -128,6 +128,23 @@ function addHeroOptions() {
 
     const heroesPopup = document.querySelector('.pick-heroes');
     heroesPopup.classList.toggle('show');
+
+    startQuestBtn.addEventListener('click', (event) => {
+        const selectedHeroes = getSelectedHeroes(event);
+    });
+
+    function getSelectedHeroes(event) {
+        const heroOptions = document.querySelectorAll('fieldset input');
+        const selectedHeroes = [];
+
+        heroOptions.forEach((hero) => {
+            if (hero.checked === true) {
+                selectedHeroes.push(hero.name);
+            }
+        })
+        
+        return heroOptions;
+    }
 }
 
 displayQuests();
