@@ -33,7 +33,7 @@ const createQuest = (questNum, questName) => {
         const questSheet = event.target.parentNode.parentNode;
         const questStatus = event.target.value;
         updateQuest(quests, questSheet, questStatus);
-    });
+        });
 
     questStatus.append(questStatusSelLabel, questStatusSel);
 
@@ -79,7 +79,7 @@ function updateQuest(quests, questSheet, questStatus) {
             console.log(`Currently on ${questSheetId}`);
             const questDescription = getQuestDescription(quests, questSheetId);
             addQuestDescription(questSheetId, questDescription);
-            getCharacters();
+            addHeroOptions();
             break;
         case 'complete':
             console.log((`${questSheetId} complete`));
@@ -104,6 +104,30 @@ function getQuestDescription(quests, questId) {
     const questNum = parseInt(splitString[1]);
     const questDescription = quests[questNum].description;
     return questDescription;
+}
+
+function addHeroOptions() {
+    const heroes = getCharacters();
+    const heroesFieldset = document.getElementById('heroes-fieldset');
+    const startQuestBtn = document.getElementById('start-quest-btn');
+    
+    heroes.forEach((hero) => {
+        const newDiv = document.createElement('div');
+
+        const newInput = document.createElement('input');
+        setAttributes(newInput, {'type': 'checkbox', 'id': `${hero.name}`, 'name': `${hero.name}`});
+
+        const newLabel = document.createElement('label');
+        newLabel.setAttribute('for', `${hero.name}`);
+        newLabel.append(`${hero.name}`)
+
+        newDiv.append(newInput, newLabel);
+
+        heroesFieldset.insertBefore(newDiv, startQuestBtn);
+    });
+
+    const heroesPopup = document.querySelector('.pick-heroes');
+    heroesPopup.classList.toggle('show');
 }
 
 displayQuests();
