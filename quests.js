@@ -79,7 +79,7 @@ function updateQuest(quests, questSheet, questStatus) {
             console.log(`Currently on ${questSheetId}`);
             const questDescription = getQuestDescription(quests, questSheetId);
             addQuestDescription(questSheetId, questDescription);
-            addHeroOptions();
+            addHeroOptions(questSheet);
             break;
         case 'complete':
             console.log((`${questSheetId} complete`));
@@ -106,7 +106,7 @@ function getQuestDescription(quests, questId) {
     return questDescription;
 }
 
-function addHeroOptions() {
+function addHeroOptions(questSheet) {
     const heroes = getCharacters();
     const heroesFieldset = document.getElementById('heroes-fieldset');
     const startQuestBtn = document.getElementById('start-quest-btn');
@@ -119,7 +119,7 @@ function addHeroOptions() {
 
         const newLabel = document.createElement('label');
         newLabel.setAttribute('for', `${hero.name}`);
-        newLabel.append(`${hero.name}`)
+        newLabel.append(`${hero.name}`);
 
         newDiv.append(newInput, newLabel);
 
@@ -131,6 +131,9 @@ function addHeroOptions() {
 
     startQuestBtn.addEventListener('click', (event) => {
         const selectedHeroes = getSelectedHeroes(event);
+        heroesPopup.classList.toggle('show');
+        addHeroesToQuest(questSheet, selectedHeroes);
+
     });
 
     function getSelectedHeroes(event) {
@@ -142,8 +145,24 @@ function addHeroOptions() {
                 selectedHeroes.push(hero.name);
             }
         })
-        
         return heroOptions;
+    }
+
+    function addHeroesToQuest(questSheet, selectedHeroes) {
+        const heroDiv = document.createElement('div');
+        heroDiv.setAttribute('class', 'heroes-on-quest');
+        const heroesOnQuestH4 = document.createElement('h4');
+        heroesOnQuestH4.append('Heroes on Quest');
+        const heroesOnQuestUl = document.createElement('ul');
+
+        selectedHeroes.forEach((hero) => {
+            const heroesOnQuestLi = document.createElement('li');
+            heroesOnQuestLi.append(`${hero.name}`);
+            heroesOnQuestUl.append(heroesOnQuestLi);
+        });
+
+        heroDiv.append(heroesOnQuestH4, heroesOnQuestUl);
+        questSheet.append(heroDiv);
     }
 }
 
