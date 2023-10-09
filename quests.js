@@ -66,10 +66,11 @@ function displayQuests() {
 
 function updateQuest(quests, questSheet, questStatus) {
     const questSheetId = questSheet.id;
+    const currentQuest = document.getElementById(questSheetId);
+
     switch (questStatus) {
         case 'not-started':
             console.log(`${questSheetId} not started`);
-            const currentQuest = document.getElementById(questSheetId);
             if (currentQuest.querySelector('.quest-description') !== null) {
                 currentQuestDescription = currentQuest.querySelector('.quest-description');
                 currentQuestDescription.remove();
@@ -79,7 +80,7 @@ function updateQuest(quests, questSheet, questStatus) {
             console.log(`Currently on ${questSheetId}`);
             const questDescription = getQuestDescription(quests, questSheetId);
             addQuestDescription(questSheetId, questDescription);
-            addHeroOptions(questSheet);
+            addHeroOptions(currentQuest);
             break;
         case 'complete':
             console.log((`${questSheetId} complete`));
@@ -110,9 +111,11 @@ function addHeroOptions(questSheet) {
     const heroes = getCharacters();
     const heroesFieldset = document.getElementById('heroes-fieldset');
     const startQuestBtn = document.getElementById('start-quest-btn');
-    
+    const questSheetId = questSheet.id;
+
     heroes.forEach((hero) => {
         const newDiv = document.createElement('div');
+        newDiv.setAttribute('class', 'hero-option');
 
         const newInput = document.createElement('input');
         setAttributes(newInput, {'type': 'checkbox', 'id': `${hero.name}`, 'name': `${hero.name}`});
@@ -127,16 +130,16 @@ function addHeroOptions(questSheet) {
     });
 
     const heroesPopup = document.querySelector('.pick-heroes');
-    heroesPopup.classList.toggle('show');
+    heroesPopup.classList.add('show');
 
     startQuestBtn.addEventListener('click', (event) => {
-        const selectedHeroes = getSelectedHeroes(event);
-        heroesPopup.classList.toggle('show');
-        addHeroesToQuest(questSheet, selectedHeroes);
-
+        const selectedHeroes = getSelectedHeroes();
+        addHeroesToQuest(questSheetId, selectedHeroes);
+        heroesPopup.classList.remove('show');
+        removeHeroOptions();
     });
 
-    function getSelectedHeroes(event) {
+    function getSelectedHeroes() {
         const heroOptions = document.querySelectorAll('fieldset input');
         const selectedHeroes = [];
 
@@ -145,24 +148,36 @@ function addHeroOptions(questSheet) {
                 selectedHeroes.push(hero.name);
             }
         })
-        return heroOptions;
+        return selectedHeroes;
     }
 
-    function addHeroesToQuest(questSheet, selectedHeroes) {
-        const heroDiv = document.createElement('div');
-        heroDiv.setAttribute('class', 'heroes-on-quest');
-        const heroesOnQuestH4 = document.createElement('h4');
-        heroesOnQuestH4.append('Heroes on Quest');
-        const heroesOnQuestUl = document.createElement('ul');
+    function addHeroesToQuest(questSheetId, selectedHeroes) {
+        const currentQuest = document.getElementById(questSheetId);
+        
+        if (currentQuest.querySelector('div.quest-heroes') === null) {
+            const heroesOnQuestDiv = document.createElement('div');
+            heroesOnQuestDiv.setAttribute('class', 'quest-heroes');
+            const heroesOnQuestH4 = document.createElement('h4');
+            heroesOnQuestH4.textContent = 'Heroes on Quest';
+            const heroesOnQuestUl = document.createElement('ul');
+    
+            selectedHeroes.forEach((hero) => {
+                const heroesOnQuestLi = document.createElement('li');
+                heroesOnQuestLi.textContent = hero;
+                heroesOnQuestUl.append(heroesOnQuestLi);
+            });
+    
+            heroesOnQuestDiv.appendChild(heroesOnQuestH4);
+            heroesOnQuestDiv.appendChild(heroesOnQuestUl);
+            currentQuest.append(heroesOnQuestDiv);    
+        }
+    }
 
-        selectedHeroes.forEach((hero) => {
-            const heroesOnQuestLi = document.createElement('li');
-            heroesOnQuestLi.append(`${hero.name}`);
-            heroesOnQuestUl.append(heroesOnQuestLi);
+    function removeHeroOptions() {
+        const heroOpptions = document.querySelectorAll('.hero-option');
+        heroOpptions.forEach((option) => {
+            option.remove();
         });
-
-        heroDiv.append(heroesOnQuestH4, heroesOnQuestUl);
-        questSheet.append(heroDiv);
     }
 }
 
