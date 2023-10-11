@@ -1,9 +1,18 @@
-const createQuest = (questNum, questName) => {
+const createQuest = (quest) => {
+    const questNum = quest.number;
+    const questName = quest.name;
+
+    // Object destructuring
+    // const { number, name } = quest;
+
+    // Array destructuring
+    // const [quest1, quest2] = quests
+
     const questsContainer = document.getElementById('quests-container');
 
     // Quest 
     const questSheet = document.createElement('div');
-    setAttributes(questSheet, {'class': 'quest-sheet', 'id': `quest-${questNum}-sheet`});
+    setAttributes(questSheet, {class: 'quest-sheet', id: `quest-${questNum}-sheet`});
     questsContainer.append(questSheet);
 
     // Quest title section
@@ -14,7 +23,7 @@ const createQuest = (questNum, questName) => {
     questTitleNum.append(`Quest ${questNum}`);
 
     const questTitleName = document.createElement('h4');
-    questTitleName.append(`${questName}`);
+    questTitleName.append(questName);
 
     questTitle.append(questTitleNum, questTitleName);
 
@@ -59,9 +68,7 @@ const quests = [
 ];
 
 function displayQuests() {    
-    quests.forEach(quest => {
-        createQuest(quest.number, quest.name);
-    })
+    quests.forEach(quest => createQuest(quest));
 }
 
 function updateQuest(quests, questSheet, questStatus) {
@@ -71,8 +78,10 @@ function updateQuest(quests, questSheet, questStatus) {
     switch (questStatus) {
         case 'not-started':
             console.log(`${questSheetId} not started`);
-            if (currentQuest.querySelector('.quest-description') !== null) {
-                currentQuestDescription = currentQuest.querySelector('.quest-description');
+            const currentQuestDescription = currentQuest.querySelector('.quest-description');
+
+            // Truthy and falsey
+            if (currentQuestDescription) {
                 currentQuestDescription.remove();
             }
             break;
@@ -132,53 +141,59 @@ function addHeroOptions(questSheet) {
     const heroesPopup = document.querySelector('.pick-heroes');
     heroesPopup.classList.add('show');
 
-    startQuestBtn.addEventListener('click', (event) => {
+    startQuestBtn.addEventListener('click', () => {
         const selectedHeroes = getSelectedHeroes();
         addHeroesToQuest(questSheetId, selectedHeroes);
         heroesPopup.classList.remove('show');
         removeHeroOptions();
+    }, {
+        once: true
     });
+}
 
-    function getSelectedHeroes() {
-        const heroOptions = document.querySelectorAll('fieldset input');
-        const selectedHeroes = [];
+function getSelectedHeroes() {
+    const heroOptions = document.querySelectorAll('fieldset input');
+    const selectedHeroes = [];
 
-        heroOptions.forEach((hero) => {
-            if (hero.checked === true) {
-                selectedHeroes.push(hero.name);
-            }
-        })
-        return selectedHeroes;
-    }
-
-    function addHeroesToQuest(questSheetId, selectedHeroes) {
-        const currentQuest = document.getElementById(questSheetId);
-        
-        if (currentQuest.querySelector('div.quest-heroes') === null) {
-            const heroesOnQuestDiv = document.createElement('div');
-            heroesOnQuestDiv.setAttribute('class', 'quest-heroes');
-            const heroesOnQuestH4 = document.createElement('h4');
-            heroesOnQuestH4.textContent = 'Heroes on Quest';
-            const heroesOnQuestUl = document.createElement('ul');
-    
-            selectedHeroes.forEach((hero) => {
-                const heroesOnQuestLi = document.createElement('li');
-                heroesOnQuestLi.textContent = hero;
-                heroesOnQuestUl.append(heroesOnQuestLi);
-            });
-    
-            heroesOnQuestDiv.appendChild(heroesOnQuestH4);
-            heroesOnQuestDiv.appendChild(heroesOnQuestUl);
-            currentQuest.append(heroesOnQuestDiv);    
+    heroOptions.forEach((hero) => {
+        if (hero.checked) {
+            selectedHeroes.push(hero.name);
         }
-    }
+    })
+    return selectedHeroes;
+}
 
-    function removeHeroOptions() {
-        const heroOpptions = document.querySelectorAll('.hero-option');
-        heroOpptions.forEach((option) => {
-            option.remove();
+function addHeroesToQuest(questSheetId, selectedHeroes) {
+    const currentQuest = document.getElementById(`${questSheetId}`);
+    
+    if (currentQuest.querySelector('div.quest-heroes') === null) {
+        const heroesOnQuestDiv = document.createElement('div');
+        heroesOnQuestDiv.setAttribute('class', 'quest-heroes');
+
+        const heroesOnQuestH4 = document.createElement('h4');
+        heroesOnQuestH4.textContent = 'Heroes on Quest';
+        heroesOnQuestDiv.appendChild(heroesOnQuestH4);
+
+        const heroesOnQuestUl = document.createElement('ul');
+        heroesOnQuestUl.setAttribute('id', `hero-options-${questSheetId}`);
+        heroesOnQuestDiv.appendChild(heroesOnQuestUl);
+
+        currentQuest.append(heroesOnQuestDiv);
+
+        selectedHeroes.forEach((hero) => {
+            const heroList = document.getElementById(`hero-options-${questSheetId}`);
+            const heroesOnQuestLi = document.createElement('li');
+            heroesOnQuestLi.textContent = hero;
+            heroList.appendChild(heroesOnQuestLi);
         });
     }
+}
+
+function removeHeroOptions() {
+    const heroOpptions = document.querySelectorAll('.hero-option');
+    heroOpptions.forEach((option) => {
+        option.remove();
+    });
 }
 
 displayQuests();
