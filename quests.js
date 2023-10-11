@@ -95,7 +95,10 @@ function updateQuest(quests, questSheet, questStatus) {
     }
 }
 
-function addQuestDescription(questId, questDescription) {
+function addQuestDescription(questSheetId, questDescription) {
+    const questSheet = document.getElementById(`${questSheetId}`);
+    
+    if (!questSheet.querySelector('div.quest-description')) {
     const description = document.createElement('div');
     description.setAttribute('class', 'quest-description');
 
@@ -103,8 +106,8 @@ function addQuestDescription(questId, questDescription) {
     descriptionP.append(questDescription);
     description.append(descriptionP);
 
-    const questSheet = document.getElementById(`${questId}`);
     questSheet.append(description);
+    }
 }
 
 function getQuestDescription(quests, questId) {
@@ -164,7 +167,7 @@ function getSelectedHeroes() {
 function addHeroesToQuest(questSheetId, selectedHeroes) {
     const currentQuest = document.getElementById(`${questSheetId}`);
     
-    if (currentQuest.querySelector('div.quest-heroes') === null) {
+    if (!currentQuest.querySelector('div.quest-heroes')) {
         const heroesOnQuestDiv = document.createElement('div');
         heroesOnQuestDiv.setAttribute('class', 'quest-heroes');
 
