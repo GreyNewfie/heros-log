@@ -164,7 +164,7 @@ function getSelectedHeroes() {
 function addHeroesToQuest(questSheetId, selectedHeroes) {
     const currentQuest = document.getElementById(`${questSheetId}`);
     
-    if (currentQuest.querySelector('div.quest-heroes') === null) {
+    if (!currentQuest.querySelector('div.quest-heroes')) {
         const heroesOnQuestDiv = document.createElement('div');
         heroesOnQuestDiv.setAttribute('class', 'quest-heroes');
 
