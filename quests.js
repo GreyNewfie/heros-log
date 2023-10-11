@@ -77,12 +77,7 @@ function updateQuest(quests, questSheet, questStatus) {
 
     switch (questStatus) {
         case 'not-started':
-            const currentQuestDescription = currentQuest.querySelector('.quest-description');
-
-            // Truthy and falsey
-            if (currentQuestDescription) {
-                currentQuestDescription.remove();
-            }
+            removeQuestHeroesAndDescriptions(currentQuest);
             break;
         case 'current-quest':
             const questDescription = getQuestDescription(quests, questSheetId);
@@ -90,7 +85,7 @@ function updateQuest(quests, questSheet, questStatus) {
             addHeroOptions(currentQuest);
             break;
         case 'complete':
-            console.log((`${questSheetId} complete`));
+            removeQuestHeroesAndDescriptions(currentQuest);
             break;
     }
 }
@@ -195,6 +190,18 @@ function removeHeroOptions() {
     heroOpptions.forEach((option) => {
         option.remove();
     });
+}
+
+function removeQuestHeroesAndDescriptions(currentQuest) {
+    const currentQuestDescription = currentQuest.querySelector('.quest-description');
+    const currentHeroesOnQuest = currentQuest.querySelector('.quest-heroes');
+
+    if (currentQuestDescription) {
+        currentQuestDescription.remove();
+    }
+    if (currentHeroesOnQuest) {
+        currentHeroesOnQuest.remove();
+    }
 }
 
 displayQuests();
