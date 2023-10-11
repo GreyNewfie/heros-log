@@ -142,6 +142,7 @@ const characterSheet = (character) => {
         characterWeaponsDiv.append(characterWeaponsLabel, characterWeaponsInput);
     
         //Character armor input
+        // TODO: createArmourUi(sheetDiv, character)
         const characterArmorDiv = document. createElement('div');
         const characterArmorLabel = document.createElement('label');
         characterArmorLabel.append('Armor');
@@ -373,9 +374,7 @@ function getExistingCharacter(characters, character) {
 }
 
 function getCharacterIndex(characters, characterId) {
-    return characters.findIndex((character) => {
-        return character.characterId === characterId
-    });
+    return characters.findIndex((character) => character.characterId === characterId);
 }
 
 function characterDeath(event, characters, character) {
@@ -385,8 +384,6 @@ function characterDeath(event, characters, character) {
         const index = getCharacterIndex(characters, character.characterId);
         characters.splice(index, 1);
         storeCharacters(characters);
-    } else {
-        return
     }
 }
 
