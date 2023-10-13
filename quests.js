@@ -72,6 +72,7 @@ function displayQuests() {
 }
 
 function updateQuest(quests, questSheet, questStatus) {
+    // Remove currentQuest and change reference to questSheet
     const questSheetId = questSheet.id;
     const currentQuest = document.getElementById(questSheetId);
 
@@ -85,6 +86,7 @@ function updateQuest(quests, questSheet, questStatus) {
             addHeroOptions(currentQuest);
             break;
         case 'complete':
+            addCompletedHeroOptions(currentQuest);
             removeQuestHeroesAndDescriptions(currentQuest);
             break;
     }
@@ -139,7 +141,52 @@ function addHeroOptions(questSheet) {
 
     startQuestBtn.addEventListener('click', () => {
         const selectedHeroes = getSelectedHeroes();
-        addHeroesToQuest(questSheetId, selectedHeroes);
+        addCurrentQuestHeroes(questSheetId, selectedHeroes);
+        heroesPopup.classList.remove('show');
+        removeHeroOptions();
+    }, {
+        once: true
+    });
+}
+
+function addCompletedHeroOptions(questSheet) {
+    // Get Heroes on quest
+    const questSheetId = questSheet.id;
+    const heroesFieldset = document.getElementById('heroes-fieldset');
+    const startQuestBtn = document.getElementById('start-quest-btn');
+    const liList = document.getElementById(`hero-options-${questSheetId}`).getElementsByTagName('li');
+    const heroes = [];
+
+    for (let i = 0; i < liList.length; i++) {
+        const hero = liList[i].innerText;
+        heroes.push(hero);
+    }
+
+    heroes.forEach((hero) => {
+        const newDiv = document.createElement('div');
+        newDiv.setAttribute('class', 'hero-option');
+
+        const newInput = document.createElement('input');
+        setAttributes(newInput, {type: 'checkbox', id: hero, name: hero});
+
+        const newLabel = document.createElement('label');
+        newLabel.setAttribute('for', `${hero}`);
+        newLabel.textContent = hero;
+
+        newDiv.append(newInput, newLabel);
+
+        heroesFieldset.insertBefore(newDiv, startQuestBtn);
+    });
+
+    const chooseHeroesLabel = document.getElementById('heroes-fieldset').querySelector('legend');
+    chooseHeroesLabel.textContent = 'Which heroes completed the quest?';
+
+    const heroesPopup = document.querySelector('.pick-heroes');
+    heroesPopup.classList.add('show');
+
+    startQuestBtn.addEventListener('click', () => {
+        const selectedHeroes = getSelectedHeroes();
+        addCompletedQuestHeroes(questSheet, selectedHeroes);
         heroesPopup.classList.remove('show');
         removeHeroOptions();
     }, {
@@ -159,7 +206,7 @@ function getSelectedHeroes() {
     return selectedHeroes;
 }
 
-function addHeroesToQuest(questSheetId, selectedHeroes) {
+function addCurrentQuestHeroes(questSheetId, selectedHeroes) {
     const currentQuest = document.getElementById(`${questSheetId}`);
     
     if (!currentQuest.querySelector('div.quest-heroes')) {
@@ -178,6 +225,31 @@ function addHeroesToQuest(questSheetId, selectedHeroes) {
 
         selectedHeroes.forEach((hero) => {
             const heroList = document.getElementById(`hero-options-${questSheetId}`);
+            const heroesOnQuestLi = document.createElement('li');
+            heroesOnQuestLi.textContent = hero;
+            heroList.appendChild(heroesOnQuestLi);
+        });
+    }
+}
+
+function addCompletedQuestHeroes(questSheet, selectedHeroes) {
+    
+    if (!questSheet.querySelector('div.quest-heroes')) {
+        const heroesOnQuestDiv = document.createElement('div');
+        heroesOnQuestDiv.setAttribute('class', 'quest-heroes');
+
+        const heroesOnQuestH4 = document.createElement('h4');
+        heroesOnQuestH4.textContent = 'Quest Completed By:';
+        heroesOnQuestDiv.appendChild(heroesOnQuestH4);
+
+        const heroesOnQuestUl = document.createElement('ul');
+        heroesOnQuestUl.setAttribute('id', `hero-options-${questSheet.id}`);
+        heroesOnQuestDiv.appendChild(heroesOnQuestUl);
+
+        questSheet.append(heroesOnQuestDiv);
+
+        selectedHeroes.forEach((hero) => {
+            const heroList = document.getElementById(`hero-options-${questSheet.id}`);
             const heroesOnQuestLi = document.createElement('li');
             heroesOnQuestLi.textContent = hero;
             heroList.appendChild(heroesOnQuestLi);
