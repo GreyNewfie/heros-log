@@ -5,10 +5,7 @@ const createQuest = (quest) => {
     // Object destructuring
     // const { number, name } = quest;
 
-    const {number, name} = quest;
-    console.log(number);
-    console.log(name);
-
+    const {id, name} = quest;
     // Array destructuring
     // const [quest1, quest2] = quests
 
@@ -109,8 +106,7 @@ function addQuestDescription(questSheetId, questDescription) {
 }
 
 function getQuestDescription(quests, questId) {
-    const splitString = questId.split('-');
-    const questNum = parseInt(splitString[1]);
+    const [, questNum] = questId.split('-');
     const questDescription = quests[questNum].description;
     return questDescription;
 }
@@ -171,7 +167,7 @@ function addCompletedHeroOptions(questSheet) {
         setAttributes(newInput, {type: 'checkbox', id: hero, name: hero});
 
         const newLabel = document.createElement('label');
-        newLabel.setAttribute('for', `${hero}`);
+        newLabel.setAttribute('for', hero);
         newLabel.textContent = hero;
 
         newDiv.append(newInput, newLabel);
@@ -208,7 +204,7 @@ function getSelectedHeroes() {
 }
 
 function addCurrentQuestHeroes(questSheetId, selectedHeroes) {
-    const currentQuest = document.getElementById(`${questSheetId}`);
+    const currentQuest = document.getElementById(questSheetId);
     
     if (!currentQuest.querySelector('div.quest-heroes')) {
         const heroesOnQuestDiv = document.createElement('div');
