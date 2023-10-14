@@ -37,8 +37,8 @@ const characterSheet = (character) => {
         characterTypeLabel.setAttribute('for', `character-type-${uniqueId}`);
         characterTypeLabel.append('Character');
         const characterTypeSelect = document.createElement('select');
-        setAttributes(characterTypeSelect, {'id': `character-type-${uniqueId}`, 'name': 'character-type', 'required': ''});
-        addTypeOptions(characterTypeSelect, {'default': '- Select Option -', 'barabarian': 'Barbarian', 'wizard': 'Wizard', 'elf': 'Elf', 'dwarf': 'Dwarf'});
+        setAttributes(characterTypeSelect, {id: `character-type-${uniqueId}`, name: 'character-type', required: ''});
+        addTypeOptions(characterTypeSelect, {default: '- Select Option -', barabarian: 'Barbarian', wizard: 'Wizard', elf: 'Elf', dwarf: 'Dwarf'});
     
         characterTypeDiv.append(characterTypeLabel, characterTypeSelect);
     
@@ -86,7 +86,7 @@ const characterSheet = (character) => {
         attackDiceP.append('Attack Dice');
         attackDiceDiv.append(attackDiceP);
         const attackDiceSelect = document.createElement('select');
-        setAttributes(attackDiceSelect, {'name': 'attack-dice', 'id': `attack-dice-${uniqueId}`});
+        setAttributes(attackDiceSelect, {name: 'attack-dice', id: `attack-dice-${uniqueId}`});
         const attackDiceOption = document.createElement('option');
         addNumOptions(attackDiceSelect, 6);
         attackDiceDiv.append(attackDiceP, attackDiceSelect)
@@ -97,7 +97,7 @@ const characterSheet = (character) => {
         defendDiceP.append('Defend Dice');
         defendDiceDiv.append(defendDiceP);
         const defendDiceSelect = document.createElement('select');
-        setAttributes(defendDiceSelect, {'name': 'defend-dice', 'id': `defend-dice-${uniqueId}`});
+        setAttributes(defendDiceSelect, {name: 'defend-dice', id: `defend-dice-${uniqueId}`});
         addNumOptions(defendDiceSelect, 6);
         defendDiceDiv.append(defendDiceP, defendDiceSelect);
     
@@ -113,17 +113,17 @@ const characterSheet = (character) => {
         const startingBodyPointsP = document.createElement('p');
         startingBodyPointsP.append('Body');
         const startingBodyPointsSelect = document.createElement('select');
-        setAttributes(startingBodyPointsSelect, {'name': 'starting-body-points-number', 'id': `starting-body-pts-${uniqueId}`});
+        setAttributes(startingBodyPointsSelect, {name: 'starting-body-points-number', id: `starting-body-pts-${uniqueId}`});
         addNumOptions(startingBodyPointsSelect, 8);
         startingBodyPointsDiv.append(startingBodyPointsP, startingBodyPointsSelect);    
     
         //Mind points select
         const startingMindPointsDiv = document.createElement('div');
-        setAttributes(startingMindPointsDiv, {'id': 'starting-mind-points', 'class': 'starting-mind-points'});
+        setAttributes(startingMindPointsDiv, {id: 'starting-mind-points', class: 'starting-mind-points'});
         const startingMindPointsP = document.createElement('p');
         startingMindPointsP.append('Mind');
         const startingMindPointsSelect = document.createElement('select');
-        setAttributes(startingMindPointsSelect, {'name': 'starting-mind-points-number', 'id': `starting-mind-pts-${uniqueId}`});
+        setAttributes(startingMindPointsSelect, {name: 'starting-mind-points-number', id: `starting-mind-pts-${uniqueId}`});
         addNumOptions(startingMindPointsSelect, 6);
         startingMindPointsDiv.append(startingMindPointsP, startingMindPointsSelect);
         startingPointsDiv.append(startingPointsP, startingBodyPointsDiv, startingMindPointsDiv);
@@ -138,7 +138,7 @@ const characterSheet = (character) => {
         characterWeaponsLabel.append('Weapons');
         characterWeaponsLabel.setAttribute('for', `character-weapons-${uniqueId}`)
         const characterWeaponsInput = document.createElement('input');
-        setAttributes(characterWeaponsInput, {'type': 'text', 'id': `character-weapons-${uniqueId}`, 'name': 'character-weapons'});
+        setAttributes(characterWeaponsInput, {type: 'text', id: `character-weapons-${uniqueId}`, name: 'character-weapons'});
         characterWeaponsDiv.append(characterWeaponsLabel, characterWeaponsInput);
     
         //Character armor input
@@ -148,7 +148,7 @@ const characterSheet = (character) => {
         characterArmorLabel.append('Armor');
         characterArmorLabel.setAttribute('for', `character-armor-${uniqueId}`);
         const characterArmorInput = document.createElement('input');
-        setAttributes(characterArmorInput, {'type': 'text', 'id': `character-armor-${uniqueId}`, 'name': 'character-armor'});
+        setAttributes(characterArmorInput, {type: 'text', id: `character-armor-${uniqueId}`, name: 'character-armor'});
         characterArmorDiv.append(characterArmorLabel, characterArmorInput);
     
         //Current stats tracker div
@@ -157,7 +157,7 @@ const characterSheet = (character) => {
     
         //Current body points div
         const currentBodyPointsDiv = document.createElement('div');
-        setAttributes(currentBodyPointsDiv, {'id': `current-body-points-${uniqueId}`, 'class': 'numeric-tracker'});
+        setAttributes(currentBodyPointsDiv, {id: `current-body-points-${uniqueId}`, class: 'numeric-tracker'});
         const currentBodyPointsP = document.createElement('p');
         currentBodyPointsP.append('Body Points');
         const currentBodyPointsNumDiv = document.createElement('div');
@@ -179,7 +179,7 @@ const characterSheet = (character) => {
     
         //Current gold coins div
         const currentGoldCoinsDiv = document.createElement('div');
-        setAttributes(currentGoldCoinsDiv, {'id': `current-gold-coins-${uniqueId}`, 'class': 'numeric-tracker'});
+        setAttributes(currentGoldCoinsDiv, {id: `current-gold-coins-${uniqueId}`, class: 'numeric-tracker'});
         const currentGoldCoinsP = document.createElement('p');
         currentGoldCoinsP.append('Gold Coins');
         const currentGoldCoinsNumDiv = document.createElement('div');
@@ -206,7 +206,7 @@ const characterSheet = (character) => {
         potionsItemsLabel.setAttribute('for', `potions-items-${uniqueId}`);
         potionsItemsLabel.append('Potions & Other Items');
         const potionsItemsTextarea = document.createElement('textarea');
-        setAttributes(potionsItemsTextarea, {'name': 'potions-items', 'id': `potions-items-${uniqueId}`, 'cols': '30', 'rows': '10', 'placeholder': 'Healing, invisible, etc.'});
+        setAttributes(potionsItemsTextarea, {name: 'potions-items', id: `potions-items-${uniqueId}`, cols: '30', rows: '10', placeholder: 'Healing, invisible, etc.'});
         potionsItemsDiv.append(potionsItemsLabel, potionsItemsTextarea);
     
         //Append elements to character sheet
@@ -348,6 +348,7 @@ const characterSheet = (character) => {
     }
 }
 
+// Should I move this?
 if (!localStorage.getItem('characterList')) {
     characters = [];
 } else {
