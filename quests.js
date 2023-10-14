@@ -91,7 +91,7 @@ function updateQuest(quests, questSheet, questStatus) {
 }
 
 function addQuestDescription(questSheetId, questDescription) {
-    const questSheet = document.getElementById(`${questSheetId}`);
+    const questSheet = document.getElementById(questSheetId);
     
     if (!questSheet.querySelector('div.quest-description')) {
     const description = document.createElement('div');
@@ -125,7 +125,7 @@ function addHeroOptions(questSheet) {
         setAttributes(newInput, {type: 'checkbox', id: hero.name, name: hero.name});
 
         const newLabel = document.createElement('label');
-        newLabel.setAttribute('for', `${hero.name}`);
+        newLabel.setAttribute('for', hero.name);
         newLabel.textContent = hero.name;
 
         newDiv.append(newInput, newLabel);
@@ -147,10 +147,10 @@ function addHeroOptions(questSheet) {
 }
 
 function addCompletedHeroOptions(questSheet) {
-    // Get Heroes on quest
     const questSheetId = questSheet.id;
     const heroesFieldset = document.getElementById('heroes-fieldset');
     const startQuestBtn = document.getElementById('start-quest-btn');
+    // If this is null, how can I tell the user to start the quest before completing it
     const liList = document.getElementById(`hero-options-${questSheetId}`).getElementsByTagName('li');
     const heroes = [];
 
