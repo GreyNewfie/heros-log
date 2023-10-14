@@ -5,6 +5,10 @@ const createQuest = (quest) => {
     // Object destructuring
     // const { number, name } = quest;
 
+    const {number, name} = quest;
+    console.log(number);
+    console.log(name);
+
     // Array destructuring
     // const [quest1, quest2] = quests
 

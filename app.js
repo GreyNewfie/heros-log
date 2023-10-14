@@ -348,10 +348,10 @@ const characterSheet = (character) => {
     }
 }
 
-if (localStorage.getItem('characterList') === null) {
+if (!localStorage.getItem('characterList')) {
     characters = [];
 } else {
-    characters = JSON.parse(localStorage.getItem('characterList'));
+    characters = getCharacters();
     characters.forEach(character => {
         characterSheet(character);
     });
