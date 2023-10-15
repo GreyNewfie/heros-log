@@ -97,7 +97,7 @@ function addQuestDescription(questSheet, questDescription) {
 
 function getQuestDescription(quests, { id }) {
     const [, questNum] = id.split('-');
-    const questDescription = quests[questNum].description;
+    const questDescription = quests[(questNum-1)].description;
     return questDescription;
 }
 
