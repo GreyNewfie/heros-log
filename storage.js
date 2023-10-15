@@ -10,3 +10,17 @@ function getCharacters() {
         return characters;
     }
 }
+
+function storeQuest(quest, heroes) {
+    if (!localStorage.getItem('storedQuests')) {
+        storedQuests = [];
+    } else {
+        storedQuests = JSON.parse(localStorage.getItem('storedQuests'));
+
+    }
+    const id = quest.id;
+    const status = quest.querySelector('select').value;
+    const storedQuest = {id, status, heroes};
+    storedQuests.push(storedQuest);
+    localStorage.setItem('storedQuests', JSON.stringify(storedQuests));
+}

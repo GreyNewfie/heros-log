@@ -129,6 +129,7 @@ function addHeroOptions(questSheet) {
     startQuestBtn.addEventListener('click', () => {
         const selectedHeroes = getSelectedHeroes();
         addCurrentQuestHeroes(questSheet, selectedHeroes);
+        storeQuest(questSheet, selectedHeroes);
         heroesPopup.classList.remove('show');
         removeHeroOptions();
     }, {
