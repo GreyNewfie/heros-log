@@ -1,13 +1,5 @@
 const createQuest = (quest) => {
-    const questNum = quest.id;
-    const questName = quest.name;
-
-    // Object destructuring
-    // const { number, name } = quest;
-
-    const {id, name} = quest;
-    // Array destructuring
-    // const [quest1, quest2] = quests
+    const {id: questNum, name: questName} = quest;
 
     const questsContainer = document.getElementById('quests-container');
 
@@ -79,8 +71,8 @@ function updateQuest(quests, questSheet, questStatus) {
             break;
         case 'current-quest':
             removeQuestHeroesAndDescriptions(questSheet);
-            const questDescription = getQuestDescription(quests, questSheet.id);
-            addQuestDescription(questSheet.id, questDescription);
+            const questDescription = getQuestDescription(quests, questSheet);
+            addQuestDescription(questSheet, questDescription);
             addHeroOptions(questSheet);
             break;
         case 'complete':
@@ -90,9 +82,7 @@ function updateQuest(quests, questSheet, questStatus) {
     }
 }
 
-function addQuestDescription(questSheetId, questDescription) {
-    const questSheet = document.getElementById(questSheetId);
-    
+function addQuestDescription(questSheet, questDescription) {    
     if (!questSheet.querySelector('div.quest-description')) {
     const description = document.createElement('div');
     description.setAttribute('class', 'quest-description');
@@ -105,8 +95,8 @@ function addQuestDescription(questSheetId, questDescription) {
     }
 }
 
-function getQuestDescription(quests, questId) {
-    const [, questNum] = questId.split('-');
+function getQuestDescription(quests, { id }) {
+    const [, questNum] = id.split('-');
     const questDescription = quests[questNum].description;
     return questDescription;
 }
@@ -138,7 +128,7 @@ function addHeroOptions(questSheet) {
 
     startQuestBtn.addEventListener('click', () => {
         const selectedHeroes = getSelectedHeroes();
-        addCurrentQuestHeroes(questSheetId, selectedHeroes);
+        addCurrentQuestHeroes(questSheet, selectedHeroes);
         heroesPopup.classList.remove('show');
         removeHeroOptions();
     }, {
@@ -147,11 +137,10 @@ function addHeroOptions(questSheet) {
 }
 
 function addCompletedHeroOptions(questSheet) {
-    const questSheetId = questSheet.id;
     const heroesFieldset = document.getElementById('heroes-fieldset');
     const startQuestBtn = document.getElementById('start-quest-btn');
     // If this is null, how can I tell the user to start the quest before completing it
-    const liList = document.getElementById(`hero-options-${questSheetId}`).getElementsByTagName('li');
+    const liList = document.getElementById(`hero-options-${questSheet.id}`).getElementsByTagName('li');
     const heroes = [];
 
     for (let i = 0; i < liList.length; i++) {
@@ -203,10 +192,8 @@ function getSelectedHeroes() {
     return selectedHeroes;
 }
 
-function addCurrentQuestHeroes(questSheetId, selectedHeroes) {
-    const currentQuest = document.getElementById(questSheetId);
-    
-    if (!currentQuest.querySelector('div.quest-heroes')) {
+function addCurrentQuestHeroes(questSheet, selectedHeroes) {    
+    if (!questSheet.querySelector('div.quest-heroes')) {
         const heroesOnQuestDiv = document.createElement('div');
         heroesOnQuestDiv.setAttribute('class', 'quest-heroes');
 
@@ -215,13 +202,13 @@ function addCurrentQuestHeroes(questSheetId, selectedHeroes) {
         heroesOnQuestDiv.appendChild(heroesOnQuestH4);
 
         const heroesOnQuestUl = document.createElement('ul');
-        heroesOnQuestUl.setAttribute('id', `hero-options-${questSheetId}`);
+        heroesOnQuestUl.setAttribute('id', `hero-options-${questSheet.id}`);
         heroesOnQuestDiv.appendChild(heroesOnQuestUl);
 
-        currentQuest.append(heroesOnQuestDiv);
+        questSheet.append(heroesOnQuestDiv);
 
         selectedHeroes.forEach((hero) => {
-            const heroList = document.getElementById(`hero-options-${questSheetId}`);
+            const heroList = document.getElementById(`hero-options-${questSheet.id}`);
             const heroesOnQuestLi = document.createElement('li');
             heroesOnQuestLi.textContent = hero;
             heroList.appendChild(heroesOnQuestLi);
