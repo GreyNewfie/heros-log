@@ -4,6 +4,7 @@ addCharacterButton.addEventListener('click', () => {
     characterSheet();
 });
 
+
 const characterSheet = (character) => {
     if (character) {
         uniqueId = character.characterId;
@@ -56,7 +57,7 @@ const characterSheet = (character) => {
             if (!character) {
                 character = createNewCharacter();
             }
-            if (isCurrentCharacter(characters, character.characterId)) {
+            if (isCurrentCharacter(characters, character)) {
                 const storedCharacter = getExistingCharacter(characters, character);
                 updateCharacter(storedCharacter, character.characterId);
 
@@ -348,22 +349,18 @@ const characterSheet = (character) => {
     }
 }
 
-// Should I move this?
-if (!localStorage.getItem('characterList')) {
-    characters = [];
-} else {
+const displayCharacters = (function () {
     characters = getCharacters();
-    characters.forEach(character => {
-        characterSheet(character);
-    });
-}
+    characters.forEach(character => characterSheet(character));
+})();
+
 
 function addCharacter(character) {
     characters.push(character);
     storeCharacters(characters);
 }
 
-function isCurrentCharacter(characters, characterId) {
+function isCurrentCharacter(characters, { id }) {
     return characters.some(character => character.characterId === characterId);
 }
 
@@ -388,5 +385,23 @@ function characterDeath(event, characters, character) {
     }
 }
 
+function addNumOptions(element, maxValue) {
+    for (let i = 0; i <= maxValue; i++) {
+        const option = document.createElement('option');
+        option.setAttribute('value', i);
+        option.append(`${i}`);
+        element.appendChild(option);
+    }
+}
+
+function decreaseNumber(element, currentNum) {
+    const testNum = parseInt(currentNum);
+    return element.textContent = testNum === 0 ? testNum : testNum - 1;
+}
+
+function increaseNumber(element, currentNum, maxNum) {
+    const testNum = parseInt(currentNum);
+    return element.textContent = testNum < maxNum || !maxNum ? testNum + 1 : testNum;
+}
 
 

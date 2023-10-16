@@ -3,7 +3,12 @@ function storeCharacters(characters) {
 }
 
 function getCharacters() {
-    const characters = JSON.parse(localStorage.getItem('characterList'));
+    if (!localStorage.getItem('characterList')) {
+        characters = [];
+    } else {    
+        characters = JSON.parse(localStorage.getItem('characterList'));
+    }
+
     if (characters === null || characters.length === 0) {
         alert('Input your characters before starting your quest');
     } else {
@@ -16,7 +21,6 @@ function storeQuest(quest, heroes) {
         storedQuests = [];
     } else {
         storedQuests = JSON.parse(localStorage.getItem('storedQuests'));
-
     }
     const id = quest.id;
     const status = quest.querySelector('select').value;
