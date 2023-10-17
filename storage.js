@@ -17,14 +17,24 @@ function getCharacters() {
 }
 
 function storeQuest(quest, heroes) {
+    const status = quest.querySelector('select').value;
+
     if (!localStorage.getItem('storedQuests')) {
         storedQuests = [];
+        const id = quest.id;
+        const storedQuest = {id, status, heroes};
+        storedQuests.push(storedQuest);    
     } else {
         storedQuests = JSON.parse(localStorage.getItem('storedQuests'));
+        const storedQuest = storedQuests.find(storedQuest => storedQuest.id === quest.id);
+            if (storedQuest) {
+                storedQuest.status = status;
+                storedQuest.heroes = heroes;
+            } else {
+                const id = quest.id;
+                const storedQuest = {id, status, heroes};
+                storedQuests.push(storedQuest);        
+            }
     }
-    const id = quest.id;
-    const status = quest.querySelector('select').value;
-    const storedQuest = {id, status, heroes};
-    storedQuests.push(storedQuest);
     localStorage.setItem('storedQuests', JSON.stringify(storedQuests));
 }
