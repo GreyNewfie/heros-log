@@ -38,3 +38,10 @@ function storeQuest(quest, heroes) {
     }
     localStorage.setItem('storedQuests', JSON.stringify(storedQuests));
 }
+
+function deleteQuest(quest) {
+    const storedQuests = JSON.parse(localStorage.getItem('storedQuests'));
+    const index = storedQuests.findIndex(storedQuest => storedQuest.id === quest.id);
+    storedQuests.splice(index, 1);
+    localStorage.setItem('storedQuests', JSON.stringify(storedQuests));
+}
