@@ -68,6 +68,7 @@ function updateQuest(quests, questSheet, questStatus) {
     switch (questStatus) {
         case 'not-started':
             removeQuestHeroesAndDescriptions(questSheet);
+            deleteQuest(questSheet);
             break;
         case 'current-quest':
             removeQuestHeroesAndDescriptions(questSheet);
