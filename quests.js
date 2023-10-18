@@ -61,7 +61,13 @@ const quests = [
 ];
 
 function displayQuests() {    
-    quests.forEach(quest => createQuest(quest));
+    quests.forEach((quest) => {
+        createQuest(quest);
+        const storedQuest = getStoredQuest(quest);
+        if (storedQuest) {
+            console.log(`Found quest ${storedQuest}`);
+        }
+    });
 }
 
 function updateQuest(quests, questSheet, questStatus) {

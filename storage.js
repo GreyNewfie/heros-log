@@ -45,3 +45,10 @@ function deleteQuest(quest) {
     storedQuests.splice(index, 1);
     localStorage.setItem('storedQuests', JSON.stringify(storedQuests));
 }
+
+function getStoredQuest(quest) {
+    const storedQuests = JSON.parse(localStorage.getItem('storedQuests'));
+    const questId = `quest-${quest.id}-sheet`;
+    const foundQuest = storedQuests.find(storedQuest => storedQuest.id === questId);
+    return foundQuest;
+}
