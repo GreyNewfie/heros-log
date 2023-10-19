@@ -64,10 +64,18 @@ function displayQuests() {
     quests.forEach((quest) => {
         createQuest(quest);
         const storedQuest = getStoredQuest(quest);
-        if (storedQuest) {
-            console.log(`Found quest ${storedQuest}`);
+        if (storedQuest !== undefined) {
+            const questSheet = document.querySelector(`#${storedQuest.id}`);
+            switch (storedQuest.status) {
+                case 'current-quest':
+                    const questDescription = getQuestDescription(quests, questSheet);
+                    addQuestDescription(questSheet, questDescription);
+                    const heroes = storedQuest.heroes;
+                    addCurrentQuestHeroes(questSheet, storedQuest.heroes);
+            }
+            }
         }
-    });
+    );
 }
 
 function updateQuest(quests, questSheet, questStatus) {
