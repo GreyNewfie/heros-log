@@ -70,8 +70,8 @@ function displayQuests() {
                 case 'current-quest':
                     const questDescription = getQuestDescription(quests, questSheet);
                     addQuestDescription(questSheet, questDescription);
-                    const heroes = storedQuest.heroes;
                     addCurrentQuestHeroes(questSheet, storedQuest.heroes);
+                    updateQuestStatus(questSheet, storedQuest);
             }
             }
         }
@@ -275,6 +275,11 @@ function removeQuestHeroesAndDescriptions(currentQuest) {
     if (currentHeroesOnQuest) {
         currentHeroesOnQuest.remove();
     }
+}
+
+function updateQuestStatus(quest, storedQuest) {
+    const status = quest.getElementsByTagName('select');
+    status[0].value = storedQuest.status;
 }
 
 displayQuests();
