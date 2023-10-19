@@ -72,6 +72,11 @@ function displayQuests() {
                     addQuestDescription(questSheet, questDescription);
                     addCurrentQuestHeroes(questSheet, storedQuest.heroes);
                     updateQuestStatus(questSheet, storedQuest);
+                    break;
+                case 'complete':
+                    addCompletedQuestHeroes(questSheet, storedQuest.heroes);
+                    updateQuestStatus(questSheet, storedQuest);
+                    break;    
             }
             }
         }
