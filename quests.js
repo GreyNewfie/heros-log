@@ -158,48 +158,56 @@ function addHeroOptions(questSheet) {
 }
 
 function addCompletedHeroOptions(questSheet) {
-    const heroesFieldset = document.getElementById('heroes-fieldset');
-    const startQuestBtn = document.getElementById('start-quest-btn');
-    // If this is null, how can I tell the user to start the quest before completing it
-    const liList = document.getElementById(`hero-options-${questSheet.id}`).getElementsByTagName('li');
-    const heroes = [];
-
-    for (let i = 0; i < liList.length; i++) {
-        const hero = liList[i].innerText;
-        heroes.push(hero);
+    let status = questSheet.getElementsByTagName('select')[0];
+    
+    if (status.value === 'current-quest') {
+        const heroesFieldset = document.getElementById('heroes-fieldset');
+        const startQuestBtn = document.getElementById('start-quest-btn');
+        // If this is null, how can I tell the user to start the quest before completing it
+        const liList = document.getElementById(`hero-options-${questSheet.id}`).getElementsByTagName('li');
+        const heroes = [];
+    
+        for (let i = 0; i < liList.length; i++) {
+            const hero = liList[i].innerText;
+            heroes.push(hero);
+        }
+    
+        heroes.forEach((hero) => {
+            const newDiv = document.createElement('div');
+            newDiv.setAttribute('class', 'hero-option');
+    
+            const newInput = document.createElement('input');
+            setAttributes(newInput, {type: 'checkbox', id: hero, name: hero});
+    
+            const newLabel = document.createElement('label');
+            newLabel.setAttribute('for', hero);
+            newLabel.textContent = hero;
+    
+            newDiv.append(newInput, newLabel);
+    
+            heroesFieldset.insertBefore(newDiv, startQuestBtn);
+        });
+    
+        const chooseHeroesLabel = document.getElementById('heroes-fieldset').querySelector('legend');
+        chooseHeroesLabel.textContent = 'Which heroes completed the quest?';
+    
+        const heroesPopup = document.querySelector('.pick-heroes');
+        heroesPopup.classList.add('show');
+    
+        startQuestBtn.addEventListener('click', () => {
+            const selectedHeroes = getSelectedHeroes();
+            addCompletedQuestHeroes(questSheet, selectedHeroes);
+            storeQuest(questSheet, selectedHeroes);
+            heroesPopup.classList.remove('show');
+            removeHeroOptions();
+        }, {
+            once: true
+        });
+    
+    } else {
+        alert('One step at a time. You must start the quest before you can complete it.');
+        status.value = 'not-started';
     }
-
-    heroes.forEach((hero) => {
-        const newDiv = document.createElement('div');
-        newDiv.setAttribute('class', 'hero-option');
-
-        const newInput = document.createElement('input');
-        setAttributes(newInput, {type: 'checkbox', id: hero, name: hero});
-
-        const newLabel = document.createElement('label');
-        newLabel.setAttribute('for', hero);
-        newLabel.textContent = hero;
-
-        newDiv.append(newInput, newLabel);
-
-        heroesFieldset.insertBefore(newDiv, startQuestBtn);
-    });
-
-    const chooseHeroesLabel = document.getElementById('heroes-fieldset').querySelector('legend');
-    chooseHeroesLabel.textContent = 'Which heroes completed the quest?';
-
-    const heroesPopup = document.querySelector('.pick-heroes');
-    heroesPopup.classList.add('show');
-
-    startQuestBtn.addEventListener('click', () => {
-        const selectedHeroes = getSelectedHeroes();
-        addCompletedQuestHeroes(questSheet, selectedHeroes);
-        storeQuest(questSheet, selectedHeroes);
-        heroesPopup.classList.remove('show');
-        removeHeroOptions();
-    }, {
-        once: true
-    });
 }
 
 function getSelectedHeroes() {
