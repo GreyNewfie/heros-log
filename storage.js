@@ -35,6 +35,7 @@ function storeQuest(quest, heroes) {
 }
 
 function deleteQuest(quest) {
+    // Should I make storedQuests a global variable?
     const storedQuests = JSON.parse(localStorage.getItem('storedQuests'));
     const index = storedQuests.findIndex(storedQuest => storedQuest.id === quest.id);
     storedQuests.splice(index, 1);

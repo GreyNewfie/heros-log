@@ -93,6 +93,7 @@ function updateQuest(quests, questSheet, questStatus) {
         case 'current-quest':
             if (characters === null || characters.length === 0) {
                 alert('Input your characters before starting your quest');
+                updateQuestStatus(questSheet);
             } else {
                 removeQuestHeroesAndDescriptions(questSheet);
                 const questDescription = getQuestDescription(quests, questSheet);
@@ -107,8 +108,9 @@ function updateQuest(quests, questSheet, questStatus) {
     }
 }
 
-function addQuestDescription(questSheet, questDescription) {    
-    if (!questSheet.querySelector('div.quest-description')) {
+function addQuestDescription(questSheet, questDescription) {
+    const existingDescription = questSheet.querySelector('div.quest-description');    
+    if (!existingDescription) {
     const description = document.createElement('div');
     description.setAttribute('class', 'quest-description');
 
@@ -297,7 +299,11 @@ function removeQuestHeroesAndDescriptions(currentQuest) {
 
 function updateQuestStatus(quest, storedQuest) {
     const status = quest.getElementsByTagName('select');
-    status[0].value = storedQuest.status;
+    if (storedQuest) {
+        status[0].value = storedQuest.status;
+    } else {
+        status[0].value = 'not-started';
+    }
 }
 
 displayQuests();
