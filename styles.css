@@ -14,7 +14,9 @@
 }
 
 .logo-container img {
-    width: 300px;
+    width: 100%;
+    min-width: 150px;
+    height: auto;
 }
 
 .header div:last-child {
