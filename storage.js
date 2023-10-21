@@ -8,12 +8,7 @@ function getCharacters() {
     } else {    
         characters = JSON.parse(localStorage.getItem('characterList'));
     }
-
-    if (characters === null || characters.length === 0) {
-        alert('Input your characters before starting your quest');
-    } else {
-        return characters;
-    }
+    return characters;
 }
 
 function storeQuest(quest, heroes) {

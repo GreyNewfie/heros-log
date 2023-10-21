@@ -84,16 +84,21 @@ function displayQuests() {
 }
 
 function updateQuest(quests, questSheet, questStatus) {
+    const characters = getCharacters();
     switch (questStatus) {
         case 'not-started':
             removeQuestHeroesAndDescriptions(questSheet);
             deleteQuest(questSheet);
             break;
         case 'current-quest':
-            removeQuestHeroesAndDescriptions(questSheet);
-            const questDescription = getQuestDescription(quests, questSheet);
-            addQuestDescription(questSheet, questDescription);
-            addHeroOptions(questSheet);
+            if (characters === null || characters.length === 0) {
+                alert('Input your characters before starting your quest');
+            } else {
+                removeQuestHeroesAndDescriptions(questSheet);
+                const questDescription = getQuestDescription(quests, questSheet);
+                addQuestDescription(questSheet, questDescription);
+                addHeroOptions(questSheet);    
+            }
             break;
         case 'complete':
             addCompletedHeroOptions(questSheet);
