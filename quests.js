@@ -86,7 +86,8 @@ function displayQuests() {
 
 function updateQuest(quests, questSheet, questStatus) {
     const characters = getCharacters();
-    const storedQuest = getStoredQuest(questSheet);
+    const quest = getQuest(quests, questSheet);
+    const storedQuest = getStoredQuest(quest);
     switch (questStatus) {
         case 'not-started':
             removeQuestHeroesAndDescriptions(questSheet);
