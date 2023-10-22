@@ -63,13 +63,14 @@ const quests = [
 function displayQuests() {    
     quests.forEach((quest) => {
         createQuest(quest);
+        // Checks local storage to stored quests to update
         const storedQuest = getStoredQuest(quest);
         if (storedQuest !== undefined) {
             const questSheet = document.querySelector(`#${storedQuest.id}`);
             switch (storedQuest.status) {
                 case 'current-quest':
-                    const questDescription = getQuestDescription(quests, questSheet);
-                    addQuestDescription(questSheet, questDescription);
+                    const currentQuest = getQuest(quests, questSheet);
+                    addQuestDescription(questSheet, currentQuest.description);
                     addCurrentQuestHeroes(questSheet, storedQuest.heroes);
                     updateQuestStatus(questSheet, storedQuest);
                     break;
@@ -97,9 +98,9 @@ function updateQuest(quests, questSheet, questStatus) {
                 updateQuestStatus(questSheet);
             } else {
                 removeQuestHeroesAndDescriptions(questSheet);
-                const questDescription = getQuestDescription(quests, questSheet);
-                addQuestDescription(questSheet, questDescription);
-                addHeroOptions(questSheet);    
+                const quest = getQuest(quests, questSheet);
+                addQuestDescription(questSheet, quest.description);
+                addHeroOptions(questSheet);
             }
             break;
         case 'complete':
@@ -107,7 +108,7 @@ function updateQuest(quests, questSheet, questStatus) {
                 addCompletedHeroOptions(questSheet);
                 removeQuestHeroesAndDescriptions(questSheet);    
             } else {
-                alert('Input your characters before starting your quest');
+                alert('Slow your roll. You mush start a quest before you can complete it.');
                 updateQuestStatus(questSheet, storedQuest);
             }
             break;
@@ -128,10 +129,11 @@ function addQuestDescription(questSheet, questDescription) {
     }
 }
 
-function getQuestDescription(quests, { id }) {
+function getQuest(quests, { id }) {
     const [, questNum] = id.split('-');
-    const questDescription = quests[(questNum-1)].description;
-    return questDescription;
+    const quest = quests[(questNum-1)];
+
+    return quest;
 }
 
 function addHeroOptions(questSheet) {
