@@ -63,13 +63,14 @@ const quests = [
 function displayQuests() {    
     quests.forEach((quest) => {
         createQuest(quest);
+        // Checks local storage to stored quests to update
         const storedQuest = getStoredQuest(quest);
         if (storedQuest !== undefined) {
             const questSheet = document.querySelector(`#${storedQuest.id}`);
             switch (storedQuest.status) {
                 case 'current-quest':
-                    const questDescription = getQuestDescription(quests, questSheet);
-                    addQuestDescription(questSheet, questDescription);
+                    const currentQuest = getQuest(quests, questSheet);
+                    addQuestDescription(questSheet, currentQuest.description);
                     addCurrentQuestHeroes(questSheet, storedQuest.heroes);
                     updateQuestStatus(questSheet, storedQuest);
                     break;
@@ -85,6 +86,8 @@ function displayQuests() {
 
 function updateQuest(quests, questSheet, questStatus) {
     const characters = getCharacters();
+    const quest = getQuest(quests, questSheet);
+    const storedQuest = getStoredQuest(quest);
     switch (questStatus) {
         case 'not-started':
             removeQuestHeroesAndDescriptions(questSheet);
@@ -96,14 +99,19 @@ function updateQuest(quests, questSheet, questStatus) {
                 updateQuestStatus(questSheet);
             } else {
                 removeQuestHeroesAndDescriptions(questSheet);
-                const questDescription = getQuestDescription(quests, questSheet);
-                addQuestDescription(questSheet, questDescription);
-                addHeroOptions(questSheet);    
+                const quest = getQuest(quests, questSheet);
+                addQuestDescription(questSheet, quest.description);
+                addHeroOptions(questSheet);
             }
             break;
         case 'complete':
-            addCompletedHeroOptions(questSheet);
-            removeQuestHeroesAndDescriptions(questSheet);
+            if (storedQuest) {
+                addCompletedHeroOptions(questSheet);
+                removeQuestHeroesAndDescriptions(questSheet);    
+            } else {
+                alert('Slow your roll. You mush start a quest before you can complete it.');
+                updateQuestStatus(questSheet, storedQuest);
+            }
             break;
     }
 }
@@ -122,10 +130,11 @@ function addQuestDescription(questSheet, questDescription) {
     }
 }
 
-function getQuestDescription(quests, { id }) {
+function getQuest(quests, { id }) {
     const [, questNum] = id.split('-');
-    const questDescription = quests[(questNum-1)].description;
-    return questDescription;
+    const quest = quests[(questNum-1)];
+
+    return quest;
 }
 
 function addHeroOptions(questSheet) {
@@ -165,13 +174,9 @@ function addHeroOptions(questSheet) {
 }
 
 function addCompletedHeroOptions(questSheet) {
-    let status = questSheet.getElementsByTagName('select')[0];
-    
-    if (status.value === 'current-quest') {
+        const liList = document.getElementById(`hero-options-${questSheet.id}`).getElementsByTagName('li');
         const heroesFieldset = document.getElementById('heroes-fieldset');
         const startQuestBtn = document.getElementById('start-quest-btn');
-        // If this is null, how can I tell the user to start the quest before completing it
-        const liList = document.getElementById(`hero-options-${questSheet.id}`).getElementsByTagName('li');
         const heroes = [];
     
         for (let i = 0; i < liList.length; i++) {
@@ -209,12 +214,7 @@ function addCompletedHeroOptions(questSheet) {
             removeHeroOptions();
         }, {
             once: true
-        });
-    
-    } else {
-        alert('One step at a time. You must start the quest before you can complete it.');
-        status.value = 'not-started';
-    }
+        });    
 }
 
 function getSelectedHeroes() {
