@@ -85,6 +85,7 @@ function displayQuests() {
 
 function updateQuest(quests, questSheet, questStatus) {
     const characters = getCharacters();
+    const storedQuest = getStoredQuest(questSheet);
     switch (questStatus) {
         case 'not-started':
             removeQuestHeroesAndDescriptions(questSheet);
@@ -102,8 +103,13 @@ function updateQuest(quests, questSheet, questStatus) {
             }
             break;
         case 'complete':
-            addCompletedHeroOptions(questSheet);
-            removeQuestHeroesAndDescriptions(questSheet);
+            if (storedQuest) {
+                addCompletedHeroOptions(questSheet);
+                removeQuestHeroesAndDescriptions(questSheet);    
+            } else {
+                alert('Input your characters before starting your quest');
+                updateQuestStatus(questSheet, storedQuest);
+            }
             break;
     }
 }
@@ -165,13 +171,9 @@ function addHeroOptions(questSheet) {
 }
 
 function addCompletedHeroOptions(questSheet) {
-    let status = questSheet.getElementsByTagName('select')[0];
-    
-    if (status.value === 'current-quest') {
+        const liList = document.getElementById(`hero-options-${questSheet.id}`).getElementsByTagName('li');
         const heroesFieldset = document.getElementById('heroes-fieldset');
         const startQuestBtn = document.getElementById('start-quest-btn');
-        // If this is null, how can I tell the user to start the quest before completing it
-        const liList = document.getElementById(`hero-options-${questSheet.id}`).getElementsByTagName('li');
         const heroes = [];
     
         for (let i = 0; i < liList.length; i++) {
@@ -209,12 +211,7 @@ function addCompletedHeroOptions(questSheet) {
             removeHeroOptions();
         }, {
             once: true
-        });
-    
-    } else {
-        alert('One step at a time. You must start the quest before you can complete it.');
-        status.value = 'not-started';
-    }
+        });    
 }
 
 function getSelectedHeroes() {
