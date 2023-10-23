@@ -7,6 +7,20 @@
     padding: 0;
 }
 
+h1 {
+    font-size: clamp(1.25rem, 1vw + 1rem, 2.5rem);
+    /* font-size: var(--step-5); */
+}
+
+h2 {
+    font-size: clamp(1.125rem, 0.5vw + 1rem, 2rem);
+}
+
+a {
+    text-decoration: none;
+    color: black;
+}
+
 .header {
     display: flex;
     justify-content: space-between;
@@ -15,15 +29,20 @@
 
 .logo-container img {
     width: 100%;
-    min-width: 150px;
-    max-width: 350px;
+    min-width: 125px;
+    max-width: 325px;
     height: auto;
+}
+
+.header div:nth-child(2) {
+    text-align: center;
+    margin-right: 1vw;
 }
 
 .header div:last-child {
     display: flex;
-    gap: 15px;
-    margin-right: 10px;
+    gap: 1.5vw;
+    margin-right: 1vw;
 }
 
 .character-sheet-container {
