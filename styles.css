@@ -7,20 +7,44 @@
     padding: 0;
 }
 
-.header {
+h1 {
+    font-size: clamp(1.25rem, 1vw + 1rem, 2.5rem);
+}
+
+h2 {
+    font-size: clamp(1.125rem, 0.5vw + 1rem, 2rem);
+}
+
+a {
+    text-decoration: none;
+    color: black;
+}
+
+nav {
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
-.logo-container img {
-    width: 300px;
+header img {
+    width: 100%;
+    min-width: 125px;
+    max-width: 325px;
+    height: auto;
 }
 
-.header div:last-child {
+header h1 {
+    text-align: center;
+    margin-right: 1vw;
+}
+
+header ul {
     display: flex;
-    gap: 15px;
-    margin-right: 10px;
+    gap: 1.5vw;
+    margin-right: 1vw;
+    list-style-type: none;
+    font-size: clamp(1.125rem, 0.5vw + 1rem, 2rem);
+    font-weight: 600;
 }
 
 .character-sheet-container {
