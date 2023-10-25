@@ -131,3 +131,166 @@ const artifacts = [
         classification: 'weapon'
     }
 ]
+
+const equipment = [
+    {
+        id: 'longsword',
+        name: 'Longsword',
+        description: 'This long blade gives you the attack strength of 3 combat dice. Because of its length, the longsword enables you to attack diagonally. May not be used by the wizard.',
+        classification: 'weapon',
+        cost: '350 gold coins'
+    }, 
+    {
+        id: 'potion-of-speed',
+        name: 'Potion of Speed',
+        description: 'You may drink the potion at any time. It allows you to roll twice as many dice as usual the next time you move. The card is then discarded.',
+        cost: '200 gold coins'
+    },
+    {
+        id: 'dagger',
+        name: 'Dagger',
+        description: 'This sharp knife gives you the attack strength of 1 combat die. A dagger can also be thrown at any monster you can see but is lost once it is thrown.',
+        classification: 'weapon',
+        cost: '25 gold coins'
+    },
+    {
+        id: 'bracers',
+        name: 'Bracers',
+        description: 'These hardened leather bracers give you 1 extra Defend die. May be combined with the helmet and/or shield.',
+        classification: 'armor',
+        cost: '550 gold coins'
+    },
+    {
+        id: 'longsword',
+        name: 'Longsword',
+        description: 'This long blade gives you the attack strength of 3 combat dice. Because of its length, the longsword enables you to attack diagonally. May not be used by the wizard.',
+        classification: 'weapon',
+        cost: '350 gold coins'
+    },
+    {
+        id: 'battle-axe',
+        name: 'Battle Axe',
+        description: 'This heavy, double-edged axe gives you the attack strength of 4 combat dice. You may not use a shield when using this weapon. May not be used by the wizard.',
+        classification: 'weapon',
+        cost: '450 gold coins'
+    },
+    {
+        id: 'battle-axe',
+        name: 'Battle Axe',
+        description: 'This heavy, double-edged axe gives you the attack strength of 4 combat dice. You may not use a shield when using this weapon. May not be used by the wizard.',
+        classification: 'weapon',
+        cost: '450 gold coins'
+    },
+    {
+        id: 'holy-water',
+        name: 'Hold Water',
+        description: 'You may use the holy water instead of attacking. It kills any undead creature (skeleton, zombie or mummy). the card is then discarded after use.',
+        cost: '400 gold coins'
+    },
+    {
+        id: 'staff',
+        name: 'Staff',
+        description: 'This long, sturdy, wooden staff gives you the attack strength of 1 combat die. Because of its length, the staff enables you to attack diagonally. You may not use a shield when using this weapon.',
+        classification: 'weapon',
+        cost: '100 gold coins'
+    },
+    {
+        id: 'helmet',
+        name: 'Helment',
+        description: 'This protective headpiece gives you 1 extra Defend die. May not be worn by the wizard.',
+        classification: 'armor',
+        cost: '125 gold coins'
+    },
+    {
+        id: 'crossbow',
+        name: 'Crossbow',
+        description: 'This long-range weapon gives you the attack strength of 3 combat dice. You may fire at any monster that you can see. However, you cannot fire at a monster that is adjacent to you. You have an unlimited supply of arrows. May not be used by the wizard.',
+        classification: 'weapon',
+        cost: '350 gold coins'
+    },
+    {
+        id: 'broadsword',
+        name: 'Broadsword',
+        description: 'This wide blade gives you the attack strength of 3 combat dice. May not be used by the wizard.',
+        classification: 'weapon',
+        cost: '250 gold coins'
+    },
+    {
+        id: 'shortsword',
+        name: 'Shortsword',
+        description: 'This short sword gives you the attack strength of 2 combat dice. May not be used by the wizard.',
+        classification: 'weapon',
+        cost: '150 gold coins'
+    },
+    {
+        id: 'shield',
+        name: 'Shield',
+        description: 'This hand-held armor gives you 1 extra Defend dice. May not be used with the battle axe or staff. May not be used by the wizard.',
+        classification: 'armor',
+        cost: '150 gold coins'
+    },
+    {
+        id: 'shield',
+        name: 'Shield',
+        description: 'This hand-held armor gives you 1 extra Defend dice. May not be used with the battle axe or staff. May not be used by the wizard.',
+        classification: 'armor',
+        cost: '150 gold coins'
+    },
+    {
+        id: 'shield',
+        name: 'Shield',
+        description: 'This hand-held armor gives you 1 extra Defend dice. May not be used with the battle axe or staff. May not be used by the wizard.',
+        classification: 'armor',
+        cost: '150 gold coins'
+    },
+    {
+        id: 'chain-mail',
+        name: 'Chain Mail',
+        description: 'This light metal armor gives you 1 extra Defend die. May by combined with the helmet and/or shield. May not be worn by the wizard.',
+        classification: 'armor',
+        cost: '500 gold coins'
+    },
+    {
+        id: 'handaxe',
+        name: 'Handaxe',
+        description: 'This handaxe allows you to roll 2 Attack dice. It can also be thrown at any monster in your line of sight but is lost once it is thrown.',
+        classification: 'weapon',
+        cost: '200 gold coins'
+    },
+    {
+        id: 'crossbow',
+        name: 'Crossbow',
+        description: 'This long-range weapon gives you the attack strength of 3 combat dice. You may fire at any monster that you can see. However, you cannot fire at a monster that is adjacent to you. You have an unlimited supply of arrows. May not be used by the wizard.',
+        classification: 'weapon',
+        cost: '350 gold coins'
+    },
+    {
+        id: 'helmet',
+        name: 'Helmet',
+        description: 'This protective headpiece gives you 1 extra Defend die. May not be worn by the wizard.',
+        classification: 'helmet',
+        cost: '125 gold coins'
+    },
+    {
+        id: 'helmet',
+        name: 'Helmet',
+        description: 'This protective headpiece gives you 1 extra Defend die. May not be worn by the wizard.',
+        classification: 'helmet',
+        cost: '125 gold coins'
+    },
+    {
+        id: 'tool-kit',
+        name: 'Tool Kit',
+        description: 'This tool kit gives you a 50 percent chance to disarm any searched-for-and-found (but unsprung) trap. (See "Action 6: Disarm a Trap" in the the rulebook.)',
+        classification: 'disarm-traps',
+        cost: '250 gold coins'
+    },
+    {
+        id: 'plate-mail',
+        name: 'Plate Mail',
+        description: 'This heavy metal armor gives you 2 extra Defend dice. However, because it is so heavy, you may only roll 1 red die for movement while wearing it. May be combined with the helmet and/or shield. May not be worn by the wizard.',
+        classification: 'armor',
+        cost: '850 gold coins'
+    }
+
+]
