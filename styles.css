@@ -47,6 +47,13 @@ header ul {
     font-weight: 600;
 }
 
+/* Quest list */
+.quests-main {
+    display: grid;
+    grid-template-columns: max-content 1fr;
+    gap: 2vw;
+}
+
 .character-sheet-container {
     display: flex;
     gap: 15px;

@@ -11,9 +11,7 @@ function getCharacters() {
     //     return []
     // }
 
-    // return JSON.parse(characters);
-
-    
+    // return JSON.parse(characters);    
 
     if (!localStorage.getItem('characterList')) {
         characters = [];
@@ -47,7 +45,7 @@ function storeQuest(quest, heroes) {
 }
 
 function deleteQuest(quest) {
-    // Should I make storedQuests a global variable?
+    // Change to = getStoreQuest
     const storedQuests = JSON.parse(localStorage.getItem('storedQuests'));
     const index = storedQuests.findIndex(storedQuest => storedQuest.id === quest.id);
     storedQuests.splice(index, 1);

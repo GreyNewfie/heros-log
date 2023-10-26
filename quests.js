@@ -60,7 +60,9 @@ const quests = [
     {id: 14, name: 'Return to Barak Tor', description: `Now that you have found the Spirit Blade, you must return to Barak Tor and defeat the Witch Lord. The King has ridden forth to meet the eastern ocs at Darkfire Pass. If you fail, the Witch Lord will lead his army of undead and attack His Majesty's forces from the rear. Then nothing remains to prevent the forces of Dread from overrunning the land!`}
 ];
 
-function displayQuests() {    
+function displayQuests() {
+    displayQuestList();
+
     quests.forEach((quest) => {
         createQuest(quest);
         // Checks local storage to stored quests to update
@@ -114,6 +116,16 @@ function updateQuest(quests, questSheet, questStatus) {
             }
             break;
     }
+}
+
+function displayQuestList() {
+    const questList = document.getElementById('quest-list');
+    quests.forEach(quest => {
+        const listLi = document.createElement('li');
+        listLi.setAttribute('class', 'quest-list-item');
+        listLi.textContent = `Quest ${quest.id}`;
+        questList.appendChild(listLi);
+    })
 }
 
 function addQuestDescription(questSheet, questDescription) {
