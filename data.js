@@ -292,5 +292,46 @@ const equipment = [
         classification: 'armor',
         cost: '850 gold coins'
     }
-
+]
+const heroTypes = [
+    {
+        id: 'elf',
+        attackDice: 2,
+        defendDice: 2,
+        startingPointsBody: 6,
+        startingPointsMind: 4,
+        movement: '2 Red Dice',
+        startingWeapon: 'Shortsword',
+        startingArmor: 'None'
+    },
+    {
+        id: 'barbarian',
+        attackDice: 3,
+        defendDice: 2,
+        startingPointsBody: 8,
+        startingPointsMind: 2,
+        movement: '2 Red Dice',
+        startingWeapon: 'Broadsword',
+        startingArmor: 'None'
+    },
+    {
+        id: 'dwarf',
+        attackDice: 2,
+        defendDice: 2,
+        startingPointsBody: 7,
+        startingPointsMind: 3,
+        movement: '2 Red Dice',
+        startingWeapon: 'Shortsword',
+        startingArmor: 'None'
+    },
+    {
+        id: 'wizard',
+        attackDice: 1,
+        defendDice: 2,
+        startingPointsBody: 4,
+        startingPointsMind: 6,
+        movement: '2 Red Dice',
+        startingWeapon: 'Dagger',
+        startingArmor: 'None'
+    }
 ]
