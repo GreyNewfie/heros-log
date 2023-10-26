@@ -3,6 +3,18 @@ function storeCharacters(characters) {
 }
 
 function getCharacters() {
+    // const characters = localStorage.getItem('characterList');
+
+    // return characters ? JSON.parse(characters) : [];
+
+    // if (!characters) {
+    //     return []
+    // }
+
+    // return JSON.parse(characters);
+
+    
+
     if (!localStorage.getItem('characterList')) {
         characters = [];
     } else {    
