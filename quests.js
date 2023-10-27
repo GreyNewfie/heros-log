@@ -62,28 +62,47 @@ const quests = [
 
 function displayQuests() {
     displayQuestList();
+    const storedQuests = getStoredQuests();
 
-    quests.forEach((quest) => {
+    storedQuests.forEach(storedQuest => {
+        const quest = getQuest(quests, storedQuest);
         createQuest(quest);
-        // Checks local storage to stored quests to update
-        const storedQuest = getStoredQuest(quest);
-        if (storedQuest !== undefined) {
-            const questSheet = document.querySelector(`#${storedQuest.id}`);
-            switch (storedQuest.status) {
-                case 'current-quest':
-                    const currentQuest = getQuest(quests, questSheet);
-                    addQuestDescription(questSheet, currentQuest.description);
-                    addCurrentQuestHeroes(questSheet, storedQuest.heroes);
-                    updateQuestStatus(questSheet, storedQuest);
-                    break;
-                case 'complete':
-                    addCompletedQuestHeroes(questSheet, storedQuest.heroes);
-                    updateQuestStatus(questSheet, storedQuest);
-                    break;    
-            }
-            }
+        const questSheet = document.getElementById(storedQuest.id);
+        switch (storedQuest.status) {
+            case 'current-quest':
+                const currentQuest = getQuest(quests, questSheet);
+                addQuestDescription(questSheet, currentQuest.description);
+                addCurrentQuestHeroes(questSheet, storedQuest.heroes);
+                updateQuestStatus(questSheet, storedQuest);
+                break;
+            case 'complete':
+                addCompletedQuestHeroes(questSheet, storedQuest.heroes);
+                updateQuestStatus(questSheet, storedQuest);
+                break;    
         }
-    );
+    })
+
+    // quests.forEach((quest) => {
+    //     createQuest(quest);
+    //     // Checks local storage to stored quests to update
+    //     const storedQuest = getStoredQuest(quest);
+    //     if (storedQuest !== undefined) {
+    //         const questSheet = document.querySelector(`#${storedQuest.id}`);
+    //         switch (storedQuest.status) {
+    //             case 'current-quest':
+    //                 const currentQuest = getQuest(quests, questSheet);
+    //                 addQuestDescription(questSheet, currentQuest.description);
+    //                 addCurrentQuestHeroes(questSheet, storedQuest.heroes);
+    //                 updateQuestStatus(questSheet, storedQuest);
+    //                 break;
+    //             case 'complete':
+    //                 addCompletedQuestHeroes(questSheet, storedQuest.heroes);
+    //                 updateQuestStatus(questSheet, storedQuest);
+    //                 break;    
+    //         }
+    //         }
+    //     }
+    // );
 }
 
 function updateQuest(quests, questSheet, questStatus) {
