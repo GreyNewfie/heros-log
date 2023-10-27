@@ -60,28 +60,49 @@ const quests = [
     {id: 14, name: 'Return to Barak Tor', description: `Now that you have found the Spirit Blade, you must return to Barak Tor and defeat the Witch Lord. The King has ridden forth to meet the eastern ocs at Darkfire Pass. If you fail, the Witch Lord will lead his army of undead and attack His Majesty's forces from the rear. Then nothing remains to prevent the forces of Dread from overrunning the land!`}
 ];
 
-function displayQuests() {    
-    quests.forEach((quest) => {
+function displayQuests() {
+    displayQuestList();
+    const storedQuests = getStoredQuests();
+
+    storedQuests.forEach(storedQuest => {
+        const quest = getQuest(quests, storedQuest);
         createQuest(quest);
-        // Checks local storage to stored quests to update
-        const storedQuest = getStoredQuest(quest);
-        if (storedQuest !== undefined) {
-            const questSheet = document.querySelector(`#${storedQuest.id}`);
-            switch (storedQuest.status) {
-                case 'current-quest':
-                    const currentQuest = getQuest(quests, questSheet);
-                    addQuestDescription(questSheet, currentQuest.description);
-                    addCurrentQuestHeroes(questSheet, storedQuest.heroes);
-                    updateQuestStatus(questSheet, storedQuest);
-                    break;
-                case 'complete':
-                    addCompletedQuestHeroes(questSheet, storedQuest.heroes);
-                    updateQuestStatus(questSheet, storedQuest);
-                    break;    
-            }
-            }
+        const questSheet = document.getElementById(storedQuest.id);
+        switch (storedQuest.status) {
+            case 'current-quest':
+                const currentQuest = getQuest(quests, questSheet);
+                addQuestDescription(questSheet, currentQuest.description);
+                addCurrentQuestHeroes(questSheet, storedQuest.heroes);
+                updateQuestStatus(questSheet, storedQuest);
+                break;
+            case 'complete':
+                addCompletedQuestHeroes(questSheet, storedQuest.heroes);
+                updateQuestStatus(questSheet, storedQuest);
+                break;    
         }
-    );
+    })
+
+    // quests.forEach((quest) => {
+    //     createQuest(quest);
+    //     // Checks local storage to stored quests to update
+    //     const storedQuest = getStoredQuest(quest);
+    //     if (storedQuest !== undefined) {
+    //         const questSheet = document.querySelector(`#${storedQuest.id}`);
+    //         switch (storedQuest.status) {
+    //             case 'current-quest':
+    //                 const currentQuest = getQuest(quests, questSheet);
+    //                 addQuestDescription(questSheet, currentQuest.description);
+    //                 addCurrentQuestHeroes(questSheet, storedQuest.heroes);
+    //                 updateQuestStatus(questSheet, storedQuest);
+    //                 break;
+    //             case 'complete':
+    //                 addCompletedQuestHeroes(questSheet, storedQuest.heroes);
+    //                 updateQuestStatus(questSheet, storedQuest);
+    //                 break;    
+    //         }
+    //         }
+    //     }
+    // );
 }
 
 function updateQuest(quests, questSheet, questStatus) {
@@ -114,6 +135,16 @@ function updateQuest(quests, questSheet, questStatus) {
             }
             break;
     }
+}
+
+function displayQuestList() {
+    const questList = document.getElementById('quest-list');
+    quests.forEach(quest => {
+        const listLi = document.createElement('li');
+        listLi.setAttribute('class', 'quest-list-item');
+        listLi.textContent = `Quest ${quest.id}`;
+        questList.appendChild(listLi);
+    })
 }
 
 function addQuestDescription(questSheet, questDescription) {
