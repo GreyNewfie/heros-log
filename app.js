@@ -135,25 +135,9 @@ const characterSheet = (character) => {
     
         //Character weapons input
         createWeaponsUi(characterWeaponsArmorDiv, uniqueId);
-        // const characterWeaponsDiv = document.createElement('div');
-        // const characterWeaponsLabel = document.createElement('label');
-        // characterWeaponsLabel.append('Weapons');
-        // characterWeaponsLabel.setAttribute('for', `character-weapons-${uniqueId}`)
-        // const characterWeaponsInput = document.createElement('input');
-        // setAttributes(characterWeaponsInput, {type: 'text', id: `character-weapons-${uniqueId}`, name: 'character-weapons'});
-        // characterWeaponsArmorDiv.append(characterWeaponsLabel, characterWeaponsInput);
-    
     
         //Character armor input
-        // TODO: createArmourUi(sheetDiv, character)
         createArmorUi(characterWeaponsArmorDiv, uniqueId);
-        // const characterArmorDiv = document. createElement('div');
-        // const characterArmorLabel = document.createElement('label');
-        // characterArmorLabel.append('Armor');
-        // characterArmorLabel.setAttribute('for', `character-armor-${uniqueId}`);
-        // const characterArmorInput = document.createElement('input');
-        // setAttributes(characterArmorInput, {type: 'text', id: `character-armor-${uniqueId}`, name: 'character-armor'});
-        // characterArmorDiv.append(characterArmorLabel, characterArmorInput);
     
         //Current stats tracker div
         const currentStatsTrackerDiv = document.createElement('div');
@@ -218,8 +202,6 @@ const characterSheet = (character) => {
         CharacterNameTypeDiv.append(characterNameDiv, characterTypeDiv);
         initialStatsDiv.append(attackDiceDiv, defendDiceDiv, startingPointsDiv);
 
-        // ***Puting this in createArmorUi()***
-        // characterWeaponsArmorDiv.append(characterArmorDiv);
         characterSheetDiv.append(CharacterNameTypeDiv, characterButtonsDiv, initialStatsDiv, characterWeaponsArmorDiv, currentStatsTrackerDiv, potionsItemsDiv);
     
         const createCharacterSheetDiv = document.getElementById('create-character-sheet');
@@ -357,12 +339,13 @@ const characterSheet = (character) => {
 function createWeaponsUi(container, uniqueId) {
     const characterWeaponsDiv = document.createElement('div');
     const characterWeaponsLabel = document.createElement('label');
-    characterWeaponsLabel.append('Weapons');
+    characterWeaponsLabel.textContent = 'Weapons';
     characterWeaponsLabel.setAttribute('for', `character-weapons-${uniqueId}`)
-    const characterWeaponsInput = document.createElement('input');
-    setAttributes(characterWeaponsInput, {type: 'text', id: `character-weapons-${uniqueId}`, name: 'character-weapons'});
-    characterWeaponsDiv.append(characterWeaponsLabel, characterWeaponsInput);
+    const characterWeaponsSelect = document.createElement('select');
+    setAttributes(characterWeaponsSelect, {id: `character-weapons-${uniqueId}`, name: 'character-weapons'});
+    characterWeaponsDiv.append(characterWeaponsLabel, characterWeaponsSelect);
     container.appendChild(characterWeaponsDiv);
+    addWeapons(characterWeaponsSelect);
 }
 
 function createArmorUi(container, uniqueId) {
@@ -375,12 +358,6 @@ function createArmorUi(container, uniqueId) {
     characterArmorDiv.append(characterArmorLabel, characterArmorInput);
     container.appendChild(characterArmorDiv);
 }
-
-const displayCharacters = (function () {
-    characters = getCharacters();
-    characters.forEach(character => characterSheet(character));
-})();
-
 
 function addCharacter(character) {
     characters.push(character);
@@ -431,4 +408,18 @@ function increaseNumber(element, currentNum, maxNum) {
     return element.textContent = testNum < maxNum || !maxNum ? testNum + 1 : testNum;
 }
 
+function addWeapons(container) {
+    artifacts.forEach(artifact => {
+        if (artifact.classification === 'weapon') {
+            const option = document.createElement('option');
+            option.value = artifact.id;
+            option.textContent = artifact.name;
+            container.appendChild(option);
+        }
+    })
+}
 
+const displayCharacters = (function () {
+    characters = getCharacters();
+    characters.forEach(character => characterSheet(character));
+})();

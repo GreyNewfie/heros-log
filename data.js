@@ -110,7 +110,7 @@ const artifacts = [
         id: 'phantom-blade',
         name: 'Phantom Blade',
         description: 'This ornate dagger gives you 1 Attack die. Once per quest, when you attack with the dagger your target may not defend themself as the weapon passes through their armor.',
-        classification: 'Weapon'
+        classification: 'weapon'
     },
     {
         id: 'orcs-bane',
