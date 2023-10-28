@@ -416,6 +416,12 @@ function addWeapons(container) {
             option.textContent = artifact.name;
             container.appendChild(option);
         }
+    });
+    equipment.forEach(item => {
+        const option = document.createElement('option');
+        item.value = item.id;
+        option.textContent = item.name;
+        container.appendChild(option);
     })
 }
 
