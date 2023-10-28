@@ -338,11 +338,19 @@ const characterSheet = (character) => {
 
 function createWeaponsUi(container, uniqueId) {
     const characterWeaponsDiv = document.createElement('div');
+
     const characterWeaponsLabel = document.createElement('label');
     characterWeaponsLabel.textContent = 'Weapons';
-    characterWeaponsLabel.setAttribute('for', `character-weapons-${uniqueId}`)
+    characterWeaponsLabel.setAttribute('for', `character-weapons-${uniqueId}`);
+
     const characterWeaponsSelect = document.createElement('select');
     setAttributes(characterWeaponsSelect, {id: `character-weapons-${uniqueId}`, name: 'character-weapons'});
+
+    const defaultSelectOption = document.createElement('option');
+    defaultSelectOption.value = 'default';
+    defaultSelectOption.textContent = '- Add a Weapon -'
+    characterWeaponsSelect.appendChild(defaultSelectOption);
+
     characterWeaponsDiv.append(characterWeaponsLabel, characterWeaponsSelect);
     container.appendChild(characterWeaponsDiv);
     addWeapons(characterWeaponsSelect);
