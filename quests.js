@@ -109,6 +109,23 @@ function displayQuests() {
     // );
 }
 
+function displayQuestList() {
+    const questList = document.getElementById('quest-list');
+    quests.forEach(quest => {
+        const listLi = document.createElement('li');
+        listLi.setAttribute('class', 'quest-list-item');
+        listLi.textContent = `Quest ${quest.id}`;
+        questList.appendChild(listLi);
+    })
+}
+
+function displayNextQuest(questSheet) {
+    const currentQuest = getQuest(quests, questSheet);
+    const questId = currentQuest.id;
+    const nextQuest = quests[currentQuest.id];
+    createQuest(nextQuest);
+}
+
 function updateQuest(quests, questSheet, questStatus) {
     const characters = getCharacters();
     const quest = getQuest(quests, questSheet);
@@ -132,7 +149,8 @@ function updateQuest(quests, questSheet, questStatus) {
         case 'complete':
             if (storedQuest) {
                 addCompletedHeroOptions(questSheet);
-                removeQuestHeroesAndDescriptions(questSheet);    
+                removeQuestHeroesAndDescriptions(questSheet);
+                displayNextQuest(questSheet);    
             } else {
                 alert('Slow your roll. You mush start a quest before you can complete it.');
                 updateQuestStatus(questSheet, storedQuest);
@@ -141,15 +159,7 @@ function updateQuest(quests, questSheet, questStatus) {
     }
 }
 
-function displayQuestList() {
-    const questList = document.getElementById('quest-list');
-    quests.forEach(quest => {
-        const listLi = document.createElement('li');
-        listLi.setAttribute('class', 'quest-list-item');
-        listLi.textContent = `Quest ${quest.id}`;
-        questList.appendChild(listLi);
-    })
-}
+
 
 function addQuestDescription(questSheet, questDescription) {
     const existingDescription = questSheet.querySelector('div.quest-description');    
