@@ -146,13 +146,14 @@ const characterSheet = (character) => {
     
         //Character armor input
         // TODO: createArmourUi(sheetDiv, character)
-        const characterArmorDiv = document. createElement('div');
-        const characterArmorLabel = document.createElement('label');
-        characterArmorLabel.append('Armor');
-        characterArmorLabel.setAttribute('for', `character-armor-${uniqueId}`);
-        const characterArmorInput = document.createElement('input');
-        setAttributes(characterArmorInput, {type: 'text', id: `character-armor-${uniqueId}`, name: 'character-armor'});
-        characterArmorDiv.append(characterArmorLabel, characterArmorInput);
+        createArmorUi(characterWeaponsArmorDiv, uniqueId);
+        // const characterArmorDiv = document. createElement('div');
+        // const characterArmorLabel = document.createElement('label');
+        // characterArmorLabel.append('Armor');
+        // characterArmorLabel.setAttribute('for', `character-armor-${uniqueId}`);
+        // const characterArmorInput = document.createElement('input');
+        // setAttributes(characterArmorInput, {type: 'text', id: `character-armor-${uniqueId}`, name: 'character-armor'});
+        // characterArmorDiv.append(characterArmorLabel, characterArmorInput);
     
         //Current stats tracker div
         const currentStatsTrackerDiv = document.createElement('div');
@@ -216,7 +217,9 @@ const characterSheet = (character) => {
         currentStatsTrackerDiv.append(currentBodyPointsDiv, currentGoldCoinsDiv);
         CharacterNameTypeDiv.append(characterNameDiv, characterTypeDiv);
         initialStatsDiv.append(attackDiceDiv, defendDiceDiv, startingPointsDiv);
-        characterWeaponsArmorDiv.append(characterArmorDiv);
+
+        // ***Puting this in createArmorUi()***
+        // characterWeaponsArmorDiv.append(characterArmorDiv);
         characterSheetDiv.append(CharacterNameTypeDiv, characterButtonsDiv, initialStatsDiv, characterWeaponsArmorDiv, currentStatsTrackerDiv, potionsItemsDiv);
     
         const createCharacterSheetDiv = document.getElementById('create-character-sheet');
@@ -360,6 +363,17 @@ function createWeaponsUi(container, uniqueId) {
     setAttributes(characterWeaponsInput, {type: 'text', id: `character-weapons-${uniqueId}`, name: 'character-weapons'});
     characterWeaponsDiv.append(characterWeaponsLabel, characterWeaponsInput);
     container.appendChild(characterWeaponsDiv);
+}
+
+function createArmorUi(container, uniqueId) {
+    const characterArmorDiv = document. createElement('div');
+    const characterArmorLabel = document.createElement('label');
+    characterArmorLabel.append('Armor');
+    characterArmorLabel.setAttribute('for', `character-armor-${uniqueId}`);
+    const characterArmorInput = document.createElement('input');
+    setAttributes(characterArmorInput, {type: 'text', id: `character-armor-${uniqueId}`, name: 'character-armor'});
+    characterArmorDiv.append(characterArmorLabel, characterArmorInput);
+    container.appendChild(characterArmorDiv);
 }
 
 const displayCharacters = (function () {
