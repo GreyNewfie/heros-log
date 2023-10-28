@@ -134,13 +134,15 @@ const characterSheet = (character) => {
         characterWeaponsArmorDiv.setAttribute('class', 'character-weapons-armor-container');
     
         //Character weapons input
-        const characterWeaponsDiv = document.createElement('div');
-        const characterWeaponsLabel = document.createElement('label');
-        characterWeaponsLabel.append('Weapons');
-        characterWeaponsLabel.setAttribute('for', `character-weapons-${uniqueId}`)
-        const characterWeaponsInput = document.createElement('input');
-        setAttributes(characterWeaponsInput, {type: 'text', id: `character-weapons-${uniqueId}`, name: 'character-weapons'});
-        characterWeaponsDiv.append(characterWeaponsLabel, characterWeaponsInput);
+        createWeaponsUi(characterWeaponsArmorDiv, uniqueId);
+        // const characterWeaponsDiv = document.createElement('div');
+        // const characterWeaponsLabel = document.createElement('label');
+        // characterWeaponsLabel.append('Weapons');
+        // characterWeaponsLabel.setAttribute('for', `character-weapons-${uniqueId}`)
+        // const characterWeaponsInput = document.createElement('input');
+        // setAttributes(characterWeaponsInput, {type: 'text', id: `character-weapons-${uniqueId}`, name: 'character-weapons'});
+        // characterWeaponsArmorDiv.append(characterWeaponsLabel, characterWeaponsInput);
+    
     
         //Character armor input
         // TODO: createArmourUi(sheetDiv, character)
@@ -214,7 +216,7 @@ const characterSheet = (character) => {
         currentStatsTrackerDiv.append(currentBodyPointsDiv, currentGoldCoinsDiv);
         CharacterNameTypeDiv.append(characterNameDiv, characterTypeDiv);
         initialStatsDiv.append(attackDiceDiv, defendDiceDiv, startingPointsDiv);
-        characterWeaponsArmorDiv.append(characterWeaponsDiv, characterArmorDiv);
+        characterWeaponsArmorDiv.append(characterArmorDiv);
         characterSheetDiv.append(CharacterNameTypeDiv, characterButtonsDiv, initialStatsDiv, characterWeaponsArmorDiv, currentStatsTrackerDiv, potionsItemsDiv);
     
         const createCharacterSheetDiv = document.getElementById('create-character-sheet');
@@ -347,6 +349,17 @@ const characterSheet = (character) => {
 
         storeCharacters(characters);
     }
+}
+
+function createWeaponsUi(container, uniqueId) {
+    const characterWeaponsDiv = document.createElement('div');
+    const characterWeaponsLabel = document.createElement('label');
+    characterWeaponsLabel.append('Weapons');
+    characterWeaponsLabel.setAttribute('for', `character-weapons-${uniqueId}`)
+    const characterWeaponsInput = document.createElement('input');
+    setAttributes(characterWeaponsInput, {type: 'text', id: `character-weapons-${uniqueId}`, name: 'character-weapons'});
+    characterWeaponsDiv.append(characterWeaponsLabel, characterWeaponsInput);
+    container.appendChild(characterWeaponsDiv);
 }
 
 const displayCharacters = (function () {
