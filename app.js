@@ -60,7 +60,6 @@ const characterSheet = (character) => {
             if (isCurrentCharacter(characters, character)) {
                 const storedCharacter = getExistingCharacter(characters, character);
                 updateCharacter(storedCharacter, character.characterId);
-
             } else {
                 addCharacter(character);
             }
@@ -233,10 +232,11 @@ const characterSheet = (character) => {
     }
 
     function getWeapons(characterId) {
-        const liList = document.getElementById(`character-${characterId}-weapons`).querySelectorAll('li');
-        const characterWeapons = [];
-        liList.forEach(li => characterWeapons.push(li.textContent));
-        return characterWeapons;
+        return `character-${characterId}-weapons`;
+        // const liList = document.getElementById(`character-${characterId}-weapons`).querySelectorAll('li');
+        // const characterWeapons = [];
+        // liList.forEach(li => characterWeapons.push(li.textContent));
+        // return characterWeapons;
     }
 
     function getArmor(characterId) {
@@ -264,8 +264,7 @@ const characterSheet = (character) => {
         const defDiceSel = document.getElementById(getDefendDice(uniqueId));
         const startBodyPtsSel = document.getElementById(getStartBodyPoints(uniqueId));
         const startMindPtsSel = document.getElementById(getStartMindPoints(uniqueId));
-        // TODO: Update character weapons
-        const weaponsList = getWeapons(uniqueId);
+        const weaponsList = document.getElementById(getWeapons(uniqueId)).querySelectorAll('li');
         const armorInput = document.getElementById(getArmor(uniqueId));
         const curBodyPtsInput = document.getElementById(getCurrentBodyPoints(uniqueId));
         const curGoldCoinsNum = document.getElementById(getCurrentGoldCoins(uniqueId));
@@ -277,7 +276,7 @@ const characterSheet = (character) => {
         this.defendDice = defDiceSel.value;
         this.startBodyPts = startBodyPtsSel.value;
         this.startMindPts = startMindPtsSel.value;
-        this.weapons = weaponsList;
+        this.weapons = createCharacterWeapons(weaponsList);
         this.armor = armorInput.value;
         this.curBodyPts = curBodyPtsInput.textContent;
         this.goldCoins = curGoldCoinsNum.textContent;
@@ -292,7 +291,7 @@ const characterSheet = (character) => {
         const defDiceSel = document.getElementById(getDefendDice(character.characterId));
         const startBodyPtsSel = document.getElementById(getStartBodyPoints(character.characterId));
         const startMindPtsSel = document.getElementById(getStartMindPoints(character.characterId));
-        // const weaponsInput = document.getElementById(getWeapons(character.characterId));
+        const weaponsList = document.getElementById(getWeapons(character.characterId)).querySelectorAll('li');
         const armorInput = document.getElementById(getArmor(character.characterId));
         const curBodyPtsInput = document.getElementById(getCurrentBodyPoints(character.characterId));
         const curGoldCoinsNum = document.getElementById(getCurrentGoldCoins(character.characterId));
@@ -304,7 +303,7 @@ const characterSheet = (character) => {
         defDiceSel.value = character.defendDice;
         startBodyPtsSel.value = character.startBodyPts;
         startMindPtsSel.value = character.startMindPts;
-        // weaponsInput.value = character.weapons;
+        addWeaponsToCharacter(weaponsList, createCharacterWeapons(character.characterId));
         armorInput.value = character.armor;
         curBodyPtsInput.textContent = character.curBodyPts;
         curGoldCoinsNum.textContent = character.goldCoins;
@@ -317,7 +316,7 @@ const characterSheet = (character) => {
         const defDiceSel = document.getElementById(getDefendDice(characterId));
         const startBodyPtsSel = document.getElementById(getStartBodyPoints(characterId));
         const startMindPtsSel = document.getElementById(getStartMindPoints(characterId));
-        // const weaponsInput = document.getElementById(getWeapons(characterId));
+        const weaponsList = document.getElementById(getWeapons(characterId)).querySelectorAll('li');
         const armorInput = document.getElementById(getArmor(characterId));
         const curBodyPtsInput = document.getElementById(getCurrentBodyPoints(characterId));
         const curGoldCoinsNum = document.getElementById(getCurrentGoldCoins(characterId));
@@ -329,7 +328,7 @@ const characterSheet = (character) => {
         storedCharacter.defendDice = defDiceSel.value;
         storedCharacter.startBodyPts = startBodyPtsSel.value;
         storedCharacter.startMindPts = startMindPtsSel.value;
-        // storedCharacter.weapons = weaponsInput.value;
+        storedCharacter.weapons = createCharacterWeapons(weaponsList);
         storedCharacter.armor = armorInput.value;
         storedCharacter.curBodyPts = curBodyPtsInput.textContent;
         storedCharacter.goldCoins = curGoldCoinsNum.textContent;
@@ -364,7 +363,7 @@ function createWeaponsUi(container, uniqueId) {
 
     characterWeaponsDiv.append(characterWeaponsLabel, characterWeaponsSelect, characterWeapons);
     container.appendChild(characterWeaponsDiv);
-    addWeaponOptions(characterWeaponsSelect);
+    createWeaponsDropdownOptions(characterWeaponsSelect);
 
     characterWeaponsSelect.addEventListener('change', (event) => {
         const weapon = event.target.value;
@@ -432,7 +431,7 @@ function increaseNumber(element, currentNum, maxNum) {
     return element.textContent = testNum < maxNum || !maxNum ? testNum + 1 : testNum;
 }
 
-function addWeaponOptions(container) {
+function createWeaponsDropdownOptions(container) {
     artifacts.forEach(artifact => {
         if (artifact.classification === 'weapon') {
             const option = document.createElement('option');
@@ -456,12 +455,25 @@ const displayCharacters = (function () {
     characters.forEach(character => characterSheet(character));
 })();
 
-function addWeaponToCharacter(list, weaponId) {
+function addWeaponToCharacter(weaponsList, weaponId) {
     const li = document.createElement('li');
     const weapon = getWeapon(weaponId);
     li.setAttribute('value', (weapon.id));
     li.textContent = weapon.name;
-    list.appendChild(li);
+    weaponsList.appendChild(li);
+}
+
+function createCharacterWeapons(nodeList) {
+        const characterWeapons = [];
+        nodeList.forEach(li => characterWeapons.push(li.textContent));
+        return characterWeapons;
+}
+
+function addWeaponsToCharacter(element, weapons) {
+    weapons.forEach(weapon => {
+        const storedWeapon = equipment.find((item) => item.name === weapon) || artifacts.find((item) => item.name === weapon);
+        addWeaponToCharacter(element, (storedWeapon.id));        
+    })
 }
 
 function getWeapon(weaponId) {
