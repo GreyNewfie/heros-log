@@ -261,7 +261,8 @@ const characterSheet = (character) => {
         const defDiceSel = document.getElementById(getDefendDice(uniqueId));
         const startBodyPtsSel = document.getElementById(getStartBodyPoints(uniqueId));
         const startMindPtsSel = document.getElementById(getStartMindPoints(uniqueId));
-        const weaponsInput = document.getElementById(getWeapons(uniqueId));
+        // TODO: Update character weapons
+        const weaponsList = document.getElementById(getWeapons(uniqueId));
         const armorInput = document.getElementById(getArmor(uniqueId));
         const curBodyPtsInput = document.getElementById(getCurrentBodyPoints(uniqueId));
         const curGoldCoinsNum = document.getElementById(getCurrentGoldCoins(uniqueId));
@@ -273,7 +274,7 @@ const characterSheet = (character) => {
         this.defendDice = defDiceSel.value;
         this.startBodyPts = startBodyPtsSel.value;
         this.startMindPts = startMindPtsSel.value;
-        this.weapons = weaponsInput.value;
+        // this.weapons = weaponsInput.value;
         this.armor = armorInput.value;
         this.curBodyPts = curBodyPtsInput.textContent;
         this.goldCoins = curGoldCoinsNum.textContent;
@@ -344,16 +345,28 @@ function createWeaponsUi(container, uniqueId) {
     characterWeaponsLabel.setAttribute('for', `character-weapons-${uniqueId}`);
 
     const characterWeaponsSelect = document.createElement('select');
-    setAttributes(characterWeaponsSelect, {id: `character-weapons-${uniqueId}`, name: 'character-weapons'});
+    setAttributes(characterWeaponsSelect, {id: `character-${uniqueId}-weapon-options`, name: 'character-weapons'});
 
     const defaultSelectOption = document.createElement('option');
     defaultSelectOption.value = 'default';
     defaultSelectOption.textContent = '- Add a Weapon -'
     characterWeaponsSelect.appendChild(defaultSelectOption);
 
-    characterWeaponsDiv.append(characterWeaponsLabel, characterWeaponsSelect);
+    const characterWeapons = document.createElement('div');
+    characterWeapons.setAttribute('id', `character-${uniqueId}-weapons`);
+  
+    const characterWeaponsList = document.createElement('ul');
+    characterWeaponsList.setAttribute('id', `character-${uniqueId}-weapons`);
+    characterWeapons.appendChild(characterWeaponsList);
+
+    characterWeaponsDiv.append(characterWeaponsLabel, characterWeaponsSelect, characterWeapons);
     container.appendChild(characterWeaponsDiv);
-    addWeapons(characterWeaponsSelect);
+    addWeaponOptions(characterWeaponsSelect);
+
+    characterWeaponsSelect.addEventListener('change', (event) => {
+        const weapon = event.target.value;
+        addWeaponToCharacter(characterWeaponsList, weapon);
+    });
 }
 
 function createArmorUi(container, uniqueId) {
@@ -416,7 +429,7 @@ function increaseNumber(element, currentNum, maxNum) {
     return element.textContent = testNum < maxNum || !maxNum ? testNum + 1 : testNum;
 }
 
-function addWeapons(container) {
+function addWeaponOptions(container) {
     artifacts.forEach(artifact => {
         if (artifact.classification === 'weapon') {
             const option = document.createElement('option');
@@ -426,10 +439,12 @@ function addWeapons(container) {
         }
     });
     equipment.forEach(item => {
-        const option = document.createElement('option');
-        item.value = item.id;
-        option.textContent = item.name;
-        container.appendChild(option);
+        if (item.classification === 'weapon') {
+            const option = document.createElement('option');
+            option.value = item.id;
+            option.textContent = item.name;
+            container.appendChild(option);    
+        }
     })
 }
 
@@ -437,3 +452,16 @@ const displayCharacters = (function () {
     characters = getCharacters();
     characters.forEach(character => characterSheet(character));
 })();
+
+function addWeaponToCharacter(list, weaponId) {
+    const li = document.createElement('li');
+    const weapon = getWeapon(weaponId);
+    li.setAttribute('value', (weapon.id));
+    li.textContent = weapon.name;
+    list.appendChild(li);
+}
+
+function getWeapon(weaponId) {
+    const foundWeapon = equipment.find((item) => item.id === weaponId) || artifacts.find((item) => item.id === weaponId);
+    return foundWeapon;
+}
