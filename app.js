@@ -291,7 +291,7 @@ const characterSheet = (character) => {
         const defDiceSel = document.getElementById(getDefendDice(character.characterId));
         const startBodyPtsSel = document.getElementById(getStartBodyPoints(character.characterId));
         const startMindPtsSel = document.getElementById(getStartMindPoints(character.characterId));
-        const weaponsList = document.getElementById(getWeapons(character.characterId)).querySelectorAll('li');
+        const weaponsList = document.getElementById(getWeapons(character.characterId));
         const armorInput = document.getElementById(getArmor(character.characterId));
         const curBodyPtsInput = document.getElementById(getCurrentBodyPoints(character.characterId));
         const curGoldCoinsNum = document.getElementById(getCurrentGoldCoins(character.characterId));
@@ -303,7 +303,7 @@ const characterSheet = (character) => {
         defDiceSel.value = character.defendDice;
         startBodyPtsSel.value = character.startBodyPts;
         startMindPtsSel.value = character.startMindPts;
-        addWeaponsToCharacter(weaponsList, createCharacterWeapons(character.characterId));
+        addWeaponsToCharacter(weaponsList, character.weapons);
         armorInput.value = character.armor;
         curBodyPtsInput.textContent = character.curBodyPts;
         curGoldCoinsNum.textContent = character.goldCoins;
