@@ -457,7 +457,7 @@ const displayCharacters = (function () {
 
 function addWeaponToCharacter(weaponsList, weaponId) {
     const li = document.createElement('li');
-    const weapon = getWeapon(weaponId);
+    const weapon = findWeapon(weaponId);
     li.setAttribute('value', (weapon.id));
     li.textContent = weapon.name;
     weaponsList.appendChild(li);
@@ -476,7 +476,7 @@ function addWeaponsToCharacter(element, weapons) {
     })
 }
 
-function getWeapon(weaponId) {
+function findWeapon(weaponId) {
     const foundWeapon = equipment.find((item) => item.id === weaponId) || artifacts.find((item) => item.id === weaponId);
     return foundWeapon;
 }
