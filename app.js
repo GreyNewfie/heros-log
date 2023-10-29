@@ -233,7 +233,10 @@ const characterSheet = (character) => {
     }
 
     function getWeapons(characterId) {
-        return `character-weapons-${characterId}`;
+        const liList = document.getElementById(`character-${characterId}-weapons`).querySelectorAll('li');
+        const characterWeapons = [];
+        liList.forEach(li => characterWeapons.push(li.textContent));
+        return characterWeapons;
     }
 
     function getArmor(characterId) {
@@ -262,7 +265,7 @@ const characterSheet = (character) => {
         const startBodyPtsSel = document.getElementById(getStartBodyPoints(uniqueId));
         const startMindPtsSel = document.getElementById(getStartMindPoints(uniqueId));
         // TODO: Update character weapons
-        const weaponsList = document.getElementById(getWeapons(uniqueId));
+        const weaponsList = getWeapons(uniqueId);
         const armorInput = document.getElementById(getArmor(uniqueId));
         const curBodyPtsInput = document.getElementById(getCurrentBodyPoints(uniqueId));
         const curGoldCoinsNum = document.getElementById(getCurrentGoldCoins(uniqueId));
@@ -274,7 +277,7 @@ const characterSheet = (character) => {
         this.defendDice = defDiceSel.value;
         this.startBodyPts = startBodyPtsSel.value;
         this.startMindPts = startMindPtsSel.value;
-        // this.weapons = weaponsInput.value;
+        this.weapons = weaponsList;
         this.armor = armorInput.value;
         this.curBodyPts = curBodyPtsInput.textContent;
         this.goldCoins = curGoldCoinsNum.textContent;
@@ -289,7 +292,7 @@ const characterSheet = (character) => {
         const defDiceSel = document.getElementById(getDefendDice(character.characterId));
         const startBodyPtsSel = document.getElementById(getStartBodyPoints(character.characterId));
         const startMindPtsSel = document.getElementById(getStartMindPoints(character.characterId));
-        const weaponsInput = document.getElementById(getWeapons(character.characterId));
+        // const weaponsInput = document.getElementById(getWeapons(character.characterId));
         const armorInput = document.getElementById(getArmor(character.characterId));
         const curBodyPtsInput = document.getElementById(getCurrentBodyPoints(character.characterId));
         const curGoldCoinsNum = document.getElementById(getCurrentGoldCoins(character.characterId));
@@ -301,7 +304,7 @@ const characterSheet = (character) => {
         defDiceSel.value = character.defendDice;
         startBodyPtsSel.value = character.startBodyPts;
         startMindPtsSel.value = character.startMindPts;
-        weaponsInput.value = character.weapons;
+        // weaponsInput.value = character.weapons;
         armorInput.value = character.armor;
         curBodyPtsInput.textContent = character.curBodyPts;
         curGoldCoinsNum.textContent = character.goldCoins;
@@ -314,7 +317,7 @@ const characterSheet = (character) => {
         const defDiceSel = document.getElementById(getDefendDice(characterId));
         const startBodyPtsSel = document.getElementById(getStartBodyPoints(characterId));
         const startMindPtsSel = document.getElementById(getStartMindPoints(characterId));
-        const weaponsInput = document.getElementById(getWeapons(characterId));
+        // const weaponsInput = document.getElementById(getWeapons(characterId));
         const armorInput = document.getElementById(getArmor(characterId));
         const curBodyPtsInput = document.getElementById(getCurrentBodyPoints(characterId));
         const curGoldCoinsNum = document.getElementById(getCurrentGoldCoins(characterId));
@@ -326,7 +329,7 @@ const characterSheet = (character) => {
         storedCharacter.defendDice = defDiceSel.value;
         storedCharacter.startBodyPts = startBodyPtsSel.value;
         storedCharacter.startMindPts = startMindPtsSel.value;
-        storedCharacter.weapons = weaponsInput.value;
+        // storedCharacter.weapons = weaponsInput.value;
         storedCharacter.armor = armorInput.value;
         storedCharacter.curBodyPts = curBodyPtsInput.textContent;
         storedCharacter.goldCoins = curGoldCoinsNum.textContent;
@@ -342,7 +345,7 @@ function createWeaponsUi(container, uniqueId) {
 
     const characterWeaponsLabel = document.createElement('label');
     characterWeaponsLabel.textContent = 'Weapons';
-    characterWeaponsLabel.setAttribute('for', `character-weapons-${uniqueId}`);
+    characterWeaponsLabel.setAttribute('for', `character-${uniqueId}-weapon-options`);
 
     const characterWeaponsSelect = document.createElement('select');
     setAttributes(characterWeaponsSelect, {id: `character-${uniqueId}-weapon-options`, name: 'character-weapons'});
@@ -353,7 +356,7 @@ function createWeaponsUi(container, uniqueId) {
     characterWeaponsSelect.appendChild(defaultSelectOption);
 
     const characterWeapons = document.createElement('div');
-    characterWeapons.setAttribute('id', `character-${uniqueId}-weapons`);
+    characterWeapons.setAttribute('class', `character-weapons`);
   
     const characterWeaponsList = document.createElement('ul');
     characterWeaponsList.setAttribute('id', `character-${uniqueId}-weapons`);
@@ -385,7 +388,7 @@ function addCharacter(character) {
     storeCharacters(characters);
 }
 
-function isCurrentCharacter(characters, { id }) {
+function isCurrentCharacter(characters, { characterId }) {
     return characters.some(character => character.characterId === characterId);
 }
 
