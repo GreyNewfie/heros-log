@@ -60,7 +60,6 @@ const characterSheet = (character) => {
             if (isCurrentCharacter(characters, character)) {
                 const storedCharacter = getExistingCharacter(characters, character);
                 updateCharacter(storedCharacter, character.characterId);
-
             } else {
                 addCharacter(character);
             }
@@ -134,23 +133,10 @@ const characterSheet = (character) => {
         characterWeaponsArmorDiv.setAttribute('class', 'character-weapons-armor-container');
     
         //Character weapons input
-        const characterWeaponsDiv = document.createElement('div');
-        const characterWeaponsLabel = document.createElement('label');
-        characterWeaponsLabel.append('Weapons');
-        characterWeaponsLabel.setAttribute('for', `character-weapons-${uniqueId}`)
-        const characterWeaponsInput = document.createElement('input');
-        setAttributes(characterWeaponsInput, {type: 'text', id: `character-weapons-${uniqueId}`, name: 'character-weapons'});
-        characterWeaponsDiv.append(characterWeaponsLabel, characterWeaponsInput);
+        createWeaponsUi(characterWeaponsArmorDiv, uniqueId);
     
         //Character armor input
-        // TODO: createArmourUi(sheetDiv, character)
-        const characterArmorDiv = document. createElement('div');
-        const characterArmorLabel = document.createElement('label');
-        characterArmorLabel.append('Armor');
-        characterArmorLabel.setAttribute('for', `character-armor-${uniqueId}`);
-        const characterArmorInput = document.createElement('input');
-        setAttributes(characterArmorInput, {type: 'text', id: `character-armor-${uniqueId}`, name: 'character-armor'});
-        characterArmorDiv.append(characterArmorLabel, characterArmorInput);
+        createArmorUi(characterWeaponsArmorDiv, uniqueId);
     
         //Current stats tracker div
         const currentStatsTrackerDiv = document.createElement('div');
@@ -214,7 +200,7 @@ const characterSheet = (character) => {
         currentStatsTrackerDiv.append(currentBodyPointsDiv, currentGoldCoinsDiv);
         CharacterNameTypeDiv.append(characterNameDiv, characterTypeDiv);
         initialStatsDiv.append(attackDiceDiv, defendDiceDiv, startingPointsDiv);
-        characterWeaponsArmorDiv.append(characterWeaponsDiv, characterArmorDiv);
+
         characterSheetDiv.append(CharacterNameTypeDiv, characterButtonsDiv, initialStatsDiv, characterWeaponsArmorDiv, currentStatsTrackerDiv, potionsItemsDiv);
     
         const createCharacterSheetDiv = document.getElementById('create-character-sheet');
@@ -246,7 +232,11 @@ const characterSheet = (character) => {
     }
 
     function getWeapons(characterId) {
-        return `character-weapons-${characterId}`;
+        return `character-${characterId}-weapons`;
+        // const liList = document.getElementById(`character-${characterId}-weapons`).querySelectorAll('li');
+        // const characterWeapons = [];
+        // liList.forEach(li => characterWeapons.push(li.textContent));
+        // return characterWeapons;
     }
 
     function getArmor(characterId) {
@@ -274,7 +264,7 @@ const characterSheet = (character) => {
         const defDiceSel = document.getElementById(getDefendDice(uniqueId));
         const startBodyPtsSel = document.getElementById(getStartBodyPoints(uniqueId));
         const startMindPtsSel = document.getElementById(getStartMindPoints(uniqueId));
-        const weaponsInput = document.getElementById(getWeapons(uniqueId));
+        const weaponsList = document.getElementById(getWeapons(uniqueId)).querySelectorAll('li');
         const armorInput = document.getElementById(getArmor(uniqueId));
         const curBodyPtsInput = document.getElementById(getCurrentBodyPoints(uniqueId));
         const curGoldCoinsNum = document.getElementById(getCurrentGoldCoins(uniqueId));
@@ -286,7 +276,7 @@ const characterSheet = (character) => {
         this.defendDice = defDiceSel.value;
         this.startBodyPts = startBodyPtsSel.value;
         this.startMindPts = startMindPtsSel.value;
-        this.weapons = weaponsInput.value;
+        this.weapons = createCharacterWeapons(weaponsList);
         this.armor = armorInput.value;
         this.curBodyPts = curBodyPtsInput.textContent;
         this.goldCoins = curGoldCoinsNum.textContent;
@@ -301,7 +291,7 @@ const characterSheet = (character) => {
         const defDiceSel = document.getElementById(getDefendDice(character.characterId));
         const startBodyPtsSel = document.getElementById(getStartBodyPoints(character.characterId));
         const startMindPtsSel = document.getElementById(getStartMindPoints(character.characterId));
-        const weaponsInput = document.getElementById(getWeapons(character.characterId));
+        const weaponsList = document.getElementById(getWeapons(character.characterId));
         const armorInput = document.getElementById(getArmor(character.characterId));
         const curBodyPtsInput = document.getElementById(getCurrentBodyPoints(character.characterId));
         const curGoldCoinsNum = document.getElementById(getCurrentGoldCoins(character.characterId));
@@ -313,7 +303,7 @@ const characterSheet = (character) => {
         defDiceSel.value = character.defendDice;
         startBodyPtsSel.value = character.startBodyPts;
         startMindPtsSel.value = character.startMindPts;
-        weaponsInput.value = character.weapons;
+        addWeaponsToCharacter(weaponsList, character.weapons);
         armorInput.value = character.armor;
         curBodyPtsInput.textContent = character.curBodyPts;
         curGoldCoinsNum.textContent = character.goldCoins;
@@ -326,7 +316,7 @@ const characterSheet = (character) => {
         const defDiceSel = document.getElementById(getDefendDice(characterId));
         const startBodyPtsSel = document.getElementById(getStartBodyPoints(characterId));
         const startMindPtsSel = document.getElementById(getStartMindPoints(characterId));
-        const weaponsInput = document.getElementById(getWeapons(characterId));
+        const weaponsList = document.getElementById(getWeapons(characterId)).querySelectorAll('li');
         const armorInput = document.getElementById(getArmor(characterId));
         const curBodyPtsInput = document.getElementById(getCurrentBodyPoints(characterId));
         const curGoldCoinsNum = document.getElementById(getCurrentGoldCoins(characterId));
@@ -338,7 +328,7 @@ const characterSheet = (character) => {
         storedCharacter.defendDice = defDiceSel.value;
         storedCharacter.startBodyPts = startBodyPtsSel.value;
         storedCharacter.startMindPts = startMindPtsSel.value;
-        storedCharacter.weapons = weaponsInput.value;
+        storedCharacter.weapons = createCharacterWeapons(weaponsList);
         storedCharacter.armor = armorInput.value;
         storedCharacter.curBodyPts = curBodyPtsInput.textContent;
         storedCharacter.goldCoins = curGoldCoinsNum.textContent;
@@ -349,18 +339,55 @@ const characterSheet = (character) => {
     }
 }
 
-const displayCharacters = (function () {
-    characters = getCharacters();
-    characters.forEach(character => characterSheet(character));
-})();
+function createWeaponsUi(container, uniqueId) {
+    const characterWeaponsDiv = document.createElement('div');
 
+    const characterWeaponsLabel = document.createElement('label');
+    characterWeaponsLabel.textContent = 'Weapons';
+    characterWeaponsLabel.setAttribute('for', `character-${uniqueId}-weapon-options`);
+
+    const characterWeaponsSelect = document.createElement('select');
+    setAttributes(characterWeaponsSelect, {id: `character-${uniqueId}-weapon-options`, name: 'character-weapons'});
+
+    const defaultSelectOption = document.createElement('option');
+    defaultSelectOption.value = 'default';
+    defaultSelectOption.textContent = '- Add a Weapon -'
+    characterWeaponsSelect.appendChild(defaultSelectOption);
+
+    const characterWeapons = document.createElement('div');
+    characterWeapons.setAttribute('class', `character-weapons`);
+  
+    const characterWeaponsList = document.createElement('ul');
+    characterWeaponsList.setAttribute('id', `character-${uniqueId}-weapons`);
+    characterWeapons.appendChild(characterWeaponsList);
+
+    characterWeaponsDiv.append(characterWeaponsLabel, characterWeaponsSelect, characterWeapons);
+    container.appendChild(characterWeaponsDiv);
+    createWeaponsDropdownOptions(characterWeaponsSelect);
+
+    characterWeaponsSelect.addEventListener('change', (event) => {
+        const weapon = event.target.value;
+        addWeaponToCharacter(characterWeaponsList, weapon);
+    });
+}
+
+function createArmorUi(container, uniqueId) {
+    const characterArmorDiv = document. createElement('div');
+    const characterArmorLabel = document.createElement('label');
+    characterArmorLabel.append('Armor');
+    characterArmorLabel.setAttribute('for', `character-armor-${uniqueId}`);
+    const characterArmorInput = document.createElement('input');
+    setAttributes(characterArmorInput, {type: 'text', id: `character-armor-${uniqueId}`, name: 'character-armor'});
+    characterArmorDiv.append(characterArmorLabel, characterArmorInput);
+    container.appendChild(characterArmorDiv);
+}
 
 function addCharacter(character) {
     characters.push(character);
     storeCharacters(characters);
 }
 
-function isCurrentCharacter(characters, { id }) {
+function isCurrentCharacter(characters, { characterId }) {
     return characters.some(character => character.characterId === characterId);
 }
 
@@ -404,4 +431,52 @@ function increaseNumber(element, currentNum, maxNum) {
     return element.textContent = testNum < maxNum || !maxNum ? testNum + 1 : testNum;
 }
 
+function createWeaponsDropdownOptions(container) {
+    artifacts.forEach(artifact => {
+        if (artifact.classification === 'weapon') {
+            const option = document.createElement('option');
+            option.value = artifact.id;
+            option.textContent = artifact.name;
+            container.appendChild(option);
+        }
+    });
+    equipment.forEach(item => {
+        if (item.classification === 'weapon') {
+            const option = document.createElement('option');
+            option.value = item.id;
+            option.textContent = item.name;
+            container.appendChild(option);    
+        }
+    })
+}
 
+const displayCharacters = (function () {
+    characters = getCharacters();
+    characters.forEach(character => characterSheet(character));
+})();
+
+function addWeaponToCharacter(weaponsList, weaponId) {
+    const li = document.createElement('li');
+    const weapon = findWeapon(weaponId);
+    li.setAttribute('value', (weapon.id));
+    li.textContent = weapon.name;
+    weaponsList.appendChild(li);
+}
+
+function createCharacterWeapons(nodeList) {
+        const characterWeapons = [];
+        nodeList.forEach(li => characterWeapons.push(li.textContent));
+        return characterWeapons;
+}
+
+function addWeaponsToCharacter(element, weapons) {
+    weapons.forEach(weapon => {
+        const storedWeapon = equipment.find((item) => item.name === weapon) || artifacts.find((item) => item.name === weapon);
+        addWeaponToCharacter(element, (storedWeapon.id));        
+    })
+}
+
+function findWeapon(weaponId) {
+    const foundWeapon = equipment.find((item) => item.id === weaponId) || artifacts.find((item) => item.id === weaponId);
+    return foundWeapon;
+}
