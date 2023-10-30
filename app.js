@@ -465,7 +465,7 @@ function addWeaponToCharacter(weaponsList, weaponId) {
     removeBtn.setAttribute('class', 'remove-weapon');
     removeBtn.textContent = 'X';
     li.appendChild(removeBtn);
-    removeBtn.addEventListener('click', (event, weaponId) => removeWeapon(event, weaponId));
+    removeBtn.addEventListener('click', (event) => removeWeapon(weaponsList, weaponId));
 
     weaponsList.appendChild(li);
 }
@@ -488,7 +488,12 @@ function findWeapon(weaponId) {
     return foundWeapon;
 }
 
-function removeWeapon(event, weaponId) {
-    console.log(event);
-    console.log(weaponId);
+function removeWeapon(weaponsList, weaponId) {
+    const characterWeapons = weaponsList.childNodes;
+    characterWeapons.forEach(weapon => {
+        const characterWeaponId = weapon.attributes.value.value;
+        if (characterWeaponId === weaponId) {
+            weapon.remove();
+        }
+    });
 }
