@@ -460,6 +460,13 @@ function addWeaponToCharacter(weaponsList, weaponId) {
     const weapon = findWeapon(weaponId);
     li.setAttribute('value', (weapon.id));
     li.textContent = weapon.name;
+
+    const removeBtn = document.createElement('button');
+    removeBtn.setAttribute('class', 'remove-weapon');
+    removeBtn.textContent = 'X';
+    li.appendChild(removeBtn);
+    removeBtn.addEventListener('click', (event, weaponId) => removeWeapon(event, weaponId));
+
     weaponsList.appendChild(li);
 }
 
@@ -479,4 +486,9 @@ function addWeaponsToCharacter(element, weapons) {
 function findWeapon(weaponId) {
     const foundWeapon = equipment.find((item) => item.id === weaponId) || artifacts.find((item) => item.id === weaponId);
     return foundWeapon;
+}
+
+function removeWeapon(event, weaponId) {
+    console.log(event);
+    console.log(weaponId);
 }
