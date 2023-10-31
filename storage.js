@@ -67,3 +67,14 @@ function getStoredQuest(quest) {
         return undefined;
     }
 }
+
+function removeStoredCharacterWeapon(characterId, weaponName) {
+    const characters = getCharacters();
+    const character = characters.find(character => character.characterId === parseInt(characterId));
+    (character.weapons).forEach(weapon => {
+        if (weapon === weaponName) {
+            (character.weapons).pop(weapon);
+        }
+    })
+    storeCharacters(characters);
+}

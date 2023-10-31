@@ -489,10 +489,13 @@ function findWeapon(weaponId) {
 }
 
 function removeWeapon(weaponsList, weaponId) {
+    const [,characterId] = (weaponsList.id).split('-');
     const characterWeapons = weaponsList.childNodes;
     characterWeapons.forEach(weapon => {
         const characterWeaponId = weapon.attributes.value.value;
+        const characterWeaponName = (weapon.textContent).slice(0,-1);
         if (characterWeaponId === weaponId) {
+            removeStoredCharacterWeapon(characterId, characterWeaponName);
             weapon.remove();
         }
     });
