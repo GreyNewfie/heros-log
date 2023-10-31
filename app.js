@@ -525,19 +525,18 @@ function addArmorToCharacter(armorList, armorId) {
 
 function createCharacterWeapons(nodeList) {
     const characterWeapons = [];
-    nodeList.forEach(li => characterWeapons.push(li.textContent));
+    nodeList.forEach(li => characterWeapons.push((li.textContent).slice(0,-1)));
     return characterWeapons;
 }
 
 function createCharacterArmor(nodeList) {
     const characterArmor = [];
-    nodeList.forEach(li => characterArmor.push(li.textContent));
+    nodeList.forEach(li => characterArmor.push((li.textContent).slice(0,-1)));
     return characterArmor;
 }
 
 function addWeaponsToCharacter(element, weapons) {
     weapons.forEach(weapon => {
-        weapon = weapon.slice(0, -1);
         const storedWeapon = equipment.find(item => item.name === weapon) || artifacts.find(item => item.name === weapon);
         addWeaponToCharacter(element, (storedWeapon.id));        
     });
@@ -545,7 +544,6 @@ function addWeaponsToCharacter(element, weapons) {
 
 function addArmorsToCharacter(element, armors) {
     armors.forEach(armor => {
-        armor = armor.slice(0, -1);
         const storedArmor = equipment.find(item => item.name === armor) || artifacts.find(item => item.name === armor);
         addArmorToCharacter(element, (storedArmor.id));
     });
