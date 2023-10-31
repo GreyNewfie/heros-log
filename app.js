@@ -478,6 +478,7 @@ function createCharacterWeapons(nodeList) {
 
 function addWeaponsToCharacter(element, weapons) {
     weapons.forEach(weapon => {
+        weapon = weapon.slice(0, -1);
         const storedWeapon = equipment.find((item) => item.name === weapon) || artifacts.find((item) => item.name === weapon);
         addWeaponToCharacter(element, (storedWeapon.id));        
     })
