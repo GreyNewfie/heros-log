@@ -313,7 +313,7 @@ const characterSheet = (character) => {
         const startBodyPtsSel = document.getElementById(getStartBodyPoints(characterId));
         const startMindPtsSel = document.getElementById(getStartMindPoints(characterId));
         const weaponsList = document.getElementById(getWeapons(characterId)).querySelectorAll('li');
-        // const armorInput = document.getElementById(getArmor(characterId));
+        const armorList = document.getElementById(getArmor(characterId)).querySelectorAll('li');
         const curBodyPtsInput = document.getElementById(getCurrentBodyPoints(characterId));
         const curGoldCoinsNum = document.getElementById(getCurrentGoldCoins(characterId));
         const potionsItemsText = document.getElementById(getPotionsAndItems(characterId));
@@ -325,7 +325,7 @@ const characterSheet = (character) => {
         storedCharacter.startBodyPts = startBodyPtsSel.value;
         storedCharacter.startMindPts = startMindPtsSel.value;
         storedCharacter.weapons = createCharacterWeapons(weaponsList);
-        // storedCharacter.armor = createCharacterArmor(armorList);
+        storedCharacter.armor = createCharacterArmor(armorList);
         storedCharacter.curBodyPts = curBodyPtsInput.textContent;
         storedCharacter.goldCoins = curGoldCoinsNum.textContent;
         storedCharacter.potionsAndItems = potionsItemsText.value;
