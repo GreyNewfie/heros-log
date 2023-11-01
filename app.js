@@ -495,7 +495,7 @@ const displayCharacters = (function () {
 
 function addItemToCharacter(list, itemId) {
     const li = document.createElement('li');
-    const item = findWeapon(itemId);
+    const item = findItem(itemId);
     li.setAttribute('value', (item.id));
     li.textContent = item.name;
 
@@ -549,9 +549,9 @@ function addArmorsToCharacter(element, armors) {
     });
 }
 
-function findWeapon(weaponId) {
-    const foundWeapon = equipment.find((item) => item.id === weaponId) || artifacts.find((item) => item.id === weaponId);
-    return foundWeapon;
+function findItem(itemId) {
+    const foundItem = equipment.find((item) => item.id === itemId) || artifacts.find((item) => item.id === itemId);
+    return foundItem;
 }
 
 function removeWeapon(weaponsList, weaponId) {
