@@ -503,25 +503,10 @@ function addItemToCharacter(list, itemId) {
     removeBtn.setAttribute('class', 'remove-item');
     removeBtn.textContent = 'x';
     li.appendChild(removeBtn);
-    removeBtn.addEventListener('click', (event) => removeWeapon(list, itemId));
+    removeBtn.addEventListener('click', (event) => removeItem(list, itemId));
 
     list.appendChild(li);
 }
-
-// function addArmorToCharacter(armorList, armorId) {
-//     const li = document.createElement('li');
-//     const armor = findWeapon(armorId);
-//     li.setAttribute('value', (armor.id));
-//     li.textContent = armor.name;
-
-//     const removeBtn = document.createElement('button');
-//     removeBtn.setAttribute('class', 'remove-armor');
-//     removeBtn.textContent = 'x';
-//     li.appendChild(removeBtn);
-//     removeBtn.addEventListener('click', (event) => removeWeapon(armorList, armorId));
-
-//     armorList.appendChild(li);
-// }
 
 function createCharacterWeapons(nodeList) {
     const characterWeapons = [];
@@ -554,15 +539,15 @@ function findItem(itemId) {
     return foundItem;
 }
 
-function removeWeapon(weaponsList, weaponId) {
-    const [,characterId] = (weaponsList.id).split('-');
-    const characterWeapons = weaponsList.childNodes;
-    characterWeapons.forEach(weapon => {
-        const characterWeaponId = weapon.attributes.value.value;
-        const characterWeaponName = (weapon.textContent).slice(0,-1);
-        if (characterWeaponId === weaponId) {
-            removeStoredCharacterWeapon(characterId, characterWeaponName);
-            weapon.remove();
+function removeItem(itemsList, itemId) {
+    const [,characterId] = (itemsList.id).split('-');
+    const characterItems = itemsList.childNodes;
+    characterItems.forEach(item => {
+        const characterItemId = item.attributes.value.value;
+        const characterItemName = (item.textContent).slice(0,-1);
+        if (characterItemId === itemId) {
+            removeStoredCharacterWeapon(characterId, characterItemName);
+            item.remove();
         }
     });
 }
