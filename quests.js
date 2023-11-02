@@ -93,7 +93,7 @@ function displayQuestList() {
         const listLi = document.createElement('li');
         listLi.setAttribute('class', 'quest-list-item');
         listLi.textContent = `Quest ${quest.id}`;
-        listLi.setAttribute('class', 'not-started');
+        setAttributes(listLi, {class: 'not-started', id: `quest-${quest.id}`});
         questList.appendChild(listLi);
     })
 }
@@ -125,6 +125,7 @@ function updateQuest(quests, questSheet, questStatus) {
                 const quest = getQuest(quests, questSheet);
                 addQuestDescription(questSheet, quest.description);
                 addHeroOptions(questSheet);
+                removeNotStartedClass(questSheet);
             }
             break;
         case 'complete':
@@ -334,6 +335,13 @@ function updateQuestStatus(quest, storedQuest) {
     } else {
         status[0].value = 'not-started';
     }
+}
+
+function removeNotStartedClass({ id }) {
+    const array = id.split('-');
+    const questId = `${array[0]}-${array[1]}`;
+    const quest = document.getElementById(questId);
+    quest.classList.remove('not-started');
 }
 
 displayQuests();
