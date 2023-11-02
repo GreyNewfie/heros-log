@@ -453,22 +453,6 @@ function increaseNumber(element, currentNum, maxNum) {
 function createWeaponsDropdownOptions(container) {
     addSpecificArtifactOptions(container, 'weapon');
     addSpecificEquipmentOptions(container, 'weapon');
-    // artifacts.forEach(artifact => {
-    //     if (artifact.classification === 'weapon') {
-    //         const option = document.createElement('option');
-    //         option.value = artifact.id;
-    //         option.textContent = artifact.name;
-    //         container.appendChild(option);
-    //     }
-    // });
-    // equipment.forEach(item => {
-    //     if (item.classification === 'weapon') {
-    //         const option = document.createElement('option');
-    //         option.value = item.id;
-    //         option.textContent = item.name;
-    //         container.appendChild(option);    
-    //     }
-    // })
 }
 
 function createArmorDropdownOptions(container) {
