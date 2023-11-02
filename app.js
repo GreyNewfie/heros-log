@@ -364,7 +364,7 @@ function createWeaponsUi(container, uniqueId) {
 
     characterWeaponsSelect.addEventListener('change', (event) => {
         const weapon = event.target.value;
-        addWeaponToCharacter(characterWeaponsList, weapon);
+        addItemToCharacter(characterWeaponsList, weapon);
     });
 }
 
@@ -397,7 +397,7 @@ function createArmorUi(container, uniqueId) {
 
     characterArmorSelect.addEventListener('change', (event) => {
         const armor = event.target.value;
-        addWeaponToCharacter(characterArmorList, armor);
+        addItemToCharacter(characterArmorList, armor);
     });
 }
 
@@ -451,41 +451,13 @@ function increaseNumber(element, currentNum, maxNum) {
 }
 
 function createWeaponsDropdownOptions(container) {
-    artifacts.forEach(artifact => {
-        if (artifact.classification === 'weapon') {
-            const option = document.createElement('option');
-            option.value = artifact.id;
-            option.textContent = artifact.name;
-            container.appendChild(option);
-        }
-    });
-    equipment.forEach(item => {
-        if (item.classification === 'weapon') {
-            const option = document.createElement('option');
-            option.value = item.id;
-            option.textContent = item.name;
-            container.appendChild(option);    
-        }
-    })
+    addSpecificArtifactOptions(container, 'weapon');
+    addSpecificEquipmentOptions(container, 'weapon');
 }
 
 function createArmorDropdownOptions(container) {
-    artifacts.forEach(artifact => {
-        if (artifact.classification === 'armor') {
-            const option = document.createElement('option');
-            option.value = artifact.id;
-            option.textContent = artifact.name;
-            container.appendChild(option);
-        }
-    });
-    equipment.forEach(item => {
-        if (item.classification === 'armor') {
-            const option = document.createElement('option');
-            option.value = item.id;
-            option.textContent = item.name;
-            container.appendChild(option);    
-        }
-    })
+    addSpecificArtifactOptions(container, 'armor');
+    addSpecificEquipmentOptions(container, 'armor');
 }
 
 const displayCharacters = (function () {
@@ -493,34 +465,41 @@ const displayCharacters = (function () {
     characters.forEach(character => characterSheet(character));
 })();
 
-function addWeaponToCharacter(weaponsList, weaponId) {
-    const li = document.createElement('li');
-    const weapon = findWeapon(weaponId);
-    li.setAttribute('value', (weapon.id));
-    li.textContent = weapon.name;
-
-    const removeBtn = document.createElement('button');
-    removeBtn.setAttribute('class', 'remove-weapon');
-    removeBtn.textContent = 'x';
-    li.appendChild(removeBtn);
-    removeBtn.addEventListener('click', (event) => removeWeapon(weaponsList, weaponId));
-
-    weaponsList.appendChild(li);
+function addSpecificArtifactOptions(element, classification) {
+    artifacts.forEach(artifact => {
+        if (artifact.classification === classification) {
+            const option = document.createElement('option');
+            option.value = artifact.id;
+            option.textContent = artifact.name;
+            element.appendChild(option);
+        }
+    });
 }
 
-function addArmorToCharacter(armorList, armorId) {
+function addSpecificEquipmentOptions(element, classification) {
+    equipment.forEach(item => {
+        if (item.classification === classification) {
+            const option = document.createElement('option');
+            option.value = item.id;
+            option.textContent = item.name;
+            element.appendChild(option);    
+        }
+    });
+}
+
+function addItemToCharacter(list, itemId) {
     const li = document.createElement('li');
-    const armor = findWeapon(armorId);
-    li.setAttribute('value', (armor.id));
-    li.textContent = armor.name;
+    const item = findItem(itemId);
+    li.setAttribute('value', (item.id));
+    li.textContent = item.name;
 
     const removeBtn = document.createElement('button');
-    removeBtn.setAttribute('class', 'remove-armor');
+    removeBtn.setAttribute('class', 'remove-item');
     removeBtn.textContent = 'x';
     li.appendChild(removeBtn);
-    removeBtn.addEventListener('click', (event) => removeWeapon(armorList, armorId));
+    removeBtn.addEventListener('click', (event) => removeItem(list, itemId));
 
-    armorList.appendChild(li);
+    list.appendChild(li);
 }
 
 function createCharacterWeapons(nodeList) {
@@ -538,31 +517,31 @@ function createCharacterArmor(nodeList) {
 function addWeaponsToCharacter(element, weapons) {
     weapons.forEach(weapon => {
         const storedWeapon = equipment.find(item => item.name === weapon) || artifacts.find(item => item.name === weapon);
-        addWeaponToCharacter(element, (storedWeapon.id));        
+        addItemToCharacter(element, (storedWeapon.id));        
     });
 }
 
 function addArmorsToCharacter(element, armors) {
     armors.forEach(armor => {
         const storedArmor = equipment.find(item => item.name === armor) || artifacts.find(item => item.name === armor);
-        addArmorToCharacter(element, (storedArmor.id));
+        addItemToCharacter(element, (storedArmor.id));
     });
 }
 
-function findWeapon(weaponId) {
-    const foundWeapon = equipment.find((item) => item.id === weaponId) || artifacts.find((item) => item.id === weaponId);
-    return foundWeapon;
+function findItem(itemId) {
+    const foundItem = equipment.find((item) => item.id === itemId) || artifacts.find((item) => item.id === itemId);
+    return foundItem;
 }
 
-function removeWeapon(weaponsList, weaponId) {
-    const [,characterId] = (weaponsList.id).split('-');
-    const characterWeapons = weaponsList.childNodes;
-    characterWeapons.forEach(weapon => {
-        const characterWeaponId = weapon.attributes.value.value;
-        const characterWeaponName = (weapon.textContent).slice(0,-1);
-        if (characterWeaponId === weaponId) {
-            removeStoredCharacterWeapon(characterId, characterWeaponName);
-            weapon.remove();
+function removeItem(itemsList, itemId) {
+    const [,characterId] = (itemsList.id).split('-');
+    const characterItems = itemsList.childNodes;
+    characterItems.forEach(item => {
+        const characterItemId = item.attributes.value.value;
+        const characterItemName = (item.textContent).slice(0,-1);
+        if (characterItemId === itemId) {
+            removeStoredCharacterWeapon(characterId, characterItemName);
+            item.remove();
         }
     });
 }
