@@ -93,6 +93,7 @@ function displayQuestList() {
         const listLi = document.createElement('li');
         listLi.setAttribute('class', 'quest-list-item');
         listLi.textContent = `Quest ${quest.id}`;
+        listLi.setAttribute('class', 'not-started');
         questList.appendChild(listLi);
     })
 }
@@ -130,7 +131,8 @@ function updateQuest(quests, questSheet, questStatus) {
             if (storedQuest) {
                 addCompletedHeroOptions(questSheet);
                 removeQuestHeroesAndDescriptions(questSheet);
-                displayNextQuest(questSheet);    
+                displayNextQuest(questSheet); 
+
             } else {
                 alert('Slow your roll. You mush start a quest before you can complete it.');
                 updateQuestStatus(questSheet, storedQuest);
