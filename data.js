@@ -196,7 +196,7 @@ const equipment = [
     },
     {
         id: 'helmet',
-        name: 'Helment',
+        name: 'Helmet',
         description: 'This protective headpiece gives you 1 extra Defend die. May not be worn by the wizard.',
         classification: 'armor',
         cost: '125 gold coins'

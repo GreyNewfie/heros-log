@@ -451,47 +451,57 @@ function increaseNumber(element, currentNum, maxNum) {
 }
 
 function createWeaponsDropdownOptions(container) {
-    artifacts.forEach(artifact => {
-        if (artifact.classification === 'weapon') {
-            const option = document.createElement('option');
-            option.value = artifact.id;
-            option.textContent = artifact.name;
-            container.appendChild(option);
-        }
-    });
-    equipment.forEach(item => {
-        if (item.classification === 'weapon') {
-            const option = document.createElement('option');
-            option.value = item.id;
-            option.textContent = item.name;
-            container.appendChild(option);    
-        }
-    })
+    addSpecificArtifactOptions(container, 'weapon');
+    addSpecificEquipmentOptions(container, 'weapon');
+    // artifacts.forEach(artifact => {
+    //     if (artifact.classification === 'weapon') {
+    //         const option = document.createElement('option');
+    //         option.value = artifact.id;
+    //         option.textContent = artifact.name;
+    //         container.appendChild(option);
+    //     }
+    // });
+    // equipment.forEach(item => {
+    //     if (item.classification === 'weapon') {
+    //         const option = document.createElement('option');
+    //         option.value = item.id;
+    //         option.textContent = item.name;
+    //         container.appendChild(option);    
+    //     }
+    // })
 }
 
 function createArmorDropdownOptions(container) {
-    artifacts.forEach(artifact => {
-        if (artifact.classification === 'armor') {
-            const option = document.createElement('option');
-            option.value = artifact.id;
-            option.textContent = artifact.name;
-            container.appendChild(option);
-        }
-    });
-    equipment.forEach(item => {
-        if (item.classification === 'armor') {
-            const option = document.createElement('option');
-            option.value = item.id;
-            option.textContent = item.name;
-            container.appendChild(option);    
-        }
-    })
+    addSpecificArtifactOptions(container, 'armor');
+    addSpecificEquipmentOptions(container, 'armor');
 }
 
 const displayCharacters = (function () {
     characters = getCharacters();
     characters.forEach(character => characterSheet(character));
 })();
+
+function addSpecificArtifactOptions(element, classification) {
+    artifacts.forEach(artifact => {
+        if (artifact.classification === classification) {
+            const option = document.createElement('option');
+            option.value = artifact.id;
+            option.textContent = artifact.name;
+            element.appendChild(option);
+        }
+    });
+}
+
+function addSpecificEquipmentOptions(element, classification) {
+    equipment.forEach(item => {
+        if (item.classification === classification) {
+            const option = document.createElement('option');
+            option.value = item.id;
+            option.textContent = item.name;
+            element.appendChild(option);    
+        }
+    });
+}
 
 function addItemToCharacter(list, itemId) {
     const li = document.createElement('li');
