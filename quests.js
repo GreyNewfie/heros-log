@@ -77,11 +77,14 @@ function displayQuests() {
                     addQuestDescription(questSheet, currentQuest.description);
                     addCurrentQuestHeroes(questSheet, storedQuest.heroes);
                     updateQuestStatus(questSheet, storedQuest);
-                    break;
+                break;
                 case 'complete':
                     addCompletedQuestHeroes(questSheet, storedQuest.heroes);
                     updateQuestStatus(questSheet, storedQuest);
-                    break;    
+                    if (quest.id === (storedQuests.length)) {
+                        displayNextQuest(questSheet);
+                    }                        
+                break;    
             }
         })    
     }
@@ -91,8 +94,13 @@ function displayQuestList() {
     const questList = document.getElementById('quest-list');
     quests.forEach(quest => {
         const listLi = document.createElement('li');
-        listLi.setAttribute('class', 'quest-list-item');
+        listLi.setAttribute('id', `quest-${quest.id}`);
         listLi.textContent = `Quest ${quest.id}`;
+        if (getStoredQuest(quest)) {
+            listLi.setAttribute('class', `list-item`);
+        } else {
+            listLi.setAttribute('class', 'list-item not-started');
+        }
         questList.appendChild(listLi);
     })
 }
@@ -124,13 +132,14 @@ function updateQuest(quests, questSheet, questStatus) {
                 const quest = getQuest(quests, questSheet);
                 addQuestDescription(questSheet, quest.description);
                 addHeroOptions(questSheet);
+                removeNotStartedClass(questSheet);
             }
             break;
         case 'complete':
             if (storedQuest) {
                 addCompletedHeroOptions(questSheet);
                 removeQuestHeroesAndDescriptions(questSheet);
-                displayNextQuest(questSheet);    
+                displayNextQuest(questSheet); 
             } else {
                 alert('Slow your roll. You mush start a quest before you can complete it.');
                 updateQuestStatus(questSheet, storedQuest);
@@ -332,6 +341,13 @@ function updateQuestStatus(quest, storedQuest) {
     } else {
         status[0].value = 'not-started';
     }
+}
+
+function removeNotStartedClass({ id }) {
+    const array = id.split('-');
+    const questId = `${array[0]}-${array[1]}`;
+    const quest = document.getElementById(questId);
+    quest.classList.remove('not-started');
 }
 
 displayQuests();

@@ -126,3 +126,7 @@ header ul {
 .show {
     display: flex;
 }
+
+.not-started {
+    color: silver;
+}
