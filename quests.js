@@ -77,11 +77,14 @@ function displayQuests() {
                     addQuestDescription(questSheet, currentQuest.description);
                     addCurrentQuestHeroes(questSheet, storedQuest.heroes);
                     updateQuestStatus(questSheet, storedQuest);
-                    break;
+                break;
                 case 'complete':
                     addCompletedQuestHeroes(questSheet, storedQuest.heroes);
                     updateQuestStatus(questSheet, storedQuest);
-                    break;    
+                    if (quest.id === (storedQuests.length)) {
+                        displayNextQuest(questSheet);
+                    }                        
+                break;    
             }
         })    
     }
@@ -91,9 +94,13 @@ function displayQuestList() {
     const questList = document.getElementById('quest-list');
     quests.forEach(quest => {
         const listLi = document.createElement('li');
-        listLi.setAttribute('class', 'quest-list-item');
+        listLi.setAttribute('id', `quest-${quest.id}`);
         listLi.textContent = `Quest ${quest.id}`;
-        setAttributes(listLi, {class: 'not-started', id: `quest-${quest.id}`});
+        if (getStoredQuest(quest)) {
+            listLi.setAttribute('class', `list-item`);
+        } else {
+            listLi.setAttribute('class', 'list-item not-started');
+        }
         questList.appendChild(listLi);
     })
 }
@@ -133,7 +140,6 @@ function updateQuest(quests, questSheet, questStatus) {
                 addCompletedHeroOptions(questSheet);
                 removeQuestHeroesAndDescriptions(questSheet);
                 displayNextQuest(questSheet); 
-
             } else {
                 alert('Slow your roll. You mush start a quest before you can complete it.');
                 updateQuestStatus(questSheet, storedQuest);
