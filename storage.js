@@ -3,22 +3,9 @@ function storeCharacters(characters) {
 }
 
 function getCharacters() {
-    // const characters = localStorage.getItem('characterList');
+    const characters = localStorage.getItem('characterList');
 
-    // return characters ? JSON.parse(characters) : [];
-
-    // if (!characters) {
-    //     return []
-    // }
-
-    // return JSON.parse(characters);    
-
-    if (!localStorage.getItem('characterList')) {
-        characters = [];
-    } else {    
-        characters = JSON.parse(localStorage.getItem('characterList'));
-    }
-    return characters;
+    return characters ? JSON.parse(characters) : [];
 }
 
 function storeQuest(quest, heroes) {
@@ -68,7 +55,7 @@ function getStoredQuest(quest) {
     }
 }
 
-function removeStoredCharacterItem(characterId, weaponName) {
+function removeStoredCharacterWeapon(characterId, weaponName) {
     const characters = getCharacters();
     const characterIndex = characters.findIndex(character => character.characterId === parseInt(characterId));
 
