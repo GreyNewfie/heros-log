@@ -68,13 +68,18 @@ function getStoredQuest(quest) {
     }
 }
 
-function removeStoredCharacterWeapon(characterId, weaponName) {
+function removeStoredCharacterItem(characterId, weaponName) {
     const characters = getCharacters();
-    const character = characters.find(character => character.characterId === parseInt(characterId));
-    (character.weapons).forEach(weapon => {
-        if (weapon === weaponName) {
-            (character.weapons).pop(weapon);
+    const characterIndex = characters.findIndex(character => character.characterId === parseInt(characterId));
+
+    if (characterIndex !== -1) {
+        const character = characters[characterIndex];
+        const characterWeapons = character.weapons || [];
+
+        const weaponIndex = characterWeapons.indexOf(weaponName);
+        if (weaponIndex !== -1) {
+            characterWeapons.splice(weaponIndex, 1);
+            storeCharacters(characters);
         }
-    })
-    storeCharacters(characters);
+    }
 }
