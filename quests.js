@@ -178,7 +178,7 @@ function addHeroOptions(questSheet) {
     const heroes = getCharacters();
     const heroesFieldset = document.getElementById('heroes-fieldset');
     const startQuestBtn = document.getElementById('start-quest-btn');
-    const questSheetId = questSheet.id;
+    startQuestBtn.textContent = 'Start Quest!';
 
     heroes.forEach((hero) => {
         const newDiv = document.createElement('div');
@@ -214,6 +214,7 @@ function addCompletedHeroOptions(questSheet) {
         const liList = document.getElementById(`hero-options-${questSheet.id}`).getElementsByTagName('li');
         const heroesFieldset = document.getElementById('heroes-fieldset');
         const startQuestBtn = document.getElementById('start-quest-btn');
+        startQuestBtn.textContent = 'Complete Quest!';
         const heroes = [];
     
         for (let i = 0; i < liList.length; i++) {
