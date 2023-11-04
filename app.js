@@ -515,17 +515,21 @@ function createCharacterArmor(nodeList) {
 }
 
 function addWeaponsToCharacter(element, weapons) {
-    weapons.forEach(weapon => {
-        const storedWeapon = equipment.find(item => item.name === weapon) || artifacts.find(item => item.name === weapon);
-        addItemToCharacter(element, (storedWeapon.id));        
-    });
+    if (weapons) {
+        weapons.forEach(weapon => {
+            const storedWeapon = equipment.find(item => item.name === weapon) || artifacts.find(item => item.name === weapon);
+            addItemToCharacter(element, (storedWeapon.id));        
+        });    
+    }
 }
 
 function addArmorsToCharacter(element, armors) {
-    armors.forEach(armor => {
-        const storedArmor = equipment.find(item => item.name === armor) || artifacts.find(item => item.name === armor);
-        addItemToCharacter(element, (storedArmor.id));
-    });
+    if (armors) {
+        armors.forEach(armor => {
+            const storedArmor = equipment.find(item => item.name === armor) || artifacts.find(item => item.name === armor);
+            addItemToCharacter(element, (storedArmor.id));
+        });    
+    }
 }
 
 function findItem(itemId) {
@@ -540,7 +544,8 @@ function removeItem(itemsList, itemId) {
         const characterItemId = item.attributes.value.value;
         const characterItemName = (item.textContent).slice(0,-1);
         if (characterItemId === itemId) {
-            removeStoredCharacterWeapon(characterId, characterItemName);
+            // Do I want the item removed from storage before user saves character?
+            // removeStoredCharacterWeapon(characterId, characterItemName);
             item.remove();
         }
     });
