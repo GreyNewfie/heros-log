@@ -186,15 +186,11 @@ const characterSheet = (character) => {
         currentGoldCoinsNumDiv.append(currentGoldCoinsNegBtn, currentGoldCoinsNumP, currentGoldCoinsPosBtn);
         currentBodyPointsDiv.append(currentGoldCoinsP, currentGoldCoinsNumDiv);
     
-        //Potions Items Div
+        //Potions and Other Items Section
         const potionsItemsDiv = document.createElement('div');
         potionsItemsDiv.setAttribute('class', 'potions-items');
-        const potionsItemsLabel = document.createElement('label');
-        potionsItemsLabel.setAttribute('for', `potions-items-${uniqueId}`);
-        potionsItemsLabel.append('Potions & Other Items');
-        const potionsItemsTextarea = document.createElement('textarea');
-        setAttributes(potionsItemsTextarea, {name: 'potions-items', id: `potions-items-${uniqueId}`, cols: '30', rows: '10', placeholder: 'Healing, invisible, etc.'});
-        potionsItemsDiv.append(potionsItemsLabel, potionsItemsTextarea);
+
+        createPotionsItemsUi(potionsItemsDiv, uniqueId);
     
         //Append elements to character sheet
         currentStatsTrackerDiv.append(currentBodyPointsDiv, currentGoldCoinsDiv);
@@ -401,6 +397,34 @@ function createArmorUi(container, uniqueId) {
     });
 }
 
+function createPotionsItemsUi(container, uniqueId) {
+    // const potionsItemsTextarea = document.createElement('textarea');
+    // setAttributes(potionsItemsTextarea, {name: 'potions-items', id: `potions-items-${uniqueId}`, cols: '30', rows: '10', placeholder: 'Healing, invisible, etc.'});
+    // potionsItemsDiv.append(potionsItemsLabel, potionsItemsTextarea);
+
+    // Create select for dropdown menu
+    const potionsItemsLabel = document.createElement('label');
+    potionsItemsLabel.setAttribute('for', `potions-items-${uniqueId}`);
+    potionsItemsLabel.textContent = 'Potions & Other Items';
+
+    const potionsItemsDropdown = document.createElement('select');
+    setAttributes(potionsItemsDropdown, {id: `character-${uniqueId}-items-options`, name: 'character-potions-items'});
+
+    const defaultSelectOption = document.createElement('option');
+    defaultSelectOption.value = 'default';
+    defaultSelectOption.textContent = '- Select Item -';
+    potionsItemsDropdown.appendChild(defaultSelectOption);
+
+    createPotionsItemsDropdownOptions(potionsItemsDropdown);
+
+    container.append(potionsItemsLabel, potionsItemsDropdown);   
+    
+    // Add options to the select
+
+    // Add selected options to an array
+    // Display array items
+}
+
 function addCharacter(character) {
     characters.push(character);
     storeCharacters(characters);
@@ -451,13 +475,19 @@ function increaseNumber(element, currentNum, maxNum) {
 }
 
 function createWeaponsDropdownOptions(container) {
-    addSpecificArtifactOptions(container, 'weapon');
-    addSpecificEquipmentOptions(container, 'weapon');
+    addSpecificArrayOptions(artifacts, container, 'weapon');
+    addSpecificArrayOptions(equipment, container, 'weapon');
 }
 
 function createArmorDropdownOptions(container) {
-    addSpecificArtifactOptions(container, 'armor');
-    addSpecificEquipmentOptions(container, 'armor');
+    addSpecificArrayOptions(artifacts, container, 'armor');
+    addSpecificArrayOptions(equipment, container, 'armor');
+}
+
+function createPotionsItemsDropdownOptions(container) {
+    addSpecificArrayOptions(artifacts, container, 'item');
+    addSpecificArrayOptions(equipment, container, 'item');
+    addSpecificArrayOptions(equipment, container, 'potion');
 }
 
 const displayCharacters = (function () {
@@ -465,19 +495,8 @@ const displayCharacters = (function () {
     characters.forEach(character => characterSheet(character));
 })();
 
-function addSpecificArtifactOptions(element, classification) {
-    artifacts.forEach(artifact => {
-        if (artifact.classification === classification) {
-            const option = document.createElement('option');
-            option.value = artifact.id;
-            option.textContent = artifact.name;
-            element.appendChild(option);
-        }
-    });
-}
-
-function addSpecificEquipmentOptions(element, classification) {
-    equipment.forEach(item => {
+function addSpecificArrayOptions(array, element, classification) {
+    array.forEach(item => {
         if (item.classification === classification) {
             const option = document.createElement('option');
             option.value = item.id;
