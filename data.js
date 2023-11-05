@@ -15,7 +15,7 @@ const quests = [
     {id: 14, name: 'Return to Barak Tor', description: `Now that you have found the Spirit Blade, you must return to Barak Tor and defeat the Witch Lord. The King has ridden forth to meet the eastern ocs at Darkfire Pass. If you fail, the Witch Lord will lead his army of undead and attack His Majesty's forces from the rear. Then nothing remains to prevent the forces of Dread from overrunning the land!`}
 ];
 
-const heroes = [
+const heroTypes= [
     {
         id: 'wizard',
         name: 'Wizard',
@@ -363,47 +363,5 @@ const equipment = [
         description: 'You may use the holy water instead of attacking. It kills any undead creatue (skeleton, zombie, or mummy). The card is then discarded after use.',
         classification: 'item',
         cost: '400 gold coins'
-    }
-]
-const heroTypes = [
-    {
-        id: 'elf',
-        attackDice: 2,
-        defendDice: 2,
-        startingPointsBody: 6,
-        startingPointsMind: 4,
-        movement: '2 Red Dice',
-        startingWeapon: 'Shortsword',
-        startingArmor: 'None'
-    },
-    {
-        id: 'barbarian',
-        attackDice: 3,
-        defendDice: 2,
-        startingPointsBody: 8,
-        startingPointsMind: 2,
-        movement: '2 Red Dice',
-        startingWeapon: 'Broadsword',
-        startingArmor: 'None'
-    },
-    {
-        id: 'dwarf',
-        attackDice: 2,
-        defendDice: 2,
-        startingPointsBody: 7,
-        startingPointsMind: 3,
-        movement: '2 Red Dice',
-        startingWeapon: 'Shortsword',
-        startingArmor: 'None'
-    },
-    {
-        id: 'wizard',
-        attackDice: 1,
-        defendDice: 2,
-        startingPointsBody: 4,
-        startingPointsMind: 6,
-        movement: '2 Red Dice',
-        startingWeapon: 'Dagger',
-        startingArmor: 'None'
     }
 ]
