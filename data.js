@@ -104,7 +104,7 @@ const treasure = [
 const artifacts = [
     {
         id: 'wand-of-magic',
-        name: 'Want of Magic',
+        name: 'Wand of Magic',
         description: 'This magical wand allows a hero to cast two seperate and different spells on their turn instead of one single spell.',
         classification: 'item'
     },
@@ -240,7 +240,7 @@ const equipment = [
     },
     {
         id: 'holy-water',
-        name: 'Hold Water',
+        name: 'Holy Water',
         description: 'You may use the holy water instead of attacking. It kills any undead creature (skeleton, zombie or mummy). the card is then discarded after use.',
         classification: 'item',
         cost: '400 gold coins'
