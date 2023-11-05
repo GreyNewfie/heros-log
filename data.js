@@ -15,6 +15,53 @@ const quests = [
     {id: 14, name: 'Return to Barak Tor', description: `Now that you have found the Spirit Blade, you must return to Barak Tor and defeat the Witch Lord. The King has ridden forth to meet the eastern ocs at Darkfire Pass. If you fail, the Witch Lord will lead his army of undead and attack His Majesty's forces from the rear. Then nothing remains to prevent the forces of Dread from overrunning the land!`}
 ];
 
+const heroes = [
+    {
+        id: 'wizard',
+        name: 'Wizard',
+        attackDice: 1,
+        defendDice: 2,
+        startBodyPts: 4,
+        startMindPts: 6,
+        movement: 2,
+        startingWeapon: 'dagger',
+        startingArmor: 'none'
+    },
+    {
+        id: 'dwarf',
+        name: 'Dwarf',
+        attackDice: 2,
+        defendDice: 2,
+        startBodyPts: 7,
+        startMindPts: 3,
+        movement: 2,
+        startingWeapon: 'shortsword',
+        startingArmor: 'none'
+    },
+    {
+        id: 'barbarian',
+        name: 'Barabarian',
+        attackDice: 3,
+        defendDice: 2,
+        startBodyPts: 8,
+        startMindPts: 2,
+        movement: 2,
+        startingWeapon: 'Broadsword',
+        startingArmor: 'none'
+    },
+    {
+        id: 'elf',
+        name: 'Elf',
+        attackDice: 2,
+        defendDice: 2,
+        startBodyPts: 6,
+        startMindPts: 4,
+        movement: 2,
+        startingWeapon: 'shortsword',
+        startingArmor: 'none'
+    }
+]
+
 const treasure = [
     {
         id: 'potion-of-healing',
@@ -58,53 +105,62 @@ const artifacts = [
     {
         id: 'wand-of-magic',
         name: 'Want of Magic',
-        description: 'This magical wand allows a hero to cast two seperate and different spells on their turn instead of one single spell.'
+        description: 'This magical wand allows a hero to cast two seperate and different spells on their turn instead of one single spell.',
+        classification: 'item'
     },
     {
         id: 'ring-of-fortitude',
         name: 'Ring of Fortitude',
-        description: `This magical ring raises a hero's Body Points by 1.`
+        description: `This magical ring raises a hero's Body Points by 1.`,
+        classification: 'item'
     },
     {
         id: 'elixir-of-life',
         name: 'Elixir of Life',
-        description: 'This small bottle of pearly liquid brings a dead hero back to life, restoring all of their Body and Mind Points. This potion can only be used once.'
+        description: 'This small bottle of pearly liquid brings a dead hero back to life, restoring all of their Body and Mind Points. This potion can only be used once.',
+        classification: 'item'
     },
     {
         id: `wizards-cloak`,
         name: `Wizard's Cloak`,
-        description: 'This magical cloak made of shimmery fabric is covered with mystical runes. It can be worn only by the wizard, giving them 1 extra Defend die.'
+        description: 'This magical cloak made of shimmery fabric is covered with mystical runes. It can be worn only by the wizard, giving them 1 extra Defend die.',
+        classification: 'armor'
     },
     {
         id: 'ring-of-return',
         name: 'Ring of Return',
-        description: 'When invoked, this magical ring returns all heroes that the ring wearer can see to the starting point of the quest. It can only be used once.'
+        description: 'When invoked, this magical ring returns all heroes that the ring wearer can see to the starting point of the quest. It can only be used once.',
+        classification: 'item'
     },
     {
         id: 'rod-of-telekinesis',
         name: 'Rod of Telekinesis',
-        description: 'Once per quest, you may use this rod to trap a monster within magical force. A trapped monster misses its next turn. The spell can be resisted immediately by the monster rolling 1 red die for each of their Mind Points. If a 6 is rolled, it resists the spell.'
+        description: 'Once per quest, you may use this rod to trap a monster within magical force. A trapped monster misses its next turn. The spell can be resisted immediately by the monster rolling 1 red die for each of their Mind Points. If a 6 is rolled, it resists the spell.',
+        classification: 'item'
     },
     {
         id: 'wizards-staff',
         name: `Wizard's Staff`,
-        description: 'This long ancient staff glows with a soft blue light. It can be used only buy the wizard, giving them 2 Attack dice and the ability to strike diagonally.'
+        description: 'This long ancient staff glows with a soft blue light. It can be used only buy the wizard, giving them 2 Attack dice and the ability to strike diagonally.',
+        classification: 'weapon'
     },
     {
         id: 'spell-ring',
         name: 'Spell Ring',
-        description: 'This ring enables a hero to cast one spell two times (not simultaneously). At the beginning of a quest, the wearer of this ring must declare which of their spells are stored in the ring.'
+        description: 'This ring enables a hero to cast one spell two times (not simultaneously). At the beginning of a quest, the wearer of this ring must declare which of their spells are stored in the ring.',
+        classification: 'item'
     },
     {
         id: 'talisman-of-lore',
         name: 'Talisman of Lore',
-        description: 'This magical medallion increases'
+        description: 'This magical medallion increases your Mind Points by 1 for as long as it is worn',
+        classification: 'item'
     },
     {
         id: 'borins-armor',
         name: `Borin's Armor`,
         description: 'This magical suit of plate mail gives you 2 extra Defend dice. Unlike normal plate mail, this mysterious, ultralight metal armor does not slow down its wearer. May be combined with the helmet and/or shield. May not be used by the wizard.',
-        classification: 'Armor'
+        classification: 'armor'
     },
     {
         id: 'phantom-blade',
@@ -144,6 +200,7 @@ const equipment = [
         id: 'potion-of-speed',
         name: 'Potion of Speed',
         description: 'You may drink the potion at any time. It allows you to roll twice as many dice as usual the next time you move. The card is then discarded.',
+        classification: 'potion',
         cost: '200 gold coins'
     },
     {
@@ -185,6 +242,7 @@ const equipment = [
         id: 'holy-water',
         name: 'Hold Water',
         description: 'You may use the holy water instead of attacking. It kills any undead creature (skeleton, zombie or mummy). the card is then discarded after use.',
+        classification: 'item',
         cost: '400 gold coins'
     },
     {
@@ -291,6 +349,20 @@ const equipment = [
         description: 'This heavy metal armor gives you 2 extra Defend dice. However, because it is so heavy, you may only roll 1 red die for movement while wearing it. May be combined with the helmet and/or shield. May not be worn by the wizard.',
         classification: 'armor',
         cost: '850 gold coins'
+    },
+    {
+        id: 'potion-of-speed',
+        name: 'Potion of Speed',
+        description: 'You may drink the potion at any time. It allows you to roll twice as many dice as usual the next time you move. The card is then discarded.',
+        classification: 'potion',
+        cost: '200 gold coins'
+    },
+    {
+        id: 'holy-water',
+        name: 'Holy Water',
+        description: 'You may use the holy water instead of attacking. It kills any undead creatue (skeleton, zombie, or mummy). The card is then discarded after use.',
+        classification: 'item',
+        cost: '400 gold coins'
     }
 ]
 const heroTypes = [
