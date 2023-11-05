@@ -526,12 +526,6 @@ function createCharacterList(nodeList) {
     return characterList;
 }
 
-// function createCharacterList(nodeList) {
-//     const characterArmor = [];
-//     nodeList.forEach(li => characterArmor.push((li.textContent).slice(0,-1)));
-//     return characterArmor;
-// }
-
 function addWeaponsToCharacter(element, weapons) {
     if (weapons) {
         weapons.forEach(weapon => {
