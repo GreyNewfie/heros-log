@@ -338,7 +338,7 @@ function createCharacterTypeUi(container, uniqueId) {
     characterTypeSelect.addEventListener('change', (event) => {
         const heroTypeId = event.target.value;
         const characterId = uniqueId;
-        updateAttDice(heroTypeId, characterId);
+        setInitialStats(heroTypeId, characterId);
     });
 }
 
@@ -578,7 +578,7 @@ function removeItem(itemsList, itemId) {
     });
 }
 
-function updateAttDice(heroTypeId, characterId) {
+function setInitialStats(heroTypeId, characterId) {
     const heroType = heroTypes.find(type => type.id === heroTypeId);
 
     const attackDice = document.getElementById(`attack-dice-${characterId}`);
@@ -586,6 +586,12 @@ function updateAttDice(heroTypeId, characterId) {
 
     const defendDice = document.getElementById(`defend-dice-${characterId}`);
     defendDice.value = heroType.defendDice;
+
+    const bodyPoints = document.getElementById(`starting-body-pts-${characterId}`);
+    bodyPoints.value = heroType.startBodyPts;
+
+    const mindPoints = document.getElementById(`starting-mind-pts-${characterId}`);
+    mindPoints.value = heroType.startMindPts;
 }
 
 const displayCharacters = (function () {
