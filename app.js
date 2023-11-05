@@ -244,7 +244,7 @@ const characterSheet = (character) => {
     }
 
     function getPotionsAndItems(characterId) {
-        return `potions-items-${characterId}`;
+        return `character-${characterId}-potions-items`;
     }
 
     const createNewCharacter = () => {
@@ -287,7 +287,7 @@ const characterSheet = (character) => {
         const armorList = document.getElementById(getArmor(character.characterId));
         const curBodyPtsInput = document.getElementById(getCurrentBodyPoints(character.characterId));
         const curGoldCoinsNum = document.getElementById(getCurrentGoldCoins(character.characterId));
-        const potionsItemsText = document.getElementById(getPotionsAndItems(character.characterId));
+        const potionsItemsList= document.getElementById(getPotionsAndItems(character.characterId));
 
         nameInput.value = character.name;
         typeSelect.value = character.type;
@@ -415,14 +415,19 @@ function createPotionsItemsUi(container, uniqueId) {
     defaultSelectOption.textContent = '- Select Item -';
     potionsItemsDropdown.appendChild(defaultSelectOption);
 
+    // Add options to the select
     createPotionsItemsDropdownOptions(potionsItemsDropdown);
 
-    container.append(potionsItemsLabel, potionsItemsDropdown);   
-    
-    // Add options to the select
+    const potionsItemsList = document.createElement('ul');
+    potionsItemsList.setAttribute('id', `character-${uniqueId}-potions-items`);
+
+    container.append(potionsItemsLabel, potionsItemsDropdown, potionsItemsList);   
 
     // Add selected options to an array
     // Display array items
+    potionsItemsDropdown.addEventListener('change', (event) => {
+        const item = event.target.value;
+    });
 }
 
 function addCharacter(character) {
