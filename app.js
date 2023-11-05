@@ -34,14 +34,7 @@ const characterSheet = (character) => {
         
         //Character type select
         const characterTypeDiv = document.createElement('div');
-        const characterTypeLabel = document.createElement('label');
-        characterTypeLabel.setAttribute('for', `character-type-${uniqueId}`);
-        characterTypeLabel.append('Character');
-        const characterTypeSelect = document.createElement('select');
-        setAttributes(characterTypeSelect, {id: `character-type-${uniqueId}`, name: 'character-type', required: ''});
-        addTypeOptions(characterTypeSelect, {default: '- Select Option -', barabarian: 'Barbarian', wizard: 'Wizard', elf: 'Elf', dwarf: 'Dwarf'});
-    
-        characterTypeDiv.append(characterTypeLabel, characterTypeSelect);
+        createCharacterTypeUi(characterTypeDiv, uniqueId);
     
         //Character buttons div
         const characterButtonsDiv = document.createElement('div');
@@ -208,7 +201,7 @@ const characterSheet = (character) => {
     }
 
     function getCharacterType(characterId) {
-        return `character-type-${characterId}`;
+        return `character-${characterId}-type`;
     }
 
     function getAttackDice(characterId) {
@@ -329,6 +322,22 @@ const characterSheet = (character) => {
 
         storeCharacters(characters);
     }
+}
+
+function createCharacterTypeUi(container, uniqueId) {
+    const characterTypeLabel = document.createElement('label');
+    characterTypeLabel.setAttribute('for', `character-${uniqueId}-type`);
+    characterTypeLabel.textContent = 'Character';
+
+    const characterTypeSelect = document.createElement('select');
+    setAttributes(characterTypeSelect, {id: `character-${uniqueId}-type`, name: 'character-type', required: ''});
+    addTypeOptions(characterTypeSelect, {default: '- Select Option -', barabarian: 'Barbarian', wizard: 'Wizard', elf: 'Elf', dwarf: 'Dwarf'});
+
+    container.append(characterTypeLabel, characterTypeSelect);
+
+    characterTypeSelect.addEventListener('change', (event) => {
+        console.log(event.target.value);
+    });
 }
 
 function createWeaponsUi(container, uniqueId) {
@@ -489,11 +498,6 @@ function createPotionsItemsDropdownOptions(container) {
     addSpecificArrayOptions(equipment, container, 'potion');
 }
 
-const displayCharacters = (function () {
-    characters = getCharacters();
-    characters.forEach(character => characterSheet(character));
-})();
-
 function addSpecificArrayOptions(array, element, classification) {
     array.forEach(item => {
         if (item.classification === classification) {
@@ -571,3 +575,8 @@ function removeItem(itemsList, itemId) {
         }
     });
 }
+
+const displayCharacters = (function () {
+    characters = getCharacters();
+    characters.forEach(character => characterSheet(character));
+})();
