@@ -34,14 +34,7 @@ const characterSheet = (character) => {
         
         //Character type select
         const characterTypeDiv = document.createElement('div');
-        const characterTypeLabel = document.createElement('label');
-        characterTypeLabel.setAttribute('for', `character-type-${uniqueId}`);
-        characterTypeLabel.append('Character');
-        const characterTypeSelect = document.createElement('select');
-        setAttributes(characterTypeSelect, {id: `character-type-${uniqueId}`, name: 'character-type', required: ''});
-        addTypeOptions(characterTypeSelect, {default: '- Select Option -', barabarian: 'Barbarian', wizard: 'Wizard', elf: 'Elf', dwarf: 'Dwarf'});
-    
-        characterTypeDiv.append(characterTypeLabel, characterTypeSelect);
+        createCharacterTypeUi(characterTypeDiv, uniqueId);
     
         //Character buttons div
         const characterButtonsDiv = document.createElement('div');
@@ -208,7 +201,7 @@ const characterSheet = (character) => {
     }
 
     function getCharacterType(characterId) {
-        return `character-type-${characterId}`;
+        return `character-${characterId}-type`;
     }
 
     function getAttackDice(characterId) {
@@ -329,6 +322,24 @@ const characterSheet = (character) => {
 
         storeCharacters(characters);
     }
+}
+
+function createCharacterTypeUi(container, uniqueId) {
+    const characterTypeLabel = document.createElement('label');
+    characterTypeLabel.setAttribute('for', `character-${uniqueId}-type`);
+    characterTypeLabel.textContent = 'Character';
+
+    const characterTypeSelect = document.createElement('select');
+    setAttributes(characterTypeSelect, {id: `character-${uniqueId}-type`, name: 'character-type', required: ''});
+    addTypeOptions(characterTypeSelect, {default: '- Select Option -', barbarian: 'Barbarian', wizard: 'Wizard', elf: 'Elf', dwarf: 'Dwarf'});
+
+    container.append(characterTypeLabel, characterTypeSelect);
+
+    characterTypeSelect.addEventListener('change', (event) => {
+        const heroTypeId = event.target.value;
+        const characterId = uniqueId;
+        setInitialStats(heroTypeId, characterId);
+    });
 }
 
 function createWeaponsUi(container, uniqueId) {
@@ -489,11 +500,6 @@ function createPotionsItemsDropdownOptions(container) {
     addSpecificArrayOptions(equipment, container, 'potion');
 }
 
-const displayCharacters = (function () {
-    characters = getCharacters();
-    characters.forEach(character => characterSheet(character));
-})();
-
 function addSpecificArrayOptions(array, element, classification) {
     array.forEach(item => {
         if (item.classification === classification) {
@@ -525,12 +531,6 @@ function createCharacterList(nodeList) {
     nodeList.forEach(li => characterList.push((li.textContent).slice(0,-1)));
     return characterList;
 }
-
-// function createCharacterList(nodeList) {
-//     const characterArmor = [];
-//     nodeList.forEach(li => characterArmor.push((li.textContent).slice(0,-1)));
-//     return characterArmor;
-// }
 
 function addWeaponsToCharacter(element, weapons) {
     if (weapons) {
@@ -577,3 +577,24 @@ function removeItem(itemsList, itemId) {
         }
     });
 }
+
+function setInitialStats(heroTypeId, characterId) {
+    const heroType = heroTypes.find(type => type.id === heroTypeId);
+
+    const attackDice = document.getElementById(`attack-dice-${characterId}`);
+    attackDice.value = heroType.attackDice;
+
+    const defendDice = document.getElementById(`defend-dice-${characterId}`);
+    defendDice.value = heroType.defendDice;
+
+    const bodyPoints = document.getElementById(`starting-body-pts-${characterId}`);
+    bodyPoints.value = heroType.startBodyPts;
+
+    const mindPoints = document.getElementById(`starting-mind-pts-${characterId}`);
+    mindPoints.value = heroType.startMindPts;
+}
+
+const displayCharacters = (function () {
+    characters = getCharacters();
+    characters.forEach(character => characterSheet(character));
+})();
