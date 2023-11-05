@@ -331,12 +331,14 @@ function createCharacterTypeUi(container, uniqueId) {
 
     const characterTypeSelect = document.createElement('select');
     setAttributes(characterTypeSelect, {id: `character-${uniqueId}-type`, name: 'character-type', required: ''});
-    addTypeOptions(characterTypeSelect, {default: '- Select Option -', barabarian: 'Barbarian', wizard: 'Wizard', elf: 'Elf', dwarf: 'Dwarf'});
+    addTypeOptions(characterTypeSelect, {default: '- Select Option -', barbarian: 'Barbarian', wizard: 'Wizard', elf: 'Elf', dwarf: 'Dwarf'});
 
     container.append(characterTypeLabel, characterTypeSelect);
 
     characterTypeSelect.addEventListener('change', (event) => {
-        console.log(event.target.value);
+        const heroTypeId = event.target.value;
+        const characterId = uniqueId;
+        updateAttDice(heroTypeId, characterId);
     });
 }
 
@@ -574,6 +576,16 @@ function removeItem(itemsList, itemId) {
             item.remove();
         }
     });
+}
+
+function updateAttDice(heroTypeId, characterId) {
+    const heroType = heroTypes.find(type => type.id === heroTypeId);
+
+    const attackDice = document.getElementById(`attack-dice-${characterId}`);
+    attackDice.value = heroType.attackDice;
+
+    const defendDice = document.getElementById(`defend-dice-${characterId}`);
+    defendDice.value = heroType.defendDice;
 }
 
 const displayCharacters = (function () {
