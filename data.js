@@ -15,7 +15,7 @@ const quests = [
     {id: 14, name: 'Return to Barak Tor', description: `Now that you have found the Spirit Blade, you must return to Barak Tor and defeat the Witch Lord. The King has ridden forth to meet the eastern ocs at Darkfire Pass. If you fail, the Witch Lord will lead his army of undead and attack His Majesty's forces from the rear. Then nothing remains to prevent the forces of Dread from overrunning the land!`}
 ];
 
-const heroes = [
+const heroTypes= [
     {
         id: 'wizard',
         name: 'Wizard',
@@ -104,7 +104,7 @@ const treasure = [
 const artifacts = [
     {
         id: 'wand-of-magic',
-        name: 'Want of Magic',
+        name: 'Wand of Magic',
         description: 'This magical wand allows a hero to cast two seperate and different spells on their turn instead of one single spell.',
         classification: 'item'
     },
@@ -240,7 +240,7 @@ const equipment = [
     },
     {
         id: 'holy-water',
-        name: 'Hold Water',
+        name: 'Holy Water',
         description: 'You may use the holy water instead of attacking. It kills any undead creature (skeleton, zombie or mummy). the card is then discarded after use.',
         classification: 'item',
         cost: '400 gold coins'
@@ -326,21 +326,21 @@ const equipment = [
         id: 'helmet',
         name: 'Helmet',
         description: 'This protective headpiece gives you 1 extra Defend die. May not be worn by the wizard.',
-        classification: 'helmet',
+        classification: 'armor',
         cost: '125 gold coins'
     },
     {
         id: 'helmet',
         name: 'Helmet',
         description: 'This protective headpiece gives you 1 extra Defend die. May not be worn by the wizard.',
-        classification: 'helmet',
+        classification: 'armor',
         cost: '125 gold coins'
     },
     {
         id: 'tool-kit',
         name: 'Tool Kit',
         description: 'This tool kit gives you a 50 percent chance to disarm any searched-for-and-found (but unsprung) trap. (See "Action 6: Disarm a Trap" in the the rulebook.)',
-        classification: 'disarm-traps',
+        classification: 'item',
         cost: '250 gold coins'
     },
     {
@@ -363,47 +363,5 @@ const equipment = [
         description: 'You may use the holy water instead of attacking. It kills any undead creatue (skeleton, zombie, or mummy). The card is then discarded after use.',
         classification: 'item',
         cost: '400 gold coins'
-    }
-]
-const heroTypes = [
-    {
-        id: 'elf',
-        attackDice: 2,
-        defendDice: 2,
-        startingPointsBody: 6,
-        startingPointsMind: 4,
-        movement: '2 Red Dice',
-        startingWeapon: 'Shortsword',
-        startingArmor: 'None'
-    },
-    {
-        id: 'barbarian',
-        attackDice: 3,
-        defendDice: 2,
-        startingPointsBody: 8,
-        startingPointsMind: 2,
-        movement: '2 Red Dice',
-        startingWeapon: 'Broadsword',
-        startingArmor: 'None'
-    },
-    {
-        id: 'dwarf',
-        attackDice: 2,
-        defendDice: 2,
-        startingPointsBody: 7,
-        startingPointsMind: 3,
-        movement: '2 Red Dice',
-        startingWeapon: 'Shortsword',
-        startingArmor: 'None'
-    },
-    {
-        id: 'wizard',
-        attackDice: 1,
-        defendDice: 2,
-        startingPointsBody: 4,
-        startingPointsMind: 6,
-        movement: '2 Red Dice',
-        startingWeapon: 'Dagger',
-        startingArmor: 'None'
     }
 ]

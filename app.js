@@ -186,15 +186,11 @@ const characterSheet = (character) => {
         currentGoldCoinsNumDiv.append(currentGoldCoinsNegBtn, currentGoldCoinsNumP, currentGoldCoinsPosBtn);
         currentBodyPointsDiv.append(currentGoldCoinsP, currentGoldCoinsNumDiv);
     
-        //Potions Items Div
+        //Potions and Other Items Section
         const potionsItemsDiv = document.createElement('div');
         potionsItemsDiv.setAttribute('class', 'potions-items');
-        const potionsItemsLabel = document.createElement('label');
-        potionsItemsLabel.setAttribute('for', `potions-items-${uniqueId}`);
-        potionsItemsLabel.append('Potions & Other Items');
-        const potionsItemsTextarea = document.createElement('textarea');
-        setAttributes(potionsItemsTextarea, {name: 'potions-items', id: `potions-items-${uniqueId}`, cols: '30', rows: '10', placeholder: 'Healing, invisible, etc.'});
-        potionsItemsDiv.append(potionsItemsLabel, potionsItemsTextarea);
+
+        createPotionsItemsUi(potionsItemsDiv, uniqueId);
     
         //Append elements to character sheet
         currentStatsTrackerDiv.append(currentBodyPointsDiv, currentGoldCoinsDiv);
@@ -248,7 +244,7 @@ const characterSheet = (character) => {
     }
 
     function getPotionsAndItems(characterId) {
-        return `potions-items-${characterId}`;
+        return `character-${characterId}-potions-items`;
     }
 
     const createNewCharacter = () => {
@@ -264,7 +260,7 @@ const characterSheet = (character) => {
         const armorList = document.getElementById(getArmor(uniqueId)).querySelectorAll('li');
         const curBodyPtsInput = document.getElementById(getCurrentBodyPoints(uniqueId));
         const curGoldCoinsNum = document.getElementById(getCurrentGoldCoins(uniqueId));
-        const potionsItemsText = document.getElementById(getPotionsAndItems(uniqueId));
+        const potionsItemsList = document.getElementById(getPotionsAndItems(uniqueId)).querySelectorAll('li');
 
         this.name = nameInput.value;
         this.type = typeSelect.value;
@@ -272,11 +268,11 @@ const characterSheet = (character) => {
         this.defendDice = defDiceSel.value;
         this.startBodyPts = startBodyPtsSel.value;
         this.startMindPts = startMindPtsSel.value;
-        this.weapons = createCharacterWeapons(weaponsList);
-        this.armor = createCharacterArmor(armorList)
+        this.weapons = createCharacterList(weaponsList);
+        this.armor = createCharacterList(armorList)
         this.curBodyPts = curBodyPtsInput.textContent;
         this.goldCoins = curGoldCoinsNum.textContent;
-        this.potionsAndItems = potionsItemsText.value;
+        this.potionsAndItems = createCharacterList(potionsItemsList);
         return({characterId, name, type, attackDice, defendDice, startBodyPts, startMindPts, weapons, armor, curBodyPts, goldCoins, potionsAndItems});
     }
 
@@ -291,7 +287,7 @@ const characterSheet = (character) => {
         const armorList = document.getElementById(getArmor(character.characterId));
         const curBodyPtsInput = document.getElementById(getCurrentBodyPoints(character.characterId));
         const curGoldCoinsNum = document.getElementById(getCurrentGoldCoins(character.characterId));
-        const potionsItemsText = document.getElementById(getPotionsAndItems(character.characterId));
+        const potionsItemsList= document.getElementById(getPotionsAndItems(character.characterId));
 
         nameInput.value = character.name;
         typeSelect.value = character.type;
@@ -303,7 +299,7 @@ const characterSheet = (character) => {
         addArmorsToCharacter(armorList, character.armor);
         curBodyPtsInput.textContent = character.curBodyPts;
         curGoldCoinsNum.textContent = character.goldCoins;
-        potionsItemsText.textContent = character.potionsAndItems;
+        addPotionsItemsToCharacter(potionsItemsList, character.potionsAndItems);
     }
 
     function updateCharacter(storedCharacter, characterId) {
@@ -316,7 +312,7 @@ const characterSheet = (character) => {
         const armorList = document.getElementById(getArmor(characterId)).querySelectorAll('li');
         const curBodyPtsInput = document.getElementById(getCurrentBodyPoints(characterId));
         const curGoldCoinsNum = document.getElementById(getCurrentGoldCoins(characterId));
-        const potionsItemsText = document.getElementById(getPotionsAndItems(characterId));
+        const potionsItemsList = document.getElementById(getPotionsAndItems(characterId)).querySelectorAll('li');
         const nameInput = document.getElementById(getCharacterName(characterId));
 
         storedCharacter.type = typeSelect.value;
@@ -324,11 +320,11 @@ const characterSheet = (character) => {
         storedCharacter.defendDice = defDiceSel.value;
         storedCharacter.startBodyPts = startBodyPtsSel.value;
         storedCharacter.startMindPts = startMindPtsSel.value;
-        storedCharacter.weapons = createCharacterWeapons(weaponsList);
-        storedCharacter.armor = createCharacterArmor(armorList);
+        storedCharacter.weapons = createCharacterList(weaponsList);
+        storedCharacter.armor = createCharacterList(armorList);
         storedCharacter.curBodyPts = curBodyPtsInput.textContent;
         storedCharacter.goldCoins = curGoldCoinsNum.textContent;
-        storedCharacter.potionsAndItems = potionsItemsText.value;
+        storedCharacter.potionsAndItems = createCharacterList(potionsItemsList);
         storedCharacter.name = nameInput.value;
 
         storeCharacters(characters);
@@ -363,8 +359,8 @@ function createWeaponsUi(container, uniqueId) {
     container.appendChild(characterWeaponsDiv);
 
     characterWeaponsSelect.addEventListener('change', (event) => {
-        const weapon = event.target.value;
-        addItemToCharacter(characterWeaponsList, weapon);
+        const weaponId = event.target.value;
+        addItemToCharacter(characterWeaponsList, weaponId);
     });
 }
 
@@ -396,8 +392,35 @@ function createArmorUi(container, uniqueId) {
     container.appendChild(characterArmorDiv);
 
     characterArmorSelect.addEventListener('change', (event) => {
-        const armor = event.target.value;
-        addItemToCharacter(characterArmorList, armor);
+        const armorId = event.target.value;
+        addItemToCharacter(characterArmorList, armorId);
+    });
+}
+
+function createPotionsItemsUi(container, uniqueId) {
+    // Create select for dropdown menu
+    const potionsItemsLabel = document.createElement('label');
+    potionsItemsLabel.setAttribute('for', `potions-items-${uniqueId}`);
+    potionsItemsLabel.textContent = 'Potions & Other Items';
+
+    const potionsItemsDropdown = document.createElement('select');
+    setAttributes(potionsItemsDropdown, {id: `character-${uniqueId}-items-options`, name: 'character-potions-items'});
+
+    const defaultSelectOption = document.createElement('option');
+    defaultSelectOption.value = 'default';
+    defaultSelectOption.textContent = '- Select Item -';
+    potionsItemsDropdown.appendChild(defaultSelectOption);
+
+    createPotionsItemsDropdownOptions(potionsItemsDropdown);
+
+    const potionsItemsList = document.createElement('ul');
+    potionsItemsList.setAttribute('id', `character-${uniqueId}-potions-items`);
+
+    container.append(potionsItemsLabel, potionsItemsDropdown, potionsItemsList);   
+
+    potionsItemsDropdown.addEventListener('change', (event) => {
+        const itemId = event.target.value;
+        addItemToCharacter(potionsItemsList, itemId);
     });
 }
 
@@ -451,13 +474,19 @@ function increaseNumber(element, currentNum, maxNum) {
 }
 
 function createWeaponsDropdownOptions(container) {
-    addSpecificArtifactOptions(container, 'weapon');
-    addSpecificEquipmentOptions(container, 'weapon');
+    addSpecificArrayOptions(artifacts, container, 'weapon');
+    addSpecificArrayOptions(equipment, container, 'weapon');
 }
 
 function createArmorDropdownOptions(container) {
-    addSpecificArtifactOptions(container, 'armor');
-    addSpecificEquipmentOptions(container, 'armor');
+    addSpecificArrayOptions(artifacts, container, 'armor');
+    addSpecificArrayOptions(equipment, container, 'armor');
+}
+
+function createPotionsItemsDropdownOptions(container) {
+    addSpecificArrayOptions(artifacts, container, 'item');
+    addSpecificArrayOptions(equipment, container, 'item');
+    addSpecificArrayOptions(equipment, container, 'potion');
 }
 
 const displayCharacters = (function () {
@@ -465,19 +494,8 @@ const displayCharacters = (function () {
     characters.forEach(character => characterSheet(character));
 })();
 
-function addSpecificArtifactOptions(element, classification) {
-    artifacts.forEach(artifact => {
-        if (artifact.classification === classification) {
-            const option = document.createElement('option');
-            option.value = artifact.id;
-            option.textContent = artifact.name;
-            element.appendChild(option);
-        }
-    });
-}
-
-function addSpecificEquipmentOptions(element, classification) {
-    equipment.forEach(item => {
+function addSpecificArrayOptions(array, element, classification) {
+    array.forEach(item => {
         if (item.classification === classification) {
             const option = document.createElement('option');
             option.value = item.id;
@@ -502,17 +520,17 @@ function addItemToCharacter(list, itemId) {
     list.appendChild(li);
 }
 
-function createCharacterWeapons(nodeList) {
-    const characterWeapons = [];
-    nodeList.forEach(li => characterWeapons.push((li.textContent).slice(0,-1)));
-    return characterWeapons;
+function createCharacterList(nodeList) {
+    const characterList = [];
+    nodeList.forEach(li => characterList.push((li.textContent).slice(0,-1)));
+    return characterList;
 }
 
-function createCharacterArmor(nodeList) {
-    const characterArmor = [];
-    nodeList.forEach(li => characterArmor.push((li.textContent).slice(0,-1)));
-    return characterArmor;
-}
+// function createCharacterList(nodeList) {
+//     const characterArmor = [];
+//     nodeList.forEach(li => characterArmor.push((li.textContent).slice(0,-1)));
+//     return characterArmor;
+// }
 
 function addWeaponsToCharacter(element, weapons) {
     if (weapons) {
@@ -529,6 +547,15 @@ function addArmorsToCharacter(element, armors) {
             const storedArmor = equipment.find(item => item.name === armor) || artifacts.find(item => item.name === armor);
             addItemToCharacter(element, (storedArmor.id));
         });    
+    }
+}
+
+function addPotionsItemsToCharacter(element, potionsItems) {
+    if (potionsItems) {
+        potionsItems.forEach(potionItem => {
+            const storedPotionItem = treasure.find(item => item.name === potionItem) || equipment.find(item => item.name === potionItem) || artifacts.find(item => item.name === potionItem);
+            addItemToCharacter(element, (storedPotionItem.id));
+        });
     }
 }
 
