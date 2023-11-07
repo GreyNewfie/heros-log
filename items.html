@@ -4,11 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="stylesheet" href="styles.css">
-    <script src="quests.js" defer></script>
+    <script src="app.js" defer></script>
     <script src="storage.js"></script>
     <script src="myFunctions.js"></script>
-    <title>Quests</title>
+    <script src="data.js"></script>
+    <title>HeroQuest Tracker</title>
 </head>
 <body>
     <header>
@@ -28,19 +30,10 @@
             </ul>    
         </nav>
     </header>
-    <main class="quests-main">
-        <aside>
-        <ul id="quest-list">
-        </ul>
-        </aside>
-        <section id="quests-container" class="quests-container">
+    <main>
+        <section>
+            <nav id="items-links"></nav>
         </section>
     </main>
-    <div class="pick-heroes">
-       <fieldset id="heroes-fieldset">
-            <legend>Choose your heroes for this quest:</legend>
-            <button class="start-quest-btn" id="start-quest-btn"></button>
-       </fieldset>
-    </div> 
 </body>
 </html>
