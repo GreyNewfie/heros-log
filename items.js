@@ -5,7 +5,9 @@ function createTreasureItemsList(container) {
 
     const treasureItemsList = document.createElement('ul');
 
-    treasure.forEach(item => {
+    const treasureItems = items.filter(item => item?.type === 'treasure');
+
+    treasureItems.forEach(item => {
         const itemsLi = document.createElement('li');
 
         const itemAnchor = document.createElement('a');
