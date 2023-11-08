@@ -62,138 +62,139 @@ const heroTypes= [
     }
 ]
 
-const treasure = [
+const items = [
     {
         id: 'potion-of-healing',
         name: 'Potion of Healing',
         description: 'In a bundle of rags, you find a small bottle of bluish liquid. You can drink this healing potion at any time, restoring the number of Body Points equal to a roll of 1 red die. You cannot, however, exceed your starting number of Body Points. This may only be used once. Do not return this card to the deck.',
-        classification: 'potion'
+        classification: 'potion',
+        type: 'treasure'
     },
     {
         id: 'heroic-brew',
         name: 'Heroic Brew',
         description: 'You are surprised to find a leather bag hanging on the wall. If you drink its contents before you attack, you can make two attacks instead of one. This may only be used once. Do not return this card to the deck.',
-        classification: 'potion'
+        classification: 'potion',
+        type: 'treasure'
     },
     {
         id: 'potion-of-defense',
         name: 'Potion of Defense',
         description: 'Amidst a collection of old bottles, you find a small vial containing a clear liquid. You can drink this potion at any time, giving you 2 extra combat dice the next time you defend. This may only be used once. Do not return this card to the deck.',
-        classification: 'potion'
-    },
-    {
-        id: 'potion-of-healing',
-        name: 'Potion of Healing',
-        description: 'In a bundle of rags, you find a small bottle of bluish liquid. you can drink this healing potion at any time, restoring the number of Body Points equal to a roll of 1 red die. You cannot, however, exceed your starting number of Body Points. This may only be used once. Do not return this card to the deck.',
-        classification: 'potion'
-    },
-    {
-        id: 'potion-of-healing',
-        name: 'Potion of Healing',
-        description: 'In a bundle of rags, you find a small bottle of bluish liquid. you can drink this healing potion at any time, restoring the number of Body Points equal to a roll of 1 red die. You cannot, however, exceed your starting number of Body Points. This may only be used once. Do not return this card to the deck.',
-        classification: 'potion'
+        classification: 'potion',
+        type: 'treasure'
     },
     {
         id: 'potion-of-strength',
         name: 'Potion of Strength',
         description: 'You find a small purple flask. You may drink this strange smelling liquid at any time, enabling you to roll 2 extra combat dice the next time you attack. This may only be used once. Do not return this card to the deck.',
-        classification: 'potion'
-    }
-]
-
-const artifacts = [
+        classification: 'potion',
+        type: 'treasure'
+    },
     {
         id: 'wand-of-magic',
         name: 'Wand of Magic',
         description: 'This magical wand allows a hero to cast two seperate and different spells on their turn instead of one single spell.',
-        classification: 'item'
+        classification: 'item',
+        type: 'artifact'
     },
     {
         id: 'ring-of-fortitude',
         name: 'Ring of Fortitude',
         description: `This magical ring raises a hero's Body Points by 1.`,
-        classification: 'item'
+        classification: 'item',
+        type: 'artifact'
     },
     {
         id: 'elixir-of-life',
         name: 'Elixir of Life',
         description: 'This small bottle of pearly liquid brings a dead hero back to life, restoring all of their Body and Mind Points. This potion can only be used once.',
-        classification: 'item'
+        classification: 'item',
+        type: 'artifact'
     },
     {
         id: `wizards-cloak`,
         name: `Wizard's Cloak`,
         description: 'This magical cloak made of shimmery fabric is covered with mystical runes. It can be worn only by the wizard, giving them 1 extra Defend die.',
-        classification: 'armor'
+        classification: 'armor',
+        type: 'artifact'
     },
     {
         id: 'ring-of-return',
         name: 'Ring of Return',
         description: 'When invoked, this magical ring returns all heroes that the ring wearer can see to the starting point of the quest. It can only be used once.',
-        classification: 'item'
+        classification: 'item',
+        type: 'artifact'
     },
     {
         id: 'rod-of-telekinesis',
         name: 'Rod of Telekinesis',
         description: 'Once per quest, you may use this rod to trap a monster within magical force. A trapped monster misses its next turn. The spell can be resisted immediately by the monster rolling 1 red die for each of their Mind Points. If a 6 is rolled, it resists the spell.',
-        classification: 'item'
+        classification: 'item',
+        type: 'artifact'
     },
     {
         id: 'wizards-staff',
         name: `Wizard's Staff`,
         description: 'This long ancient staff glows with a soft blue light. It can be used only buy the wizard, giving them 2 Attack dice and the ability to strike diagonally.',
-        classification: 'weapon'
+        classification: 'weapon',
+        type: 'artifact'
     },
     {
         id: 'spell-ring',
         name: 'Spell Ring',
         description: 'This ring enables a hero to cast one spell two times (not simultaneously). At the beginning of a quest, the wearer of this ring must declare which of their spells are stored in the ring.',
-        classification: 'item'
+        classification: 'item',
+        type: 'artifact'
     },
     {
         id: 'talisman-of-lore',
         name: 'Talisman of Lore',
         description: 'This magical medallion increases your Mind Points by 1 for as long as it is worn',
-        classification: 'item'
+        classification: 'item',
+        type: 'artifact'
     },
     {
         id: 'borins-armor',
         name: `Borin's Armor`,
         description: 'This magical suit of plate mail gives you 2 extra Defend dice. Unlike normal plate mail, this mysterious, ultralight metal armor does not slow down its wearer. May be combined with the helmet and/or shield. May not be used by the wizard.',
-        classification: 'armor'
+        classification: 'armor',
+        type: 'artifact'
     },
     {
         id: 'phantom-blade',
         name: 'Phantom Blade',
         description: 'This ornate dagger gives you 1 Attack die. Once per quest, when you attack with the dagger your target may not defend themself as the weapon passes through their armor.',
-        classification: 'weapon'
+        classification: 'weapon',
+        type: 'artifact'
     },
     {
         id: 'orcs-bane',
         name: `Orc's Bane`,
         description: 'When using this magical shortsword, you roll 2 Attack die. You may attack twice if attacking an orc. May not be used by the wizard.',
-        classification: 'weapon'
+        classification: 'weapon',
+        type: 'artifact'
     },
     {
         id: 'fortunes-longsword',
         name: `Fortune's Longsword`,
         description: 'This long blade enables you to attack diagonally and gives you 3 Attack dice. Once per quest, the hero may use its power to reroll 1 Attack die. May not be used by the wizasrd.',
-        classification: 'weapon'
+        classification: 'weapon',
+        type: 'artifact'
     },
     {
         id: 'spirit-blade',
         name: 'Spirit Blade',
         description: 'This magical broadsword has an eerie handle of carved bone. When using it, roll 3 Attack dice, or roll 4 if attacking an undead monster (skeleton, zombie, or mummy). May not be used by the wizard.',
-        classification: 'weapon'
-    }
-]
-
-const equipment = [
+        classification: 'weapon',
+        type: 'artifact'
+    },
     {
         id: 'longsword',
         name: 'Longsword',
         description: 'This long blade gives you the attack strength of 3 combat dice. Because of its length, the longsword enables you to attack diagonally. May not be used by the wizard.',
         classification: 'weapon',
+        type: 'equipment',
         cost: '350 gold coins'
     }, 
     {
@@ -201,6 +202,7 @@ const equipment = [
         name: 'Potion of Speed',
         description: 'You may drink the potion at any time. It allows you to roll twice as many dice as usual the next time you move. The card is then discarded.',
         classification: 'potion',
+        type: 'equipment',
         cost: '200 gold coins'
     },
     {
@@ -208,6 +210,7 @@ const equipment = [
         name: 'Dagger',
         description: 'This sharp knife gives you the attack strength of 1 combat die. A dagger can also be thrown at any monster you can see but is lost once it is thrown.',
         classification: 'weapon',
+        type: 'equipment',
         cost: '25 gold coins'
     },
     {
@@ -215,27 +218,15 @@ const equipment = [
         name: 'Bracers',
         description: 'These hardened leather bracers give you 1 extra Defend die. May be combined with the helmet and/or shield.',
         classification: 'armor',
+        type: 'equipment',
         cost: '550 gold coins'
     },
     {
-        id: 'longsword',
-        name: 'Longsword',
-        description: 'This long blade gives you the attack strength of 3 combat dice. Because of its length, the longsword enables you to attack diagonally. May not be used by the wizard.',
-        classification: 'weapon',
-        cost: '350 gold coins'
-    },
-    {
         id: 'battle-axe',
         name: 'Battle Axe',
         description: 'This heavy, double-edged axe gives you the attack strength of 4 combat dice. You may not use a shield when using this weapon. May not be used by the wizard.',
         classification: 'weapon',
-        cost: '450 gold coins'
-    },
-    {
-        id: 'battle-axe',
-        name: 'Battle Axe',
-        description: 'This heavy, double-edged axe gives you the attack strength of 4 combat dice. You may not use a shield when using this weapon. May not be used by the wizard.',
-        classification: 'weapon',
+        type: 'equipment',
         cost: '450 gold coins'
     },
     {
@@ -243,6 +234,7 @@ const equipment = [
         name: 'Holy Water',
         description: 'You may use the holy water instead of attacking. It kills any undead creature (skeleton, zombie or mummy). the card is then discarded after use.',
         classification: 'item',
+        type: 'equipment',
         cost: '400 gold coins'
     },
     {
@@ -250,6 +242,7 @@ const equipment = [
         name: 'Staff',
         description: 'This long, sturdy, wooden staff gives you the attack strength of 1 combat die. Because of its length, the staff enables you to attack diagonally. You may not use a shield when using this weapon.',
         classification: 'weapon',
+        type: 'equipment',
         cost: '100 gold coins'
     },
     {
@@ -257,6 +250,7 @@ const equipment = [
         name: 'Helmet',
         description: 'This protective headpiece gives you 1 extra Defend die. May not be worn by the wizard.',
         classification: 'armor',
+        type: 'equipment',
         cost: '125 gold coins'
     },
     {
@@ -264,6 +258,7 @@ const equipment = [
         name: 'Crossbow',
         description: 'This long-range weapon gives you the attack strength of 3 combat dice. You may fire at any monster that you can see. However, you cannot fire at a monster that is adjacent to you. You have an unlimited supply of arrows. May not be used by the wizard.',
         classification: 'weapon',
+        type: 'equipment',
         cost: '350 gold coins'
     },
     {
@@ -271,6 +266,7 @@ const equipment = [
         name: 'Broadsword',
         description: 'This wide blade gives you the attack strength of 3 combat dice. May not be used by the wizard.',
         classification: 'weapon',
+        type: 'equipment',
         cost: '250 gold coins'
     },
     {
@@ -278,6 +274,7 @@ const equipment = [
         name: 'Shortsword',
         description: 'This short sword gives you the attack strength of 2 combat dice. May not be used by the wizard.',
         classification: 'weapon',
+        type: 'equipment',
         cost: '150 gold coins'
     },
     {
@@ -285,20 +282,7 @@ const equipment = [
         name: 'Shield',
         description: 'This hand-held armor gives you 1 extra Defend dice. May not be used with the battle axe or staff. May not be used by the wizard.',
         classification: 'armor',
-        cost: '150 gold coins'
-    },
-    {
-        id: 'shield',
-        name: 'Shield',
-        description: 'This hand-held armor gives you 1 extra Defend dice. May not be used with the battle axe or staff. May not be used by the wizard.',
-        classification: 'armor',
-        cost: '150 gold coins'
-    },
-    {
-        id: 'shield',
-        name: 'Shield',
-        description: 'This hand-held armor gives you 1 extra Defend dice. May not be used with the battle axe or staff. May not be used by the wizard.',
-        classification: 'armor',
+        type: 'equipment',
         cost: '150 gold coins'
     },
     {
@@ -306,6 +290,7 @@ const equipment = [
         name: 'Chain Mail',
         description: 'This light metal armor gives you 1 extra Defend die. May by combined with the helmet and/or shield. May not be worn by the wizard.',
         classification: 'armor',
+        type: 'equipment',
         cost: '500 gold coins'
     },
     {
@@ -313,27 +298,15 @@ const equipment = [
         name: 'Handaxe',
         description: 'This handaxe allows you to roll 2 Attack dice. It can also be thrown at any monster in your line of sight but is lost once it is thrown.',
         classification: 'weapon',
+        type: 'equipment',
         cost: '200 gold coins'
     },
     {
-        id: 'crossbow',
-        name: 'Crossbow',
-        description: 'This long-range weapon gives you the attack strength of 3 combat dice. You may fire at any monster that you can see. However, you cannot fire at a monster that is adjacent to you. You have an unlimited supply of arrows. May not be used by the wizard.',
-        classification: 'weapon',
-        cost: '350 gold coins'
-    },
-    {
         id: 'helmet',
         name: 'Helmet',
         description: 'This protective headpiece gives you 1 extra Defend die. May not be worn by the wizard.',
         classification: 'armor',
-        cost: '125 gold coins'
-    },
-    {
-        id: 'helmet',
-        name: 'Helmet',
-        description: 'This protective headpiece gives you 1 extra Defend die. May not be worn by the wizard.',
-        classification: 'armor',
+        type: 'equipment',
         cost: '125 gold coins'
     },
     {
@@ -341,6 +314,7 @@ const equipment = [
         name: 'Tool Kit',
         description: 'This tool kit gives you a 50 percent chance to disarm any searched-for-and-found (but unsprung) trap. (See "Action 6: Disarm a Trap" in the the rulebook.)',
         classification: 'item',
+        type: 'equipment',
         cost: '250 gold coins'
     },
     {
@@ -348,6 +322,7 @@ const equipment = [
         name: 'Plate Mail',
         description: 'This heavy metal armor gives you 2 extra Defend dice. However, because it is so heavy, you may only roll 1 red die for movement while wearing it. May be combined with the helmet and/or shield. May not be worn by the wizard.',
         classification: 'armor',
+        type: 'equipment',
         cost: '850 gold coins'
     },
     {
@@ -355,6 +330,7 @@ const equipment = [
         name: 'Potion of Speed',
         description: 'You may drink the potion at any time. It allows you to roll twice as many dice as usual the next time you move. The card is then discarded.',
         classification: 'potion',
+        type: 'equipment',
         cost: '200 gold coins'
     },
     {
@@ -362,6 +338,37 @@ const equipment = [
         name: 'Holy Water',
         description: 'You may use the holy water instead of attacking. It kills any undead creatue (skeleton, zombie, or mummy). The card is then discarded after use.',
         classification: 'item',
+        type: 'equipment',
         cost: '400 gold coins'
     }
 ]
+
+// const items = [
+//     ...equipment,
+//     ...artifacts,
+//     ...treasure
+// ]
+
+// const arti = items.filter(item => item.classification === 'artifact')
+
+// arti[0].cost
+
+// const equip =  items.filter(item => item.classification === 'equipment')
+
+// equip[0].cost
+
+// console.log(equipment[0].cost ?? 'N/A')
+
+// const foo = {
+//     name: 'blah',
+//     favourites: {
+//         drink: 'water',
+//         food: 'nachos'
+//     }
+// }
+
+// if (foo && foo.favourites && foo.favourites.drink) {
+//     console.log('My favourite drink is ', foo.favourites.drink)
+// }
+
+// console.log('My favourite drink is ', foo?.favourites?.drink ?? 'No drink')
