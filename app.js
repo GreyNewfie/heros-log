@@ -533,20 +533,28 @@ function createCharacterList(nodeList) {
 }
 
 function addWeaponsToCharacter(element, weapons) {
-    if (weapons) {
-        weapons.forEach(weapon => {
+    // if (weapons) {
+        weapons?.forEach(weapon => {
             const storedWeapon = equipment.find(item => item.name === weapon) || artifacts.find(item => item.name === weapon);
             addItemToCharacter(element, (storedWeapon.id));        
         });    
-    }
+    // }
 }
 
 function addArmorsToCharacter(element, armors) {
-    if (armors) {
+    if (!armors) {
+        return
+    }
+
+    // if (armors) {
         armors.forEach(armor => {
             const storedArmor = equipment.find(item => item.name === armor) || artifacts.find(item => item.name === armor);
             addItemToCharacter(element, (storedArmor.id));
         });    
+    // }
+
+    if (armors.length === 0) {
+        return
     }
 }
 
@@ -595,6 +603,18 @@ function setInitialStats(heroTypeId, characterId) {
 }
 
 const displayCharacters = (function () {
+    // Initializtion
     characters = getCharacters();
     characters.forEach(character => characterSheet(character));
+
+    characters.forEach(character => {
+        const sheetDiv = createSheetDivUi(character)
+        const charTitle = createTitleUi(character)
+        const inventory = createInventoryUi(character);
+
+        sheetDiv.append(charTitle);
+        sheetDiv.append(inventory);
+
+        bigList.append(sheetDiv)
+    })
 })();
