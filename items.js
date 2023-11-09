@@ -1,13 +1,15 @@
-function createTreasureItemsList(container) {
-    const treasureItemsListHeader = document.createElement('h4');
-    treasureItemsListHeader.textContent = 'Treasure';
-    container.appendChild(treasureItemsListHeader);
+function createItemsList(classification) {
+    const listContainer = document.createElement('div');
 
-    const treasureItemsList = document.createElement('ul');
+    const itemsListHeader = document.createElement('h4');
+    const listName = classification.charAt(0).toUpperCase() + classification.slice(1);
+    itemsListHeader.textContent = listName;
+    listContainer.appendChild(itemsListHeader);
 
-    const treasureItems = items.filter(item => item?.type === 'treasure');
+    const itemsList = document.createElement('ul');
+    const listItems = items.filter(item => item?.type === classification);
 
-    treasureItems.forEach(item => {
+    listItems.forEach(item => {
         const itemsLi = document.createElement('li');
 
         const itemAnchor = document.createElement('a');
@@ -15,14 +17,23 @@ function createTreasureItemsList(container) {
         itemAnchor.textContent = item.name;
 
         itemsLi.appendChild(itemAnchor);
-        treasureItemsList.appendChild(itemsLi);
+        itemsList.appendChild(itemsLi);
     });
 
-    container.appendChild(treasureItemsList);
+    listContainer.appendChild(itemsList);
+
+    return listContainer;
 }
 
 (function addItems() {
     const itemsContainer = document.getElementById('items-container');
 
-    createTreasureItemsList(itemsContainer);
+    const treasureList = createItemsList('treasure');
+    itemsContainer.appendChild(treasureList);
+
+    const artifactList = createItemsList('artifact');
+    itemsContainer.appendChild(artifactList);
+
+    const itemsList = createItemsList('equipment');
+    itemsContainer.appendChild(itemsList);
 })();
