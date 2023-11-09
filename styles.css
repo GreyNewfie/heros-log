@@ -146,3 +146,20 @@ header ul {
 .not-started {
     color: silver;
 }
+
+/* Items Page */
+
+.items-container {
+    width: fit-content;
+    height: 78vh;
+    overflow: auto;
+    padding: 5px 1vw;
+
+    display: flex;
+    flex-direction: column;
+    gap: 3vh;
+}
+
+.items-container ul {
+    list-style-type: none;
+}
