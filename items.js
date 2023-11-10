@@ -37,3 +37,25 @@ function createItemsList(classification) {
     const itemsList = createItemsList('equipment');
     itemsContainer.appendChild(itemsList);
 })();
+
+function createInstructionCard() {
+    const instructionCard = document.createElement('div');
+    instructionCard.setAttribute('class', 'instruction-card');
+    
+    const instructionCardHeader = document.createElement('h3');
+    instructionCardHeader.textContent = 'Welcome to the Items Library';
+    instructionCard.appendChild(instructionCardHeader);
+
+    const instructionCardP = document.createElement('p');
+    instructionCardP.textContent = 'Select an item from the to reveal it\'s power and expand your understanding of it\'s capabilities.. or simply refresh your elderly heroes memory.';
+    instructionCard.appendChild(instructionCardP);
+
+    return instructionCard;
+}
+
+(function displayCard() {
+    const itemsCardContainer = document.getElementById('items-card-container');
+
+    const instructionCard = createInstructionCard();
+    itemsCardContainer.appendChild(instructionCard);
+})();
