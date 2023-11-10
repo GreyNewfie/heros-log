@@ -149,6 +149,10 @@ header ul {
 
 /* Items Page */
 
+.content-container {
+    display: flex;
+}
+
 .items-container {
     width: fit-content;
     height: 78vh;
@@ -162,4 +166,24 @@ header ul {
 
 .items-container ul {
     list-style-type: none;
+}
+
+.items-card-container {
+    width: 100%;
+    display: grid;
+    grid-template: 1fr / 1fr;
+    justify-items: center;
+    align-items: center;
+}
+
+.instruction-card {
+    border: 2px solid gray;
+    width: 250px;
+    height: 300px;
+    padding: 20px 10px;
+    text-align: center;
+}
+
+.instruction-card > h3 {
+    margin-bottom: 20%;
 }
