@@ -485,23 +485,25 @@ function increaseNumber(element, currentNum, maxNum) {
 }
 
 function createWeaponsDropdownOptions(container) {
-    addSpecificArrayOptions(artifacts, container, 'weapon');
-    addSpecificArrayOptions(equipment, container, 'weapon');
+    addSpecificArrayOptions(container, 'weapon');
+    addSpecificArrayOptions(container, 'weapon');
 }
 
 function createArmorDropdownOptions(container) {
-    addSpecificArrayOptions(artifacts, container, 'armor');
-    addSpecificArrayOptions(equipment, container, 'armor');
+    addSpecificArrayOptions(container, 'armor');
+    addSpecificArrayOptions(container, 'armor');
 }
 
 function createPotionsItemsDropdownOptions(container) {
-    addSpecificArrayOptions(artifacts, container, 'item');
-    addSpecificArrayOptions(equipment, container, 'item');
-    addSpecificArrayOptions(equipment, container, 'potion');
+    addSpecificArrayOptions(container, 'item');
+    addSpecificArrayOptions(container, 'item');
+    addSpecificArrayOptions(container, 'potion');
 }
 
-function addSpecificArrayOptions(array, element, classification) {
-    array.forEach(item => {
+function addSpecificArrayOptions(element, classification) {
+    const itemsToAdd = items.filter(item => item.classification === classification);
+
+    itemsToAdd.forEach(item => {
         if (item.classification === classification) {
             const option = document.createElement('option');
             option.value = item.id;
@@ -533,42 +535,37 @@ function createCharacterList(nodeList) {
 }
 
 function addWeaponsToCharacter(element, weapons) {
-    // if (weapons) {
-        weapons?.forEach(weapon => {
-            const storedWeapon = equipment.find(item => item.name === weapon) || artifacts.find(item => item.name === weapon);
-            addItemToCharacter(element, (storedWeapon.id));        
-        });    
-    // }
+    if (!weapons) {
+        return
+    }
+
+    weapons?.forEach(weapon => {
+        const storedWeapon = items.find(item => item.name === weapon || item.name === weapon);
+        addItemToCharacter(element, (storedWeapon.id));        
+    });    
 }
 
 function addArmorsToCharacter(element, armors) {
-    if (!armors) {
+    if (!armors || armors.length === 0) {
         return
     }
-
-    // if (armors) {
-        armors.forEach(armor => {
-            const storedArmor = equipment.find(item => item.name === armor) || artifacts.find(item => item.name === armor);
-            addItemToCharacter(element, (storedArmor.id));
-        });    
-    // }
-
-    if (armors.length === 0) {
-        return
-    }
+    armors.forEach(armor => {
+        const storedArmor = items.find(item => item.name === armor || item.name === armor);
+        addItemToCharacter(element, (storedArmor.id));
+    });    
 }
 
 function addPotionsItemsToCharacter(element, potionsItems) {
     if (potionsItems) {
         potionsItems.forEach(potionItem => {
-            const storedPotionItem = treasure.find(item => item.name === potionItem) || equipment.find(item => item.name === potionItem) || artifacts.find(item => item.name === potionItem);
+            const storedPotionItem = items.find(item => item.name === potionItem || item.name === potionItem || item.name === potionItem);
             addItemToCharacter(element, (storedPotionItem.id));
         });
     }
 }
 
 function findItem(itemId) {
-    const foundItem = equipment.find((item) => item.id === itemId) || artifacts.find((item) => item.id === itemId);
+    const foundItem = items.find((item) => item.id === itemId);
     return foundItem;
 }
 
@@ -607,14 +604,14 @@ const displayCharacters = (function () {
     characters = getCharacters();
     characters.forEach(character => characterSheet(character));
 
-    characters.forEach(character => {
-        const sheetDiv = createSheetDivUi(character)
-        const charTitle = createTitleUi(character)
-        const inventory = createInventoryUi(character);
+    // characters.forEach(character => {
+    //     const sheetDiv = createSheetDivUi(character)
+    //     const charTitle = createTitleUi(character)
+    //     const inventory = createInventoryUi(character);
 
-        sheetDiv.append(charTitle);
-        sheetDiv.append(inventory);
+    //     sheetDiv.append(charTitle);
+    //     sheetDiv.append(inventory);
 
-        bigList.append(sheetDiv)
-    })
+    //     bigList.append(sheetDiv)
+    // })
 })();
