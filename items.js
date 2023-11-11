@@ -2,6 +2,7 @@ function createItemsList(classification) {
     const listContainer = document.createElement('div');
 
     const itemsListHeader = document.createElement('h4');
+    itemsListHeader.setAttribute('class', 'items-list-header');
     const listName = classification.charAt(0).toUpperCase() + classification.slice(1);
     itemsListHeader.textContent = listName;
     listContainer.appendChild(itemsListHeader);
@@ -50,7 +51,7 @@ function createInstructionCard() {
     instructionCard.appendChild(instructionCardHeader);
 
     const instructionCardP = document.createElement('p');
-    instructionCardP.textContent = 'Select an item from the to reveal it\'s power and expand your understanding of it\'s capabilities.. or simply refresh your elderly heroes memory.';
+    instructionCardP.textContent = 'Select an item from the right to reveal it\'s power and expand your understanding of it\'s capabilities... or to simply refresh your elderly heroes memory.';
     instructionCard.appendChild(instructionCardP);
 
     return instructionCard;
