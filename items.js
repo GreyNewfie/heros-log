@@ -6,6 +6,9 @@ function createItemsList(classification) {
     itemsListHeader.textContent = listName;
     listContainer.appendChild(itemsListHeader);
 
+    const icon = getListHeaderIcon(classification);
+    itemsListHeader.prepend(icon);
+
     const itemsList = document.createElement('ul');
     const listItems = items.filter(item => item?.type === classification);
 
@@ -59,3 +62,24 @@ function createInstructionCard() {
     const instructionCard = createInstructionCard();
     itemsCardContainer.appendChild(instructionCard);
 })();
+
+function getListHeaderIcon(classification) {
+    const icon = document.createElement('img');
+    icon.setAttribute('class', 'items-header-icon');
+
+    switch (classification) {
+        case 'treasure':
+            icon.setAttribute('src', 'images/treasure-icon-blk.png');
+            icon.setAttribute('alt', 'Treasure chest');
+            break;
+        case 'artifact':
+            icon.setAttribute('src', 'images/artifact-icon-blk.png');
+            icon.setAttribute('alt', 'Hands holding up a vase');
+            break;
+        case 'equipment':
+            icon.setAttribute('src', 'images/equipment-icon-blk.png');
+            icon.setAttribute('alt', 'A shield with a pair of crossed swords behind it');
+    }   
+
+    return icon;
+}
