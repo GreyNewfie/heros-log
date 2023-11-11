@@ -20,6 +20,14 @@ function createItemsList(classification) {
         itemAnchor.setAttribute('href', `#${item.id}`);
         itemAnchor.textContent = item.name;
 
+        itemAnchor.addEventListener('click', (event) => {
+            const itemCard = createItemCard(event.target.textContent);
+            const cardContainer = document.getElementById('items-card-container');
+
+            removeInstructionCard();
+            cardContainer.appendChild(itemCard);
+        });
+
         itemsLi.appendChild(itemAnchor);
         itemsList.appendChild(itemsLi);
     });
@@ -57,6 +65,11 @@ function createInstructionCard() {
     return instructionCard;
 }
 
+function removeInstructionCard() {
+    const instructionCard = document.querySelector('.instruction-card');
+    instructionCard.remove();
+}
+
 (function displayCard() {
     const itemsCardContainer = document.getElementById('items-card-container');
 
@@ -83,4 +96,25 @@ function getListHeaderIcon(classification) {
     }   
 
     return icon;
+}
+
+function createItemCard(itemName) {
+    const item = items.find(item => item.name === itemName);
+
+    const itemCard = document.createElement('div');
+    itemCard.setAttribute('class', 'item-card');
+
+    const cardHeader = document.createElement('h3');
+    cardHeader.textContent = item.name;
+    itemCard.appendChild(cardHeader);
+
+    const cardDescription = document.createElement('p');
+    cardDescription.textContent = item.description;
+    itemCard.appendChild(cardDescription);
+
+    return itemCard;
+}
+
+function addEventListeners() {
+    const listItems = document.querySelectorAll('#items-container > a');
 }

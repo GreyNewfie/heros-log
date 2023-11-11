@@ -538,9 +538,9 @@ function addWeaponsToCharacter(element, weapons) {
     if (!weapons) {
         return
     }
-
-    weapons?.forEach(weapon => {
-        const storedWeapon = items.find(item => item.name === weapon || item.name === weapon);
+    
+    weapons.forEach(weapon => {
+        const storedWeapon = items.find(item => item.name === weapon);
         addItemToCharacter(element, (storedWeapon.id));        
     });    
 }
