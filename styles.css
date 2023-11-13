@@ -108,6 +108,24 @@ header ul {
     gap: 5px;
 }
 
+.hero-input {
+    width: 20px;
+    border: none;
+    text-align: center;
+}
+
+/* Chrome, Safari, Edge, Opera */
+.hero-input::-webkit-outer-spin-button,
+.hero-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+.hero-input[type=number] {
+  -moz-appearance: textfield;
+}
+
 /* Quest Tracker Site */
 .quests-container {
     display: grid;
