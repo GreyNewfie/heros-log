@@ -306,11 +306,11 @@ function createDiceUi(typeOfDice, uniqueId) {
     
     const plusBtn = document.createElement('button');
     plusBtn.textContent = '+';
-    plusBtn.addEventListener('click', () => increaseNumber2(dice, 12));
+    plusBtn.addEventListener('click', () => increaseNumber(dice, 12));
 
     const minusBtn = document.createElement('button');
     minusBtn.textContent = '-';
-    minusBtn.addEventListener('click', () => decreaseNumber2(dice));
+    minusBtn.addEventListener('click', () => decreaseNumber(dice));
 
     diceDiv.append(plusBtn, dice, minusBtn);
     diceContainer.appendChild(diceDiv);
@@ -401,11 +401,11 @@ function createCurrentTrackerUi(trackerLabel, uniqueId) {
 
     const plusBtn = document.createElement('button');
     plusBtn.textContent = '+';
-    plusBtn.addEventListener('click', () => increaseNumber2(trackerInput));
+    plusBtn.addEventListener('click', () => increaseNumber(trackerInput));
 
     const minusBtn = document.createElement('button');
     minusBtn.textContent = '-';
-    minusBtn.addEventListener('click', () => decreaseNumber2(trackerInput));
+    minusBtn.addEventListener('click', () => decreaseNumber(trackerInput));
 
     tracker.append(plusBtn, trackerInput, minusBtn);
     currentStatContainer.appendChild(tracker);
@@ -479,22 +479,12 @@ function addNumOptions(element, maxValue) {
     }
 }
 
-function decreaseNumber(element, currentNum) {
-    const testNum = parseInt(currentNum);
-    return element.textContent = testNum === 0 ? testNum : testNum - 1;
-}
-
-function decreaseNumber2(element) {
+function decreaseNumber(element) {
     const currentNum = parseInt(element.value);
     return element.value = currentNum === 0 ? currentNum : currentNum - 1;
 }
 
-function increaseNumber(element, currentNum, maxNum) {
-    const testNum = parseInt(currentNum);
-    return element.textContent = testNum < maxNum || !maxNum ? testNum + 1 : testNum;
-}
-
-function increaseNumber2(element, maxNum) {
+function increaseNumber(element, maxNum) {
     const currentNum = parseInt(element.value);
     return element.value = currentNum < maxNum || !maxNum ? currentNum + 1 : currentNum;
 }
