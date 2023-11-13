@@ -74,25 +74,19 @@ const characterSheet = (character) => {
         initialStatsDiv.setAttribute('class', 'initial-stats');
     
         //Attack dice select
-        const attackDiceDiv = document.createElement('div');
-        const attackDiceP = document.createElement('p');
-        attackDiceP.append('Attack Dice');
-        attackDiceDiv.append(attackDiceP);
-        const attackDiceSelect = document.createElement('select');
-        setAttributes(attackDiceSelect, {name: 'attack-dice', id: `attack-dice-${uniqueId}`});
-        const attackDiceOption = document.createElement('option');
-        addNumOptions(attackDiceSelect, 6);
-        attackDiceDiv.append(attackDiceP, attackDiceSelect)
+        const attackDiceUi = createDiceUi('Attack Dice' ,uniqueId);
     
         //Defend dice select
-        const defendDiceDiv = document.createElement('div');
-        const defendDiceP = document.createElement('p');
-        defendDiceP.append('Defend Dice');
-        defendDiceDiv.append(defendDiceP);
-        const defendDiceSelect = document.createElement('select');
-        setAttributes(defendDiceSelect, {name: 'defend-dice', id: `defend-dice-${uniqueId}`});
-        addNumOptions(defendDiceSelect, 6);
-        defendDiceDiv.append(defendDiceP, defendDiceSelect);
+        const defendDiceUi = createDiceUi('Defend Dice', uniqueId);
+
+        // const defendDiceDiv = document.createElement('div');
+        // const defendDiceP = document.createElement('p');
+        // defendDiceP.append('Defend Dice');
+        // defendDiceDiv.append(defendDiceP);
+        // const defendDiceSelect = document.createElement('select');
+        // setAttributes(defendDiceSelect, {name: 'defend-dice', id: `defend-dice-${uniqueId}`});
+        // addNumOptions(defendDiceSelect, 6);
+        // defendDiceDiv.append(defendDiceP, defendDiceSelect);
     
         //Starting body and mind points div
         const startingPointsDiv = document.createElement('div');
@@ -188,7 +182,7 @@ const characterSheet = (character) => {
         //Append elements to character sheet
         currentStatsTrackerDiv.append(currentBodyPointsDiv, currentGoldCoinsDiv);
         CharacterNameTypeDiv.append(characterNameDiv, characterTypeDiv);
-        initialStatsDiv.append(attackDiceDiv, defendDiceDiv, startingPointsDiv);
+        initialStatsDiv.append(attackDiceUi, defendDiceUi, startingPointsDiv);
 
         characterSheetDiv.append(CharacterNameTypeDiv, characterButtonsDiv, initialStatsDiv, characterWeaponsArmorDiv, currentStatsTrackerDiv, potionsItemsDiv);
     
@@ -245,8 +239,8 @@ const characterSheet = (character) => {
 
         const nameInput = document.getElementById(getCharacterName(uniqueId));
         const typeSelect = document.getElementById(getCharacterType(uniqueId));
-        const attDiceSel = document.getElementById(getAttackDice(uniqueId));
-        const defDiceSel = document.getElementById(getDefendDice(uniqueId));
+        const attDice = document.getElementById(getAttackDice(uniqueId));
+        const defDice = document.getElementById(getDefendDice(uniqueId));
         const startBodyPtsSel = document.getElementById(getStartBodyPoints(uniqueId));
         const startMindPtsSel = document.getElementById(getStartMindPoints(uniqueId));
         const weaponsList = document.getElementById(getWeapons(uniqueId)).querySelectorAll('li');
@@ -257,8 +251,8 @@ const characterSheet = (character) => {
 
         this.name = nameInput.value;
         this.type = typeSelect.value;
-        this.attackDice = attDiceSel.value;
-        this.defendDice = defDiceSel.value;
+        this.attackDice = attDice.value;
+        this.defendDice = defDice.value;
         this.startBodyPts = startBodyPtsSel.value;
         this.startMindPts = startMindPtsSel.value;
         this.weapons = createCharacterList(weaponsList);
@@ -272,8 +266,8 @@ const characterSheet = (character) => {
     function createExistingCharacter(character) {
         const nameInput = document.getElementById(getCharacterName(character.characterId));
         const typeSelect = document.getElementById(getCharacterType(character.characterId));
-        const attDiceSel = document.getElementById(getAttackDice(character.characterId));
-        const defDiceSel = document.getElementById(getDefendDice(character.characterId));
+        const attDice = document.getElementById(getAttackDice(character.characterId));
+        const defDice = document.getElementById(getDefendDice(character.characterId));
         const startBodyPtsSel = document.getElementById(getStartBodyPoints(character.characterId));
         const startMindPtsSel = document.getElementById(getStartMindPoints(character.characterId));
         const weaponsList = document.getElementById(getWeapons(character.characterId));
@@ -284,8 +278,8 @@ const characterSheet = (character) => {
 
         nameInput.value = character.name;
         typeSelect.value = character.type;
-        attDiceSel.value = character.attackDice;
-        defDiceSel.value = character.defendDice;
+        attDice.value = character.attackDice;
+        defDice.value = character.defendDice;
         startBodyPtsSel.value = character.startBodyPts;
         startMindPtsSel.value = character.startMindPts;
         addWeaponsToCharacter(weaponsList, character.weapons);
@@ -340,6 +334,43 @@ function createCharacterTypeUi(container, uniqueId) {
         const characterId = uniqueId;
         setInitialStats(heroTypeId, characterId);
     });
+}
+
+function createDiceUi(typeOfDice, uniqueId) {
+    const typeOfDiceArray = (typeOfDice.toLowerCase()).split(' ');
+
+    const diceContainer = document.createElement('div');
+
+    const title = document.createElement('h4');
+    title.textContent = typeOfDice;
+    diceContainer.appendChild(title);
+
+    const diceDiv = document.createElement('div');
+
+    const dice = document.createElement('input');
+    setAttributes(dice, {type: 'number', id: `${typeOfDiceArray[0]}-${typeOfDiceArray[1]}-${uniqueId}`, class: 'dice-box'});
+    dice.value = 0;
+    
+    const plusBtn = document.createElement('button');
+    plusBtn.textContent = '+';
+    // plusBtn.addEventListener('click', increaseNumber(dice, dice.value, 12));
+
+    const minusBtn = document.createElement('button');
+    minusBtn.textContent = '-';
+
+    diceDiv.append(plusBtn, dice, minusBtn);
+    diceContainer.appendChild(diceDiv);
+
+    return diceContainer;
+
+    // const attackDiceP = document.createElement('p');
+    // attackDiceP.append('Attack Dice');
+    // attackDiceDiv.append(attackDiceP);
+    // const attackDiceSelect = document.createElement('select');
+    // setAttributes(attackDiceSelect, {name: 'attack-dice', id: `attack-dice-${uniqueId}`});
+    // const attackDiceOption = document.createElement('option');
+    // addNumOptions(attackDiceSelect, 6);
+    // attackDiceDiv.append(attackDiceP, attackDiceSelect)
 }
 
 function createWeaponsUi(container, uniqueId) {

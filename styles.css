@@ -108,6 +108,24 @@ header ul {
     gap: 5px;
 }
 
+.dice-box {
+    width: 20px;
+    border: none;
+    text-align: center;
+}
+
+/* Chrome, Safari, Edge, Opera */
+.dice-boxt::-webkit-outer-spin-button,
+.dice-box::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+.dice-box[type=number] {
+  -moz-appearance: textfield;
+}
+
 /* Quest Tracker Site */
 .quests-container {
     display: grid;
