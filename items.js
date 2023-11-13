@@ -23,8 +23,15 @@ function createItemsList(classification) {
         itemAnchor.addEventListener('click', (event) => {
             const itemCard = createItemCard(event.target.textContent);
             const cardContainer = document.getElementById('items-card-container');
+            const instructionCard = document.querySelector('.instruction-card');
 
-            removeInstructionCard();
+            if (instructionCard) {
+                instructionCard.remove();
+            } else {
+                const currentItemCard = document.querySelector('.item-card');
+                currentItemCard.remove();
+            }
+            
             cardContainer.appendChild(itemCard);
         });
 
@@ -65,6 +72,7 @@ function createInstructionCard() {
     return instructionCard;
 }
 
+// *** Not being used ***
 function removeInstructionCard() {
     const instructionCard = document.querySelector('.instruction-card');
     instructionCard.remove();
@@ -107,6 +115,12 @@ function createItemCard(itemName) {
     const cardHeader = document.createElement('h3');
     cardHeader.textContent = item.name;
     itemCard.appendChild(cardHeader);
+
+    const cardImage = document.createElement('img');
+    cardImage.setAttribute('src', `images/${item.image}`);
+    cardImage.setAttribute('alt', item.imageDescription);
+    cardImage.setAttribute('class', 'item-card-image');
+    itemCard.appendChild(cardImage);
 
     const cardDescription = document.createElement('p');
     cardDescription.textContent = item.description;
