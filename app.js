@@ -69,26 +69,17 @@ const characterSheet = (character) => {
     
         characterButtonsDiv.append(characterSaveBtn, characterKilledBtn);
     
-        //Initial attack dice, defend dice and starting body and mind points
+        // Initial attack dice, defend dice and starting body and mind points
         const initialStatsDiv = document.createElement('div');
         initialStatsDiv.setAttribute('class', 'initial-stats');
     
-        //Attack dice select
+        // Attack dice UI
         const attackDiceUi = createDiceUi('Attack Dice' ,uniqueId);
     
-        //Defend dice select
+        // Defend dice UI
         const defendDiceUi = createDiceUi('Defend Dice', uniqueId);
-
-        // const defendDiceDiv = document.createElement('div');
-        // const defendDiceP = document.createElement('p');
-        // defendDiceP.append('Defend Dice');
-        // defendDiceDiv.append(defendDiceP);
-        // const defendDiceSelect = document.createElement('select');
-        // setAttributes(defendDiceSelect, {name: 'defend-dice', id: `defend-dice-${uniqueId}`});
-        // addNumOptions(defendDiceSelect, 6);
-        // defendDiceDiv.append(defendDiceP, defendDiceSelect);
     
-        //Starting body and mind points div
+        // Starting body and mind points div
         const startingPointsDiv = document.createElement('div');
         startingPointsDiv.setAttribute('class', 'starting-points');
         const startingPointsP = document.createElement('p');
@@ -133,26 +124,7 @@ const characterSheet = (character) => {
         const bodyPtsUi = createCurrentTrackerUi('Body Points', uniqueId);
     
         //Current gold coins div
-        const currentGoldCoinsDiv = document.createElement('div');
-        setAttributes(currentGoldCoinsDiv, {id: `current-gold-coins-${uniqueId}`, class: 'numeric-tracker'});
-        const currentGoldCoinsP = document.createElement('p');
-        currentGoldCoinsP.textContent = 'Gold Coins';
-        const currentGoldCoinsNumDiv = document.createElement('div');
-        const currentGoldCoinsNegBtn = document.createElement('button');
-        currentGoldCoinsNegBtn.append('-');
-        currentGoldCoinsNegBtn.addEventListener('click', () => {
-            decreaseNumber(currentGoldCoinsNumP, currentGoldCoinsNumP.textContent);
-        });
-        const currentGoldCoinsNumP = document.createElement('p');
-        currentGoldCoinsNumP.setAttribute('id', `current-gold-coins-num-${uniqueId}`);
-        currentGoldCoinsNumP.append('0');
-        const currentGoldCoinsPosBtn = document.createElement('button');
-        currentGoldCoinsPosBtn.append('+');
-        currentGoldCoinsPosBtn.addEventListener('click', () => {
-            increaseNumber(currentGoldCoinsNumP, currentGoldCoinsNumP.textContent);
-        });
-        currentGoldCoinsNumDiv.append(currentGoldCoinsNegBtn, currentGoldCoinsNumP, currentGoldCoinsPosBtn);
-        currentGoldCoinsDiv.append(currentGoldCoinsP, currentGoldCoinsNumDiv);
+        const goldCoinsUi = createCurrentTrackerUi('Gold Coins', uniqueId);
     
         //Potions and Other Items Section
         const potionsItemsDiv = document.createElement('div');
@@ -163,12 +135,12 @@ const characterSheet = (character) => {
         //Append elements to character sheet
         CharacterNameTypeDiv.append(characterNameDiv, characterTypeDiv);
         initialStatsDiv.append(attackDiceUi, defendDiceUi, startingPointsDiv);
-        currentStatsTrackerDiv.append(bodyPtsUi, currentGoldCoinsDiv);
+        currentStatsTrackerDiv.append(bodyPtsUi, goldCoinsUi);
 
         characterSheetDiv.append(CharacterNameTypeDiv, characterButtonsDiv, initialStatsDiv, characterWeaponsArmorDiv, currentStatsTrackerDiv, potionsItemsDiv);
     
-        const createCharacterSheetDiv = document.getElementById('create-character-sheet');
-        createCharacterSheetDiv.before(characterSheetDiv);
+        const createCharacterSheet = document.getElementById('create-character-sheet');
+        createCharacterSheet.before(characterSheetDiv);
     }
 
     function getCharacterName(characterId) {
@@ -208,7 +180,7 @@ const characterSheet = (character) => {
     }
 
     function getCurrentGoldCoins(characterId) {
-        return `current-gold-coins-num-${characterId}`
+        return `gold-coins-${characterId}`
     }
 
     function getPotionsAndItems(characterId) {
@@ -227,7 +199,7 @@ const characterSheet = (character) => {
         const weaponsList = document.getElementById(getWeapons(uniqueId)).querySelectorAll('li');
         const armorList = document.getElementById(getArmor(uniqueId)).querySelectorAll('li');
         const curBodyPts = document.getElementById(getCurrentBodyPoints(uniqueId));
-        const curGoldCoinsNum = document.getElementById(getCurrentGoldCoins(uniqueId));
+        const curGoldCoins = document.getElementById(getCurrentGoldCoins(uniqueId));
         const potionsItemsList = document.getElementById(getPotionsAndItems(uniqueId)).querySelectorAll('li');
 
         this.name = nameInput.value;
@@ -239,7 +211,7 @@ const characterSheet = (character) => {
         this.weapons = createCharacterList(weaponsList);
         this.armor = createCharacterList(armorList)
         this.bodyPts = curBodyPts.value;
-        this.goldCoins = curGoldCoinsNum.textContent;
+        this.goldCoins = curGoldCoins.value;
         this.potionsAndItems = createCharacterList(potionsItemsList);
         return({characterId, name, type, attackDice, defendDice, startBodyPts, startMindPts, weapons, armor, bodyPts, goldCoins, potionsAndItems});
     }
@@ -254,7 +226,7 @@ const characterSheet = (character) => {
         const weaponsList = document.getElementById(getWeapons(character.characterId));
         const armorList = document.getElementById(getArmor(character.characterId));
         const curBodyPtsInput = document.getElementById(getCurrentBodyPoints(character.characterId));
-        const curGoldCoinsNum = document.getElementById(getCurrentGoldCoins(character.characterId));
+        const curGoldCoins = document.getElementById(getCurrentGoldCoins(character.characterId));
         const potionsItemsList= document.getElementById(getPotionsAndItems(character.characterId));
 
         nameInput.value = character.name;
@@ -266,7 +238,7 @@ const characterSheet = (character) => {
         addWeaponsToCharacter(weaponsList, character.weapons);
         addArmorsToCharacter(armorList, character.armor);
         curBodyPtsInput.value = character.bodyPts;
-        curGoldCoinsNum.textContent = character.goldCoins;
+        curGoldCoins.value = character.goldCoins;
         addPotionsItemsToCharacter(potionsItemsList, character.potionsAndItems);
     }
 
@@ -279,7 +251,7 @@ const characterSheet = (character) => {
         const weaponsList = document.getElementById(getWeapons(characterId)).querySelectorAll('li');
         const armorList = document.getElementById(getArmor(characterId)).querySelectorAll('li');
         const curBodyPtsInput = document.getElementById(getCurrentBodyPoints(characterId));
-        const curGoldCoinsNum = document.getElementById(getCurrentGoldCoins(characterId));
+        const curGoldCoins = document.getElementById(getCurrentGoldCoins(characterId));
         const potionsItemsList = document.getElementById(getPotionsAndItems(characterId)).querySelectorAll('li');
         const nameInput = document.getElementById(getCharacterName(characterId));
 
@@ -291,7 +263,7 @@ const characterSheet = (character) => {
         storedCharacter.weapons = createCharacterList(weaponsList);
         storedCharacter.armor = createCharacterList(armorList);
         storedCharacter.bodyPts = curBodyPtsInput.value;
-        storedCharacter.goldCoins = curGoldCoinsNum.textContent;
+        storedCharacter.goldCoins = curGoldCoins.value;
         storedCharacter.potionsAndItems = createCharacterList(potionsItemsList);
         storedCharacter.name = nameInput.value;
 
@@ -334,11 +306,11 @@ function createDiceUi(typeOfDice, uniqueId) {
     
     const plusBtn = document.createElement('button');
     plusBtn.textContent = '+';
-    plusBtn.addEventListener('click', () => increaseNumber2(dice, 12));
+    plusBtn.addEventListener('click', () => increaseNumber(dice, 12));
 
     const minusBtn = document.createElement('button');
     minusBtn.textContent = '-';
-    minusBtn.addEventListener('click', () => decreaseNumber2(dice));
+    minusBtn.addEventListener('click', () => decreaseNumber(dice));
 
     diceDiv.append(plusBtn, dice, minusBtn);
     diceContainer.appendChild(diceDiv);
@@ -429,11 +401,11 @@ function createCurrentTrackerUi(trackerLabel, uniqueId) {
 
     const plusBtn = document.createElement('button');
     plusBtn.textContent = '+';
-    plusBtn.addEventListener('click', () => increaseNumber2(trackerInput));
+    plusBtn.addEventListener('click', () => increaseNumber(trackerInput));
 
     const minusBtn = document.createElement('button');
     minusBtn.textContent = '-';
-    minusBtn.addEventListener('click', () => decreaseNumber2(trackerInput));
+    minusBtn.addEventListener('click', () => decreaseNumber(trackerInput));
 
     tracker.append(plusBtn, trackerInput, minusBtn);
     currentStatContainer.appendChild(tracker);
@@ -507,22 +479,12 @@ function addNumOptions(element, maxValue) {
     }
 }
 
-function decreaseNumber(element, currentNum) {
-    const testNum = parseInt(currentNum);
-    return element.textContent = testNum === 0 ? testNum : testNum - 1;
-}
-
-function decreaseNumber2(element) {
+function decreaseNumber(element) {
     const currentNum = parseInt(element.value);
     return element.value = currentNum === 0 ? currentNum : currentNum - 1;
 }
 
-function increaseNumber(element, currentNum, maxNum) {
-    const testNum = parseInt(currentNum);
-    return element.textContent = testNum < maxNum || !maxNum ? testNum + 1 : testNum;
-}
-
-function increaseNumber2(element, maxNum) {
+function increaseNumber(element, maxNum) {
     const currentNum = parseInt(element.value);
     return element.value = currentNum < maxNum || !maxNum ? currentNum + 1 : currentNum;
 }
