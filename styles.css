@@ -15,6 +15,10 @@ h2 {
     font-size: clamp(1.125rem, 0.5vw + 1rem, 2rem);
 }
 
+h4 {
+    font-weight: 400;
+}
+
 a {
     text-decoration: none;
     color: black;
@@ -47,12 +51,7 @@ header ul {
     font-weight: 600;
 }
 
-/* Quest list */
-.quests-main {
-    display: grid;
-    grid-template-columns: max-content 1fr;
-    gap: 2vw;
-}
+/* CHARACTER SHEETS PAGE */
 
 .character-sheet-container {
     display: flex;
@@ -77,6 +76,7 @@ header ul {
 .character-weapons-armor-container {
     display: flex;
     justify-content: space-around;
+    height: 125px;
 }
 
 .character-weapons-armor-container > div {
@@ -108,25 +108,33 @@ header ul {
     gap: 5px;
 }
 
-.hero-input {
+.hero-number-input {
     width: 20px;
     border: none;
     text-align: center;
 }
 
 /* Chrome, Safari, Edge, Opera */
-.hero-input::-webkit-outer-spin-button,
-.hero-input::-webkit-inner-spin-button {
+.hero-number-input::-webkit-outer-spin-button,
+.hero-number-input::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
 
 /* Firefox */
-.hero-input[type=number] {
+.hero-number-input[type=number] {
   -moz-appearance: textfield;
 }
 
-/* Quest Tracker Site */
+/* QUESTS PAGE */
+
+/* Quest list */
+.quests-main {
+    display: grid;
+    grid-template-columns: max-content 1fr;
+    gap: 2vw;
+}
+
 .quests-container {
     display: grid;
     grid-template-columns: repeat(auto-fit, 300px);
@@ -165,7 +173,7 @@ header ul {
     color: silver;
 }
 
-/* Items Page */
+/* ITEMS PAGE */
 
 .content-container {
     display: flex;

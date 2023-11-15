@@ -301,7 +301,7 @@ function createDiceUi(typeOfDice, uniqueId) {
     const diceDiv = document.createElement('div');
 
     const dice = document.createElement('input');
-    setAttributes(dice, {type: 'number', id: `${typeOfDiceArray[0]}-${typeOfDiceArray[1]}-${uniqueId}`, class: 'hero-input'});
+    setAttributes(dice, {type: 'number', id: `${typeOfDiceArray[0]}-${typeOfDiceArray[1]}-${uniqueId}`, class: 'hero-number-input'});
     dice.value = 0;
     
     const plusBtn = document.createElement('button');
@@ -396,7 +396,7 @@ function createCurrentTrackerUi(trackerLabel, uniqueId) {
     const tracker = document.createElement('div');
 
     const trackerInput = document.createElement('input');
-    setAttributes(trackerInput, {type: 'number', id: `${labelArray[0]}-${labelArray[1]}-${uniqueId}`, class: 'hero-input'});
+    setAttributes(trackerInput, {type: 'number', id: `${labelArray[0]}-${labelArray[1]}-${uniqueId}`, class: 'hero-number-input'});
     trackerInput.value = 0;
 
     const plusBtn = document.createElement('button');
