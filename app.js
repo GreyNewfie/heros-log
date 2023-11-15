@@ -312,7 +312,7 @@ function createDiceUi(typeOfDice, uniqueId) {
     minusBtn.textContent = '-';
     minusBtn.addEventListener('click', () => decreaseNumber(dice));
 
-    diceDiv.append(plusBtn, dice, minusBtn);
+    diceDiv.append(minusBtn, dice, plusBtn);
     diceContainer.appendChild(diceDiv);
 
     return diceContainer;
@@ -407,7 +407,7 @@ function createCurrentTrackerUi(trackerLabel, uniqueId) {
     minusBtn.textContent = '-';
     minusBtn.addEventListener('click', () => decreaseNumber(trackerInput));
 
-    tracker.append(plusBtn, trackerInput, minusBtn);
+    tracker.append(minusBtn, trackerInput, plusBtn);
     currentStatContainer.appendChild(tracker);
 
     return currentStatContainer;
