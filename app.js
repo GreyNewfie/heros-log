@@ -319,36 +319,49 @@ function createDiceUi(typeOfDice, uniqueId) {
 }
 
 function createWeaponsUi(container, uniqueId) {
-    const characterWeaponsDiv = document.createElement('div');
+    const characterWeaponsContainer = document.createElement('div');
 
-    const characterWeaponsLabel = document.createElement('label');
-    characterWeaponsLabel.textContent = 'Weapons';
-    characterWeaponsLabel.setAttribute('for', `character-${uniqueId}-weapon-options`);
+    // const characterWeaponsLabel = document.createElement('label');
+    // characterWeaponsLabel.textContent = 'Weapons';
+    // characterWeaponsLabel.setAttribute('for', `character-${uniqueId}-weapon-options`);
 
-    const characterWeaponsSelect = document.createElement('select');
-    setAttributes(characterWeaponsSelect, {id: `character-${uniqueId}-weapon-options`, name: 'character-weapons'});
+    // const characterWeaponsSelect = document.createElement('select');
+    // setAttributes(characterWeaponsSelect, {id: `character-${uniqueId}-weapon-options`, name: 'character-weapons'});
 
-    const defaultSelectOption = document.createElement('option');
-    defaultSelectOption.value = 'default';
-    defaultSelectOption.textContent = '- Add a Weapon -'
-    characterWeaponsSelect.appendChild(defaultSelectOption);
+    // const defaultSelectOption = document.createElement('option');
+    // defaultSelectOption.value = 'default';
+    // defaultSelectOption.textContent = '- Add a Weapon -'
+    // characterWeaponsSelect.appendChild(defaultSelectOption);
 
-    createWeaponsDropdownOptions(characterWeaponsSelect);
+    // createWeaponsDropdownOptions(characterWeaponsSelect);
+
+    const headerContainer = document.createElement('div');
+    headerContainer.setAttribute('class', 'equipment-header');
+
+    const weaponsHeader = document.createElement('h4');
+    weaponsHeader.textContent = 'Weapons';
+    headerContainer.appendChild(weaponsHeader);
+
+    const addWeaponBtn = document.createElement('button');
+    addWeaponBtn.textContent = '+';
+    headerContainer.appendChild(addWeaponBtn);
+
+    characterWeaponsContainer.appendChild(headerContainer);
 
     const characterWeapons = document.createElement('div');
     characterWeapons.setAttribute('class', `character-weapons`);
   
-    const characterWeaponsList = document.createElement('ul');
-    characterWeaponsList.setAttribute('id', `character-${uniqueId}-weapons`);
-    characterWeapons.appendChild(characterWeaponsList);
+    const weaponsList = document.createElement('ul');
+    weaponsList.setAttribute('id', `character-${uniqueId}-weapons`);
+    characterWeapons.appendChild(weaponsList);
 
-    characterWeaponsDiv.append(characterWeaponsLabel, characterWeaponsSelect, characterWeapons);
-    container.appendChild(characterWeaponsDiv);
+    characterWeaponsContainer.appendChild(characterWeapons);
+    container.appendChild(characterWeaponsContainer);
 
-    characterWeaponsSelect.addEventListener('change', (event) => {
-        const weaponId = event.target.value;
-        addItemToCharacter(characterWeaponsList, weaponId);
-    });
+    // characterWeaponsSelect.addEventListener('change', (event) => {
+    //     const weaponId = event.target.value;
+    //     addItemToCharacter(characterWeaponsList, weaponId);
+    // });
 }
 
 function createArmorUi(container, uniqueId) {

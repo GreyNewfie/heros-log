@@ -73,6 +73,15 @@ header ul {
     list-style-type: none;
 }
 
+.character-sheet button {
+    /* border: 1px solid grey; */
+}
+
+.equipment-header {
+    display: flex;
+    gap: 5px;
+}
+
 .character-weapons-armor-container {
     display: flex;
     justify-content: space-around;
