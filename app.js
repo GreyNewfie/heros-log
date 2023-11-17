@@ -360,7 +360,7 @@ function createWeaponsUi(container, uniqueId) {
 
     addWeaponBtn.addEventListener('click', () => {
         const dialog = document.querySelector('dialog');
-        addSpecifiedItemsToModal('weapon');
+        createModalUi(weaponsList, 'weapon');
         dialog.showModal();
     });
 
@@ -524,7 +524,7 @@ function createPotionsItemsDropdownOptions(container) {
     addSpecificItemOptions(container, 'potion');
 }
 
-function addSpecifiedItemsToModal(classification) {
+function createModalUi(listElement, classification) {
     const modal = document.getElementById('modal');
 
     const fieldset = document.createElement('fieldset');
@@ -553,10 +553,14 @@ function addSpecifiedItemsToModal(classification) {
 
     const submitItems = document.createElement('button');
     submitItems.textContent = 'Done';
+    submitItems.setAttribute('id', 'close-modal');
     fieldset.appendChild(submitItems);
 
-    submitItems.addEventListener('click', () => {
+    submitItems.addEventListener('click', event => {
         modal.close();
+        const selectedItems = getSelectedItems();
+        addItemsToCharacter(listElement, selectedItems);
+        fieldset.remove();
     });
 
     modal.appendChild(fieldset);
@@ -573,6 +577,19 @@ function addSpecificItemOptions(element, classification) {
             element.appendChild(option);    
         }
     });
+}
+
+function getSelectedItems() {
+    const itemsList = document.querySelectorAll('input[type=checkbox]');
+    const selectedItems = [];
+
+    itemsList.forEach(item => {
+        if (item.checked) {
+            selectedItems.push(item);
+        }
+    });
+
+    return selectedItems;
 }
 
 function addItemToCharacter(list, itemId) {
@@ -594,6 +611,17 @@ function createCharacterList(nodeList) {
     const characterList = [];
     nodeList.forEach(li => characterList.push((li.textContent).slice(0,-1)));
     return characterList;
+}
+
+function addItemsToCharacter(element, itemsList) {
+    if (!itemsList) {
+        return
+    }
+    
+    itemsList.forEach(item => {
+        const storedItem = items.find(itemStored => itemStored.id === item.id);
+        addItemToCharacter(element, (storedItem.id));        
+    });    
 }
 
 function addWeaponsToCharacter(element, weapons) {
