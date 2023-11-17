@@ -358,6 +358,12 @@ function createWeaponsUi(container, uniqueId) {
     characterWeaponsContainer.appendChild(characterWeapons);
     container.appendChild(characterWeaponsContainer);
 
+    addWeaponBtn.addEventListener('click', () => {
+        const dialog = document.querySelector('dialog');
+        addSpecifiedItemsToModal('weapon');
+        dialog.showModal();
+    });
+
     // characterWeaponsSelect.addEventListener('change', (event) => {
     //     const weaponId = event.target.value;
     //     addItemToCharacter(characterWeaponsList, weaponId);
@@ -503,22 +509,60 @@ function increaseNumber(element, maxNum) {
 }
 
 function createWeaponsDropdownOptions(container) {
-    addSpecificArrayOptions(container, 'weapon');
-    addSpecificArrayOptions(container, 'weapon');
+    addSpecificItemOptions(container, 'weapon');
+    addSpecificItemOptions(container, 'weapon');
 }
 
 function createArmorDropdownOptions(container) {
-    addSpecificArrayOptions(container, 'armor');
-    addSpecificArrayOptions(container, 'armor');
+    addSpecificItemOptions(container, 'armor');
+    addSpecificItemOptions(container, 'armor');
 }
 
 function createPotionsItemsDropdownOptions(container) {
-    addSpecificArrayOptions(container, 'item');
-    addSpecificArrayOptions(container, 'item');
-    addSpecificArrayOptions(container, 'potion');
+    addSpecificItemOptions(container, 'item');
+    addSpecificItemOptions(container, 'item');
+    addSpecificItemOptions(container, 'potion');
 }
 
-function addSpecificArrayOptions(element, classification) {
+function addSpecifiedItemsToModal(classification) {
+    const modal = document.getElementById('modal');
+
+    const fieldset = document.createElement('fieldset');
+    const legend = document.createElement('legend');
+    classification === 'weapon' ? legend.textContent = 'Choose your weapon(s):' : legend.textContent = 'Chose your armor:';
+    fieldset.appendChild(legend);
+
+    const itemsToAdd = items.filter(item => item.classification === classification);
+
+    itemsToAdd.forEach(item => {
+        if (item.classification === classification) {
+            const inputContainer = document.createElement('div');
+
+            const label = document.createElement('label');
+            label.setAttribute('for', item.id);
+            label.textContent = item.name;
+            inputContainer.appendChild(label);
+
+            const input = document.createElement('input');
+            setAttributes(input, {type: 'checkbox', id: `${item.id}`, name: `${item.id}`});
+            inputContainer.appendChild(input);
+
+            fieldset.appendChild(inputContainer);
+        }
+    });
+
+    const submitItems = document.createElement('button');
+    submitItems.textContent = 'Done';
+    fieldset.appendChild(submitItems);
+
+    submitItems.addEventListener('click', () => {
+        modal.close();
+    });
+
+    modal.appendChild(fieldset);
+}
+
+function addSpecificItemOptions(element, classification) {
     const itemsToAdd = items.filter(item => item.classification === classification);
 
     itemsToAdd.forEach(item => {
