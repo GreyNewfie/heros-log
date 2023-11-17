@@ -235,8 +235,8 @@ const characterSheet = (character) => {
         defDice.value = character.defendDice;
         startBodyPtsSel.value = character.startBodyPts;
         startMindPtsSel.value = character.startMindPts;
-        addWeaponsToCharacter(weaponsList, character.weapons);
-        addArmorsToCharacter(armorList, character.armor);
+        addItemsToCharacter(weaponsList, character.weapons);
+        addItemsToCharacter(armorList, character.armor);
         curBodyPtsInput.value = character.bodyPts;
         curGoldCoins.value = character.goldCoins;
         addPotionsItemsToCharacter(potionsItemsList, character.potionsAndItems);
@@ -619,7 +619,7 @@ function addItemsToCharacter(element, itemsList) {
     }
     
     itemsList.forEach(item => {
-        const storedItem = items.find(itemStored => itemStored.id === item.id);
+        const storedItem = items.find(itemStored => itemStored.id === item.id || itemStored.name === item);
         addItemToCharacter(element, (storedItem.id));        
     });    
 }
@@ -640,7 +640,7 @@ function addArmorsToCharacter(element, armors) {
         return
     }
     armors.forEach(armor => {
-        const storedArmor = items.find(item => item.name === armor || item.name === armor);
+        const storedArmor = items.find(item => item.name === armor);
         addItemToCharacter(element, (storedArmor.id));
     });    
 }
