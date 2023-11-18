@@ -235,8 +235,8 @@ const characterSheet = (character) => {
         defDice.value = character.defendDice;
         startBodyPtsSel.value = character.startBodyPts;
         startMindPtsSel.value = character.startMindPts;
-        addWeaponsToCharacter(weaponsList, character.weapons);
-        addArmorsToCharacter(armorList, character.armor);
+        addItemsToCharacter(weaponsList, character.weapons);
+        addItemsToCharacter(armorList, character.armor);
         curBodyPtsInput.value = character.bodyPts;
         curGoldCoins.value = character.goldCoins;
         addPotionsItemsToCharacter(potionsItemsList, character.potionsAndItems);
@@ -301,7 +301,7 @@ function createDiceUi(typeOfDice, uniqueId) {
     const diceDiv = document.createElement('div');
 
     const dice = document.createElement('input');
-    setAttributes(dice, {type: 'number', id: `${typeOfDiceArray[0]}-${typeOfDiceArray[1]}-${uniqueId}`, class: 'hero-input'});
+    setAttributes(dice, {type: 'number', id: `${typeOfDiceArray[0]}-${typeOfDiceArray[1]}-${uniqueId}`, class: 'hero-number-input'});
     dice.value = 0;
     
     const plusBtn = document.createElement('button');
@@ -319,36 +319,55 @@ function createDiceUi(typeOfDice, uniqueId) {
 }
 
 function createWeaponsUi(container, uniqueId) {
-    const characterWeaponsDiv = document.createElement('div');
+    const characterWeaponsContainer = document.createElement('div');
 
-    const characterWeaponsLabel = document.createElement('label');
-    characterWeaponsLabel.textContent = 'Weapons';
-    characterWeaponsLabel.setAttribute('for', `character-${uniqueId}-weapon-options`);
+    // const characterWeaponsLabel = document.createElement('label');
+    // characterWeaponsLabel.textContent = 'Weapons';
+    // characterWeaponsLabel.setAttribute('for', `character-${uniqueId}-weapon-options`);
 
-    const characterWeaponsSelect = document.createElement('select');
-    setAttributes(characterWeaponsSelect, {id: `character-${uniqueId}-weapon-options`, name: 'character-weapons'});
+    // const characterWeaponsSelect = document.createElement('select');
+    // setAttributes(characterWeaponsSelect, {id: `character-${uniqueId}-weapon-options`, name: 'character-weapons'});
 
-    const defaultSelectOption = document.createElement('option');
-    defaultSelectOption.value = 'default';
-    defaultSelectOption.textContent = '- Add a Weapon -'
-    characterWeaponsSelect.appendChild(defaultSelectOption);
+    // const defaultSelectOption = document.createElement('option');
+    // defaultSelectOption.value = 'default';
+    // defaultSelectOption.textContent = '- Add a Weapon -'
+    // characterWeaponsSelect.appendChild(defaultSelectOption);
 
-    createWeaponsDropdownOptions(characterWeaponsSelect);
+    // createWeaponsDropdownOptions(characterWeaponsSelect);
+
+    const headerContainer = document.createElement('div');
+    headerContainer.setAttribute('class', 'equipment-header');
+
+    const weaponsHeader = document.createElement('h4');
+    weaponsHeader.textContent = 'Weapons';
+    headerContainer.appendChild(weaponsHeader);
+
+    const addWeaponBtn = document.createElement('button');
+    addWeaponBtn.textContent = '+';
+    headerContainer.appendChild(addWeaponBtn);
+
+    characterWeaponsContainer.appendChild(headerContainer);
 
     const characterWeapons = document.createElement('div');
     characterWeapons.setAttribute('class', `character-weapons`);
   
-    const characterWeaponsList = document.createElement('ul');
-    characterWeaponsList.setAttribute('id', `character-${uniqueId}-weapons`);
-    characterWeapons.appendChild(characterWeaponsList);
+    const weaponsList = document.createElement('ul');
+    weaponsList.setAttribute('id', `character-${uniqueId}-weapons`);
+    characterWeapons.appendChild(weaponsList);
 
-    characterWeaponsDiv.append(characterWeaponsLabel, characterWeaponsSelect, characterWeapons);
-    container.appendChild(characterWeaponsDiv);
+    characterWeaponsContainer.appendChild(characterWeapons);
+    container.appendChild(characterWeaponsContainer);
 
-    characterWeaponsSelect.addEventListener('change', (event) => {
-        const weaponId = event.target.value;
-        addItemToCharacter(characterWeaponsList, weaponId);
+    addWeaponBtn.addEventListener('click', () => {
+        const dialog = document.querySelector('dialog');
+        createModalUi(weaponsList, 'weapon');
+        dialog.showModal();
     });
+
+    // characterWeaponsSelect.addEventListener('change', (event) => {
+    //     const weaponId = event.target.value;
+    //     addItemToCharacter(characterWeaponsList, weaponId);
+    // });
 }
 
 function createArmorUi(container, uniqueId) {
@@ -396,7 +415,7 @@ function createCurrentTrackerUi(trackerLabel, uniqueId) {
     const tracker = document.createElement('div');
 
     const trackerInput = document.createElement('input');
-    setAttributes(trackerInput, {type: 'number', id: `${labelArray[0]}-${labelArray[1]}-${uniqueId}`, class: 'hero-input'});
+    setAttributes(trackerInput, {type: 'number', id: `${labelArray[0]}-${labelArray[1]}-${uniqueId}`, class: 'hero-number-input'});
     trackerInput.value = 0;
 
     const plusBtn = document.createElement('button');
@@ -490,22 +509,64 @@ function increaseNumber(element, maxNum) {
 }
 
 function createWeaponsDropdownOptions(container) {
-    addSpecificArrayOptions(container, 'weapon');
-    addSpecificArrayOptions(container, 'weapon');
+    addSpecificItemOptions(container, 'weapon');
+    addSpecificItemOptions(container, 'weapon');
 }
 
 function createArmorDropdownOptions(container) {
-    addSpecificArrayOptions(container, 'armor');
-    addSpecificArrayOptions(container, 'armor');
+    addSpecificItemOptions(container, 'armor');
+    addSpecificItemOptions(container, 'armor');
 }
 
 function createPotionsItemsDropdownOptions(container) {
-    addSpecificArrayOptions(container, 'item');
-    addSpecificArrayOptions(container, 'item');
-    addSpecificArrayOptions(container, 'potion');
+    addSpecificItemOptions(container, 'item');
+    addSpecificItemOptions(container, 'item');
+    addSpecificItemOptions(container, 'potion');
 }
 
-function addSpecificArrayOptions(element, classification) {
+function createModalUi(listElement, classification) {
+    const modal = document.getElementById('modal');
+
+    const fieldset = document.createElement('fieldset');
+    const legend = document.createElement('legend');
+    classification === 'weapon' ? legend.textContent = 'Choose your weapon(s):' : legend.textContent = 'Chose your armor:';
+    fieldset.appendChild(legend);
+
+    const itemsToAdd = items.filter(item => item.classification === classification);
+
+    itemsToAdd.forEach(item => {
+        if (item.classification === classification) {
+            const inputContainer = document.createElement('div');
+
+            const label = document.createElement('label');
+            label.setAttribute('for', item.id);
+            label.textContent = item.name;
+            inputContainer.appendChild(label);
+
+            const input = document.createElement('input');
+            setAttributes(input, {type: 'checkbox', id: `${item.id}`, name: `${item.id}`});
+            inputContainer.appendChild(input);
+
+            fieldset.appendChild(inputContainer);
+        }
+    });
+
+    const submitItems = document.createElement('button');
+    submitItems.textContent = 'Done';
+    submitItems.setAttribute('id', 'close-modal');
+    fieldset.appendChild(submitItems);
+
+    submitItems.addEventListener('click', event => {
+        modal.close();
+        const selectedItems = getSelectedItems();
+        addItemsToCharacter(listElement, selectedItems);
+        fieldset.remove();
+    });
+
+    modal.appendChild(fieldset);
+}
+
+function addSpecificItemOptions(element, classification) {
     const itemsToAdd = items.filter(item => item.classification === classification);
 
     itemsToAdd.forEach(item => {
@@ -516,6 +577,19 @@ function addSpecificArrayOptions(element, classification) {
             element.appendChild(option);    
         }
     });
+}
+
+function getSelectedItems() {
+    const itemsList = document.querySelectorAll('input[type=checkbox]');
+    const selectedItems = [];
+
+    itemsList.forEach(item => {
+        if (item.checked) {
+            selectedItems.push(item);
+        }
+    });
+
+    return selectedItems;
 }
 
 function addItemToCharacter(list, itemId) {
@@ -539,26 +613,36 @@ function createCharacterList(nodeList) {
     return characterList;
 }
 
-function addWeaponsToCharacter(element, weapons) {
-    if (!weapons) {
+function addItemsToCharacter(element, itemsList) {
+    if (!itemsList) {
         return
     }
     
-    weapons.forEach(weapon => {
-        const storedWeapon = items.find(item => item.name === weapon);
-        addItemToCharacter(element, (storedWeapon.id));        
+    itemsList.forEach(item => {
+        const storedItem = items.find(itemStored => itemStored.id === item.id || itemStored.name === item);
+        addItemToCharacter(element, (storedItem.id));        
     });    
 }
 
-function addArmorsToCharacter(element, armors) {
-    if (!armors || armors.length === 0) {
-        return
-    }
-    armors.forEach(armor => {
-        const storedArmor = items.find(item => item.name === armor || item.name === armor);
-        addItemToCharacter(element, (storedArmor.id));
-    });    
-}
+// function addWeaponsToCharacter(element, weapons) {
+//     if (!weapons) {
+//         return
+//     }    
+//     weapons.forEach(weapon => {
+//         const storedWeapon = items.find(item => item.name === weapon);
+//         addItemToCharacter(element, (storedWeapon.id));        
+//     });    
+// }
+
+// function addArmorsToCharacter(element, armors) {
+//     if (!armors || armors.length === 0) {
+//         return
+//     }
+//     armors.forEach(armor => {
+//         const storedArmor = items.find(item => item.name === armor);
+//         addItemToCharacter(element, (storedArmor.id));
+//     });    
+// }
 
 function addPotionsItemsToCharacter(element, potionsItems) {
     if (potionsItems) {
