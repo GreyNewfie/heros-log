@@ -321,20 +321,6 @@ function createDiceUi(typeOfDice, uniqueId) {
 function createWeaponsUi(container, uniqueId) {
     const characterWeaponsContainer = document.createElement('div');
 
-    // const characterWeaponsLabel = document.createElement('label');
-    // characterWeaponsLabel.textContent = 'Weapons';
-    // characterWeaponsLabel.setAttribute('for', `character-${uniqueId}-weapon-options`);
-
-    // const characterWeaponsSelect = document.createElement('select');
-    // setAttributes(characterWeaponsSelect, {id: `character-${uniqueId}-weapon-options`, name: 'character-weapons'});
-
-    // const defaultSelectOption = document.createElement('option');
-    // defaultSelectOption.value = 'default';
-    // defaultSelectOption.textContent = '- Add a Weapon -'
-    // characterWeaponsSelect.appendChild(defaultSelectOption);
-
-    // createWeaponsDropdownOptions(characterWeaponsSelect);
-
     const headerContainer = document.createElement('div');
     headerContainer.setAttribute('class', 'equipment-header');
 
@@ -363,43 +349,38 @@ function createWeaponsUi(container, uniqueId) {
         createModalUi(weaponsList, 'weapon');
         dialog.showModal();
     });
-
-    // characterWeaponsSelect.addEventListener('change', (event) => {
-    //     const weaponId = event.target.value;
-    //     addItemToCharacter(characterWeaponsList, weaponId);
-    // });
 }
 
 function createArmorUi(container, uniqueId) {
-    const characterArmorDiv = document. createElement('div');
+    const characterArmorContainer = document.createElement('div');
 
-    const characterArmorLabel = document.createElement('label');
-    characterArmorLabel.textContent = 'Armor';
-    characterArmorLabel.setAttribute('for', `character-${uniqueId}-armor-options`);
+    const headerContainer = document.createElement('div');
+    headerContainer.setAttribute('class', 'equipment-header');
 
-    const characterArmorSelect = document.createElement('select');
-    setAttributes(characterArmorSelect, {id: `character-${uniqueId}-armor-options`, name: 'character-armor'});
+    const weaponsHeader = document.createElement('h4');
+    weaponsHeader.textContent = 'Weapons';
+    headerContainer.appendChild(weaponsHeader);
 
-    const defaultSelectOption = document.createElement('option');
-    defaultSelectOption.value = 'default';
-    defaultSelectOption.textContent = '- Add Armor -';
-    characterArmorSelect.appendChild(defaultSelectOption);
+    const addArmorBtn = document.createElement('button');
+    addArmorBtn.textContent = '+';
+    headerContainer.appendChild(addArmorBtn);
 
-    createArmorDropdownOptions(characterArmorSelect);
+    characterArmorContainer.appendChild(headerContainer);
 
     const characterArmor = document.createElement('div');
-    characterArmor.setAttribute('id', `character-armor`);
+    characterArmor.setAttribute('class', `character-armor`);
+  
+    const armorList = document.createElement('ul');
+    armorList.setAttribute('id', `character-${uniqueId}-armor`);
+    characterArmor.appendChild(armorList);
 
-    const characterArmorList = document.createElement('ul');
-    characterArmorList.setAttribute('id', `character-${uniqueId}-armor`);
-    characterArmor.appendChild(characterArmorList);
+    characterArmorContainer.appendChild(characterArmor);
+    container.appendChild(characterArmorContainer);
 
-    characterArmorDiv.append(characterArmorLabel, characterArmorSelect, characterArmor);
-    container.appendChild(characterArmorDiv);
-
-    characterArmorSelect.addEventListener('change', (event) => {
-        const armorId = event.target.value;
-        addItemToCharacter(characterArmorList, armorId);
+    addArmorBtn.addEventListener('click', () => {
+        const dialog = document.querySelector('dialog');
+        createModalUi(armorList, 'armor');
+        dialog.showModal();
     });
 }
 
@@ -541,12 +522,11 @@ function createModalUi(listElement, classification) {
             const label = document.createElement('label');
             label.setAttribute('for', item.id);
             label.textContent = item.name;
-            inputContainer.appendChild(label);
 
             const input = document.createElement('input');
             setAttributes(input, {type: 'checkbox', id: `${item.id}`, name: `${item.id}`});
-            inputContainer.appendChild(input);
 
+            inputContainer.append(input, label);
             fieldset.appendChild(inputContainer);
         }
     });
