@@ -358,7 +358,7 @@ function createArmorUi(container, uniqueId) {
     headerContainer.setAttribute('class', 'equipment-header');
 
     const weaponsHeader = document.createElement('h4');
-    weaponsHeader.textContent = 'Weapons';
+    weaponsHeader.textContent = 'Armor';
     headerContainer.appendChild(weaponsHeader);
 
     const addArmorBtn = document.createElement('button');
