@@ -624,26 +624,25 @@ function addItemsToCharacter(element, itemsList) {
     });    
 }
 
-function addWeaponsToCharacter(element, weapons) {
-    if (!weapons) {
-        return
-    }
-    
-    weapons.forEach(weapon => {
-        const storedWeapon = items.find(item => item.name === weapon);
-        addItemToCharacter(element, (storedWeapon.id));        
-    });    
-}
+// function addWeaponsToCharacter(element, weapons) {
+//     if (!weapons) {
+//         return
+//     }    
+//     weapons.forEach(weapon => {
+//         const storedWeapon = items.find(item => item.name === weapon);
+//         addItemToCharacter(element, (storedWeapon.id));        
+//     });    
+// }
 
-function addArmorsToCharacter(element, armors) {
-    if (!armors || armors.length === 0) {
-        return
-    }
-    armors.forEach(armor => {
-        const storedArmor = items.find(item => item.name === armor);
-        addItemToCharacter(element, (storedArmor.id));
-    });    
-}
+// function addArmorsToCharacter(element, armors) {
+//     if (!armors || armors.length === 0) {
+//         return
+//     }
+//     armors.forEach(armor => {
+//         const storedArmor = items.find(item => item.name === armor);
+//         addItemToCharacter(element, (storedArmor.id));
+//     });    
+// }
 
 function addPotionsItemsToCharacter(element, potionsItems) {
     if (potionsItems) {

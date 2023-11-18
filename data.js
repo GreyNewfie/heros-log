@@ -393,9 +393,17 @@ const items = [
         type: 'equipment',
         cost: '850 gold coins',
         image: 'item-plate-mail-132x100.png',
-        imageDescription: 'Metal armor lying on the floor propped up against a stone wall'
+        imageDescription: 'Metal armor lying on the floor propped up against a stone wall',
+        // See dynamic items below
+        stats: {
+            defendDice: 2
+        }
     }
 ]
+
+/**
+ * OPtional chaining, null coalscing, combined items/artifacts/equipment 
+ */
 
 // const items = [
 //     ...equipment,
@@ -426,3 +434,29 @@ const items = [
 // }
 
 // console.log('My favourite drink is ', foo?.favourites?.drink ?? 'No drink')
+
+
+/**
+ * Dynamic items and stat breakdowns
+ */
+
+// // Add object to bucket
+// addToMindBucket()
+
+// // Calculate final stat, calculate tooltip breakdown
+// updateMindBucket()
+
+// const mindPointsBucket = [
+//     {
+//         mindPointsBucket: 2,
+//         origin: 'character'
+//     }
+// ]
+
+// mindPointsBucket.push(character.mindPointsBucket)   // Base
+// mindPointsBucket.push(potion.mindPointsBucket)      // Items
+
+// const objects = {
+//     mindPointsBucket: 2,
+//     origin: 'potion'
+// }
