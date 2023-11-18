@@ -118,7 +118,7 @@ header ul {
 }
 
 .hero-number-input {
-    width: 20px;
+    width: 25px;
     border: none;
     text-align: center;
 }
@@ -133,6 +133,15 @@ header ul {
 /* Firefox */
 .hero-number-input[type=number] {
   -moz-appearance: textfield;
+}
+
+#modal {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border: none;
+    padding: 10px;
 }
 
 /* QUESTS PAGE */
