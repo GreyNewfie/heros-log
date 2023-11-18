@@ -144,6 +144,14 @@ header ul {
     padding: 10px;
 }
 
+#cancel-modal {
+    margin-left: 90%;
+}
+
+dialog > fieldset {
+    margin: 5px 25px 10px;
+}
+
 /* QUESTS PAGE */
 
 /* Quest list */
