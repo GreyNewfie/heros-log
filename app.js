@@ -508,7 +508,18 @@ function createPotionsItemsDropdownOptions(container) {
 function createModalUi(listElement, classification) {
     const modal = document.getElementById('modal');
 
+    const cancelModal = document.createElement('button');
+    cancelModal.setAttribute('id', 'cancel-modal');
+    cancelModal.textContent = 'X';
+    modal.appendChild(cancelModal);
+
+    cancelModal.addEventListener('click', () => {
+        modal.close();
+        clearModal();
+    });
+
     const fieldset = document.createElement('fieldset');
+    fieldset.setAttribute('id', 'choose-items');
     const legend = document.createElement('legend');
     classification === 'weapon' ? legend.textContent = 'Choose your weapon(s):' : legend.textContent = 'Chose your armor:';
     fieldset.appendChild(legend);
@@ -540,7 +551,7 @@ function createModalUi(listElement, classification) {
         modal.close();
         const selectedItems = getSelectedItems();
         addItemsToCharacter(listElement, selectedItems);
-        fieldset.remove();
+        clearModal();
     });
 
     modal.appendChild(fieldset);
@@ -559,19 +570,6 @@ function addSpecificItemOptions(element, classification) {
     });
 }
 
-function getSelectedItems() {
-    const itemsList = document.querySelectorAll('input[type=checkbox]');
-    const selectedItems = [];
-
-    itemsList.forEach(item => {
-        if (item.checked) {
-            selectedItems.push(item);
-        }
-    });
-
-    return selectedItems;
-}
-
 function addItemToCharacter(list, itemId) {
     const li = document.createElement('li');
     const item = findItem(itemId);
@@ -587,12 +585,6 @@ function addItemToCharacter(list, itemId) {
     list.appendChild(li);
 }
 
-function createCharacterList(nodeList) {
-    const characterList = [];
-    nodeList.forEach(li => characterList.push((li.textContent).slice(0,-1)));
-    return characterList;
-}
-
 function addItemsToCharacter(element, itemsList) {
     if (!itemsList) {
         return
@@ -604,26 +596,6 @@ function addItemsToCharacter(element, itemsList) {
     });    
 }
 
-// function addWeaponsToCharacter(element, weapons) {
-//     if (!weapons) {
-//         return
-//     }    
-//     weapons.forEach(weapon => {
-//         const storedWeapon = items.find(item => item.name === weapon);
-//         addItemToCharacter(element, (storedWeapon.id));        
-//     });    
-// }
-
-// function addArmorsToCharacter(element, armors) {
-//     if (!armors || armors.length === 0) {
-//         return
-//     }
-//     armors.forEach(armor => {
-//         const storedArmor = items.find(item => item.name === armor);
-//         addItemToCharacter(element, (storedArmor.id));
-//     });    
-// }
-
 function addPotionsItemsToCharacter(element, potionsItems) {
     if (potionsItems) {
         potionsItems.forEach(potionItem => {
@@ -633,9 +605,36 @@ function addPotionsItemsToCharacter(element, potionsItems) {
     }
 }
 
+function createCharacterList(nodeList) {
+    const characterList = [];
+    nodeList.forEach(li => characterList.push((li.textContent).slice(0,-1)));
+    return characterList;
+}
+
+function clearModal() {
+    const cancelBtn = document.getElementById('cancel-modal');
+    cancelBtn.remove();
+
+    const itemsList = document.getElementById('choose-items');
+    itemsList.remove();
+}
+
 function findItem(itemId) {
     const foundItem = items.find((item) => item.id === itemId);
     return foundItem;
+}
+
+function getSelectedItems() {
+    const itemsList = document.querySelectorAll('input[type=checkbox]');
+    const selectedItems = [];
+
+    itemsList.forEach(item => {
+        if (item.checked) {
+            selectedItems.push(item);
+        }
+    });
+
+    return selectedItems;
 }
 
 function removeItem(itemsList, itemId) {
