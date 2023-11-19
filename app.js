@@ -239,7 +239,7 @@ const characterSheet = (character) => {
         addItemsToCharacter(armorList, character.armor);
         curBodyPtsInput.value = character.bodyPts;
         curGoldCoins.value = character.goldCoins;
-        addPotionsItemsToCharacter(potionsItemsList, character.potionsAndItems);
+        addItemsToCharacter(potionsItemsList, character.potionsAndItems);
     }
 
     function updateCharacter(storedCharacter, characterId) {
@@ -414,29 +414,32 @@ function createCurrentTrackerUi(trackerLabel, uniqueId) {
 }
 
 function createPotionsItemsUi(container, uniqueId) {
-    // Create select for dropdown menu
-    const potionsItemsLabel = document.createElement('label');
-    potionsItemsLabel.setAttribute('for', `potions-items-${uniqueId}`);
-    potionsItemsLabel.textContent = 'Potions & Other Items';
+    const headerContainer = document.createElement('div');
+    headerContainer.setAttribute('class', 'equipment-header');
 
-    const potionsItemsDropdown = document.createElement('select');
-    setAttributes(potionsItemsDropdown, {id: `character-${uniqueId}-items-options`, name: 'character-potions-items'});
+    const potionsItemsHeader = document.createElement('h4');
+    potionsItemsHeader.textContent = 'Potions & Items';
+    headerContainer.appendChild(potionsItemsHeader);
 
-    const defaultSelectOption = document.createElement('option');
-    defaultSelectOption.value = 'default';
-    defaultSelectOption.textContent = '- Select Item -';
-    potionsItemsDropdown.appendChild(defaultSelectOption);
+    const addPotionsItemsBtn = document.createElement('button');
+    addPotionsItemsBtn.textContent = '+';
+    headerContainer.appendChild(addPotionsItemsBtn);
 
-    createPotionsItemsDropdownOptions(potionsItemsDropdown);
+    container.appendChild(headerContainer);
 
+    const potionsItemsContainer = document.createElement('div');
+    potionsItemsContainer.setAttribute('class', `potions-items-list`);
+  
     const potionsItemsList = document.createElement('ul');
     potionsItemsList.setAttribute('id', `character-${uniqueId}-potions-items`);
+    potionsItemsContainer.appendChild(potionsItemsList);
 
-    container.append(potionsItemsLabel, potionsItemsDropdown, potionsItemsList);   
+    container.appendChild(potionsItemsContainer);
 
-    potionsItemsDropdown.addEventListener('change', (event) => {
-        const itemId = event.target.value;
-        addItemToCharacter(potionsItemsList, itemId);
+    addPotionsItemsBtn.addEventListener('click', () => {
+        const dialog = document.querySelector('dialog');
+        createModalUi(potionsItemsList, 'item', 'potion');
+        dialog.showModal();
     });
 }
 
@@ -505,7 +508,7 @@ function createPotionsItemsDropdownOptions(container) {
     addSpecificItemOptions(container, 'potion');
 }
 
-function createModalUi(listElement, classification) {
+function createModalUi(listElement, classification, classification2) {
     const modal = document.getElementById('modal');
 
     const cancelModal = document.createElement('button');
@@ -524,23 +527,31 @@ function createModalUi(listElement, classification) {
     classification === 'weapon' ? legend.textContent = 'Choose your weapon(s):' : legend.textContent = 'Chose your armor:';
     fieldset.appendChild(legend);
 
-    const itemsToAdd = items.filter(item => item.classification === classification);
+    function addItemsToList(classification) {
+        const itemsToAdd = items.filter(item => item.classification === classification);
 
-    itemsToAdd.forEach(item => {
-        if (item.classification === classification) {
+        itemsToAdd.forEach(item => {
             const inputContainer = document.createElement('div');
-
+    
             const label = document.createElement('label');
             label.setAttribute('for', item.id);
             label.textContent = item.name;
-
+    
             const input = document.createElement('input');
             setAttributes(input, {type: 'checkbox', id: `${item.id}`, name: `${item.id}`});
-
+    
             inputContainer.append(input, label);
             fieldset.appendChild(inputContainer);
-        }
-    });
+        });    
+    }
+
+    if (classification) {
+        addItemsToList(classification);
+    }
+
+    if (classification2) {
+        addItemsToList(classification2);
+    }
 
     const submitItems = document.createElement('button');
     submitItems.textContent = 'Done';
@@ -597,12 +608,14 @@ function addItemsToCharacter(element, itemsList) {
 }
 
 function addPotionsItemsToCharacter(element, potionsItems) {
-    if (potionsItems) {
-        potionsItems.forEach(potionItem => {
-            const storedPotionItem = items.find(item => item.name === potionItem || item.name === potionItem || item.name === potionItem);
-            addItemToCharacter(element, (storedPotionItem.id));
-        });
+    if (!potionsItems) {
+        return
     }
+
+    potionsItems.forEach(potionItem => {
+        const storedPotionItem = items.find(item => item.name === potionItem || item.name === potionItem || item.name === potionItem);
+        addItemToCharacter(element, (storedPotionItem.id));
+    });
 }
 
 function createCharacterList(nodeList) {
