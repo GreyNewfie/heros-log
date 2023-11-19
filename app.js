@@ -74,38 +74,27 @@ const characterSheet = (character) => {
         initialStatsDiv.setAttribute('class', 'initial-stats');
     
         // Attack dice UI
-        const attackDiceUi = createDiceUi('Attack Dice' ,uniqueId);
+        const attackDiceUi = createDiceUi('Attack Dice' ,uniqueId, 6);
     
         // Defend dice UI
-        const defendDiceUi = createDiceUi('Defend Dice', uniqueId);
+        const defendDiceUi = createDiceUi('Defend Dice', uniqueId, 6);
     
         // Starting body and mind points div
         const startingPointsDiv = document.createElement('div');
         startingPointsDiv.setAttribute('class', 'starting-points');
-        const startingPointsP = document.createElement('p');
-        startingPointsP.append('Starting Points');
+
+        const startingPointsHeader = document.createElement('h4');
+        startingPointsHeader.textContent = 'Starting Points';
+        startingPointsDiv.appendChild(startingPointsHeader);
     
-        //Body points select
-        const startingBodyPointsDiv = document.createElement('div');
-        setAttributes(startingBodyPointsDiv, {'id': `starting-body-points-${uniqueId}`, 'class': 'numeric-tracker'});
-        const startingBodyPointsP = document.createElement('p');
-        startingBodyPointsP.append('Body');
-        const startingBodyPointsSelect = document.createElement('select');
-        setAttributes(startingBodyPointsSelect, {name: 'starting-body-points-number', id: `starting-body-pts-${uniqueId}`});
-        addNumOptions(startingBodyPointsSelect, 8);
-        startingBodyPointsDiv.append(startingBodyPointsP, startingBodyPointsSelect);    
+        //Starting body points UI
+        const startBodyPtsUi = createDiceUi('Body', uniqueId, 8);
+        startingPointsDiv.appendChild(startBodyPtsUi);
     
         //Mind points select
-        const startingMindPointsDiv = document.createElement('div');
-        setAttributes(startingMindPointsDiv, {id: 'starting-mind-points', class: 'starting-mind-points'});
-        const startingMindPointsP = document.createElement('p');
-        startingMindPointsP.append('Mind');
-        const startingMindPointsSelect = document.createElement('select');
-        setAttributes(startingMindPointsSelect, {name: 'starting-mind-points-number', id: `starting-mind-pts-${uniqueId}`});
-        addNumOptions(startingMindPointsSelect, 6);
-        startingMindPointsDiv.append(startingMindPointsP, startingMindPointsSelect);
-        startingPointsDiv.append(startingPointsP, startingBodyPointsDiv, startingMindPointsDiv);
-    
+        const startMindPtsUi = createDiceUi('Mind', uniqueId, 8);
+        startingPointsDiv.appendChild(startMindPtsUi);
+
         //Character weapons and armor container
         const characterWeaponsArmorDiv = document.createElement('div');
         characterWeaponsArmorDiv.setAttribute('class', 'character-weapons-armor-container');
@@ -160,11 +149,11 @@ const characterSheet = (character) => {
     }
 
     function getStartBodyPoints(characterId) {
-        return `starting-body-pts-${characterId}`;
+        return `body-${characterId}`;
     }
 
     function getStartMindPoints(characterId) {
-        return `starting-mind-pts-${characterId}`;
+        return `mind-${characterId}`;
     }
 
     function getWeapons(characterId) {
@@ -194,8 +183,8 @@ const characterSheet = (character) => {
         const typeSelect = document.getElementById(getCharacterType(uniqueId));
         const attDice = document.getElementById(getAttackDice(uniqueId));
         const defDice = document.getElementById(getDefendDice(uniqueId));
-        const startBodyPtsSel = document.getElementById(getStartBodyPoints(uniqueId));
-        const startMindPtsSel = document.getElementById(getStartMindPoints(uniqueId));
+        const startBodyPtsInput = document.getElementById(getStartBodyPoints(uniqueId));
+        const startMindPtsInput = document.getElementById(getStartMindPoints(uniqueId));
         const weaponsList = document.getElementById(getWeapons(uniqueId)).querySelectorAll('li');
         const armorList = document.getElementById(getArmor(uniqueId)).querySelectorAll('li');
         const curBodyPts = document.getElementById(getCurrentBodyPoints(uniqueId));
@@ -206,8 +195,8 @@ const characterSheet = (character) => {
         this.type = typeSelect.value;
         this.attackDice = attDice.value;
         this.defendDice = defDice.value;
-        this.startBodyPts = startBodyPtsSel.value;
-        this.startMindPts = startMindPtsSel.value;
+        this.startBodyPts = startBodyPtsInput.value;
+        this.startMindPts = startMindPtsInput.value;
         this.weapons = createCharacterList(weaponsList);
         this.armor = createCharacterList(armorList)
         this.bodyPts = curBodyPts.value;
@@ -221,8 +210,8 @@ const characterSheet = (character) => {
         const typeSelect = document.getElementById(getCharacterType(character.characterId));
         const attDice = document.getElementById(getAttackDice(character.characterId));
         const defDice = document.getElementById(getDefendDice(character.characterId));
-        const startBodyPtsSel = document.getElementById(getStartBodyPoints(character.characterId));
-        const startMindPtsSel = document.getElementById(getStartMindPoints(character.characterId));
+        const startBodyPts = document.getElementById(getStartBodyPoints(character.characterId));
+        const startMindPts = document.getElementById(getStartMindPoints(character.characterId));
         const weaponsList = document.getElementById(getWeapons(character.characterId));
         const armorList = document.getElementById(getArmor(character.characterId));
         const curBodyPtsInput = document.getElementById(getCurrentBodyPoints(character.characterId));
@@ -233,8 +222,8 @@ const characterSheet = (character) => {
         typeSelect.value = character.type;
         attDice.value = character.attackDice;
         defDice.value = character.defendDice;
-        startBodyPtsSel.value = character.startBodyPts;
-        startMindPtsSel.value = character.startMindPts;
+        startBodyPts.value = character.startBodyPts;
+        startMindPts.value = character.startMindPts;
         addItemsToCharacter(weaponsList, character.weapons);
         addItemsToCharacter(armorList, character.armor);
         curBodyPtsInput.value = character.bodyPts;
@@ -246,8 +235,8 @@ const characterSheet = (character) => {
         const typeSelect = document.getElementById(getCharacterType(characterId));
         const attDiceSel = document.getElementById(getAttackDice(characterId));
         const defDiceSel = document.getElementById(getDefendDice(characterId));
-        const startBodyPtsSel = document.getElementById(getStartBodyPoints(characterId));
-        const startMindPtsSel = document.getElementById(getStartMindPoints(characterId));
+        const startBodyPtsInput = document.getElementById(getStartBodyPoints(characterId));
+        const startMindPtsInput = document.getElementById(getStartMindPoints(characterId));
         const weaponsList = document.getElementById(getWeapons(characterId)).querySelectorAll('li');
         const armorList = document.getElementById(getArmor(characterId)).querySelectorAll('li');
         const curBodyPtsInput = document.getElementById(getCurrentBodyPoints(characterId));
@@ -258,8 +247,8 @@ const characterSheet = (character) => {
         storedCharacter.type = typeSelect.value;
         storedCharacter.attackDice = attDiceSel.value;
         storedCharacter.defendDice = defDiceSel.value;
-        storedCharacter.startBodyPts = startBodyPtsSel.value;
-        storedCharacter.startMindPts = startMindPtsSel.value;
+        storedCharacter.startBodyPts = startBodyPtsInput.value;
+        storedCharacter.startMindPts = startMindPtsInput.value;
         storedCharacter.weapons = createCharacterList(weaponsList);
         storedCharacter.armor = createCharacterList(armorList);
         storedCharacter.bodyPts = curBodyPtsInput.value;
@@ -289,8 +278,14 @@ function createCharacterTypeUi(container, uniqueId) {
     });
 }
 
-function createDiceUi(typeOfDice, uniqueId) {
+function createDiceUi(typeOfDice, uniqueId, maxNum) {
+    if (!maxNum) {
+        const maxNum = 999;
+    }
+
     const typeOfDiceArray = (typeOfDice.toLowerCase()).split(' ');
+    // Setting ID attribute for multiple word descriptions & single word descriptions, ex. 'Attack Dice' & 'Body' (starting body pts)
+    const diceId = typeOfDiceArray[1] ? `${typeOfDiceArray[0]}-${typeOfDiceArray[1]}-${uniqueId}` : `${typeOfDiceArray[0]}-${uniqueId}`;
 
     const diceContainer = document.createElement('div');
 
@@ -301,12 +296,12 @@ function createDiceUi(typeOfDice, uniqueId) {
     const diceDiv = document.createElement('div');
 
     const dice = document.createElement('input');
-    setAttributes(dice, {type: 'number', id: `${typeOfDiceArray[0]}-${typeOfDiceArray[1]}-${uniqueId}`, class: 'hero-number-input'});
+    setAttributes(dice, {type: 'number', id: diceId, class: 'hero-number-input'});
     dice.value = 0;
     
     const plusBtn = document.createElement('button');
     plusBtn.textContent = '+';
-    plusBtn.addEventListener('click', () => increaseNumber(dice, 12));
+    plusBtn.addEventListener('click', () => increaseNumber(dice, maxNum));
 
     const minusBtn = document.createElement('button');
     minusBtn.textContent = '-';
@@ -473,15 +468,6 @@ function characterDeath(event, characters, character) {
     }
 }
 
-function addNumOptions(element, maxValue) {
-    for (let i = 0; i <= maxValue; i++) {
-        const option = document.createElement('option');
-        option.setAttribute('value', i);
-        option.append(`${i}`);
-        element.appendChild(option);
-    }
-}
-
 function decreaseNumber(element) {
     const currentNum = parseInt(element.value);
     return element.value = currentNum === 0 ? currentNum : currentNum - 1;
@@ -490,22 +476,6 @@ function decreaseNumber(element) {
 function increaseNumber(element, maxNum) {
     const currentNum = parseInt(element.value);
     return element.value = currentNum < maxNum || !maxNum ? currentNum + 1 : currentNum;
-}
-
-function createWeaponsDropdownOptions(container) {
-    addSpecificItemOptions(container, 'weapon');
-    addSpecificItemOptions(container, 'weapon');
-}
-
-function createArmorDropdownOptions(container) {
-    addSpecificItemOptions(container, 'armor');
-    addSpecificItemOptions(container, 'armor');
-}
-
-function createPotionsItemsDropdownOptions(container) {
-    addSpecificItemOptions(container, 'item');
-    addSpecificItemOptions(container, 'item');
-    addSpecificItemOptions(container, 'potion');
 }
 
 function createModalUi(listElement, classification, classification2) {
