@@ -135,6 +135,12 @@ header ul {
   -moz-appearance: textfield;
 }
 
+.character-weapons ul, .character-armor ul {
+    overflow: auto;
+    height: 105px;
+    padding: 0px 5px;
+}
+
 .potions-items-list {
     display: flex;
     flex-direction: column;
@@ -142,11 +148,10 @@ header ul {
 
 .potions-items-list > ul {
     display: flex;
-    flex-direction: column;
-    flex-wrap: wrap;
+    flex-flow: column wrap;
     column-gap: .5em;
     height: 85px;
-    overflow: scroll;
+    overflow: auto;
 }
 
 #modal {
