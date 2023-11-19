@@ -239,7 +239,7 @@ const characterSheet = (character) => {
         addItemsToCharacter(armorList, character.armor);
         curBodyPtsInput.value = character.bodyPts;
         curGoldCoins.value = character.goldCoins;
-        addPotionsItemsToCharacter(potionsItemsList, character.potionsAndItems);
+        addItemsToCharacter(potionsItemsList, character.potionsAndItems);
     }
 
     function updateCharacter(storedCharacter, characterId) {
@@ -430,10 +430,10 @@ function createPotionsItemsUi(container, uniqueId) {
     potionsItemsContainer.appendChild(headerContainer);
 
     const potionsItems = document.createElement('div');
-    potionsItems.setAttribute('class', `character-armor`);
+    potionsItems.setAttribute('class', `character-potions-items`);
   
     const potionsItemsList = document.createElement('ul');
-    potionsItemsList.setAttribute('id', `character-${uniqueId}-armor`);
+    potionsItemsList.setAttribute('id', `character-${uniqueId}-potions-items`);
     potionsItems.appendChild(potionsItemsList);
 
     potionsItemsContainer.appendChild(potionsItems);
