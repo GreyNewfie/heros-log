@@ -135,6 +135,20 @@ header ul {
   -moz-appearance: textfield;
 }
 
+.potions-items-list {
+    display: flex;
+    flex-direction: column;
+}
+
+.potions-items-list > ul {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    column-gap: .5em;
+    height: 85px;
+    overflow: scroll;
+}
+
 #modal {
     position: absolute;
     top: 50%;

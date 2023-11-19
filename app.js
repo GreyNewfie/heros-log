@@ -414,29 +414,26 @@ function createCurrentTrackerUi(trackerLabel, uniqueId) {
 }
 
 function createPotionsItemsUi(container, uniqueId) {
-    const potionsItemsContainer = document.createElement('div');
-
     const headerContainer = document.createElement('div');
     headerContainer.setAttribute('class', 'equipment-header');
 
-    const weaponsHeader = document.createElement('h4');
-    weaponsHeader.textContent = 'Potions & Items';
-    headerContainer.appendChild(weaponsHeader);
+    const potionsItemsHeader = document.createElement('h4');
+    potionsItemsHeader.textContent = 'Potions & Items';
+    headerContainer.appendChild(potionsItemsHeader);
 
     const addPotionsItemsBtn = document.createElement('button');
     addPotionsItemsBtn.textContent = '+';
     headerContainer.appendChild(addPotionsItemsBtn);
 
-    potionsItemsContainer.appendChild(headerContainer);
+    container.appendChild(headerContainer);
 
-    const potionsItems = document.createElement('div');
-    potionsItems.setAttribute('class', `character-potions-items`);
+    const potionsItemsContainer = document.createElement('div');
+    potionsItemsContainer.setAttribute('class', `potions-items-list`);
   
     const potionsItemsList = document.createElement('ul');
     potionsItemsList.setAttribute('id', `character-${uniqueId}-potions-items`);
-    potionsItems.appendChild(potionsItemsList);
+    potionsItemsContainer.appendChild(potionsItemsList);
 
-    potionsItemsContainer.appendChild(potionsItems);
     container.appendChild(potionsItemsContainer);
 
     addPotionsItemsBtn.addEventListener('click', () => {
@@ -611,12 +608,14 @@ function addItemsToCharacter(element, itemsList) {
 }
 
 function addPotionsItemsToCharacter(element, potionsItems) {
-    if (potionsItems) {
-        potionsItems.forEach(potionItem => {
-            const storedPotionItem = items.find(item => item.name === potionItem || item.name === potionItem || item.name === potionItem);
-            addItemToCharacter(element, (storedPotionItem.id));
-        });
+    if (!potionsItems) {
+        return
     }
+
+    potionsItems.forEach(potionItem => {
+        const storedPotionItem = items.find(item => item.name === potionItem || item.name === potionItem || item.name === potionItem);
+        addItemToCharacter(element, (storedPotionItem.id));
+    });
 }
 
 function createCharacterList(nodeList) {
