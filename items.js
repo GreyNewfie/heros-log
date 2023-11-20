@@ -18,6 +18,7 @@ function createItemsList(classification) {
 
         const itemAnchor = document.createElement('a');
         itemAnchor.setAttribute('href', `#${item.id}`);
+        itemAnchor.setAttribute('class', 'list-item');
         itemAnchor.textContent = item.name;
 
         itemAnchor.addEventListener('click', (event) => {
@@ -140,6 +141,3 @@ function createItemCard(itemName) {
     return itemCard;
 }
 
-function addEventListeners() {
-    const listItems = document.querySelectorAll('#items-container > a');
-}
