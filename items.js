@@ -126,6 +126,17 @@ function createItemCard(itemName) {
     cardDescription.textContent = item.description;
     itemCard.appendChild(cardDescription);
 
+    if (!item.cost) {
+        return itemCard;
+    }
+
+    const itemCost = document.createElement('span');
+    itemCost.setAttribute('class', 'item-card-cost');
+    const importantText = document.createElement('strong');
+    importantText.textContent = 'Cost: ';
+    itemCost.append(importantText, item.cost);
+    itemCard.appendChild(itemCost);
+
     return itemCard;
 }
 
