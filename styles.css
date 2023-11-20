@@ -274,11 +274,12 @@ dialog > fieldset {
 }
 
 .instruction-card {
-    border: 3px solid black;
-    width: 253px;
-    height: 325px;
-    padding: 20px 10px;
+    border: 2px solid black;
+    width: 270px;
+    height: 340px;
+    padding: 20px;
     text-align: center;
+    font-size: 1.2rem;
 }
 
 .instruction-card > h3 {
@@ -291,15 +292,17 @@ dialog > fieldset {
     align-items: center;
     gap: 10px;
 
-    width: 253px;
-    height: 340px;
-    padding: 10px;
-    border: 3px solid black; 
+    width: 270px;
+    min-height: 340px;
+    max-height: max-content;
+    padding: 20px;
+    border: 2px solid black;
+    font-size: 1.2rem;
 }
 
 .item-card-image {
-    width: 135px;
-    height: 100px;
+    width: 148px;
+    height: 110px;
 }
 
 
