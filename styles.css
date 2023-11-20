@@ -244,10 +244,24 @@ dialog > fieldset {
     align-items: center;
     gap: 3%;
     margin-bottom: 5%;
+    font-weight: 600;
 }
 
 .items-header-icon {
     width: 1.5rem;
+}
+
+.list-item:hover {
+    color: grey;
+}
+
+.list-item:focus {
+    font-weight: 600;
+}
+
+.list-item:hover:focus {
+    color: black;
+    font-weight: 600;
 }
 
 .items-card-container {
