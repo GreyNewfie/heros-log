@@ -233,7 +233,20 @@ dialog > fieldset {
     display: flex;
     flex-direction: column;
     gap: 3vh;
+}
+
+.items-container, .search-wrapper input {
     font-size: 1.1rem;
+}
+
+.search-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: .25rem;
+}
+
+.search-wrapper input {
+    font-family: inherit;
 }
 
 .items-container ul {
@@ -263,6 +276,10 @@ dialog > fieldset {
 .list-item:hover:focus {
     color: black;
     font-weight: 600;
+}
+
+.hide {
+    display: none;
 }
 
 .items-card-container {

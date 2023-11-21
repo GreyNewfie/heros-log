@@ -3,8 +3,8 @@ function createItemsList(classification) {
 
     const itemsListHeader = document.createElement('h4');
     itemsListHeader.setAttribute('class', 'items-list-header');
-    const listName = classification.charAt(0).toUpperCase() + classification.slice(1);
-    itemsListHeader.textContent = listName;
+    const capitalizeListName = classification.charAt(0).toUpperCase() + classification.slice(1);
+    itemsListHeader.textContent = capitalizeListName;
     listContainer.appendChild(itemsListHeader);
 
     const icon = getListHeaderIcon(classification);
@@ -79,7 +79,7 @@ function removeInstructionCard() {
     instructionCard.remove();
 }
 
-(function displayCard() {
+(function displayInstructionCard() {
     const itemsCardContainer = document.getElementById('items-card-container');
 
     const instructionCard = createInstructionCard();
@@ -141,3 +141,18 @@ function createItemCard(itemName) {
     return itemCard;
 }
 
+(function searchItems() {
+    const searchInput = document.querySelector('[data-search]');
+    const listItemElements = document.querySelectorAll('a');
+
+    searchInput.addEventListener('input', (e) => {
+        const value = e.target.value.toLowerCase();
+
+        listItemElements.forEach(itemElement => {
+            const lowerCaseItemName = itemElement.innerText.toLowerCase();
+            const isVisible = lowerCaseItemName.includes(value);
+            itemElement.classList.toggle('hide', !isVisible);
+        });
+        
+    });
+})();
