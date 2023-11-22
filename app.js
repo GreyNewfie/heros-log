@@ -88,7 +88,7 @@ const characterSheet = (character) => {
         startingPointsDiv.appendChild(startingPointsHeader);
     
         //Starting body points UI
-        const startBodyPtsUi = createDiceUi('Body', uniqueId, 8);
+        const startBodyPtsUi = createDiceUi('Body', uniqueId, 12);
         startingPointsDiv.appendChild(startBodyPtsUi);
     
         //Mind points select
