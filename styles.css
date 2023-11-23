@@ -51,7 +51,7 @@ header ul {
     font-weight: 600;
 }
 
-/* CHARACTER SHEETS PAGE */
+/* CHARACTERS PAGE */
 
 .character-sheet-container {
     display: flex;
@@ -73,6 +73,15 @@ header ul {
 
 .character-name-type-container {
     margin-bottom: 10px;
+}
+
+/* Character sheet skull icon */
+.material-symbols-outlined {
+    font-variation-settings:
+    'FILL' 0,
+    'wght' 400,
+    'GRAD' 0,
+    'opsz' 24
 }
 
 .initial-stats {
@@ -105,36 +114,6 @@ header ul {
     text-align: center;
 }
 
-.character-sheet ul {
-    list-style-type: none;
-}
-
-.equipment-header {
-    display: flex;
-    gap: 5px;
-}
-
-.character-weapons-armor-container {
-    display: flex;
-    justify-content: space-around;
-    height: 125px;
-}
-
-.character-weapons-armor-container > div {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-/* for character sheet skull icon */
-.material-symbols-outlined {
-  font-variation-settings:
-  'FILL' 0,
-  'wght' 400,
-  'GRAD' 0,
-  'opsz' 24
-}
-
 .char-btns {
     position: absolute;
     right: 10px;
@@ -144,7 +123,7 @@ header ul {
     gap: 5px;
 }
 
-.numeric-tracker>div {
+.numeric-tracker > div {
     display: flex;
     gap: 5px;
 }
@@ -167,7 +146,33 @@ header ul {
   -moz-appearance: textfield;
 }
 
-.character-weapons ul, .character-armor ul {
+.character-sheet ul {
+    list-style-type: none;
+}
+
+/* DELETE obsolete equipment-header class */
+.equipment-header, 
+.weapons-armor-header {
+    display: flex;
+    gap: 5px;
+}
+
+.character-weapons-armor-container {
+    display: flex;
+    justify-content: space-around;
+    height: 125px;
+}
+
+.character-weapons-armor-container > div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* DELETE obsolete character-weapons and character-armor class */
+.character-weapons ul, 
+.character-armor ul, 
+.character-weapons-armor ul {
     overflow: auto;
     height: 105px;
     padding: 0px 5px;

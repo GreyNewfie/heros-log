@@ -108,13 +108,12 @@ const characterSheet = (character) => {
         // Character weapons and armor container
         const characterWeaponsArmorDiv = document.createElement('div');
         characterWeaponsArmorDiv.setAttribute('class', 'character-weapons-armor-container');
-    
-        // Character weapons input
-        createWeaponsUi(characterWeaponsArmorDiv, uniqueId);
-    
-        // Character armor input
-        createArmorUi(characterWeaponsArmorDiv, uniqueId);
-        
+
+        // Character Weapons and Armor UI
+        const weaponsAndArmorUi = createWeaponsAndArmorUi(uniqueId);
+
+        characterWeaponsArmorDiv.appendChild(weaponsAndArmorUi);
+            
         // Potions and Other Items Section
         const potionsItemsDiv = document.createElement('div');
         potionsItemsDiv.setAttribute('class', 'potions-items');
@@ -157,6 +156,10 @@ const characterSheet = (character) => {
         return `mind-${characterId}`;
     }
 
+    function getWeaponsAndArmor(characterId) {
+        return `character-${characterId}-weapons-armor`
+    }
+
     function getWeapons(characterId) {
         return `character-${characterId}-weapons`;
     }
@@ -186,8 +189,7 @@ const characterSheet = (character) => {
         const defDice = document.getElementById(getDefendDice(uniqueId));
         const startBodyPtsInput = document.getElementById(getStartBodyPoints(uniqueId));
         const startMindPtsInput = document.getElementById(getStartMindPoints(uniqueId));
-        const weaponsList = document.getElementById(getWeapons(uniqueId)).querySelectorAll('li');
-        const armorList = document.getElementById(getArmor(uniqueId)).querySelectorAll('li');
+        const weaponsAndArmorList = document.getElementById(getWeaponsAndArmor(uniqueId)).querySelectorAll('li');
         const curBodyPts = document.getElementById(getCurrentBodyPoints(uniqueId));
         const curGoldCoins = document.getElementById(getCurrentGoldCoins(uniqueId));
         const potionsItemsList = document.getElementById(getPotionsAndItems(uniqueId)).querySelectorAll('li');
@@ -198,12 +200,11 @@ const characterSheet = (character) => {
         this.defendDice = defDice.value;
         this.startBodyPts = startBodyPtsInput.value;
         this.startMindPts = startMindPtsInput.value;
-        this.weapons = createCharacterList(weaponsList);
-        this.armor = createCharacterList(armorList)
+        this.weaponsAndArmor = createCharacterList(weaponsAndArmorList);
         this.bodyPts = curBodyPts.value;
         this.goldCoins = curGoldCoins.value;
         this.potionsAndItems = createCharacterList(potionsItemsList);
-        return({characterId, name, type, attackDice, defendDice, startBodyPts, startMindPts, weapons, armor, bodyPts, goldCoins, potionsAndItems});
+        return({characterId, name, type, attackDice, defendDice, startBodyPts, startMindPts, bodyPts, goldCoins, weaponsAndArmor, potionsAndItems});
     }
 
     function createExistingCharacter(character) {
@@ -213,8 +214,7 @@ const characterSheet = (character) => {
         const defDice = document.getElementById(getDefendDice(character.characterId));
         const startBodyPts = document.getElementById(getStartBodyPoints(character.characterId));
         const startMindPts = document.getElementById(getStartMindPoints(character.characterId));
-        const weaponsList = document.getElementById(getWeapons(character.characterId));
-        const armorList = document.getElementById(getArmor(character.characterId));
+        const weaponsAndArmorList = document.getElementById(getWeaponsAndArmor(uniqueId));
         const curBodyPtsInput = document.getElementById(getCurrentBodyPoints(character.characterId));
         const curGoldCoins = document.getElementById(getCurrentGoldCoins(character.characterId));
         const potionsItemsList= document.getElementById(getPotionsAndItems(character.characterId));
@@ -225,8 +225,7 @@ const characterSheet = (character) => {
         defDice.value = character.defendDice;
         startBodyPts.value = character.startBodyPts;
         startMindPts.value = character.startMindPts;
-        addItemsToCharacter(weaponsList, character.weapons);
-        addItemsToCharacter(armorList, character.armor);
+        addItemsToCharacter(weaponsAndArmorList, character.weaponsAndArmor);
         curBodyPtsInput.value = character.bodyPts;
         curGoldCoins.value = character.goldCoins;
         addItemsToCharacter(potionsItemsList, character.potionsAndItems);
@@ -238,8 +237,7 @@ const characterSheet = (character) => {
         const defDiceSel = document.getElementById(getDefendDice(characterId));
         const startBodyPtsInput = document.getElementById(getStartBodyPoints(characterId));
         const startMindPtsInput = document.getElementById(getStartMindPoints(characterId));
-        const weaponsList = document.getElementById(getWeapons(characterId)).querySelectorAll('li');
-        const armorList = document.getElementById(getArmor(characterId)).querySelectorAll('li');
+        const weaponsAndArmorList = document. getElementById(getWeaponsAndArmor(characterId)).querySelectorAll('li');
         const curBodyPtsInput = document.getElementById(getCurrentBodyPoints(characterId));
         const curGoldCoins = document.getElementById(getCurrentGoldCoins(characterId));
         const potionsItemsList = document.getElementById(getPotionsAndItems(characterId)).querySelectorAll('li');
@@ -250,8 +248,7 @@ const characterSheet = (character) => {
         storedCharacter.defendDice = defDiceSel.value;
         storedCharacter.startBodyPts = startBodyPtsInput.value;
         storedCharacter.startMindPts = startMindPtsInput.value;
-        storedCharacter.weapons = createCharacterList(weaponsList);
-        storedCharacter.armor = createCharacterList(armorList);
+        storedCharacter.weaponsAndArmor = createCharacterList(weaponsAndArmorList);
         storedCharacter.bodyPts = curBodyPtsInput.value;
         storedCharacter.goldCoins = curGoldCoins.value;
         storedCharacter.potionsAndItems = createCharacterList(potionsItemsList);
@@ -314,70 +311,38 @@ function createDiceUi(typeOfDice, uniqueId, maxNum) {
     return diceContainer;
 }
 
-function createWeaponsUi(container, uniqueId) {
-    const characterWeaponsContainer = document.createElement('div');
+function createWeaponsAndArmorUi(uniqueId) {
+    const weaponsArmorContainer = document.createElement('div');
 
     const headerContainer = document.createElement('div');
-    headerContainer.setAttribute('class', 'equipment-header');
+    headerContainer.setAttribute('class', 'weapons-armor-header');
 
-    const weaponsHeader = document.createElement('h4');
-    weaponsHeader.textContent = 'Weapons';
-    headerContainer.appendChild(weaponsHeader);
+    const header = document.createElement('h4');
+    header.textContent = 'Weapons & Armor:';
+    headerContainer.appendChild(header);
 
-    const addWeaponBtn = document.createElement('button');
-    addWeaponBtn.textContent = '+';
-    headerContainer.appendChild(addWeaponBtn);
+    const addBtn = document.createElement('button');
+    addBtn.textContent = '+';
+    headerContainer.appendChild(addBtn);
 
-    characterWeaponsContainer.appendChild(headerContainer);
+    weaponsArmorContainer.appendChild(headerContainer);
 
-    const characterWeapons = document.createElement('div');
-    characterWeapons.setAttribute('class', `character-weapons`);
+    const characterWeaponsAndArmor = document.createElement('div');
+    characterWeaponsAndArmor.setAttribute('class', `character-weapons-armor`);
   
-    const weaponsList = document.createElement('ul');
-    weaponsList.setAttribute('id', `character-${uniqueId}-weapons`);
-    characterWeapons.appendChild(weaponsList);
+    const weaponsArmorList = document.createElement('ul');
+    weaponsArmorList.setAttribute('id', `character-${uniqueId}-weapons-armor`);
+    characterWeaponsAndArmor.appendChild(weaponsArmorList);
 
-    characterWeaponsContainer.appendChild(characterWeapons);
-    container.appendChild(characterWeaponsContainer);
+    weaponsArmorContainer.appendChild(characterWeaponsAndArmor);
 
-    addWeaponBtn.addEventListener('click', () => {
+    addBtn.addEventListener('click', () => {
         const dialog = document.querySelector('dialog');
-        createModalUi(weaponsList, 'weapon');
+        createModalUi(weaponsArmorList, 'weapon', 'armor');
         dialog.showModal();
     });
-}
 
-function createArmorUi(container, uniqueId) {
-    const characterArmorContainer = document.createElement('div');
-
-    const headerContainer = document.createElement('div');
-    headerContainer.setAttribute('class', 'equipment-header');
-
-    const weaponsHeader = document.createElement('h4');
-    weaponsHeader.textContent = 'Armor';
-    headerContainer.appendChild(weaponsHeader);
-
-    const addArmorBtn = document.createElement('button');
-    addArmorBtn.textContent = '+';
-    headerContainer.appendChild(addArmorBtn);
-
-    characterArmorContainer.appendChild(headerContainer);
-
-    const characterArmor = document.createElement('div');
-    characterArmor.setAttribute('class', `character-armor`);
-  
-    const armorList = document.createElement('ul');
-    armorList.setAttribute('id', `character-${uniqueId}-armor`);
-    characterArmor.appendChild(armorList);
-
-    characterArmorContainer.appendChild(characterArmor);
-    container.appendChild(characterArmorContainer);
-
-    addArmorBtn.addEventListener('click', () => {
-        const dialog = document.querySelector('dialog');
-        createModalUi(armorList, 'armor');
-        dialog.showModal();
-    });
+    return weaponsArmorContainer;
 }
 
 function createCurrentTrackerUi(trackerLabel, uniqueId) {
@@ -439,46 +404,6 @@ function createPotionsItemsUi(container, uniqueId) {
     });
 }
 
-function addCharacter(character) {
-    characters.push(character);
-    storeCharacters(characters);
-}
-
-function isCurrentCharacter(characters, { characterId }) {
-    return characters.some(character => character.characterId === characterId);
-}
-
-function getExistingCharacter(characters, character) {
-    const characterId = character.characterId;
-    return foundCharacter = characters.find(character => {
-        return character.characterId === characterId;
-    });
-}
-
-function getCharacterIndex(characters, characterId) {
-    return characters.findIndex((character) => character.characterId === characterId);
-}
-
-function characterDeath(event, characters, character) {
-    if (confirm("Are you sure you want to kill your character?")){
-        const targetCharSheet = event.target.parentNode.parentNode.parentNode;
-        targetCharSheet.remove();
-        const index = getCharacterIndex(characters, character.characterId);
-        characters.splice(index, 1);
-        storeCharacters(characters);
-    }
-}
-
-function decreaseNumber(element) {
-    const currentNum = parseInt(element.value);
-    return element.value = currentNum === 0 ? currentNum : currentNum - 1;
-}
-
-function increaseNumber(element, maxNum) {
-    const currentNum = parseInt(element.value);
-    return element.value = currentNum < maxNum || !maxNum ? currentNum + 1 : currentNum;
-}
-
 function createModalUi(listElement, classification, classification2) {
     const modal = document.getElementById('modal');
 
@@ -537,6 +462,46 @@ function createModalUi(listElement, classification, classification2) {
     });
 
     modal.appendChild(fieldset);
+}
+
+function addCharacter(character) {
+    characters.push(character);
+    storeCharacters(characters);
+}
+
+function isCurrentCharacter(characters, { characterId }) {
+    return characters.some(character => character.characterId === characterId);
+}
+
+function getExistingCharacter(characters, character) {
+    const characterId = character.characterId;
+    return foundCharacter = characters.find(character => {
+        return character.characterId === characterId;
+    });
+}
+
+function getCharacterIndex(characters, characterId) {
+    return characters.findIndex((character) => character.characterId === characterId);
+}
+
+function characterDeath(event, characters, character) {
+    if (confirm("Are you sure you want to kill your character?")){
+        const targetCharSheet = event.target.parentNode.parentNode.parentNode;
+        targetCharSheet.remove();
+        const index = getCharacterIndex(characters, character.characterId);
+        characters.splice(index, 1);
+        storeCharacters(characters);
+    }
+}
+
+function decreaseNumber(element) {
+    const currentNum = parseInt(element.value);
+    return element.value = currentNum === 0 ? currentNum : currentNum - 1;
+}
+
+function increaseNumber(element, maxNum) {
+    const currentNum = parseInt(element.value);
+    return element.value = currentNum < maxNum || !maxNum ? currentNum + 1 : currentNum;
 }
 
 function addSpecificItemOptions(element, classification) {
@@ -644,10 +609,10 @@ function setInitialStats(heroTypeId, characterId) {
     const defendDice = document.getElementById(`defend-dice-${characterId}`);
     defendDice.value = heroType.defendDice;
 
-    const bodyPoints = document.getElementById(`starting-body-pts-${characterId}`);
+    const bodyPoints = document.getElementById(`body-${characterId}`);
     bodyPoints.value = heroType.startBodyPts;
 
-    const mindPoints = document.getElementById(`starting-mind-pts-${characterId}`);
+    const mindPoints = document.getElementById(`mind-${characterId}`);
     mindPoints.value = heroType.startMindPts;
 }
 
