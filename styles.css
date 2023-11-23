@@ -71,10 +71,14 @@ header ul {
     justify-content: center;
 }
 
+.character-name-type-container {
+    margin-bottom: 10px;
+}
+
 .initial-stats {
     display: flex;
     justify-content: space-between;
-    margin: 5px 0 8px;
+    margin-bottom: 10px;
     text-align: center;
 }
 
@@ -92,6 +96,13 @@ header ul {
 .starting-points h4 {
     grid-column: 1 / 3;
     grid-row: 1 / 2;
+}
+
+.current-stats-tracker {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 10px;
+    text-align: center;
 }
 
 .character-sheet ul {

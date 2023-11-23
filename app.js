@@ -21,7 +21,7 @@ const characterSheet = (character) => {
     
         //Character name & type container
         const CharacterNameTypeDiv = document.createElement('div');
-        CharacterNameTypeDiv.setAttribute('class', 'characterNameTypeContainer');
+        CharacterNameTypeDiv.setAttribute('class', 'character-name-type-container');
     
         //Character name input field
         const characterNameDiv = document.createElement('div');
@@ -87,35 +87,35 @@ const characterSheet = (character) => {
         startingPointsHeader.textContent = 'Starting Points';
         startingPointsDiv.appendChild(startingPointsHeader);
     
-        //Starting body points UI
+        // Starting body points UI
         const startBodyPtsUi = createDiceUi('Body', uniqueId, 12);
         startingPointsDiv.appendChild(startBodyPtsUi);
     
-        //Mind points select
+        // Starting Mind points UI
         const startMindPtsUi = createDiceUi('Mind', uniqueId, 8);
         startingPointsDiv.appendChild(startMindPtsUi);
 
-        //Character weapons and armor container
-        const characterWeaponsArmorDiv = document.createElement('div');
-        characterWeaponsArmorDiv.setAttribute('class', 'character-weapons-armor-container');
-    
-        //Character weapons input
-        createWeaponsUi(characterWeaponsArmorDiv, uniqueId);
-    
-        //Character armor input
-        createArmorUi(characterWeaponsArmorDiv, uniqueId);
-    
-        //Current stats tracker div
+        // Current stats tracker div
         const currentStatsTrackerDiv = document.createElement('div');
         currentStatsTrackerDiv.setAttribute('class', 'current-stats-tracker');
     
-        //Current body points div
+        // Current body points div
         const bodyPtsUi = createCurrentTrackerUi('Body Points', uniqueId);
     
-        //Current gold coins div
-        const goldCoinsUi = createCurrentTrackerUi('Gold Coins', uniqueId);
+        // Current gold coins div
+        const goldCoinsUi = createCurrentTrackerUi('Gold Coins', uniqueId);        
+
+        // Character weapons and armor container
+        const characterWeaponsArmorDiv = document.createElement('div');
+        characterWeaponsArmorDiv.setAttribute('class', 'character-weapons-armor-container');
     
-        //Potions and Other Items Section
+        // Character weapons input
+        createWeaponsUi(characterWeaponsArmorDiv, uniqueId);
+    
+        // Character armor input
+        createArmorUi(characterWeaponsArmorDiv, uniqueId);
+        
+        // Potions and Other Items Section
         const potionsItemsDiv = document.createElement('div');
         potionsItemsDiv.setAttribute('class', 'potions-items');
 
@@ -126,8 +126,9 @@ const characterSheet = (character) => {
         initialStatsDiv.append(attackDiceUi, defendDiceUi, startingPointsDiv);
         currentStatsTrackerDiv.append(bodyPtsUi, goldCoinsUi);
 
-        characterSheetDiv.append(CharacterNameTypeDiv, characterButtonsDiv, initialStatsDiv, characterWeaponsArmorDiv, currentStatsTrackerDiv, potionsItemsDiv);
-    
+        characterSheetDiv.append(CharacterNameTypeDiv, characterButtonsDiv, initialStatsDiv, currentStatsTrackerDiv, characterWeaponsArmorDiv, potionsItemsDiv);
+        
+        // Postions the Add Character sheet after character Sheets
         const createCharacterSheet = document.getElementById('create-character-sheet');
         createCharacterSheet.before(characterSheetDiv);
     }
