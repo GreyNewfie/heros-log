@@ -106,26 +106,23 @@ const characterSheet = (character) => {
         const goldCoinsUi = createCurrentTrackerUi('Gold Coins', uniqueId);        
 
         // Character weapons and armor container
-        const characterWeaponsArmorDiv = document.createElement('div');
-        characterWeaponsArmorDiv.setAttribute('class', 'character-weapons-armor-container');
+        const WeaponsArmorItemsContainer = document.createElement('div');
+        WeaponsArmorItemsContainer.setAttribute('class', 'weapons-armor-items-container');
 
         // Character Weapons and Armor UI
         const weaponsAndArmorUi = createWeaponsAndArmorUi(uniqueId);
-
-        characterWeaponsArmorDiv.appendChild(weaponsAndArmorUi);
             
-        // Potions and Other Items Section
-        const potionsItemsDiv = document.createElement('div');
-        potionsItemsDiv.setAttribute('class', 'potions-items');
+        // Potions and Items UI
+        const potionsAndItems = createPotionsItemsUi(uniqueId);
 
-        createPotionsItemsUi(potionsItemsDiv, uniqueId);
+        WeaponsArmorItemsContainer.append(weaponsAndArmorUi, potionsAndItems);
     
         //Append elements to character sheet
         CharacterNameTypeDiv.append(characterNameDiv, characterTypeDiv);
         initialStatsDiv.append(attackDiceUi, defendDiceUi, startingPointsDiv);
         currentStatsTrackerDiv.append(bodyPtsUi, goldCoinsUi);
 
-        characterSheetDiv.append(CharacterNameTypeDiv, characterButtonsDiv, initialStatsDiv, currentStatsTrackerDiv, characterWeaponsArmorDiv, potionsItemsDiv);
+        characterSheetDiv.append(CharacterNameTypeDiv, characterButtonsDiv, initialStatsDiv, currentStatsTrackerDiv, WeaponsArmorItemsContainer);
         
         // Postions the Add Character sheet after character Sheets
         const createCharacterSheet = document.getElementById('create-character-sheet');
@@ -313,9 +310,10 @@ function createDiceUi(typeOfDice, uniqueId, maxNum) {
 
 function createWeaponsAndArmorUi(uniqueId) {
     const weaponsArmorContainer = document.createElement('div');
+    weaponsArmorContainer.setAttribute('class', 'weapons-armor-container');
 
     const headerContainer = document.createElement('div');
-    headerContainer.setAttribute('class', 'weapons-armor-header');
+    headerContainer.setAttribute('class', 'weapons-armor-items-header');
 
     const header = document.createElement('h4');
     header.textContent = 'Weapons & Armor:';
@@ -374,9 +372,12 @@ function createCurrentTrackerUi(trackerLabel, uniqueId) {
     return currentStatContainer;
 }
 
-function createPotionsItemsUi(container, uniqueId) {
+function createPotionsItemsUi(uniqueId) {
+    const potionsItemsContainer = document.createElement('div');
+    potionsItemsContainer.setAttribute('class', 'potions-items-container');
+
     const headerContainer = document.createElement('div');
-    headerContainer.setAttribute('class', 'equipment-header');
+    headerContainer.setAttribute('class', 'weapons-armor-items-header');
 
     const potionsItemsHeader = document.createElement('h4');
     potionsItemsHeader.textContent = 'Potions & Items';
@@ -386,22 +387,24 @@ function createPotionsItemsUi(container, uniqueId) {
     addPotionsItemsBtn.textContent = '+';
     headerContainer.appendChild(addPotionsItemsBtn);
 
-    container.appendChild(headerContainer);
+    potionsItemsContainer.appendChild(headerContainer);
 
-    const potionsItemsContainer = document.createElement('div');
-    potionsItemsContainer.setAttribute('class', `potions-items-list`);
+    const potionsItemsListContainer = document.createElement('div');
+    potionsItemsListContainer.setAttribute('class', `potions-items-list`);
   
     const potionsItemsList = document.createElement('ul');
     potionsItemsList.setAttribute('id', `character-${uniqueId}-potions-items`);
-    potionsItemsContainer.appendChild(potionsItemsList);
+    potionsItemsListContainer.appendChild(potionsItemsList);
 
-    container.appendChild(potionsItemsContainer);
+    potionsItemsContainer.appendChild(potionsItemsListContainer);
 
     addPotionsItemsBtn.addEventListener('click', () => {
         const dialog = document.querySelector('dialog');
         createModalUi(potionsItemsList, 'item', 'potion');
         dialog.showModal();
     });
+
+    return potionsItemsContainer;
 }
 
 function createModalUi(listElement, classification, classification2) {
