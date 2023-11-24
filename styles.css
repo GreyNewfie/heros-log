@@ -149,6 +149,14 @@ header ul {
 .equipped-items-container {
     display: flex;
     justify-content: center;
+    margin-bottom: 10px;
+    position: relative;
+}
+
+.equipped-item {
+    width: 66px;
+    height: 50px;
+    background-color: silver;
 }
 
 .character-outline {
