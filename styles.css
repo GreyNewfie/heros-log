@@ -153,6 +153,11 @@ header ul {
     position: relative;
 }
 
+.character-outline {
+    width: 260px;
+    opacity: .5;
+}
+
 .equipped-head-item,
 .equipped-body-item,
 .equipped-left-arm-item,
@@ -167,9 +172,9 @@ header ul {
     top: 6px;
 }
 
-.character-outline {
-    width: 260px;
-    opacity: .5;
+.equipped-body-item {
+    position: absolute;
+    top: 85px;
 }
 
 .character-sheet ul {

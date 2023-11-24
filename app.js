@@ -328,10 +328,13 @@ function createEquippedItemsUi(uniqueId) {
     characterOutline.setAttribute('src', 'images/character-outline-blk.png');
     characterOutline.setAttribute('alt', 'Simple outline of a person\'s upper body');
     characterOutlineContainer.appendChild(characterOutline);
+    equippedItemsContainer.appendChild(characterOutline);
 
-    const bodyItemContainer = createEquippedItemContainer('head', uniqueId);
+    const headItemContainer = createEquippedItemContainer('head', uniqueId);
+    equippedItemsContainer.appendChild(headItemContainer);
     
-    equippedItemsContainer.append(characterOutlineContainer, bodyItemContainer);
+    const bodyItemContainer = createEquippedItemContainer('body', uniqueId);
+    equippedItemsContainer.appendChild(bodyItemContainer);
 
     return equippedItemsContainer;
 }
