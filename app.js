@@ -97,7 +97,7 @@ const characterSheet = (character) => {
 
         // Current stats tracker div
         const currentStatsTrackerDiv = document.createElement('div');
-        currentStatsTrackerDiv.setAttribute('class', 'current-stats-tracker');
+        currentStatsTrackerDiv.setAttribute('class', 'body-points-gold-tracker');
     
         // Current body points div
         const bodyPtsUi = createCurrentTrackerUi('Body Points', uniqueId);

@@ -107,7 +107,7 @@ header ul {
     grid-row: 1 / 2;
 }
 
-.current-stats-tracker {
+.body-points-gold-tracker {
     display: flex;
     justify-content: space-around;
     margin-bottom: 10px;
