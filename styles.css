@@ -146,6 +146,16 @@ header ul {
   -moz-appearance: textfield;
 }
 
+.equipped-items-container {
+    display: flex;
+    justify-content: center;
+}
+
+.character-outline {
+    width: 260px;
+    opacity: .5;
+}
+
 .character-sheet ul {
     list-style-type: none;
 }
