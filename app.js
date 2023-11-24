@@ -328,8 +328,10 @@ function createEquippedItemsUi(uniqueId) {
     characterOutline.setAttribute('src', 'images/character-outline-blk.png');
     characterOutline.setAttribute('alt', 'Simple outline of a person\'s upper body');
     characterOutlineContainer.appendChild(characterOutline);
+
+    const bodyItemContainer = createEquippedItemContainer('head', uniqueId);
     
-    equippedItemsContainer.append(characterOutlineContainer);
+    equippedItemsContainer.append(characterOutlineContainer, bodyItemContainer);
 
     return equippedItemsContainer;
 }
@@ -577,7 +579,7 @@ function createCharacterList(nodeList) {
 function createEquippedItemContainer(equippedItemLocation, playerId) {
     const equippedItemContainer = document.createElement('div');
     equippedItemContainer.setAttribute('id', `character-${playerId}-${equippedItemLocation}-container`);
-    equippedItemContainer.setAttribute('class', 'equipped-item');
+    equippedItemContainer.setAttribute('class', `equipped-${equippedItemLocation}-item`);
     return equippedItemContainer;
 }
 

@@ -153,10 +153,18 @@ header ul {
     position: relative;
 }
 
-.equipped-item {
+.equipped-head-item,
+.equipped-body-item,
+.equipped-left-arm-item,
+.equipped-right-arm-item {
     width: 66px;
     height: 50px;
     background-color: silver;
+}
+
+.equipped-head-item {
+    position: absolute;
+    top: 6px;
 }
 
 .character-outline {
