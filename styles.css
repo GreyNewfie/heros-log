@@ -161,7 +161,9 @@ header ul {
 .equipped-head-item,
 .equipped-body-item,
 .equipped-left-hand-item,
-.equipped-right-hand-item {
+.equipped-right-hand-item,
+.equipped-extra-1-item,
+.equipped-extra-2-item {
     position: absolute;
     width: 66px;
     height: 50px;
@@ -185,6 +187,14 @@ header ul {
 .equipped-right-hand-item {
     top: 110px;
     right: 60px;
+}
+
+.equipped-extra-1-item {
+    left: 40px;
+}
+
+.equipped-extra-2-item {
+    right: 40px;
 }
 
 .character-sheet ul {

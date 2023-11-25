@@ -342,6 +342,12 @@ function createEquippedItemsUi(uniqueId) {
     const rightHandItemContainer = createEquippedItemContainer('right-hand', uniqueId);
     equippedItemsContainer.appendChild(rightHandItemContainer);
 
+    const extra1ItemContainer = createEquippedItemContainer('extra-1', uniqueId);
+    equippedItemsContainer.appendChild(extra1ItemContainer);
+
+    const extra2ItemContainer = createEquippedItemContainer('extra-2', uniqueId);
+    equippedItemsContainer.appendChild(extra2ItemContainer);
+
     return equippedItemsContainer;
 }
 
