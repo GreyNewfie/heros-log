@@ -100,12 +100,21 @@ const characterSheet = (character) => {
         currentStatsTrackerDiv.setAttribute('class', 'body-points-gold-tracker');
     
         // Current body points div
-        const bodyPtsUi = createCurrentTrackerUi('Body Points', uniqueId);
+        const bodyPtsUi = createStatTrackerUi('Body Points', uniqueId);
     
         // Current gold coins div
-        const goldCoinsUi = createCurrentTrackerUi('Gold Coins', uniqueId);        
+        const goldCoinsUi = createStatTrackerUi('Gold Coins', uniqueId); 
+        
+        // Equipped Items container
+        const equippedItemsSection = document.createElement('div');
+        equippedItemsSection.setAttribute('class', 'character-equipped-items-section');
 
-        // Character weapons and armor container
+        // Equipped items UI
+        const equippedItemsUi = createEquippedItemsUi(uniqueId);
+
+        equippedItemsSection.appendChild(equippedItemsUi);
+
+        // Character weapons & armor and potions & items container
         const WeaponsArmorItemsContainer = document.createElement('div');
         WeaponsArmorItemsContainer.setAttribute('class', 'weapons-armor-items-container');
 
@@ -122,7 +131,7 @@ const characterSheet = (character) => {
         initialStatsDiv.append(attackDiceUi, defendDiceUi, startingPointsDiv);
         currentStatsTrackerDiv.append(bodyPtsUi, goldCoinsUi);
 
-        characterSheetDiv.append(CharacterNameTypeDiv, characterButtonsDiv, initialStatsDiv, currentStatsTrackerDiv, WeaponsArmorItemsContainer);
+        characterSheetDiv.append(CharacterNameTypeDiv, characterButtonsDiv, initialStatsDiv, currentStatsTrackerDiv, equippedItemsSection, WeaponsArmorItemsContainer);
         
         // Postions the Add Character sheet after character Sheets
         const createCharacterSheet = document.getElementById('create-character-sheet');
@@ -308,6 +317,40 @@ function createDiceUi(typeOfDice, uniqueId, maxNum) {
     return diceContainer;
 }
 
+function createEquippedItemsUi(uniqueId) {
+    const equippedItemsContainer = document.createElement('div');
+    equippedItemsContainer.setAttribute('class', 'equipped-items-container');
+
+    const characterOutlineContainer = document.createElement('div');
+
+    const characterOutline = document.createElement('img');
+    characterOutline.setAttribute('class', 'character-outline');
+    characterOutline.setAttribute('src', 'images/character-outline-blk.png');
+    characterOutline.setAttribute('alt', 'Simple outline of a person\'s upper body');
+    characterOutlineContainer.appendChild(characterOutline);
+    equippedItemsContainer.appendChild(characterOutline);
+
+    const headItemContainer = createEquippedItemContainer('head', uniqueId);
+    equippedItemsContainer.appendChild(headItemContainer);
+    
+    const bodyItemContainer = createEquippedItemContainer('body', uniqueId);
+    equippedItemsContainer.appendChild(bodyItemContainer);
+
+    const leftHandItemContainer = createEquippedItemContainer('left-hand', uniqueId);
+    equippedItemsContainer.appendChild(leftHandItemContainer);
+
+    const rightHandItemContainer = createEquippedItemContainer('right-hand', uniqueId);
+    equippedItemsContainer.appendChild(rightHandItemContainer);
+
+    const extra1ItemContainer = createEquippedItemContainer('extra-1', uniqueId);
+    equippedItemsContainer.appendChild(extra1ItemContainer);
+
+    const extra2ItemContainer = createEquippedItemContainer('extra-2', uniqueId);
+    equippedItemsContainer.appendChild(extra2ItemContainer);
+
+    return equippedItemsContainer;
+}
+
 function createWeaponsAndArmorUi(uniqueId) {
     const weaponsArmorContainer = document.createElement('div');
     weaponsArmorContainer.setAttribute('class', 'weapons-armor-container');
@@ -343,7 +386,7 @@ function createWeaponsAndArmorUi(uniqueId) {
     return weaponsArmorContainer;
 }
 
-function createCurrentTrackerUi(trackerLabel, uniqueId) {
+function createStatTrackerUi(trackerLabel, uniqueId) {
     const labelArray = trackerLabel.toLowerCase().split(' ');
 
     const currentStatContainer = document.createElement('div');
@@ -472,31 +515,6 @@ function addCharacter(character) {
     storeCharacters(characters);
 }
 
-function isCurrentCharacter(characters, { characterId }) {
-    return characters.some(character => character.characterId === characterId);
-}
-
-function getExistingCharacter(characters, character) {
-    const characterId = character.characterId;
-    return foundCharacter = characters.find(character => {
-        return character.characterId === characterId;
-    });
-}
-
-function getCharacterIndex(characters, characterId) {
-    return characters.findIndex((character) => character.characterId === characterId);
-}
-
-function characterDeath(event, characters, character) {
-    if (confirm("Are you sure you want to kill your character?")){
-        const targetCharSheet = event.target.parentNode.parentNode.parentNode;
-        targetCharSheet.remove();
-        const index = getCharacterIndex(characters, character.characterId);
-        characters.splice(index, 1);
-        storeCharacters(characters);
-    }
-}
-
 function decreaseNumber(element) {
     const currentNum = parseInt(element.value);
     return element.value = currentNum === 0 ? currentNum : currentNum - 1;
@@ -557,10 +575,27 @@ function addPotionsItemsToCharacter(element, potionsItems) {
     });
 }
 
+function characterDeath(event, characters, character) {
+    if (confirm("Are you sure you want to kill your character?")){
+        const targetCharSheet = event.target.parentNode.parentNode.parentNode;
+        targetCharSheet.remove();
+        const index = getCharacterIndex(characters, character.characterId);
+        characters.splice(index, 1);
+        storeCharacters(characters);
+    }
+}
+
 function createCharacterList(nodeList) {
     const characterList = [];
     nodeList.forEach(li => characterList.push((li.textContent).slice(0,-1)));
     return characterList;
+}
+
+function createEquippedItemContainer(equippedItemLocation, playerId) {
+    const equippedItemContainer = document.createElement('div');
+    equippedItemContainer.setAttribute('id', `character-${playerId}-${equippedItemLocation}-container`);
+    equippedItemContainer.setAttribute('class', `equipped-${equippedItemLocation}-item`);
+    return equippedItemContainer;
 }
 
 function clearModal() {
@@ -576,6 +611,17 @@ function findItem(itemId) {
     return foundItem;
 }
 
+function getCharacterIndex(characters, characterId) {
+    return characters.findIndex((character) => character.characterId === characterId);
+}
+
+function getExistingCharacter(characters, character) {
+    const characterId = character.characterId;
+    return foundCharacter = characters.find(character => {
+        return character.characterId === characterId;
+    });
+}
+
 function getSelectedItems() {
     const itemsList = document.querySelectorAll('input[type=checkbox]');
     const selectedItems = [];
@@ -587,6 +633,10 @@ function getSelectedItems() {
     });
 
     return selectedItems;
+}
+
+function isCurrentCharacter(characters, { characterId }) {
+    return characters.some(character => character.characterId === characterId);
 }
 
 function removeItem(itemsList, itemId) {
