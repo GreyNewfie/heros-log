@@ -379,7 +379,7 @@ function createWeaponsAndArmorUi(uniqueId) {
 
     addBtn.addEventListener('click', () => {
         const dialog = document.querySelector('dialog');
-        createModalUi(weaponsArmorList, 'weapon', 'armor');
+        createSelectItemsModalUi(weaponsArmorList, 'weapon', 'armor');
         dialog.showModal();
     });
 
@@ -443,25 +443,17 @@ function createPotionsItemsUi(uniqueId) {
 
     addPotionsItemsBtn.addEventListener('click', () => {
         const dialog = document.querySelector('dialog');
-        createModalUi(potionsItemsList, 'item', 'potion');
+        createSelectItemsModalUi(potionsItemsList, 'item', 'potion');
         dialog.showModal();
     });
 
     return potionsItemsContainer;
 }
 
-function createModalUi(listElement, classification, classification2) {
+function createSelectItemsModalUi(listElement, classification, classification2) {
     const modal = document.getElementById('modal');
 
-    const cancelModal = document.createElement('button');
-    cancelModal.setAttribute('id', 'cancel-modal');
-    cancelModal.textContent = 'X';
-    modal.appendChild(cancelModal);
-
-    cancelModal.addEventListener('click', () => {
-        modal.close();
-        clearModal();
-    });
+    createCancelModalUi(modal);
 
     const fieldset = document.createElement('fieldset');
     fieldset.setAttribute('id', 'choose-items');
@@ -508,6 +500,22 @@ function createModalUi(listElement, classification, classification2) {
     });
 
     modal.appendChild(fieldset);
+}
+
+function createCancelModalUi(modal) {
+    const cancelModal = document.createElement('button');
+    cancelModal.setAttribute('id', 'cancel-modal');
+    cancelModal.textContent = 'X';
+    modal.appendChild(cancelModal);
+
+    cancelModal.addEventListener('click', () => {
+        modal.close();
+        clearModal();
+    }); 
+}
+
+function createItemModal() {
+    
 }
 
 function addCharacter(character) {
