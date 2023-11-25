@@ -231,10 +231,10 @@ const characterSheet = (character) => {
         defDice.value = character.defendDice;
         startBodyPts.value = character.startBodyPts;
         startMindPts.value = character.startMindPts;
-        addItemsToCharacter(weaponsAndArmorList, character.weaponsAndArmor);
+        addItemsListToCharacter(weaponsAndArmorList, character.weaponsAndArmor);
         curBodyPtsInput.value = character.bodyPts;
         curGoldCoins.value = character.goldCoins;
-        addItemsToCharacter(potionsItemsList, character.potionsAndItems);
+        addItemsListToCharacter(potionsItemsList, character.potionsAndItems);
     }
 
     function updateCharacter(storedCharacter, characterId) {
@@ -379,7 +379,7 @@ function createWeaponsAndArmorUi(uniqueId) {
 
     addBtn.addEventListener('click', () => {
         const dialog = document.querySelector('dialog');
-        createModalUi(weaponsArmorList, 'weapon', 'armor');
+        createSelectItemsModalUi(weaponsArmorList, 'weapon', 'armor');
         dialog.showModal();
     });
 
@@ -443,25 +443,17 @@ function createPotionsItemsUi(uniqueId) {
 
     addPotionsItemsBtn.addEventListener('click', () => {
         const dialog = document.querySelector('dialog');
-        createModalUi(potionsItemsList, 'item', 'potion');
+        createSelectItemsModalUi(potionsItemsList, 'item', 'potion');
         dialog.showModal();
     });
 
     return potionsItemsContainer;
 }
 
-function createModalUi(listElement, classification, classification2) {
+function createSelectItemsModalUi(listElement, classification, classification2) {
     const modal = document.getElementById('modal');
 
-    const cancelModal = document.createElement('button');
-    cancelModal.setAttribute('id', 'cancel-modal');
-    cancelModal.textContent = 'X';
-    modal.appendChild(cancelModal);
-
-    cancelModal.addEventListener('click', () => {
-        modal.close();
-        clearModal();
-    });
+    createCancelModalUi(modal);
 
     const fieldset = document.createElement('fieldset');
     fieldset.setAttribute('id', 'choose-items');
@@ -503,11 +495,33 @@ function createModalUi(listElement, classification, classification2) {
     submitItems.addEventListener('click', event => {
         modal.close();
         const selectedItems = getSelectedItems();
-        addItemsToCharacter(listElement, selectedItems);
-        clearModal();
+        addItemsListToCharacter(listElement, selectedItems);
+        clearModal(modal);
     });
 
     modal.appendChild(fieldset);
+}
+
+function createCancelModalUi(modal) {
+    const cancelModal = document.createElement('button');
+    cancelModal.setAttribute('id', 'cancel-modal');
+    cancelModal.textContent = 'X';
+    modal.appendChild(cancelModal);
+
+    cancelModal.addEventListener('click', () => {
+        modal.close();
+        clearModal(modal);
+    }); 
+}
+
+function createItemModal(itemName, characterId) {
+    const modal = document.getElementById('modal');
+    createCancelModalUi(modal);
+
+    const itemCard = createItemCard(itemName);
+    modal.appendChild(itemCard);
+
+    modal.showModal();
 }
 
 function addCharacter(character) {
@@ -539,10 +553,15 @@ function addSpecificItemOptions(element, classification) {
 }
 
 function addItemToCharacter(list, itemId) {
-    const li = document.createElement('li');
     const item = findItem(itemId);
+
+    const li = document.createElement('li');
     li.setAttribute('value', (item.id));
-    li.textContent = item.name;
+    
+    const itemSpan = document.createElement('span');
+    itemSpan.setAttribute('class', 'equippable-item');
+    itemSpan.textContent = item.name;
+    li.appendChild(itemSpan);
 
     const removeBtn = document.createElement('button');
     removeBtn.setAttribute('class', 'remove-item');
@@ -553,26 +572,26 @@ function addItemToCharacter(list, itemId) {
     list.appendChild(li);
 }
 
-function addItemsToCharacter(element, itemsList) {
+function addItemsListToCharacter(element, itemsList) {
     if (!itemsList) {
         return
     }
     
     itemsList.forEach(item => {
         const storedItem = items.find(itemStored => itemStored.id === item.id || itemStored.name === item);
-        addItemToCharacter(element, (storedItem.id));        
-    });    
-}
-
-function addPotionsItemsToCharacter(element, potionsItems) {
-    if (!potionsItems) {
-        return
-    }
-
-    potionsItems.forEach(potionItem => {
-        const storedPotionItem = items.find(item => item.name === potionItem || item.name === potionItem || item.name === potionItem);
-        addItemToCharacter(element, (storedPotionItem.id));
+        addItemToCharacter(element, (storedItem.id));
     });
+    
+    const characterId = ((element.id).split('-'))[1];
+
+    const equippableItems = element.querySelectorAll('.equippable-item');
+    equippableItems.forEach((equippableItem) => {
+        equippableItem.addEventListener('click', (event) => {
+            const itemName = event.target.textContent;
+            createItemModal(itemName, characterId);
+
+        });
+    })
 }
 
 function characterDeath(event, characters, character) {
@@ -598,12 +617,42 @@ function createEquippedItemContainer(equippedItemLocation, playerId) {
     return equippedItemContainer;
 }
 
-function clearModal() {
-    const cancelBtn = document.getElementById('cancel-modal');
-    cancelBtn.remove();
+function createItemCard(itemName) {
+    const item = items.find(item => item.name === itemName);
 
-    const itemsList = document.getElementById('choose-items');
-    itemsList.remove();
+    const itemCard = document.createElement('div');
+    itemCard.setAttribute('class', 'item-card');
+
+    const cardHeader = document.createElement('h3');
+    cardHeader.textContent = item.name;
+    itemCard.appendChild(cardHeader);
+
+    const cardImage = document.createElement('img');
+    cardImage.setAttribute('src', `images/${item.image}`);
+    cardImage.setAttribute('alt', item.imageDescription);
+    cardImage.setAttribute('class', 'item-card-image');
+    itemCard.appendChild(cardImage);
+
+    const cardDescription = document.createElement('p');
+    cardDescription.textContent = item.description;
+    itemCard.appendChild(cardDescription);
+
+    if (!item.cost) {
+        return itemCard;
+    }
+
+    const itemCost = document.createElement('span');
+    itemCost.setAttribute('class', 'item-card-cost');
+    const importantText = document.createElement('strong');
+    importantText.textContent = 'Cost: ';
+    itemCost.append(importantText, item.cost);
+    itemCard.appendChild(itemCost);
+
+    return itemCard;
+}
+
+function clearModal(modal) {
+    modal.replaceChildren();
 }
 
 function findItem(itemId) {
