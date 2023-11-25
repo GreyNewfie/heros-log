@@ -218,6 +218,10 @@ header ul {
     padding: 0px 5px;
 }
 
+.weapons-armor-items-container li:hover {
+    color: grey;
+}
+
 #modal {
     position: absolute;
     top: 50%;

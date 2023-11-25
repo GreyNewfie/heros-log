@@ -231,10 +231,10 @@ const characterSheet = (character) => {
         defDice.value = character.defendDice;
         startBodyPts.value = character.startBodyPts;
         startMindPts.value = character.startMindPts;
-        addItemsToCharacter(weaponsAndArmorList, character.weaponsAndArmor);
+        addItemsListToCharacter(weaponsAndArmorList, character.weaponsAndArmor);
         curBodyPtsInput.value = character.bodyPts;
         curGoldCoins.value = character.goldCoins;
-        addItemsToCharacter(potionsItemsList, character.potionsAndItems);
+        addItemsListToCharacter(potionsItemsList, character.potionsAndItems);
     }
 
     function updateCharacter(storedCharacter, characterId) {
@@ -495,7 +495,7 @@ function createSelectItemsModalUi(listElement, classification, classification2) 
     submitItems.addEventListener('click', event => {
         modal.close();
         const selectedItems = getSelectedItems();
-        addItemsToCharacter(listElement, selectedItems);
+        addItemsListToCharacter(listElement, selectedItems);
         clearModal();
     });
 
@@ -514,8 +514,8 @@ function createCancelModalUi(modal) {
     }); 
 }
 
-function createItemModal() {
-    
+function createItemModal(characterId, event) {
+    console.log('Click registered');
 }
 
 function addCharacter(character) {
@@ -561,26 +561,25 @@ function addItemToCharacter(list, itemId) {
     list.appendChild(li);
 }
 
-function addItemsToCharacter(element, itemsList) {
+function addItemsListToCharacter(element, itemsList) {
     if (!itemsList) {
         return
     }
     
     itemsList.forEach(item => {
         const storedItem = items.find(itemStored => itemStored.id === item.id || itemStored.name === item);
-        addItemToCharacter(element, (storedItem.id));        
-    });    
-}
-
-function addPotionsItemsToCharacter(element, potionsItems) {
-    if (!potionsItems) {
-        return
-    }
-
-    potionsItems.forEach(potionItem => {
-        const storedPotionItem = items.find(item => item.name === potionItem || item.name === potionItem || item.name === potionItem);
-        addItemToCharacter(element, (storedPotionItem.id));
+        addItemToCharacter(element, (storedItem.id));
     });
+    
+    const characterId = ((element.id).split('-'))[1];
+
+    const itemElements = element.childNodes;
+    itemElements.forEach((itemElement) => {
+        itemElement.addEventListener('click', (event) => {
+            console.log(event.innerText);
+            console.log(itemElement.innerText);
+        });
+    })
 }
 
 function characterDeath(event, characters, character) {
