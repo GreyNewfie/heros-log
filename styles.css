@@ -155,26 +155,36 @@ header ul {
 
 .character-outline {
     width: 260px;
-    opacity: .5;
+    opacity: .1;
 }
 
 .equipped-head-item,
 .equipped-body-item,
-.equipped-left-arm-item,
-.equipped-right-arm-item {
+.equipped-left-hand-item,
+.equipped-right-hand-item {
+    position: absolute;
     width: 66px;
     height: 50px;
-    background-color: silver;
+    border: 3px solid silver;
+    background-color: white;
 }
 
 .equipped-head-item {
-    position: absolute;
     top: 6px;
 }
 
 .equipped-body-item {
-    position: absolute;
     top: 85px;
+}
+
+.equipped-left-hand-item {
+    top: 110px;
+    left: 60px;
+}
+
+.equipped-right-hand-item {
+    top: 110px;
+    right: 60px;
 }
 
 .character-sheet ul {

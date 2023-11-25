@@ -336,6 +336,12 @@ function createEquippedItemsUi(uniqueId) {
     const bodyItemContainer = createEquippedItemContainer('body', uniqueId);
     equippedItemsContainer.appendChild(bodyItemContainer);
 
+    const leftHandItemContainer = createEquippedItemContainer('left-hand', uniqueId);
+    equippedItemsContainer.appendChild(leftHandItemContainer);
+
+    const rightHandItemContainer = createEquippedItemContainer('right-hand', uniqueId);
+    equippedItemsContainer.appendChild(rightHandItemContainer);
+
     return equippedItemsContainer;
 }
 
