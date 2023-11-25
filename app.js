@@ -496,7 +496,7 @@ function createSelectItemsModalUi(listElement, classification, classification2) 
         modal.close();
         const selectedItems = getSelectedItems();
         addItemsListToCharacter(listElement, selectedItems);
-        clearModal();
+        clearModal(modal);
     });
 
     modal.appendChild(fieldset);
@@ -510,12 +510,18 @@ function createCancelModalUi(modal) {
 
     cancelModal.addEventListener('click', () => {
         modal.close();
-        clearModal();
+        clearModal(modal);
     }); 
 }
 
-function createItemModal(characterId, event) {
-    console.log('Click registered');
+function createItemModal(itemName, characterId) {
+    const modal = document.getElementById('modal');
+    createCancelModalUi(modal);
+
+    const itemCard = createItemCard(itemName);
+    modal.appendChild(itemCard);
+
+    modal.showModal();
 }
 
 function addCharacter(character) {
@@ -547,10 +553,15 @@ function addSpecificItemOptions(element, classification) {
 }
 
 function addItemToCharacter(list, itemId) {
-    const li = document.createElement('li');
     const item = findItem(itemId);
+
+    const li = document.createElement('li');
     li.setAttribute('value', (item.id));
-    li.textContent = item.name;
+    
+    const itemSpan = document.createElement('span');
+    itemSpan.setAttribute('class', 'equippable-item');
+    itemSpan.textContent = item.name;
+    li.appendChild(itemSpan);
 
     const removeBtn = document.createElement('button');
     removeBtn.setAttribute('class', 'remove-item');
@@ -573,11 +584,12 @@ function addItemsListToCharacter(element, itemsList) {
     
     const characterId = ((element.id).split('-'))[1];
 
-    const itemElements = element.childNodes;
-    itemElements.forEach((itemElement) => {
-        itemElement.addEventListener('click', (event) => {
-            console.log(event.innerText);
-            console.log(itemElement.innerText);
+    const equippableItems = element.querySelectorAll('.equippable-item');
+    equippableItems.forEach((equippableItem) => {
+        equippableItem.addEventListener('click', (event) => {
+            const itemName = event.target.textContent;
+            createItemModal(itemName, characterId);
+
         });
     })
 }
@@ -605,12 +617,42 @@ function createEquippedItemContainer(equippedItemLocation, playerId) {
     return equippedItemContainer;
 }
 
-function clearModal() {
-    const cancelBtn = document.getElementById('cancel-modal');
-    cancelBtn.remove();
+function createItemCard(itemName) {
+    const item = items.find(item => item.name === itemName);
 
-    const itemsList = document.getElementById('choose-items');
-    itemsList.remove();
+    const itemCard = document.createElement('div');
+    itemCard.setAttribute('class', 'item-card');
+
+    const cardHeader = document.createElement('h3');
+    cardHeader.textContent = item.name;
+    itemCard.appendChild(cardHeader);
+
+    const cardImage = document.createElement('img');
+    cardImage.setAttribute('src', `images/${item.image}`);
+    cardImage.setAttribute('alt', item.imageDescription);
+    cardImage.setAttribute('class', 'item-card-image');
+    itemCard.appendChild(cardImage);
+
+    const cardDescription = document.createElement('p');
+    cardDescription.textContent = item.description;
+    itemCard.appendChild(cardDescription);
+
+    if (!item.cost) {
+        return itemCard;
+    }
+
+    const itemCost = document.createElement('span');
+    itemCost.setAttribute('class', 'item-card-cost');
+    const importantText = document.createElement('strong');
+    importantText.textContent = 'Cost: ';
+    itemCost.append(importantText, item.cost);
+    itemCard.appendChild(itemCost);
+
+    return itemCard;
+}
+
+function clearModal(modal) {
+    modal.replaceChildren();
 }
 
 function findItem(itemId) {
