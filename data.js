@@ -106,7 +106,8 @@ const items = [
         classification: 'item',
         type: 'artifact',
         image: 'item-wand-of-magic-132x100.png',
-        imageDescription: 'The top of a wand with a sphere with two wings spreadout from it'
+        imageDescription: 'The top of a wand with a sphere with two wings spreadout from it',
+        equippedLocation: 'right-hand'
     },
     {
         id: 'ring-of-fortitude',
@@ -115,7 +116,8 @@ const items = [
         classification: 'item',
         type: 'artifact',
         image: 'item-ring-of-fortitude-132x100.png',
-        imageDescription: 'A hand holding up a simple ring'
+        imageDescription: 'A hand holding up a simple ring',
+        equippedLocation: 'extra'
     },
     {
         id: 'elixir-of-life',

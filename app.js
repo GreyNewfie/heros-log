@@ -521,6 +521,9 @@ function createItemModal(itemName, characterId) {
     const itemCard = createItemCard(itemName);
     modal.appendChild(itemCard);
 
+    const equipItemUi = createEquipItemBtn(characterId, itemName);
+    modal.appendChild(equipItemUi);
+
     modal.showModal();
 }
 
@@ -539,21 +542,8 @@ function increaseNumber(element, maxNum) {
     return element.value = currentNum < maxNum || !maxNum ? currentNum + 1 : currentNum;
 }
 
-function addSpecificItemOptions(element, classification) {
-    const itemsToAdd = items.filter(item => item.classification === classification);
-
-    itemsToAdd.forEach(item => {
-        if (item.classification === classification) {
-            const option = document.createElement('option');
-            option.value = item.id;
-            option.textContent = item.name;
-            element.appendChild(option);    
-        }
-    });
-}
-
 function addItemToCharacter(list, itemId) {
-    const item = findItem(itemId);
+    const item = findItemWithId(itemId);
 
     const li = document.createElement('li');
     li.setAttribute('value', (item.id));
@@ -589,7 +579,6 @@ function addItemsListToCharacter(element, itemsList) {
         equippableItem.addEventListener('click', (event) => {
             const itemName = event.target.textContent;
             createItemModal(itemName, characterId);
-
         });
     })
 }
@@ -608,6 +597,20 @@ function createCharacterList(nodeList) {
     const characterList = [];
     nodeList.forEach(li => characterList.push((li.textContent).slice(0,-1)));
     return characterList;
+}
+
+function createEquipItemBtn(characterId, itemName) {
+    const equipItemBtn = document.createElement('button');
+    equipItemBtn.setAttribute('id', `character-${characterId}-equip-${itemName}`);
+    equipItemBtn.textContent = 'Equip';
+
+    equipItemBtn.addEventListener('click', () => {
+        equipItem(characterId, itemName);
+        modal.close();
+        clearModal(modal);
+    });
+
+    return equipItemBtn;
 }
 
 function createEquippedItemContainer(equippedItemLocation, playerId) {
@@ -651,12 +654,62 @@ function createItemCard(itemName) {
     return itemCard;
 }
 
+function createItemImage(item) {
+    const itemImage = document.createElement('img');
+    itemImage.setAttribute('class', 'item-image');
+    itemImage.setAttribute('src', 'images/' + item.image);
+    itemImage.setAttribute('alt', item.imageDescription);
+    return itemImage;
+}
+
 function clearModal(modal) {
     modal.replaceChildren();
 }
 
-function findItem(itemId) {
+function equipItem(characterId, itemName) {
+    const item = findItemWithName(itemName);
+
+    switch (item.equippedLocation) {
+        case 'head':
+            const headContainer = document.getElementById(`character-${characterId}-head-container`);
+            const headItemImage = createItemImage(item);
+            headContainer.appendChild(headItemImage);
+            break;
+        case 'body':
+            const bodyContainer = document.getElementById(`character-${characterId}-body-container`);
+            const bodyItemImage = createItemImage(item);
+            bodyContainer.appendChild(bodyItemImage);
+            break;
+        case 'left-hand':
+            const leftHandContainer = document.getElementById(`character-${characterId}-left-hand-container`);
+            const leftHandItemImage = createItemImage(item);
+            leftHandContainer.appendChild(leftHandItemImage);
+            break;
+        case 'right-hand':
+            const rightHandContainer = document.getElementById(`character-${characterId}-right-hand-container`);
+            const rightHandItemImage = createItemImage(item);
+            rightHandContainer.appendChild(rightHandItemImage);
+            break;
+        case 'extra':
+            if (!document.querySelector(`#character-${characterId}-extra-1-container img`)) {
+                const extra1ItemContainer = document.getElementById(`character-${characterId}-extra-1-container`);
+                const extra1ItemImage = createItemImage(item);
+                extra1ItemContainer.appendChild(extra1ItemImage);
+            } else {
+                const extra2ItemContainer = document.getElementById(`character-${characterId}-extra-2-container`);
+                const extra2ItemImage = createItemImage(item);
+                extra2ItemContainer.appendChild(extra2ItemImage);
+            }
+    }
+}
+
+function findItemWithId(itemId) {
     const foundItem = items.find((item) => item.id === itemId);
+    return foundItem;
+}
+
+function findItemWithName(itemName) {
+    const foundItem = items.find((item) => item.name === itemName);
     return foundItem;
 }
 
