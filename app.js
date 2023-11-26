@@ -231,6 +231,7 @@ const characterSheet = (character) => {
         const curBodyPtsInput = document.getElementById(getCurrentBodyPoints(character.characterId));
         const curGoldCoins = document.getElementById(getCurrentGoldCoins(character.characterId));
         const potionsItemsList= document.getElementById(getPotionsAndItems(character.characterId));
+        // const equippedItemsImages = document.getElementById(getEquippedItems(uniqueId)).querySelectorAll('.item-image');
 
         nameInput.value = character.name;
         typeSelect.value = character.type;
@@ -242,6 +243,7 @@ const characterSheet = (character) => {
         curBodyPtsInput.value = character.bodyPts;
         curGoldCoins.value = character.goldCoins;
         addItemsListToCharacter(potionsItemsList, character.potionsAndItems);
+        displayEquippedItems(character.equippedItems, uniqueId);
     }
 
     function updateCharacter(storedCharacter, characterId) {
@@ -255,6 +257,7 @@ const characterSheet = (character) => {
         const curGoldCoins = document.getElementById(getCurrentGoldCoins(characterId));
         const potionsItemsList = document.getElementById(getPotionsAndItems(characterId)).querySelectorAll('li');
         const nameInput = document.getElementById(getCharacterName(characterId));
+        const equippedItemsImages = document.getElementById(getEquippedItems(uniqueId)).querySelectorAll('.item-image');
 
         storedCharacter.type = typeSelect.value;
         storedCharacter.attackDice = attDiceSel.value;
@@ -266,6 +269,7 @@ const characterSheet = (character) => {
         storedCharacter.goldCoins = curGoldCoins.value;
         storedCharacter.potionsAndItems = createCharacterItemsList(potionsItemsList);
         storedCharacter.name = nameInput.value;
+        storedCharacter.equippedItems = createEquippedItemsList(equippedItemsImages);
 
         storeCharacters(characters);
     }
@@ -542,6 +546,12 @@ function addCharacter(character) {
 function decreaseNumber(element) {
     const currentNum = parseInt(element.value);
     return element.value = currentNum === 0 ? currentNum : currentNum - 1;
+}
+
+function displayEquippedItems(equippedItems, characterId) {
+    equippedItems.forEach(equippedItem => {
+        equipItem(characterId, equippedItem.name);
+    })
 }
 
 function increaseNumber(element, maxNum) {
