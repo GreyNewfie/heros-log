@@ -107,7 +107,7 @@ const characterSheet = (character) => {
         
         // Equipped Items container
         const equippedItemsSection = document.createElement('div');
-        equippedItemsSection.setAttribute('class', 'character-equipped-items-section');
+        equippedItemsSection.setAttribute('id', `character-${uniqueId}-equipped-items-section`);
 
         // Equipped items UI
         const equippedItemsUi = createEquippedItemsUi(uniqueId);
@@ -186,6 +186,10 @@ const characterSheet = (character) => {
         return `character-${characterId}-potions-items`;
     }
 
+    function getEquippedItems(characterId) {
+        return `character-${characterId}-equipped-items-section`
+    }
+
     const createNewCharacter = () => {
         this.characterId = uniqueId;
 
@@ -199,6 +203,7 @@ const characterSheet = (character) => {
         const curBodyPts = document.getElementById(getCurrentBodyPoints(uniqueId));
         const curGoldCoins = document.getElementById(getCurrentGoldCoins(uniqueId));
         const potionsItemsList = document.getElementById(getPotionsAndItems(uniqueId)).querySelectorAll('li');
+        const equippedItemsImages = document.getElementById(getEquippedItems(uniqueId)).querySelectorAll('.item-image');
 
         this.name = nameInput.value;
         this.type = typeSelect.value;
@@ -206,11 +211,13 @@ const characterSheet = (character) => {
         this.defendDice = defDice.value;
         this.startBodyPts = startBodyPtsInput.value;
         this.startMindPts = startMindPtsInput.value;
-        this.weaponsAndArmor = createCharacterList(weaponsAndArmorList);
+        this.weaponsAndArmor = createCharacterItemsList(weaponsAndArmorList);
         this.bodyPts = curBodyPts.value;
         this.goldCoins = curGoldCoins.value;
-        this.potionsAndItems = createCharacterList(potionsItemsList);
-        return({characterId, name, type, attackDice, defendDice, startBodyPts, startMindPts, bodyPts, goldCoins, weaponsAndArmor, potionsAndItems});
+        this.potionsAndItems = createCharacterItemsList(potionsItemsList);
+        this.equippedItems = createEquippedItemsList(equippedItemsImages);
+
+        return({characterId, name, type, attackDice, defendDice, startBodyPts, startMindPts, bodyPts, goldCoins, weaponsAndArmor, potionsAndItems, equippedItems});
     }
 
     function createExistingCharacter(character) {
@@ -254,10 +261,10 @@ const characterSheet = (character) => {
         storedCharacter.defendDice = defDiceSel.value;
         storedCharacter.startBodyPts = startBodyPtsInput.value;
         storedCharacter.startMindPts = startMindPtsInput.value;
-        storedCharacter.weaponsAndArmor = createCharacterList(weaponsAndArmorList);
+        storedCharacter.weaponsAndArmor = createCharacterItemsList(weaponsAndArmorList);
         storedCharacter.bodyPts = curBodyPtsInput.value;
         storedCharacter.goldCoins = curGoldCoins.value;
-        storedCharacter.potionsAndItems = createCharacterList(potionsItemsList);
+        storedCharacter.potionsAndItems = createCharacterItemsList(potionsItemsList);
         storedCharacter.name = nameInput.value;
 
         storeCharacters(characters);
@@ -593,7 +600,7 @@ function characterDeath(event, characters, character) {
     }
 }
 
-function createCharacterList(nodeList) {
+function createCharacterItemsList(nodeList) {
     const characterList = [];
     nodeList.forEach(li => characterList.push((li.textContent).slice(0,-1)));
     return characterList;
@@ -611,6 +618,19 @@ function createEquipItemBtn(characterId, itemName) {
     });
 
     return equipItemBtn;
+}
+
+function createEquippedItemsList(imagesNodeList) {
+    const equippedItemsList = [];
+
+    imagesNodeList.forEach(image => {
+        const separatedFilePath = (image.src).split('/');
+        const imageName = separatedFilePath[separatedFilePath.length - 1];
+        const item = findItemWithImage(imageName);
+        equippedItemsList.push(item);
+    });
+
+    return equippedItemsList;
 }
 
 function createEquippedItemContainer(equippedItemLocation, playerId) {
@@ -705,6 +725,11 @@ function equipItem(characterId, itemName) {
 
 function findItemWithId(itemId) {
     const foundItem = items.find((item) => item.id === itemId);
+    return foundItem;
+}
+
+function findItemWithImage(image) {
+    const foundItem = items.find(item => item.image === image);
     return foundItem;
 }
 
