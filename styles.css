@@ -226,6 +226,11 @@ header ul {
     color: grey;
 }
 
+.item-image {
+    width: 60px;
+    object-fit: contain;
+}
+
 #modal {
     position: absolute;
     top: 50%;
