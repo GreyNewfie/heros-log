@@ -179,12 +179,12 @@ header ul {
     top: 85px;
 }
 
-.equipped-left-hand-item {
+.equipped-right-hand-item {
     top: 110px;
     left: 60px;
 }
 
-.equipped-right-hand-item {
+.equipped-left-hand-item {
     top: 110px;
     right: 60px;
 }

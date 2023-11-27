@@ -231,7 +231,6 @@ const characterSheet = (character) => {
         const curBodyPtsInput = document.getElementById(getCurrentBodyPoints(character.characterId));
         const curGoldCoins = document.getElementById(getCurrentGoldCoins(character.characterId));
         const potionsItemsList= document.getElementById(getPotionsAndItems(character.characterId));
-        // const equippedItemsImages = document.getElementById(getEquippedItems(uniqueId)).querySelectorAll('.item-image');
 
         nameInput.value = character.name;
         typeSelect.value = character.type;
@@ -347,11 +346,11 @@ function createEquippedItemsUi(uniqueId) {
     const bodyItemContainer = createEquippedItemContainer('body', uniqueId);
     equippedItemsContainer.appendChild(bodyItemContainer);
 
-    const leftHandItemContainer = createEquippedItemContainer('left-hand', uniqueId);
-    equippedItemsContainer.appendChild(leftHandItemContainer);
-
     const rightHandItemContainer = createEquippedItemContainer('right-hand', uniqueId);
     equippedItemsContainer.appendChild(rightHandItemContainer);
+
+    const leftHandItemContainer = createEquippedItemContainer('left-hand', uniqueId);
+    equippedItemsContainer.appendChild(leftHandItemContainer);
 
     const extra1ItemContainer = createEquippedItemContainer('extra-1', uniqueId);
     equippedItemsContainer.appendChild(extra1ItemContainer);
@@ -529,10 +528,13 @@ function createItemModal(itemName, characterId) {
     const modal = document.getElementById('modal');
     createCancelModalUi(modal);
 
+    const item = findItemWithName(itemName);
+    const itemContainer = document.getElementById(`character-${characterId}-${item.equippedLocation}-container`);
+
     const itemCard = createItemCard(itemName);
     modal.appendChild(itemCard);
 
-    const equipItemUi = createEquipItemBtn(characterId, itemName);
+    const equipItemUi = createEquipOrUnequipItemBtn(characterId, itemName);
     modal.appendChild(equipItemUi);
 
     modal.showModal();
@@ -550,7 +552,7 @@ function decreaseNumber(element) {
 
 function displayEquippedItems(equippedItems, characterId) {
     equippedItems.forEach(equippedItem => {
-        equipItem(characterId, equippedItem.name);
+        equipItem(characterId, equippedItem);
     })
 }
 
@@ -616,18 +618,36 @@ function createCharacterItemsList(nodeList) {
     return characterList;
 }
 
-function createEquipItemBtn(characterId, itemName) {
-    const equipItemBtn = document.createElement('button');
-    equipItemBtn.setAttribute('id', `character-${characterId}-equip-${itemName}`);
-    equipItemBtn.textContent = 'Equip';
+function createEquipOrUnequipItemBtn(characterId, itemName) {
+    const item = findItemWithName(itemName);
+    const currentCharacter = getStoredCharacter(characterId);
 
-    equipItemBtn.addEventListener('click', () => {
-        equipItem(characterId, itemName);
-        modal.close();
-        clearModal(modal);
-    });
+    if (!currentCharacter.equippedItems?.find(equippedItem => equippedItem.id === item.id)) {
+        const equipItemBtn = document.createElement('button');
+        // Is this ID being utilized? Remove if not
+        equipItemBtn.setAttribute('id', `character-${characterId}-equip-${itemName}`);
+        equipItemBtn.textContent = 'Equip';
+    
+        equipItemBtn.addEventListener('click', () => {
+            equipItem(characterId, item);
+            modal.close();
+            clearModal(modal);
+        });
+        
+        return equipItemBtn;
+    } else {
+        const unequipItemBtn = document.createElement('button');
+        unequipItemBtn.setAttribute('id', `character-${characterId}-unequip-${itemName}`);
+        unequipItemBtn.textContent = 'Unequip';
 
-    return equipItemBtn;
+        unequipItemBtn.addEventListener('click', () => {
+            unequipItem(characterId, item);
+            modal.close();
+            clearModal(modal);
+        });
+
+        return unequipItemBtn;
+    }
 }
 
 function createEquippedItemsList(imagesNodeList) {
@@ -684,9 +704,10 @@ function createItemCard(itemName) {
     return itemCard;
 }
 
-function createItemImage(item) {
+function createItemImage(item, characterId) {
     const itemImage = document.createElement('img');
     itemImage.setAttribute('class', 'item-image');
+    itemImage.setAttribute('id', `character-${characterId}-${item.id}`);
     itemImage.setAttribute('src', 'images/' + item.image);
     itemImage.setAttribute('alt', item.imageDescription);
     return itemImage;
@@ -696,38 +717,36 @@ function clearModal(modal) {
     modal.replaceChildren();
 }
 
-function equipItem(characterId, itemName) {
-    const item = findItemWithName(itemName);
-
+function equipItem(characterId, item) {
     switch (item.equippedLocation) {
         case 'head':
             const headContainer = document.getElementById(`character-${characterId}-head-container`);
-            const headItemImage = createItemImage(item);
+            const headItemImage = createItemImage(item, characterId);
             headContainer.appendChild(headItemImage);
             break;
         case 'body':
             const bodyContainer = document.getElementById(`character-${characterId}-body-container`);
-            const bodyItemImage = createItemImage(item);
+            const bodyItemImage = createItemImage(item, characterId);
             bodyContainer.appendChild(bodyItemImage);
             break;
         case 'left-hand':
             const leftHandContainer = document.getElementById(`character-${characterId}-left-hand-container`);
-            const leftHandItemImage = createItemImage(item);
+            const leftHandItemImage = createItemImage(item, characterId);
             leftHandContainer.appendChild(leftHandItemImage);
             break;
         case 'right-hand':
             const rightHandContainer = document.getElementById(`character-${characterId}-right-hand-container`);
-            const rightHandItemImage = createItemImage(item);
+            const rightHandItemImage = createItemImage(item, characterId);
             rightHandContainer.appendChild(rightHandItemImage);
             break;
         case 'extra':
             if (!document.querySelector(`#character-${characterId}-extra-1-container img`)) {
                 const extra1ItemContainer = document.getElementById(`character-${characterId}-extra-1-container`);
-                const extra1ItemImage = createItemImage(item);
+                const extra1ItemImage = createItemImage(item, characterId);
                 extra1ItemContainer.appendChild(extra1ItemImage);
             } else {
                 const extra2ItemContainer = document.getElementById(`character-${characterId}-extra-2-container`);
-                const extra2ItemImage = createItemImage(item);
+                const extra2ItemImage = createItemImage(item, characterId);
                 extra2ItemContainer.appendChild(extra2ItemImage);
             }
     }
@@ -804,6 +823,12 @@ function setInitialStats(heroTypeId, characterId) {
 
     const mindPoints = document.getElementById(`mind-${characterId}`);
     mindPoints.value = heroType.startMindPts;
+}
+
+function unequipItem(characterId, item) {
+    const imageToRemove = document.getElementById(`character-${characterId}-${item.id}`);
+    imageToRemove.remove();
+    removeItemFromEquippedItems(characterId, item);
 }
 
 const displayCharacters = (function () {
