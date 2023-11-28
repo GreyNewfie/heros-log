@@ -529,7 +529,7 @@ function createItemModal(itemName, characterId) {
     createCancelModalUi(modal);
 
     const item = findItemWithName(itemName);
-    const itemContainer = document.getElementById(`character-${characterId}-${item.equippedLocation}-container`);
+    // const itemContainer = document.getElementById(`character-${characterId}-${item.equippedLocation}-container`);
 
     const itemCard = createItemCard(itemName);
     modal.appendChild(itemCard);
@@ -543,22 +543,6 @@ function createItemModal(itemName, characterId) {
 function addCharacter(character) {
     characters.push(character);
     storeCharacters(characters);
-}
-
-function decreaseNumber(element) {
-    const currentNum = parseInt(element.value);
-    return element.value = currentNum === 0 ? currentNum : currentNum - 1;
-}
-
-function displayEquippedItems(equippedItems, characterId) {
-    equippedItems.forEach(equippedItem => {
-        equipItem(characterId, equippedItem);
-    })
-}
-
-function increaseNumber(element, maxNum) {
-    const currentNum = parseInt(element.value);
-    return element.value = currentNum < maxNum || !maxNum ? currentNum + 1 : currentNum;
 }
 
 function addItemToCharacter(list, itemId) {
@@ -621,8 +605,9 @@ function createCharacterItemsList(nodeList) {
 function createEquipOrUnequipItemBtn(characterId, itemName) {
     const item = findItemWithName(itemName);
     const currentCharacter = getStoredCharacter(characterId);
+    const equippedItem = currentCharacter?.equippedItems?.find(equippedItem => equippedItem.id === item.id); 
 
-    if (!currentCharacter.equippedItems?.find(equippedItem => equippedItem.id === item.id)) {
+    if (!equippedItem) {
         const equipItemBtn = document.createElement('button');
         // Is this ID being utilized? Remove if not
         equipItemBtn.setAttribute('id', `character-${characterId}-equip-${itemName}`);
@@ -717,36 +702,65 @@ function clearModal(modal) {
     modal.replaceChildren();
 }
 
+function decreaseNumber(element) {
+    const currentNum = parseInt(element.value);
+    return element.value = currentNum === 0 ? currentNum : currentNum - 1;
+}
+
+function displayEquippedItems(equippedItems, characterId) {
+    equippedItems.forEach(equippedItem => {
+        equipItem(characterId, equippedItem);
+    })
+}
+
 function equipItem(characterId, item) {
     switch (item.equippedLocation) {
         case 'head':
             const headContainer = document.getElementById(`character-${characterId}-head-container`);
             const headItemImage = createItemImage(item, characterId);
+            headItemImage.addEventListener('click', () => {
+                createItemModal(item.name, characterId);
+            });
             headContainer.appendChild(headItemImage);
             break;
         case 'body':
             const bodyContainer = document.getElementById(`character-${characterId}-body-container`);
             const bodyItemImage = createItemImage(item, characterId);
+            body.addEventListener('click', () => {
+                createItemModal(item.name, characterId);
+            });
             bodyContainer.appendChild(bodyItemImage);
             break;
         case 'left-hand':
             const leftHandContainer = document.getElementById(`character-${characterId}-left-hand-container`);
             const leftHandItemImage = createItemImage(item, characterId);
+            leftHandItemImage.addEventListener('click', () => {
+                createItemModal(item.name, characterId);
+            });
             leftHandContainer.appendChild(leftHandItemImage);
             break;
         case 'right-hand':
             const rightHandContainer = document.getElementById(`character-${characterId}-right-hand-container`);
             const rightHandItemImage = createItemImage(item, characterId);
+            rightHandItemImage.addEventListener('click', () => {
+                createItemModal(item.name, characterId);
+            });
             rightHandContainer.appendChild(rightHandItemImage);
             break;
         case 'extra':
             if (!document.querySelector(`#character-${characterId}-extra-1-container img`)) {
                 const extra1ItemContainer = document.getElementById(`character-${characterId}-extra-1-container`);
                 const extra1ItemImage = createItemImage(item, characterId);
+                extra1ItemImage.addEventListener('click', () => {
+                    createItemModal(item.name, characterId);
+                });    
                 extra1ItemContainer.appendChild(extra1ItemImage);
             } else {
                 const extra2ItemContainer = document.getElementById(`character-${characterId}-extra-2-container`);
                 const extra2ItemImage = createItemImage(item, characterId);
+                extra2ItemImage.addEventListener('click', () => {
+                    createItemModal(item.name, characterId);
+                });    
                 extra2ItemContainer.appendChild(extra2ItemImage);
             }
     }
@@ -789,6 +803,11 @@ function getSelectedItems() {
     });
 
     return selectedItems;
+}
+
+function increaseNumber(element, maxNum) {
+    const currentNum = parseInt(element.value);
+    return element.value = currentNum < maxNum || !maxNum ? currentNum + 1 : currentNum;
 }
 
 function isCurrentCharacter(characters, { characterId }) {
