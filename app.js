@@ -710,7 +710,7 @@ function decreaseNumber(element) {
 function displayEquippedItems(equippedItems, characterId) {
     equippedItems.forEach(equippedItem => {
         equipItem(characterId, equippedItem);
-    })
+    });
 }
 
 function equipItem(characterId, item) {
@@ -721,6 +721,7 @@ function equipItem(characterId, item) {
             headItemImage.addEventListener('click', () => {
                 createItemModal(item.name, characterId);
             });
+            storeEquippedItemToCharacter(characterId, item);
             headContainer.appendChild(headItemImage);
             break;
         case 'body':
@@ -729,6 +730,7 @@ function equipItem(characterId, item) {
             body.addEventListener('click', () => {
                 createItemModal(item.name, characterId);
             });
+            storeEquippedItemToCharacter(characterId, item);
             bodyContainer.appendChild(bodyItemImage);
             break;
         case 'left-hand':
@@ -737,6 +739,7 @@ function equipItem(characterId, item) {
             leftHandItemImage.addEventListener('click', () => {
                 createItemModal(item.name, characterId);
             });
+            storeEquippedItemToCharacter(characterId, item);
             leftHandContainer.appendChild(leftHandItemImage);
             break;
         case 'right-hand':
@@ -745,6 +748,7 @@ function equipItem(characterId, item) {
             rightHandItemImage.addEventListener('click', () => {
                 createItemModal(item.name, characterId);
             });
+            storeEquippedItemToCharacter(characterId, item);
             rightHandContainer.appendChild(rightHandItemImage);
             break;
         case 'extra':
@@ -753,14 +757,16 @@ function equipItem(characterId, item) {
                 const extra1ItemImage = createItemImage(item, characterId);
                 extra1ItemImage.addEventListener('click', () => {
                     createItemModal(item.name, characterId);
-                });    
+                });
+                storeEquippedItemToCharacter(characterId, item);
                 extra1ItemContainer.appendChild(extra1ItemImage);
             } else {
                 const extra2ItemContainer = document.getElementById(`character-${characterId}-extra-2-container`);
                 const extra2ItemImage = createItemImage(item, characterId);
                 extra2ItemImage.addEventListener('click', () => {
                     createItemModal(item.name, characterId);
-                });    
+                });
+                storeEquippedItemToCharacter(characterId, item);
                 extra2ItemContainer.appendChild(extra2ItemImage);
             }
     }

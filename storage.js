@@ -91,3 +91,14 @@ function removeItemFromEquippedItems(characterId, item) {
     }
 }
 
+function storeEquippedItemToCharacter(characterId, item) {
+    const characters = getCharacters();
+    const characterIndex = characters.findIndex(character => character.characterId === parseInt(characterId));
+
+    if (characterIndex != -1) {
+        const character = characters[characterIndex];
+        character.equippedItems.push(item);
+        storeCharacters(characters);
+    }
+}
+
