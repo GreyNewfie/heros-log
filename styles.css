@@ -197,6 +197,10 @@ header ul {
     right: 40px;
 }
 
+.item-image {
+    cursor: pointer;
+}
+
 .character-sheet ul {
     list-style-type: none;
 }
@@ -213,9 +217,11 @@ header ul {
 
 .weapons-armor-container ul,
 .potions-items-container ul {
+    list-style-type: none;
     overflow: auto;
     height: 105px;
     padding: 0px 5px;
+    cursor: default;
 }
 
 .weapons-armor-items-container span {
