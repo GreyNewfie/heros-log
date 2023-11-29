@@ -459,7 +459,8 @@ function createPotionsItemsUi(uniqueId) {
 
     return potionsItemsContainer;
 }
-
+// itemFilters is a string array
+// function createSelectItemsModalUi(listElement, itemFilters) {
 function createSelectItemsModalUi(listElement, classification, classification2) {
     const modal = document.getElementById('modal');
 
@@ -468,10 +469,14 @@ function createSelectItemsModalUi(listElement, classification, classification2) 
     const fieldset = document.createElement('fieldset');
     fieldset.setAttribute('id', 'choose-items');
     const legend = document.createElement('legend');
+
+    // ['weapon']
+    // if (itemFilters.length === 1 && === 'weapon')
     classification === 'weapon' ? legend.textContent = 'Choose your weapon(s):' : legend.textContent = 'Chose your armor:';
     fieldset.appendChild(legend);
 
     function addItemsToList(classification) {
+        // const itemsToAdd = items.filter(item => itemFilters.includes(item.classification))
         const itemsToAdd = items.filter(item => item.classification === classification);
 
         itemsToAdd.forEach(item => {
@@ -489,6 +494,7 @@ function createSelectItemsModalUi(listElement, classification, classification2) 
         });    
     }
 
+    // addItemsToList(itemFilters)
     if (classification) {
         addItemsToList(classification);
     }
@@ -534,8 +540,8 @@ function createItemModal(itemName, characterId) {
     const itemCard = createItemCard(itemName);
     modal.appendChild(itemCard);
 
-    const equipItemUi = createEquipOrUnequipItemBtn(characterId, itemName);
-    modal.appendChild(equipItemUi);
+    const equipOrUnequipBtn = createEquipOrUnequipItemBtn(characterId, itemName);
+    modal.appendChild(equipOrUnequipBtn);
 
     modal.showModal();
 }
@@ -607,7 +613,7 @@ function createEquipOrUnequipItemBtn(characterId, itemName) {
     const currentCharacter = getStoredCharacter(characterId);
     const equippedItem = currentCharacter?.equippedItems?.find(equippedItem => equippedItem.id === item.id); 
 
-    if (!equippedItem) {
+    if (!equippedItem && !isEquippedItemDisplayed(characterId, item)) {
         const equipItemBtn = document.createElement('button');
         // Is this ID being utilized? Remove if not
         equipItemBtn.setAttribute('id', `character-${characterId}-equip-${itemName}`);
@@ -714,6 +720,10 @@ function displayEquippedItems(equippedItems, characterId) {
 }
 
 function equipItem(characterId, item) {
+    if (isEquippedItemDisplayed(characterId, item)) {
+        return
+    }
+
     switch (item.equippedLocation) {
         case 'head':
             const headContainer = document.getElementById(`character-${characterId}-head-container`);
@@ -721,7 +731,6 @@ function equipItem(characterId, item) {
             headItemImage.addEventListener('click', () => {
                 createItemModal(item.name, characterId);
             });
-            storeEquippedItemToCharacter(characterId, item);
             headContainer.appendChild(headItemImage);
             break;
         case 'body':
@@ -730,7 +739,6 @@ function equipItem(characterId, item) {
             body.addEventListener('click', () => {
                 createItemModal(item.name, characterId);
             });
-            storeEquippedItemToCharacter(characterId, item);
             bodyContainer.appendChild(bodyItemImage);
             break;
         case 'left-hand':
@@ -739,7 +747,6 @@ function equipItem(characterId, item) {
             leftHandItemImage.addEventListener('click', () => {
                 createItemModal(item.name, characterId);
             });
-            storeEquippedItemToCharacter(characterId, item);
             leftHandContainer.appendChild(leftHandItemImage);
             break;
         case 'right-hand':
@@ -748,7 +755,6 @@ function equipItem(characterId, item) {
             rightHandItemImage.addEventListener('click', () => {
                 createItemModal(item.name, characterId);
             });
-            storeEquippedItemToCharacter(characterId, item);
             rightHandContainer.appendChild(rightHandItemImage);
             break;
         case 'extra':
@@ -758,7 +764,6 @@ function equipItem(characterId, item) {
                 extra1ItemImage.addEventListener('click', () => {
                     createItemModal(item.name, characterId);
                 });
-                storeEquippedItemToCharacter(characterId, item);
                 extra1ItemContainer.appendChild(extra1ItemImage);
             } else {
                 const extra2ItemContainer = document.getElementById(`character-${characterId}-extra-2-container`);
@@ -766,7 +771,6 @@ function equipItem(characterId, item) {
                 extra2ItemImage.addEventListener('click', () => {
                     createItemModal(item.name, characterId);
                 });
-                storeEquippedItemToCharacter(characterId, item);
                 extra2ItemContainer.appendChild(extra2ItemImage);
             }
     }
@@ -818,6 +822,12 @@ function increaseNumber(element, maxNum) {
 
 function isCurrentCharacter(characters, { characterId }) {
     return characters.some(character => character.characterId === characterId);
+}
+
+function isEquippedItemDisplayed(characterId, item) {
+    const equippedItemContainer = document.getElementById(`character-${characterId}-${item.equippedLocation}-container`);
+    const foundItem = equippedItemContainer?.querySelector(`#character-${characterId}-${item.id}`);
+    return foundItem ? true : false;
 }
 
 function removeItem(itemsList, itemId) {
