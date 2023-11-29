@@ -179,12 +179,12 @@ header ul {
     top: 85px;
 }
 
-.equipped-left-hand-item {
+.equipped-right-hand-item {
     top: 110px;
     left: 60px;
 }
 
-.equipped-right-hand-item {
+.equipped-left-hand-item {
     top: 110px;
     right: 60px;
 }
@@ -195,6 +195,10 @@ header ul {
 
 .equipped-extra-2-item {
     right: 40px;
+}
+
+.item-image {
+    cursor: pointer;
 }
 
 .character-sheet ul {
@@ -213,9 +217,11 @@ header ul {
 
 .weapons-armor-container ul,
 .potions-items-container ul {
+    list-style-type: none;
     overflow: auto;
     height: 105px;
     padding: 0px 5px;
+    cursor: default;
 }
 
 .weapons-armor-items-container span {
@@ -224,6 +230,11 @@ header ul {
 
 .weapons-armor-items-container span:hover {
     color: grey;
+}
+
+.item-image {
+    width: 60px;
+    object-fit: contain;
 }
 
 #modal {

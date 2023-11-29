@@ -8,6 +8,12 @@ function getCharacters() {
     return characters ? JSON.parse(characters) : [];
 }
 
+function getStoredCharacter(characterId) {
+    const characters = getCharacters();
+    const foundCharacter = characters.find(character => character.characterId === parseInt(characterId));
+    return foundCharacter;
+}
+
 function storeQuest(quest, heroes) {
     const status = quest.querySelector('select').value;
 
@@ -69,3 +75,30 @@ function removeStoredCharacterWeapon(characterId, weaponName) {
         }
     }
 }
+
+function removeItemFromEquippedItems(characterId, item) {
+    const characters = getCharacters();
+    const characterIndex = characters.findIndex(character => character.characterId === parseInt(characterId));
+
+    if (characterIndex != -1) {
+        const character = characters[characterIndex];
+        const itemToRemoveIndex = character.equippedItems.findIndex(equippedItem => equippedItem.id === item.id);
+
+        if(itemToRemoveIndex != -1) {
+            character.equippedItems.splice(itemToRemoveIndex, 1);
+            storeCharacters(characters);
+        }
+    }
+}
+
+function storeEquippedItemToCharacter(characterId, item) {
+    const characters = getCharacters();
+    const characterIndex = characters.findIndex(character => character.characterId === parseInt(characterId));
+
+    if (characterIndex != -1) {
+        const character = characters[characterIndex];
+        character.equippedItems.push(item);
+        storeCharacters(characters);
+    }
+}
+

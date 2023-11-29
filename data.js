@@ -106,7 +106,8 @@ const items = [
         classification: 'item',
         type: 'artifact',
         image: 'item-wand-of-magic-132x100.png',
-        imageDescription: 'The top of a wand with a sphere with two wings spreadout from it'
+        imageDescription: 'The top of a wand with a sphere with two wings spreadout from it',
+        equippedLocation: 'right-hand'
     },
     {
         id: 'ring-of-fortitude',
@@ -115,7 +116,8 @@ const items = [
         classification: 'item',
         type: 'artifact',
         image: 'item-ring-of-fortitude-132x100.png',
-        imageDescription: 'A hand holding up a simple ring'
+        imageDescription: 'A hand holding up a simple ring',
+        equippedLocation: 'extra'
     },
     {
         id: 'elixir-of-life',
@@ -398,8 +400,19 @@ const items = [
         stats: {
             defendDice: 2
         }
+    },
+    {
+        incompatiablities: [
+            'plate-mail'
+        ]
     }
 ]
+
+// const itemFilter = (filters) => {
+//     return item => filters.includes(item.classification)
+// }
+
+// items.filter(itemFilter(['']))
 
 /**
  * OPtional chaining, null coalscing, combined items/artifacts/equipment 
@@ -460,3 +473,18 @@ const items = [
 //     mindPointsBucket: 2,
 //     origin: 'potion'
 // }
+
+
+/**
+ * Set
+ */
+// const set = new Set()
+
+// set.add('bob'); // ['bob']
+// set.add('joe'); // ['bob', 'joe']
+// set.add('bob'); // ['bob', 'joe']
+
+// set.add('plate-mail');
+
+// set.has('plate-mail') // true
+// set.clear();
