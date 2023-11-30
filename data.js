@@ -70,7 +70,7 @@ const items = [
         classification: 'potion',
         type: 'treasure',
         image: 'item-potion-of-healing-132x100.png',
-        imageDescription: 'A corked bottle sitting on cloth rags'
+        imageDescription: 'A corked bottle sitting on cloth rags',
     },
     {
         id: 'heroic-brew',
@@ -79,7 +79,7 @@ const items = [
         classification: 'potion',
         type: 'treasure',
         image: 'item-heroic-brew-132x100.png',
-        imageDescription: 'A warrior wearing armore with a sword drinking a potion'
+        imageDescription: 'A warrior wearing armore with a sword drinking a potion',
     },
     {
         id: 'potion-of-defense',
@@ -117,13 +117,16 @@ const items = [
         type: 'artifact',
         image: 'item-ring-of-fortitude-132x100.png',
         imageDescription: 'A hand holding up a simple ring',
-        equippedLocation: 'extra'
+        equippedLocation: 'extra',
+        modifiers: {
+            bodyPoints: 1
+        }
     },
     {
         id: 'elixir-of-life',
         name: 'Elixir of Life',
         description: 'This small bottle of pearly liquid brings a dead hero back to life, restoring all of their Body and Mind Points. This potion can only be used once.',
-        classification: 'item',
+        classification: 'potion',
         type: 'artifact',
         image: 'item-elixir-of-life-132x100.png',
         imageDescription: 'A bottle in the shape of a heart with a cross inside a heart emblem'
@@ -135,7 +138,12 @@ const items = [
         classification: 'armor',
         type: 'artifact',
         image: 'item-wizards-cloak-132x100.png',
-        imageDescription: 'An elderly wizard wearing a hooded cloak with his arms crossed'
+        imageDescription: 'An elderly wizard wearing a hooded cloak with his arms crossed',
+        equippedLocation: 'body',
+        incompatiablities: ['barbarian', 'elf', 'dwarf'],
+        modifiers: {
+            defendDice: 1
+        }
     },
     {
         id: 'ring-of-return',
@@ -144,7 +152,8 @@ const items = [
         classification: 'item',
         type: 'artifact',
         image: 'item-ring-of-return-132x100.png',
-        imageDescription: 'A hand wearing a ring that has an energy coming from it while holding a staff'
+        imageDescription: 'A hand wearing a ring that has an energy coming from it while holding a staff',
+        equippedLocation: 'extra'
     },
     {
         id: 'rod-of-telekinesis',
@@ -162,7 +171,12 @@ const items = [
         classification: 'weapon',
         type: 'artifact',
         image: 'item-wizards-staff-132x100.png',
-        imageDescription: 'Claoked wizard holding out a staff'
+        imageDescription: 'Claoked wizard holding out a staff',
+        equippedLocation: 'right-hand',
+        incompatiablities: ['barbarian', 'elf', 'dwarf'],
+        modifiers: {
+            attackDice: 2
+        }
     },
     {
         id: 'spell-ring',
@@ -171,7 +185,8 @@ const items = [
         classification: 'item',
         type: 'artifact',
         image: 'item-spell-ring-132x100.png',
-        imageDescription: 'A wizard\'s hand with a thick ring holding a spell book'
+        imageDescription: 'A wizard\'s hand with a thick ring holding a spell book',
+        itemLocation: 'extra'
     },
     {
         id: 'talisman-of-lore',
@@ -180,7 +195,11 @@ const items = [
         classification: 'item',
         type: 'artifact',
         image: 'item-talisman-of-lore-132x100.png',
-        imageDescription: 'A talisman with the etching of a surprised face'
+        imageDescription: 'A talisman with the etching of a surprised face',
+        equippedLocation: 'extra',
+        modifiers: {
+            mindPoints: 1
+        }
     },
     {
         id: 'borins-armor',
@@ -189,7 +208,12 @@ const items = [
         classification: 'armor',
         type: 'artifact',
         image: 'item-borins-armor-132x100.png',
-        imageDescription: 'Elaborate body armor and matching helmet'
+        imageDescription: 'Elaborate body armor and matching helmet',
+        equippedLocation: 'body',
+        incompatiablities: ['helmet', 'shield', 'wizard'],
+        modifiers: {
+            defendDice: 2
+        }
     },
     {
         id: 'phantom-blade',
@@ -198,7 +222,11 @@ const items = [
         classification: 'weapon',
         type: 'artifact',
         image: 'item-phantom-blade-132x100.png',
-        imageDescription: 'A hand holding up a dagger with an aura surrounding it'
+        imageDescription: 'A hand holding up a dagger with an aura surrounding it',
+        equippedLocation: 'right-hand',
+        modifiers: {
+            attackDice: 1
+        }
     },
     {
         id: 'orcs-bane',
@@ -207,16 +235,26 @@ const items = [
         classification: 'weapon',
         type: 'artifact',
         image: 'item-orcs-bane-132x100.png',
-        imageDescription: 'A sword thrust into an orc'
+        imageDescription: 'A sword thrust into an orc',
+        equippedLocation: 'right-hand',
+        incompatiablities: ['wizard'],
+        modifiers: {
+            attackDice: 2
+        }
     },
     {
         id: 'fortunes-longsword',
         name: `Fortune's Longsword`,
-        description: 'This long blade enables you to attack diagonally and gives you 3 Attack dice. Once per quest, the hero may use its power to reroll 1 Attack die. May not be used by the wizasrd.',
+        description: 'This long blade enables you to attack diagonally and gives you 3 Attack dice. Once per quest, the hero may use its power to reroll 1 Attack die. May not be used by the wizard.',
         classification: 'weapon',
         type: 'artifact',
         image: 'item-fortunes-longsword-132x100.png',
-        imageDescription: 'A sword partially out of its sheath'
+        imageDescription: 'A sword partially out of its sheath',
+        equippedLocation: 'right-hand',
+        incompatiabilities: ['wizard'],
+        modifiers: {
+            attackDice: 3,
+        }
     },
     {
         id: 'spirit-blade',
@@ -225,7 +263,12 @@ const items = [
         classification: 'weapon',
         type: 'artifact',
         image: 'item-spirit-blade-132x100.png',
-        imageDescription: 'A sword with its blade on fire wirh an orc nearby'
+        imageDescription: 'A sword with its blade on fire wirh an orc nearby',
+        equippedLocation: 'right-hand',
+        incompatiabilities: ['wizard'],
+        modifiers: {
+            attackDice: 3
+        }
     },
     {
         id: 'longsword',
@@ -235,7 +278,12 @@ const items = [
         type: 'equipment',
         cost: '350 gold coins',
         image: 'item-longsword-132x100.png',
-        imageDescription: 'A sword lying in a field next to a sheath'
+        imageDescription: 'A sword lying in a field next to a sheath',
+        equippedLocation: 'right-hand',
+        incompatiabilities: 'wizard',
+        modifiers: {
+            attackDice: 3
+        }
     }, 
     {
         id: 'potion-of-speed',
@@ -255,7 +303,11 @@ const items = [
         type: 'equipment',
         cost: '25 gold coins',
         image: 'item-dagger-132x100.png',
-        imageDescription: 'A hand holding up a dagger'
+        imageDescription: 'A hand holding up a dagger',
+        equippedLocation: 'right-hand',
+        modifiers: {
+            attackDice: 1
+        }
     },
     {
         id: 'bracers',
@@ -265,7 +317,11 @@ const items = [
         type: 'equipment',
         cost: '550 gold coins',
         image: 'item-bracers-132x100.png',
-        imageDescription: 'A warrior crossing his arms with bracers deflecting arrows'
+        imageDescription: 'A warrior crossing his arms with bracers deflecting arrows',
+        equippedLocation: 'body',
+        modifiers: {
+            defendDice: 1
+        }
     },
     {
         id: 'battle-axe',
@@ -275,7 +331,12 @@ const items = [
         type: 'equipment',
         cost: '450 gold coins',
         image: 'battle-axe.png',
-        imageDescription: 'A hand holding up a double sided axe'
+        imageDescription: 'A hand holding up a double sided axe',
+        equippedLocation: 'right-hand',
+        incompatiablities: ['shield', 'wizard'],
+        modifiers: {
+            attackDice: 4
+        }
     },
     {
         id: 'holy-water',
@@ -295,7 +356,12 @@ const items = [
         type: 'equipment',
         cost: '100 gold coins',
         image: 'item-staff-132x100.png',
-        imageDescription: 'An elderly man holding a wooden staff'
+        imageDescription: 'An elderly man holding a wooden staff',
+        equippedLocation: 'right-hand',
+        incompatiabilities: ['shield'],
+        modifiers: {
+            attackDice: 1
+        }
     },
     {
         id: 'helmet',
@@ -305,7 +371,12 @@ const items = [
         type: 'equipment',
         cost: '125 gold coins',
         image: 'item-helmet-132x100.png',
-        imageDescription: 'A bearded soldier wearing a horned helmet'
+        imageDescription: 'A bearded soldier wearing a horned helmet',
+        equippedLocation: 'head',
+        incompatiabilities: ['wizard'],
+        modifiers: {
+            defendDice: 1
+        }
     },
     {
         id: 'crossbow',
@@ -315,7 +386,12 @@ const items = [
         type: 'equipment',
         cost: '350 gold coins',
         image: 'item-crossbow-132x100.png',
-        imageDescription: 'A crossbow on the ground next to wooden arrows'
+        imageDescription: 'A crossbow on the ground next to wooden arrows',
+        equippedLocation: 'right-hand',
+        incompatiabilities: ['wizard'],
+        modifiers: {
+            attackDice: 3
+        }
     },
     {
         id: 'broadsword',
@@ -325,7 +401,12 @@ const items = [
         type: 'equipment',
         cost: '250 gold coins',
         image: 'item-broadsword-132x100.png',
-        imageDescription: 'A sword partially out of its sheath'
+        imageDescription: 'A sword partially out of its sheath',
+        equippedLocation: 'right-hand',
+        incompatibilities: 'wizard',
+        modifiers: {
+            attackDice: 3
+        }
     },
     {
         id: 'shortsword',
@@ -335,7 +416,12 @@ const items = [
         type: 'equipment',
         cost: '150 gold coins',
         image: 'item-shortsword-132x100.png',
-        imageDescription: 'A short sword partially sticking out of ground next to its sheath'
+        imageDescription: 'A short sword partially sticking out of ground next to its sheath',
+        equippedLocation: 'right-hand',
+        incompatiabilities: 'wizard',
+        modifiers: {
+            attackDice: 2
+        }
     },
     {
         id: 'shield',
@@ -345,7 +431,12 @@ const items = [
         type: 'equipment',
         cost: '150 gold coins',
         image: 'item-shield-132x100.png',
-        imageDescription: 'A soldier holding up a shield with arrows protruding from it'
+        imageDescription: 'A soldier holding up a shield with arrows protruding from it',
+        equippedLocation: 'left-hand',
+        incompatiablities: ['battle-axe', 'staff', 'wizard'],
+        modifiers: {
+            defendDice: 1
+        }
     },
     {
         id: 'chain-mail',
@@ -355,7 +446,12 @@ const items = [
         type: 'equipment',
         cost: '500 gold coins',
         image: 'item-chain-mail-132x100.png',
-        imageDescription: 'A soldier wearing chain body armor'
+        imageDescription: 'A soldier wearing chain body armor',
+        equippedLocation: 'body',
+        incompatiabilities: ['wizard'],
+        modifiers: {
+            defendDice: 1
+        }
     },
     {
         id: 'handaxe',
@@ -365,7 +461,11 @@ const items = [
         type: 'equipment',
         cost: '200 gold coins',
         image: 'item-handaxe-132x100.png',
-        imageDescription: 'A small axe lying on a stone floor'
+        imageDescription: 'A small axe lying on a stone floor',
+        equippedLocation: 'right-hand',
+        modifiers: {
+            attackDice: 2
+        }
     },
     {
         id: 'helmet',
@@ -375,7 +475,12 @@ const items = [
         type: 'equipment',
         cost: '125 gold coins',
         image: 'item-helmet-132x100.png',
-        imageDescription: 'A small axe lying on a stone floor'
+        imageDescription: 'A small axe lying on a stone floor',
+        equippedLocation: 'head',
+        incompatiabilities: ['wizard'],
+        modifiers: {
+            defendDice: 1
+        }
     },
     {
         id: 'tool-kit',
@@ -385,7 +490,8 @@ const items = [
         type: 'equipment',
         cost: '250 gold coins',
         image: 'item-toolkit-132x100.png',
-        imageDescription: 'An old style leather holder with plyers, a chisel and other more primitive style tools'
+        imageDescription: 'An old style leather holder with plyers, a chisel and other more primitive style tools',
+        equippedLocation: ''
     },
     {
         id: 'plate-mail',
@@ -396,15 +502,13 @@ const items = [
         cost: '850 gold coins',
         image: 'item-plate-mail-132x100.png',
         imageDescription: 'Metal armor lying on the floor propped up against a stone wall',
+        equippedLocation: 'left-hand',
+        incompatiabilities: ['wizard'],
         // See dynamic items below
-        stats: {
-            defendDice: 2
+        modifiers: {
+            defendDice: 2,
+            redDice: 1
         }
-    },
-    {
-        incompatiablities: [
-            'plate-mail'
-        ]
     }
 ]
 
