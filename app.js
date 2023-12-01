@@ -620,9 +620,14 @@ function createEquipOrUnequipItemBtn(characterId, itemName) {
         equipItemBtn.textContent = 'Equip';
     
         equipItemBtn.addEventListener('click', () => {
-            equipItem(characterId, item);
-            modal.close();
-            clearModal(modal);
+            if (!checkIfEquippedLocationTaken(characterId, item)) {
+                equipItem(characterId, item);
+                modal.close();
+                clearModal(modal);    
+            } else {
+                alert('You much unequip your existing item before you can equip another one in the same location');
+                modal.close();
+            }
         });
         
         return equipItemBtn;
@@ -828,6 +833,11 @@ function isEquippedItemDisplayed(characterId, item) {
     const equippedItemContainer = document.getElementById(`character-${characterId}-${item.equippedLocation}-container`);
     const foundItem = equippedItemContainer?.querySelector(`#character-${characterId}-${item.id}`);
     return foundItem ? true : false;
+}
+
+function checkIfEquippedLocationTaken(characterId, item) {
+    const containerToCheck = document.getElementById(`character-${characterId}-${item.equippedLocation}-container`);
+    return containerToCheck.querySelector('.item-image');
 }
 
 function removeItem(itemsList, itemId) {
