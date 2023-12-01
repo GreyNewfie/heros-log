@@ -627,6 +627,7 @@ function createEquipOrUnequipItemBtn(characterId, itemName) {
             } else {
                 alert('You much unequip your existing item before you can equip another one in the same location');
                 modal.close();
+                clearModal(modal);
             }
         });
         
