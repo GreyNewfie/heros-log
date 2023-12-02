@@ -540,7 +540,7 @@ function createItemModal(itemName, characterId) {
     const itemCard = createItemCard(itemName);
     modal.appendChild(itemCard);
 
-    const equipOrUnequipBtn = createEquipOrUnequipItemBtn(characterId, itemName);
+    const equipOrUnequipBtn = createEquipOrUnequipItemBtn(characterId, item);
     modal.appendChild(equipOrUnequipBtn);
 
     modal.showModal();
@@ -608,15 +608,14 @@ function createCharacterItemsList(nodeList) {
     return characterList;
 }
 
-function createEquipOrUnequipItemBtn(characterId, itemName) {
-    const item = findItemWithName(itemName);
+function createEquipOrUnequipItemBtn(characterId, item) {
     const currentCharacter = getStoredCharacter(characterId);
     const equippedItem = currentCharacter?.equippedItems?.find(equippedItem => equippedItem.id === item.id); 
 
     if (!equippedItem && !isEquippedItemDisplayed(characterId, item)) {
         const equipItemBtn = document.createElement('button');
         // Is this ID being utilized? Remove if not
-        equipItemBtn.setAttribute('id', `character-${characterId}-equip-${itemName}`);
+        equipItemBtn.setAttribute('id', `character-${characterId}-equip-${item.name}`);
         equipItemBtn.textContent = 'Equip';
     
         equipItemBtn.addEventListener('click', () => {
@@ -634,7 +633,7 @@ function createEquipOrUnequipItemBtn(characterId, itemName) {
         return equipItemBtn;
     } else {
         const unequipItemBtn = document.createElement('button');
-        unequipItemBtn.setAttribute('id', `character-${characterId}-unequip-${itemName}`);
+        unequipItemBtn.setAttribute('id', `character-${characterId}-unequip-${item.name}`);
         unequipItemBtn.textContent = 'Unequip';
 
         unequipItemBtn.addEventListener('click', () => {
@@ -742,7 +741,7 @@ function equipItem(characterId, item) {
         case 'body':
             const bodyContainer = document.getElementById(`character-${characterId}-body-container`);
             const bodyItemImage = createItemImage(item, characterId);
-            body.addEventListener('click', () => {
+            bodyItemImage.addEventListener('click', () => {
                 createItemModal(item.name, characterId);
             });
             bodyContainer.appendChild(bodyItemImage);
@@ -838,7 +837,7 @@ function isEquippedItemDisplayed(characterId, item) {
 
 function checkIfEquippedLocationTaken(characterId, item) {
     const containerToCheck = document.getElementById(`character-${characterId}-${item.equippedLocation}-container`);
-    return containerToCheck.querySelector('.item-image');
+    return containerToCheck?.querySelector('.item-image');
 }
 
 function removeItem(itemsList, itemId) {
