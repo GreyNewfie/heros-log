@@ -389,7 +389,7 @@ function createWeaponsAndArmorUi(uniqueId) {
 
     addBtn.addEventListener('click', () => {
         const dialog = document.querySelector('dialog');
-        createSelectItemsModalUi(weaponsArmorList, 'weapon', 'armor');
+        createSelectItemsModalUi(weaponsArmorList, ['weapon', 'armor']);
         dialog.showModal();
     });
 
@@ -453,15 +453,14 @@ function createPotionsItemsUi(uniqueId) {
 
     addPotionsItemsBtn.addEventListener('click', () => {
         const dialog = document.querySelector('dialog');
-        createSelectItemsModalUi(potionsItemsList, 'item', 'potion');
+        createSelectItemsModalUi(potionsItemsList, ['item', 'potion']);
         dialog.showModal();
     });
 
     return potionsItemsContainer;
 }
-// itemFilters is a string array
-// function createSelectItemsModalUi(listElement, itemFilters) {
-function createSelectItemsModalUi(listElement, classification, classification2) {
+
+function createSelectItemsModalUi(listElement, itemFilters) {
     const modal = document.getElementById('modal');
 
     createCancelModalUi(modal);
@@ -470,14 +469,19 @@ function createSelectItemsModalUi(listElement, classification, classification2) 
     fieldset.setAttribute('id', 'choose-items');
     const legend = document.createElement('legend');
 
-    // ['weapon']
-    // if (itemFilters.length === 1 && === 'weapon')
-    classification === 'weapon' ? legend.textContent = 'Choose your weapon(s):' : legend.textContent = 'Chose your armor:';
+    if (itemFilters.includes('weapon') && itemFilters.includes('armor')) {
+        legend.textContent = 'Choose your weapons and armor:';
+    }
+
+    if (itemFilters.includes('potion') && itemFilters.includes('item')) {
+        legend.textContent = 'Choose your potions and items:';
+    }
+
     fieldset.appendChild(legend);
 
-    function addItemsToList(classification) {
-        // const itemsToAdd = items.filter(item => itemFilters.includes(item.classification))
-        const itemsToAdd = items.filter(item => item.classification === classification);
+
+    function addItemsToList(itemFilters) {
+        const itemsToAdd = items.filter(item => itemFilters.includes(item.classification));
 
         itemsToAdd.forEach(item => {
             const inputContainer = document.createElement('div');
@@ -491,16 +495,11 @@ function createSelectItemsModalUi(listElement, classification, classification2) 
     
             inputContainer.append(input, label);
             fieldset.appendChild(inputContainer);
-        });    
+        });
     }
 
-    // addItemsToList(itemFilters)
-    if (classification) {
-        addItemsToList(classification);
-    }
-
-    if (classification2) {
-        addItemsToList(classification2);
+    if (itemFilters) {
+        addItemsToList(itemFilters);
     }
 
     const submitItems = document.createElement('button');
@@ -551,8 +550,8 @@ function addCharacter(character) {
     storeCharacters(characters);
 }
 
-function addItemToCharacter(list, itemId) {
-    const item = findItemWithId(itemId);
+function addItemToCharacterList(list, item) {
+    // const item = findItemWithId(itemId);
 
     const li = document.createElement('li');
     li.setAttribute('value', (item.id));
@@ -578,7 +577,7 @@ function addItemsListToCharacter(element, itemsList) {
     
     itemsList.forEach(item => {
         const storedItem = items.find(itemStored => itemStored.id === item.id || itemStored.name === item);
-        addItemToCharacter(element, (storedItem.id));
+        addItemToCharacterList(element, storedItem);
     });
     
     const characterId = ((element.id).split('-'))[1];
