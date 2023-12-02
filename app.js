@@ -536,7 +536,7 @@ function createItemModal(itemName, characterId) {
     const item = findItemWithName(itemName);
     // const itemContainer = document.getElementById(`character-${characterId}-${item.equippedLocation}-container`);
 
-    const itemCard = createItemCard(itemName);
+    const itemCard = createItemCard(item);
     modal.appendChild(itemCard);
 
     const equipOrUnequipBtn = createEquipOrUnequipItemBtn(characterId, item);
@@ -585,6 +585,10 @@ function addItemsListToCharacter(element, itemsList) {
     const equippableItems = element.querySelectorAll('.equippable-item');
     equippableItems.forEach((equippableItem) => {
         equippableItem.addEventListener('click', (event) => {
+            const modal = document.getElementById('modal');
+            if (modal.hasChildNodes()) {
+                return
+            }
             const itemName = event.target.textContent;
             createItemModal(itemName, characterId);
         });
@@ -665,9 +669,7 @@ function createEquippedItemContainer(equippedItemLocation, playerId) {
     return equippedItemContainer;
 }
 
-function createItemCard(itemName) {
-    const item = items.find(item => item.name === itemName);
-
+function createItemCard(item) {
     const itemCard = document.createElement('div');
     itemCard.setAttribute('class', 'item-card');
 
