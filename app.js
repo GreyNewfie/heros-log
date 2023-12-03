@@ -619,13 +619,24 @@ function characterDeath(event, characters, character) {
 function checkItemsCompatibility(characterId, itemsByName) {
     const characterType = document.getElementById(`character-${characterId}-type`).value;
     const characterItems = items.filter(item => itemsByName.includes(item.name));
+    const equippedItems = getCharacterEquippedItems(characterId);
+    const equippedItemsById = equippedItems.map(equippedItem => equippedItem.id);
+    const incompatibleItems = [];
 
     characterItems.forEach(item => {
-        const incompatibilities = item.incompatibilities;
-        if (item.incompatibilities?.includes(characterType)) {
+        // Would this work? item.incompatibilities.includes(...[item.id])
+        if (item.incompatibilities?.includes(characterType) || item.incompatibilities?.some(incompatibility => equippedItemsById.includes(incompatibility))) {
             const element = document.getElementById(`character-${characterId}-${item.id}`);
             element.classList.add('incompatible');
+            incompatibleItems.push(item);
         }
+
+        // if (item.incompatibilities?.some(incompatibility => equippedItemsById.includes(incompatibility))) {
+        //     const element = document.getElementById(`character-${characterId}-${item.id}`);
+        //     element.classList.add('incompatible');
+        //     incompatibleItems.push(item);
+        // }
+            //[incompatibilityId1, incompatibilityId2] match [{equippedItem1}, {equippedItem2}]
     })
 }
 
@@ -824,6 +835,20 @@ function findItemWithName(itemName) {
 
 function getCharacterIndex(characters, characterId) {
     return characters.findIndex((character) => character.characterId === characterId);
+}
+
+function getCharacterEquippedItems(characterId) {
+    const character = getStoredCharacter(characterId);
+    const storedEquippedItems = character?.equippedItems;
+
+    const equippedItemsImages = document.getElementById(`character-${characterId}-equipped-items-section`).querySelectorAll('.item-image');
+    const displayedEquippedItems = createEquippedItemsList(equippedItemsImages);
+
+    if (storedEquippedItems || displayedEquippedItems) {
+        return displayedEquippedItems.length > 0 ? displayedEquippedItems : storedEquippedItems; 
+    } else {
+        return [];
+    }
 }
 
 function getExistingCharacter(characters, character) {
