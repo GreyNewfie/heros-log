@@ -550,22 +550,31 @@ function addCharacter(character) {
     storeCharacters(characters);
 }
 
-function addItemToCharacterList(list, item) {
-    // const item = findItemWithId(itemId);
-
+function addItemToCharacterList(characterId, list, item) {
     const li = document.createElement('li');
     li.setAttribute('value', (item.id));
     
     const itemSpan = document.createElement('span');
     itemSpan.setAttribute('class', 'equippable-item');
+    itemSpan.setAttribute('id', `character-${characterId}-${item.id}`);
     itemSpan.textContent = item.name;
     li.appendChild(itemSpan);
+
+    // Can I pass item instead of event and it still be accessible when click event is executed?
+    itemSpan.addEventListener('click', (event) => {
+        const modal = document.getElementById('modal');
+        if (modal.querySelector('.item-card')) {
+            return
+        }
+        const itemName = event.target.textContent;
+        createItemModal(itemName, characterId);
+    });
 
     const removeBtn = document.createElement('button');
     removeBtn.setAttribute('class', 'remove-item');
     removeBtn.textContent = 'x';
     li.appendChild(removeBtn);
-    removeBtn.addEventListener('click', (event) => removeItem(list, itemId));
+    removeBtn.addEventListener('click', (event) => removeItem(list, item.id));
 
     list.appendChild(li);
 }
@@ -575,24 +584,26 @@ function addItemsListToCharacter(element, itemsList) {
         return
     }
     
-    itemsList.forEach(item => {
-        const storedItem = items.find(itemStored => itemStored.id === item.id || itemStored.name === item);
-        addItemToCharacterList(element, storedItem);
-    });
-    
     const characterId = ((element.id).split('-'))[1];
 
-    const equippableItems = element.querySelectorAll('.equippable-item');
-    equippableItems.forEach((equippableItem) => {
-        equippableItem.addEventListener('click', (event) => {
-            const modal = document.getElementById('modal');
-            if (modal.hasChildNodes()) {
-                return
-            }
-            const itemName = event.target.textContent;
-            createItemModal(itemName, characterId);
-        });
-    })
+    itemsList.forEach(item => {
+        const storedItem = items.find(itemStored => itemStored.id === item.id || itemStored.name === item);
+        addItemToCharacterList(characterId,element, storedItem);
+    });
+    
+    // const equippableItems = element.querySelectorAll('.equippable-item');
+    // equippableItems.forEach((equippableItem) => {
+    //     equippableItem.addEventListener('click', (event) => {
+    //         const modal = document.getElementById('modal');
+    //         if (modal.hasChildNodes()) {
+    //             return
+    //         }
+    //         const itemName = event.target.textContent;
+    //         createItemModal(itemName, characterId);
+    //     });
+    // })
+
+    checkItemsCompatibility(characterId, itemsList);
 }
 
 function characterDeath(event, characters, character) {
@@ -603,6 +614,19 @@ function characterDeath(event, characters, character) {
         characters.splice(index, 1);
         storeCharacters(characters);
     }
+}
+
+function checkItemsCompatibility(characterId, itemsByName) {
+    const characterType = document.getElementById(`character-${characterId}-type`).value;
+    const characterItems = items.filter(item => itemsByName.includes(item.name));
+
+    characterItems.forEach(item => {
+        const incompatibilities = item.incompatibilities;
+        if (item.incompatibilities?.includes(characterType)) {
+            const element = document.getElementById(`character-${characterId}-${item.id}`);
+            element.classList.add('incompatible');
+        }
+    })
 }
 
 function createCharacterItemsList(nodeList) {
@@ -738,6 +762,7 @@ function equipItem(characterId, item) {
                 createItemModal(item.name, characterId);
             });
             headContainer.appendChild(headItemImage);
+            storeEquippedItemToCharacter(characterId, item);
             break;
         case 'body':
             const bodyContainer = document.getElementById(`character-${characterId}-body-container`);

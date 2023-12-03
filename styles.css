@@ -232,6 +232,10 @@ header ul {
     color: grey;
 }
 
+.incompatible {
+    cursor: not-allowed;
+}
+
 .item-image {
     width: 60px;
     object-fit: contain;

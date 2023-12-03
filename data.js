@@ -140,7 +140,7 @@ const items = [
         image: 'item-wizards-cloak-132x100.png',
         imageDescription: 'An elderly wizard wearing a hooded cloak with his arms crossed',
         equippedLocation: 'body',
-        incompatiablities: ['barbarian', 'elf', 'dwarf'],
+        incompatibilities: ['barbarian', 'elf', 'dwarf'],
         modifiers: {
             defendDice: 1
         }
@@ -173,7 +173,7 @@ const items = [
         image: 'item-wizards-staff-132x100.png',
         imageDescription: 'Claoked wizard holding out a staff',
         equippedLocation: 'right-hand',
-        incompatiablities: ['barbarian', 'elf', 'dwarf'],
+        incompatibilities: ['barbarian', 'elf', 'dwarf'],
         modifiers: {
             attackDice: 2
         }
@@ -210,7 +210,7 @@ const items = [
         image: 'item-borins-armor-132x100.png',
         imageDescription: 'Elaborate body armor and matching helmet',
         equippedLocation: 'body',
-        incompatiablities: ['helmet', 'shield', 'wizard'],
+        incompatibilities: ['helmet', 'shield', 'wizard'],
         modifiers: {
             defendDice: 2
         }
@@ -237,7 +237,7 @@ const items = [
         image: 'item-orcs-bane-132x100.png',
         imageDescription: 'A sword thrust into an orc',
         equippedLocation: 'right-hand',
-        incompatiablities: ['wizard'],
+        incompatibilities: ['wizard'],
         modifiers: {
             attackDice: 2
         }
@@ -333,7 +333,7 @@ const items = [
         image: 'battle-axe.png',
         imageDescription: 'A hand holding up a double sided axe',
         equippedLocation: 'right-hand',
-        incompatiablities: ['shield', 'wizard'],
+        incompatibilities: ['shield', 'wizard'],
         modifiers: {
             attackDice: 4
         }
@@ -433,7 +433,7 @@ const items = [
         image: 'item-shield-132x100.png',
         imageDescription: 'A soldier holding up a shield with arrows protruding from it',
         equippedLocation: 'left-hand',
-        incompatiablities: ['battle-axe', 'staff', 'wizard'],
+        incompatibilities: ['battle-axe', 'staff', 'wizard'],
         modifiers: {
             defendDice: 1
         }
