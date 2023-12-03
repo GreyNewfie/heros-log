@@ -389,7 +389,7 @@ function createWeaponsAndArmorUi(uniqueId) {
 
     addBtn.addEventListener('click', () => {
         const dialog = document.querySelector('dialog');
-        createSelectItemsModalUi(weaponsArmorList, 'weapon', 'armor');
+        createSelectItemsModalUi(weaponsArmorList, ['weapon', 'armor']);
         dialog.showModal();
     });
 
@@ -453,15 +453,14 @@ function createPotionsItemsUi(uniqueId) {
 
     addPotionsItemsBtn.addEventListener('click', () => {
         const dialog = document.querySelector('dialog');
-        createSelectItemsModalUi(potionsItemsList, 'item', 'potion');
+        createSelectItemsModalUi(potionsItemsList, ['item', 'potion']);
         dialog.showModal();
     });
 
     return potionsItemsContainer;
 }
-// itemFilters is a string array
-// function createSelectItemsModalUi(listElement, itemFilters) {
-function createSelectItemsModalUi(listElement, classification, classification2) {
+
+function createSelectItemsModalUi(listElement, itemFilters) {
     const modal = document.getElementById('modal');
 
     createCancelModalUi(modal);
@@ -470,14 +469,19 @@ function createSelectItemsModalUi(listElement, classification, classification2) 
     fieldset.setAttribute('id', 'choose-items');
     const legend = document.createElement('legend');
 
-    // ['weapon']
-    // if (itemFilters.length === 1 && === 'weapon')
-    classification === 'weapon' ? legend.textContent = 'Choose your weapon(s):' : legend.textContent = 'Chose your armor:';
+    if (itemFilters.includes('weapon') && itemFilters.includes('armor')) {
+        legend.textContent = 'Choose your weapons and armor:';
+    }
+
+    if (itemFilters.includes('potion') && itemFilters.includes('item')) {
+        legend.textContent = 'Choose your potions and items:';
+    }
+
     fieldset.appendChild(legend);
 
-    function addItemsToList(classification) {
-        // const itemsToAdd = items.filter(item => itemFilters.includes(item.classification))
-        const itemsToAdd = items.filter(item => item.classification === classification);
+
+    function addItemsToList(itemFilters) {
+        const itemsToAdd = items.filter(item => itemFilters.includes(item.classification));
 
         itemsToAdd.forEach(item => {
             const inputContainer = document.createElement('div');
@@ -491,16 +495,11 @@ function createSelectItemsModalUi(listElement, classification, classification2) 
     
             inputContainer.append(input, label);
             fieldset.appendChild(inputContainer);
-        });    
+        });
     }
 
-    // addItemsToList(itemFilters)
-    if (classification) {
-        addItemsToList(classification);
-    }
-
-    if (classification2) {
-        addItemsToList(classification2);
+    if (itemFilters) {
+        addItemsToList(itemFilters);
     }
 
     const submitItems = document.createElement('button');
@@ -510,8 +509,9 @@ function createSelectItemsModalUi(listElement, classification, classification2) 
 
     submitItems.addEventListener('click', event => {
         modal.close();
-        const selectedItems = getSelectedItems();
-        addItemsListToCharacter(listElement, selectedItems);
+        const selectedItemNames = getSelectedItemNames();
+        // const selectedItems = items.map()
+        addItemsListToCharacter(listElement, selectedItemNames);
         clearModal(modal);
     });
 
@@ -537,7 +537,7 @@ function createItemModal(itemName, characterId) {
     const item = findItemWithName(itemName);
     // const itemContainer = document.getElementById(`character-${characterId}-${item.equippedLocation}-container`);
 
-    const itemCard = createItemCard(itemName);
+    const itemCard = createItemCard(item);
     modal.appendChild(itemCard);
 
     const equipOrUnequipBtn = createEquipOrUnequipItemBtn(characterId, item);
@@ -551,45 +551,47 @@ function addCharacter(character) {
     storeCharacters(characters);
 }
 
-function addItemToCharacter(list, itemId) {
-    const item = findItemWithId(itemId);
-
+function addItemToCharacterList(characterId, list, item) {
     const li = document.createElement('li');
     li.setAttribute('value', (item.id));
     
     const itemSpan = document.createElement('span');
     itemSpan.setAttribute('class', 'equippable-item');
+    itemSpan.setAttribute('id', `character-${characterId}-${item.id}`);
     itemSpan.textContent = item.name;
     li.appendChild(itemSpan);
+
+    // Can I pass item instead of event and it still be accessible when click event is executed?
+    itemSpan.addEventListener('click', (event) => {
+        const modal = document.getElementById('modal');
+        if (modal.querySelector('.item-card')) {
+            return
+        }
+        const itemName = event.target.textContent;
+        createItemModal(itemName, characterId);
+    });
 
     const removeBtn = document.createElement('button');
     removeBtn.setAttribute('class', 'remove-item');
     removeBtn.textContent = 'x';
     li.appendChild(removeBtn);
-    removeBtn.addEventListener('click', (event) => removeItem(list, itemId));
+    removeBtn.addEventListener('click', (event) => removeItem(list, item.id));
 
     list.appendChild(li);
 }
 
-function addItemsListToCharacter(element, itemsList) {
-    if (!itemsList) {
+function addItemsListToCharacter(element, itemsListByName) {
+    if (!itemsListByName) {
         return
     }
     
-    itemsList.forEach(item => {
-        const storedItem = items.find(itemStored => itemStored.id === item.id || itemStored.name === item);
-        addItemToCharacter(element, (storedItem.id));
-    });
-    
     const characterId = ((element.id).split('-'))[1];
 
-    const equippableItems = element.querySelectorAll('.equippable-item');
-    equippableItems.forEach((equippableItem) => {
-        equippableItem.addEventListener('click', (event) => {
-            const itemName = event.target.textContent;
-            createItemModal(itemName, characterId);
-        });
-    })
+    itemsListByName.forEach(itemToAddByName => {
+        const foundItem = items.find(item => item.id === itemToAddByName.id || item.name === itemToAddByName);
+        addItemToCharacterList(characterId, element, foundItem);
+        checkItemCompatibility(characterId, foundItem)
+    });    
 }
 
 function characterDeath(event, characters, character) {
@@ -600,6 +602,35 @@ function characterDeath(event, characters, character) {
         characters.splice(index, 1);
         storeCharacters(characters);
     }
+}
+
+function checkItemCompatibility(characterId, item) {
+    const characterType = document.getElementById(`character-${characterId}-type`).value;
+    const equippedItems = getCharacterEquippedItems(characterId);
+    const equippedItemsById = equippedItems.map(equippedItem => equippedItem.id);
+
+    if (item.incompatibilities?.includes(characterType) || item.incompatibilities?.some(incompatibility => equippedItemsById.includes(incompatibility))) {
+        const element = document.getElementById(`character-${characterId}-${item.id}`);
+        element.classList.add('incompatible');
+        return 'incompatible';
+    }
+}
+
+function checkItemsCompatibility(characterId, itemsByName) {
+    const characterType = document.getElementById(`character-${characterId}-type`).value;
+    const characterItems = items.filter(item => itemsByName.includes(item.name));
+    const equippedItems = getCharacterEquippedItems(characterId);
+    const equippedItemsById = equippedItems.map(equippedItem => equippedItem.id);
+    const incompatibleItems = [];
+
+    characterItems.forEach(item => {
+        // Would this work? item.incompatibilities.includes(...[item.id])
+        if (item.incompatibilities?.includes(characterType) || item.incompatibilities?.some(incompatibility => equippedItemsById.includes(incompatibility))) {
+            const element = document.getElementById(`character-${characterId}-${item.id}`);
+            element.classList.add('incompatible');
+            incompatibleItems.push(item);
+        }
+    })
 }
 
 function createCharacterItemsList(nodeList) {
@@ -666,9 +697,7 @@ function createEquippedItemContainer(equippedItemLocation, playerId) {
     return equippedItemContainer;
 }
 
-function createItemCard(itemName) {
-    const item = items.find(item => item.name === itemName);
-
+function createItemCard(item) {
     const itemCard = document.createElement('div');
     itemCard.setAttribute('class', 'item-card');
 
@@ -729,6 +758,11 @@ function equipItem(characterId, item) {
         return
     }
 
+    if (checkItemCompatibility(characterId, item) === 'incompatible') {
+        alert('This item can\'t be equipped. Please reference the item card to see why it can\'t be used.');
+        return;
+    }
+
     switch (item.equippedLocation) {
         case 'head':
             const headContainer = document.getElementById(`character-${characterId}-head-container`);
@@ -737,6 +771,7 @@ function equipItem(characterId, item) {
                 createItemModal(item.name, characterId);
             });
             headContainer.appendChild(headItemImage);
+            storeEquippedItemToCharacter(characterId, item);
             break;
         case 'body':
             const bodyContainer = document.getElementById(`character-${characterId}-body-container`);
@@ -800,6 +835,20 @@ function getCharacterIndex(characters, characterId) {
     return characters.findIndex((character) => character.characterId === characterId);
 }
 
+function getCharacterEquippedItems(characterId) {
+    const character = getStoredCharacter(characterId);
+    const storedEquippedItems = character?.equippedItems;
+
+    const equippedItemsImages = document.getElementById(`character-${characterId}-equipped-items-section`).querySelectorAll('.item-image');
+    const displayedEquippedItems = createEquippedItemsList(equippedItemsImages);
+
+    if (storedEquippedItems || displayedEquippedItems) {
+        return displayedEquippedItems.length > 0 ? displayedEquippedItems : storedEquippedItems; 
+    } else {
+        return [];
+    }
+}
+
 function getExistingCharacter(characters, character) {
     const characterId = character.characterId;
     return foundCharacter = characters.find(character => {
@@ -807,13 +856,13 @@ function getExistingCharacter(characters, character) {
     });
 }
 
-function getSelectedItems() {
+function getSelectedItemNames() {
     const itemsList = document.querySelectorAll('input[type=checkbox]');
     const selectedItems = [];
 
     itemsList.forEach(item => {
         if (item.checked) {
-            selectedItems.push(item);
+            selectedItems.push(item.parentNode.textContent);
         }
     });
 

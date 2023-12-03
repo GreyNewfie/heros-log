@@ -140,7 +140,7 @@ const items = [
         image: 'item-wizards-cloak-132x100.png',
         imageDescription: 'An elderly wizard wearing a hooded cloak with his arms crossed',
         equippedLocation: 'body',
-        incompatiablities: ['barbarian', 'elf', 'dwarf'],
+        incompatibilities: ['barbarian', 'elf', 'dwarf'],
         modifiers: {
             defendDice: 1
         }
@@ -173,7 +173,7 @@ const items = [
         image: 'item-wizards-staff-132x100.png',
         imageDescription: 'Claoked wizard holding out a staff',
         equippedLocation: 'right-hand',
-        incompatiablities: ['barbarian', 'elf', 'dwarf'],
+        incompatibilities: ['barbarian', 'elf', 'dwarf'],
         modifiers: {
             attackDice: 2
         }
@@ -210,7 +210,7 @@ const items = [
         image: 'item-borins-armor-132x100.png',
         imageDescription: 'Elaborate body armor and matching helmet',
         equippedLocation: 'body',
-        incompatiablities: ['helmet', 'shield', 'wizard'],
+        incompatibilities: ['helmet', 'shield', 'wizard'],
         modifiers: {
             defendDice: 2
         }
@@ -237,7 +237,7 @@ const items = [
         image: 'item-orcs-bane-132x100.png',
         imageDescription: 'A sword thrust into an orc',
         equippedLocation: 'right-hand',
-        incompatiablities: ['wizard'],
+        incompatibilities: ['wizard'],
         modifiers: {
             attackDice: 2
         }
@@ -251,7 +251,7 @@ const items = [
         image: 'item-fortunes-longsword-132x100.png',
         imageDescription: 'A sword partially out of its sheath',
         equippedLocation: 'right-hand',
-        incompatiabilities: ['wizard'],
+        incompatibilities: ['wizard'],
         modifiers: {
             attackDice: 3,
         }
@@ -265,7 +265,7 @@ const items = [
         image: 'item-spirit-blade-132x100.png',
         imageDescription: 'A sword with its blade on fire wirh an orc nearby',
         equippedLocation: 'right-hand',
-        incompatiabilities: ['wizard'],
+        incompatibilities: ['wizard'],
         modifiers: {
             attackDice: 3
         }
@@ -280,7 +280,7 @@ const items = [
         image: 'item-longsword-132x100.png',
         imageDescription: 'A sword lying in a field next to a sheath',
         equippedLocation: 'right-hand',
-        incompatiabilities: 'wizard',
+        incompatibilities: 'wizard',
         modifiers: {
             attackDice: 3
         }
@@ -333,7 +333,7 @@ const items = [
         image: 'battle-axe.png',
         imageDescription: 'A hand holding up a double sided axe',
         equippedLocation: 'right-hand',
-        incompatiablities: ['shield', 'wizard'],
+        incompatibilities: ['shield', 'wizard'],
         modifiers: {
             attackDice: 4
         }
@@ -358,7 +358,7 @@ const items = [
         image: 'item-staff-132x100.png',
         imageDescription: 'An elderly man holding a wooden staff',
         equippedLocation: 'right-hand',
-        incompatiabilities: ['shield'],
+        incompatibilities: ['shield'],
         modifiers: {
             attackDice: 1
         }
@@ -373,7 +373,7 @@ const items = [
         image: 'item-helmet-132x100.png',
         imageDescription: 'A bearded soldier wearing a horned helmet',
         equippedLocation: 'head',
-        incompatiabilities: ['wizard'],
+        incompatibilities: ['wizard'],
         modifiers: {
             defendDice: 1
         }
@@ -388,7 +388,7 @@ const items = [
         image: 'item-crossbow-132x100.png',
         imageDescription: 'A crossbow on the ground next to wooden arrows',
         equippedLocation: 'right-hand',
-        incompatiabilities: ['wizard'],
+        incompatibilities: ['wizard'],
         modifiers: {
             attackDice: 3
         }
@@ -418,7 +418,7 @@ const items = [
         image: 'item-shortsword-132x100.png',
         imageDescription: 'A short sword partially sticking out of ground next to its sheath',
         equippedLocation: 'right-hand',
-        incompatiabilities: 'wizard',
+        incompatibilities: 'wizard',
         modifiers: {
             attackDice: 2
         }
@@ -433,7 +433,7 @@ const items = [
         image: 'item-shield-132x100.png',
         imageDescription: 'A soldier holding up a shield with arrows protruding from it',
         equippedLocation: 'left-hand',
-        incompatiablities: ['battle-axe', 'staff', 'wizard'],
+        incompatibilities: ['battle-axe', 'staff', 'wizard'],
         modifiers: {
             defendDice: 1
         }
@@ -468,21 +468,6 @@ const items = [
         }
     },
     {
-        id: 'helmet',
-        name: 'Helmet',
-        description: 'This protective headpiece gives you 1 extra Defend die. May not be worn by the wizard.',
-        classification: 'armor',
-        type: 'equipment',
-        cost: '125 gold coins',
-        image: 'item-helmet-132x100.png',
-        imageDescription: 'A small axe lying on a stone floor',
-        equippedLocation: 'head',
-        incompatiabilities: ['wizard'],
-        modifiers: {
-            defendDice: 1
-        }
-    },
-    {
         id: 'tool-kit',
         name: 'Tool Kit',
         description: 'This tool kit gives you a 50 percent chance to disarm any searched-for-and-found (but unsprung) trap. (See "Action 6: Disarm a Trap" in the the rulebook.)',
@@ -503,7 +488,7 @@ const items = [
         image: 'item-plate-mail-132x100.png',
         imageDescription: 'Metal armor lying on the floor propped up against a stone wall',
         equippedLocation: 'left-hand',
-        incompatiabilities: ['wizard'],
+        incompatibilities: ['wizard'],
         // See dynamic items below
         modifiers: {
             defendDice: 2,
