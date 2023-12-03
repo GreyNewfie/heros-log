@@ -509,7 +509,7 @@ function createSelectItemsModalUi(listElement, itemFilters) {
 
     submitItems.addEventListener('click', event => {
         modal.close();
-        const selectedItems = getSelectedItems();
+        const selectedItems = getSelectedItemsNames();
         addItemsListToCharacter(listElement, selectedItems);
         clearModal(modal);
     });
@@ -579,31 +579,19 @@ function addItemToCharacterList(characterId, list, item) {
     list.appendChild(li);
 }
 
-function addItemsListToCharacter(element, itemsList) {
-    if (!itemsList) {
+function addItemsListToCharacter(element, itemsListByName) {
+    if (!itemsListByName) {
         return
     }
     
     const characterId = ((element.id).split('-'))[1];
 
-    itemsList.forEach(item => {
-        const storedItem = items.find(itemStored => itemStored.id === item.id || itemStored.name === item);
-        addItemToCharacterList(characterId,element, storedItem);
+    itemsListByName.forEach(itemToAddByName => {
+        const foundItem = items.find(item => item.id === itemToAddByName.id || item.name === itemToAddByName);
+        addItemToCharacterList(characterId, element, foundItem);
     });
     
-    // const equippableItems = element.querySelectorAll('.equippable-item');
-    // equippableItems.forEach((equippableItem) => {
-    //     equippableItem.addEventListener('click', (event) => {
-    //         const modal = document.getElementById('modal');
-    //         if (modal.hasChildNodes()) {
-    //             return
-    //         }
-    //         const itemName = event.target.textContent;
-    //         createItemModal(itemName, characterId);
-    //     });
-    // })
-
-    checkItemsCompatibility(characterId, itemsList);
+    checkItemsCompatibility(characterId, itemsListByName);
 }
 
 function characterDeath(event, characters, character) {
@@ -630,13 +618,6 @@ function checkItemsCompatibility(characterId, itemsByName) {
             element.classList.add('incompatible');
             incompatibleItems.push(item);
         }
-
-        // if (item.incompatibilities?.some(incompatibility => equippedItemsById.includes(incompatibility))) {
-        //     const element = document.getElementById(`character-${characterId}-${item.id}`);
-        //     element.classList.add('incompatible');
-        //     incompatibleItems.push(item);
-        // }
-            //[incompatibilityId1, incompatibilityId2] match [{equippedItem1}, {equippedItem2}]
     })
 }
 
@@ -858,13 +839,13 @@ function getExistingCharacter(characters, character) {
     });
 }
 
-function getSelectedItems() {
+function getSelectedItemsNames() {
     const itemsList = document.querySelectorAll('input[type=checkbox]');
     const selectedItems = [];
 
     itemsList.forEach(item => {
         if (item.checked) {
-            selectedItems.push(item);
+            selectedItems.push(item.name);
         }
     });
 
