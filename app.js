@@ -509,8 +509,9 @@ function createSelectItemsModalUi(listElement, itemFilters) {
 
     submitItems.addEventListener('click', event => {
         modal.close();
-        const selectedItems = getSelectedItemsNames();
-        addItemsListToCharacter(listElement, selectedItems);
+        const selectedItemNames = getSelectedItemNames();
+        // const selectedItems = items.map()
+        addItemsListToCharacter(listElement, selectedItemNames);
         clearModal(modal);
     });
 
@@ -589,9 +590,8 @@ function addItemsListToCharacter(element, itemsListByName) {
     itemsListByName.forEach(itemToAddByName => {
         const foundItem = items.find(item => item.id === itemToAddByName.id || item.name === itemToAddByName);
         addItemToCharacterList(characterId, element, foundItem);
-    });
-    
-    checkItemsCompatibility(characterId, itemsListByName);
+        checkItemCompatibility(characterId, foundItem)
+    });    
 }
 
 function characterDeath(event, characters, character) {
@@ -601,6 +601,18 @@ function characterDeath(event, characters, character) {
         const index = getCharacterIndex(characters, character.characterId);
         characters.splice(index, 1);
         storeCharacters(characters);
+    }
+}
+
+function checkItemCompatibility(characterId, item) {
+    const characterType = document.getElementById(`character-${characterId}-type`).value;
+    const equippedItems = getCharacterEquippedItems(characterId);
+    const equippedItemsById = equippedItems.map(equippedItem => equippedItem.id);
+
+    if (item.incompatibilities?.includes(characterType) || item.incompatibilities?.some(incompatibility => equippedItemsById.includes(incompatibility))) {
+        const element = document.getElementById(`character-${characterId}-${item.id}`);
+        element.classList.add('incompatible');
+        return 'incompatible';
     }
 }
 
@@ -746,6 +758,11 @@ function equipItem(characterId, item) {
         return
     }
 
+    if (checkItemCompatibility(characterId, item) === 'incompatible') {
+        alert('This item can\'t be equipped. Please reference the item card to see why it can\'t be used.');
+        return;
+    }
+
     switch (item.equippedLocation) {
         case 'head':
             const headContainer = document.getElementById(`character-${characterId}-head-container`);
@@ -839,13 +856,13 @@ function getExistingCharacter(characters, character) {
     });
 }
 
-function getSelectedItemsNames() {
+function getSelectedItemNames() {
     const itemsList = document.querySelectorAll('input[type=checkbox]');
     const selectedItems = [];
 
     itemsList.forEach(item => {
         if (item.checked) {
-            selectedItems.push(item.name);
+            selectedItems.push(item.parentNode.textContent);
         }
     });
 
