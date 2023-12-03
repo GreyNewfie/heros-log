@@ -468,21 +468,6 @@ const items = [
         }
     },
     {
-        id: 'helmet',
-        name: 'Helmet',
-        description: 'This protective headpiece gives you 1 extra Defend die. May not be worn by the wizard.',
-        classification: 'armor',
-        type: 'equipment',
-        cost: '125 gold coins',
-        image: 'item-helmet-132x100.png',
-        imageDescription: 'A small axe lying on a stone floor',
-        equippedLocation: 'head',
-        incompatibilities: ['wizard'],
-        modifiers: {
-            defendDice: 1
-        }
-    },
-    {
         id: 'tool-kit',
         name: 'Tool Kit',
         description: 'This tool kit gives you a 50 percent chance to disarm any searched-for-and-found (but unsprung) trap. (See "Action 6: Disarm a Trap" in the the rulebook.)',
