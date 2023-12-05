@@ -665,13 +665,26 @@ function createEquipOrUnequipItemBtn(characterId, item) {
 
     } else if (!item.equippedLocation) {
         const consumeItemBtn = document.createElement('button');
-        consumeItemBtn.textContent = 'Use';
+
+        switch (item.name) {
+            case 'Holy Water':
+                consumeItemBtn.textContent = 'Use';
+                break;
+            case 'Tool Kit':
+                consumeItemBtn.textContent = 'Disarm a Trap';
+                break;
+            case 'Rod of Telekinesis':
+                consumeItemBtn.textContent = 'Use';
+                break;
+            default:
+                consumeItemBtn.textContent = 'Consume';
+        }
+
+        // item.name === 'Holy Water' ? consumeItemBtn.textContent = 'Use' : consumeItemBtn.textContent = 'Consume';
 
         consumeItemBtn.addEventListener('click', () => {
             const characterConsumedItem = document.getElementById(`character-${characterId}-${item.id}`).parentNode;
             characterConsumedItem.remove();
-            // Remove item from character
-            // Check weapons and armor, and potions ond items 
             if (currentCharacter.weaponsAndArmor.find(weaponsArmorItem => weaponsArmorItem === item.name)) {
                 currentCharacter.weaponsAndArmor.pop(item.name);
             } else if (currentCharacter.potionsAndItems.find(potionOrItem => potionOrItem === item.name)) {
