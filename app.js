@@ -643,7 +643,7 @@ function createEquipOrUnequipItemBtn(characterId, item) {
     const currentCharacter = getStoredCharacter(characterId);
     const equippedItem = currentCharacter?.equippedItems?.find(equippedItem => equippedItem.id === item.id); 
 
-    if (!equippedItem && !isEquippedItemDisplayed(characterId, item)) {
+    if (!equippedItem && !isEquippedItemDisplayed(characterId, item) && item.equippedLocation) {
         const equipItemBtn = document.createElement('button');
         // Is this ID being utilized? Remove if not
         equipItemBtn.setAttribute('id', `character-${characterId}-equip-${item.name}`);
@@ -655,13 +655,33 @@ function createEquipOrUnequipItemBtn(characterId, item) {
                 modal.close();
                 clearModal(modal);    
             } else {
-                alert('You much unequip your existing item before you can equip another one in the same location');
+                alert('You must unequip your existing item before you can equip another one in the same location');
                 modal.close();
                 clearModal(modal);
             }
         });
         
         return equipItemBtn;
+
+    } else if (!item.equippedLocation) {
+        const consumeItemBtn = document.createElement('button');
+        consumeItemBtn.textContent = 'Use';
+
+        consumeItemBtn.addEventListener('click', () => {
+            const characterConsumedItem = document.getElementById(`character-${characterId}-${item.id}`).parentNode;
+            characterConsumedItem.remove();
+            // Remove item from character
+            // Check weapons and armor, and potions ond items 
+            if (currentCharacter.weaponsAndArmor.find(weaponsArmorItem => weaponsArmorItem === item.name)) {
+                currentCharacter.weaponsAndArmor.pop(item.name);
+            } else if (currentCharacter.potionsAndItems.find(potionOrItem => potionOrItem === item.name)) {
+                currentCharacter.potionsAndItems.pop(item.name);
+            }
+
+            modal.close();
+            clearModal(modal);
+        })
+        return consumeItemBtn;
     } else {
         const unequipItemBtn = document.createElement('button');
         unequipItemBtn.setAttribute('id', `character-${characterId}-unequip-${item.name}`);
