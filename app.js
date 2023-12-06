@@ -665,13 +665,26 @@ function createEquipOrUnequipItemBtn(characterId, item) {
 
     } else if (!item.equippedLocation) {
         const consumeItemBtn = document.createElement('button');
-        consumeItemBtn.textContent = 'Use';
+
+        switch (item.name) {
+            case 'Holy Water':
+                consumeItemBtn.textContent = 'Use';
+                break;
+            case 'Tool Kit':
+                consumeItemBtn.textContent = 'Disarm a Trap';
+                break;
+            case 'Rod of Telekinesis':
+                consumeItemBtn.textContent = 'Use';
+                break;
+            default:
+                consumeItemBtn.textContent = 'Consume';
+        }
+
+        // item.name === 'Holy Water' ? consumeItemBtn.textContent = 'Use' : consumeItemBtn.textContent = 'Consume';
 
         consumeItemBtn.addEventListener('click', () => {
             const characterConsumedItem = document.getElementById(`character-${characterId}-${item.id}`).parentNode;
             characterConsumedItem.remove();
-            // Remove item from character
-            // Check weapons and armor, and potions ond items 
             if (currentCharacter.weaponsAndArmor.find(weaponsArmorItem => weaponsArmorItem === item.name)) {
                 currentCharacter.weaponsAndArmor.pop(item.name);
             } else if (currentCharacter.potionsAndItems.find(potionOrItem => potionOrItem === item.name)) {
@@ -780,6 +793,11 @@ function equipItem(characterId, item) {
 
     if (checkItemCompatibility(characterId, item) === 'incompatible') {
         alert('This item can\'t be equipped. Please reference the item card to see why it can\'t be used.');
+        return;
+    }
+
+    if (item.equippedLocation === 'extra' && !isExtraItemContainerAvailable(characterId, item)) {
+        alert(`${item.name} can\'t be equipped. Please unequip one of your extra items to equip ${item.name}.`);
         return;
     }
 
@@ -899,14 +917,35 @@ function isCurrentCharacter(characters, { characterId }) {
 }
 
 function isEquippedItemDisplayed(characterId, item) {
-    const equippedItemContainer = document.getElementById(`character-${characterId}-${item.equippedLocation}-container`);
-    const foundItem = equippedItemContainer?.querySelector(`#character-${characterId}-${item.id}`);
-    return foundItem ? true : false;
+    if (item.equippedLocation === 'extra') {
+        const extraLocation1 = document.getElementById(`character-${characterId}-extra-1-container`);
+        const extraLocation2 = document.getElementById(`character-${characterId}-extra-2-container`);
+
+        const foundItemInLocation1 = extraLocation1.querySelector(`#character-${characterId}-${item.id}`);
+        const foundItemInLocation2 = extraLocation2.querySelector(`#character-${characterId}-${item.id}`);
+
+        return foundItemInLocation1 || foundItemInLocation2 ? true : false;
+    } else {
+        const equippedItemContainer = document.getElementById(`character-${characterId}-${item.equippedLocation}-container`);
+        foundItem = equippedItemContainer?.querySelector(`#character-${characterId}-${item.id}`); 
+        return foundItem ? true : false;   
+    }
 }
 
 function checkIfEquippedLocationTaken(characterId, item) {
     const containerToCheck = document.getElementById(`character-${characterId}-${item.equippedLocation}-container`);
     return containerToCheck?.querySelector('.item-image');
+}
+
+function isExtraItemContainerAvailable(characterId, item) {
+    const extra1Container = document.getElementById(`character-${characterId}-extra-1-container`);
+    const extra2Container = document.getElementById(`character-${characterId}-extra-2-container`);
+
+    if (extra1Container.hasChildNodes() && extra2Container.hasChildNodes()) {
+        return false;
+    } else {
+        return true;
+    }
 }
 
 function removeItem(itemsList, itemId) {
