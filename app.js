@@ -796,6 +796,11 @@ function equipItem(characterId, item) {
         return;
     }
 
+    if (item.equippedLocation === 'extra' && !isExtraItemContainerAvailable(characterId, item)) {
+        alert(`${item.name} can\'t be equipped. Please unequip one of your extra items to equip ${item.name}.`);
+        return;
+    }
+
     switch (item.equippedLocation) {
         case 'head':
             const headContainer = document.getElementById(`character-${characterId}-head-container`);
@@ -912,9 +917,6 @@ function isCurrentCharacter(characters, { characterId }) {
 }
 
 function isEquippedItemDisplayed(characterId, item) {
-    // If item.equippedLocation = 'extra'
-    // extraContainer1
-    // extraContainer1 contain item
     if (item.equippedLocation === 'extra') {
         const extraLocation1 = document.getElementById(`character-${characterId}-extra-1-container`);
         const extraLocation2 = document.getElementById(`character-${characterId}-extra-2-container`);
@@ -933,6 +935,17 @@ function isEquippedItemDisplayed(characterId, item) {
 function checkIfEquippedLocationTaken(characterId, item) {
     const containerToCheck = document.getElementById(`character-${characterId}-${item.equippedLocation}-container`);
     return containerToCheck?.querySelector('.item-image');
+}
+
+function isExtraItemContainerAvailable(characterId, item) {
+    const extra1Container = document.getElementById(`character-${characterId}-extra-1-container`);
+    const extra2Container = document.getElementById(`character-${characterId}-extra-2-container`);
+
+    if (extra1Container.hasChildNodes() && extra2Container.hasChildNodes()) {
+        return false;
+    } else {
+        return true;
+    }
 }
 
 function removeItem(itemsList, itemId) {

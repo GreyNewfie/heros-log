@@ -186,7 +186,7 @@ const items = [
         type: 'artifact',
         image: 'item-spell-ring-132x100.png',
         imageDescription: 'A wizard\'s hand with a thick ring holding a spell book',
-        itemLocation: 'extra'
+        equippedLocation: 'extra'
     },
     {
         id: 'talisman-of-lore',
