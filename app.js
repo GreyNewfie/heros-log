@@ -912,9 +912,22 @@ function isCurrentCharacter(characters, { characterId }) {
 }
 
 function isEquippedItemDisplayed(characterId, item) {
-    const equippedItemContainer = document.getElementById(`character-${characterId}-${item.equippedLocation}-container`);
-    const foundItem = equippedItemContainer?.querySelector(`#character-${characterId}-${item.id}`);
-    return foundItem ? true : false;
+    // If item.equippedLocation = 'extra'
+    // extraContainer1
+    // extraContainer1 contain item
+    if (item.equippedLocation === 'extra') {
+        const extraLocation1 = document.getElementById(`character-${characterId}-extra-1-container`);
+        const extraLocation2 = document.getElementById(`character-${characterId}-extra-2-container`);
+
+        const foundItemInLocation1 = extraLocation1.querySelector(`#character-${characterId}-${item.id}`);
+        const foundItemInLocation2 = extraLocation2.querySelector(`#character-${characterId}-${item.id}`);
+
+        return foundItemInLocation1 || foundItemInLocation2 ? true : false;
+    } else {
+        const equippedItemContainer = document.getElementById(`character-${characterId}-${item.equippedLocation}-container`);
+        foundItem = equippedItemContainer?.querySelector(`#character-${characterId}-${item.id}`); 
+        return foundItem ? true : false;   
+    }
 }
 
 function checkIfEquippedLocationTaken(characterId, item) {
