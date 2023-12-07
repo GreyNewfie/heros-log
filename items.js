@@ -3,6 +3,7 @@ function createItemsList(classification) {
 
     const itemsListHeader = document.createElement('h4');
     itemsListHeader.setAttribute('class', 'items-list-header');
+    itemsListHeader.setAttribute('id', `${classification}-items`);
     const capitalizeListName = classification.charAt(0).toUpperCase() + classification.slice(1);
     itemsListHeader.textContent = capitalizeListName;
     listContainer.appendChild(itemsListHeader);
@@ -143,7 +144,9 @@ function createItemCard(itemName) {
 
 (function searchItems() {
     const searchInput = document.querySelector('[data-search]');
-    const listItemElements = document.querySelectorAll('a');
+    const listItemElements = document.querySelectorAll('#items-container a');
+    const treasureItems = document.querySelector('#treasure-items + ul').querySelectorAll('a');
+    const artifactItems = document.querySelector('#artifact-items + ul').querySelectorAll('a');
 
     searchInput.addEventListener('input', (e) => {
         const value = e.target.value.toLowerCase();
@@ -153,6 +156,8 @@ function createItemCard(itemName) {
             const isVisible = lowerCaseItemName.includes(value);
             itemElement.classList.toggle('hide', !isVisible);
         });
+
+        
         
     });
 })();
