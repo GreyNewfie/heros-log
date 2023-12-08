@@ -612,6 +612,8 @@ function checkItemCompatibility(characterId, item) {
     if (item.incompatibilities?.includes(characterType) || item.incompatibilities?.some(incompatibility => equippedItemsById.includes(incompatibility))) {
         const element = document.getElementById(`character-${characterId}-${item.id}`);
         element.classList.add('incompatible');
+        const incompatibleMessage = createIncompatibleItemMessageBox(item);
+        element.after(incompatibleMessage);
         return 'incompatible';
     }
 }
@@ -629,6 +631,8 @@ function checkItemsCompatibility(characterId, itemsByName) {
             const element = document.getElementById(`character-${characterId}-${item.id}`);
             element.classList.add('incompatible');
             incompatibleItems.push(item);
+            const incompatibleMessage = createIncompatibleItemMessageBox(item);
+            element.after(incompatibleMessage);
         }
     })
 }
@@ -728,6 +732,19 @@ function createEquippedItemContainer(equippedItemLocation, playerId) {
     equippedItemContainer.setAttribute('id', `character-${playerId}-${equippedItemLocation}-container`);
     equippedItemContainer.setAttribute('class', `equipped-${equippedItemLocation}-item`);
     return equippedItemContainer;
+}
+
+function createIncompatibleItemMessageBox(item) {
+    const messageBox = document.createElement('div');
+    messageBox.setAttribute('class', 'incompatible-message');
+    messageBox.setAttribute('class', 'hide');
+
+    const message = document.createElement('p');
+    message.textContent = `${item.name} can't be equipped. Please read the ${item.name} card for why.`;
+    
+    messageBox.appendChild(message);
+
+    return messageBox;
 }
 
 function createItemCard(item) {

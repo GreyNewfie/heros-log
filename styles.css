@@ -233,7 +233,16 @@ header ul {
 }
 
 .incompatible {
-    cursor: not-allowed;
+    /* cursor: not-allowed; */
+    color: silver;
+}
+
+.incompatible:hover {
+    color: maroon;
+}
+
+.incompatible:hover + .hide {
+    display: block;
 }
 
 .item-image {
