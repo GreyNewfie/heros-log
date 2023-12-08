@@ -144,20 +144,51 @@ function createItemCard(itemName) {
 
 (function searchItems() {
     const searchInput = document.querySelector('[data-search]');
-    const listItemElements = document.querySelectorAll('#items-container a');
+    // const listItemElements = document.querySelectorAll('#items-container a');
     const treasureItems = document.querySelector('#treasure-items + ul').querySelectorAll('a');
     const artifactItems = document.querySelector('#artifact-items + ul').querySelectorAll('a');
+    const equipmentItems = document.querySelector('#equipment-items + ul').querySelectorAll('a');
+    const itemsListElements = [treasureItems, artifactItems, equipmentItems];
+
+    const treasureItemsHeader = document.getElementById('treasure-items');
+    const artifactItemsHeader = document.getElementById('artifact-items')
+    const equipmentItemsHeader = document.getElementById('equipment-items');
 
     searchInput.addEventListener('input', (e) => {
         const value = e.target.value.toLowerCase();
 
-        listItemElements.forEach(itemElement => {
-            const lowerCaseItemName = itemElement.innerText.toLowerCase();
-            const isVisible = lowerCaseItemName.includes(value);
-            itemElement.classList.toggle('hide', !isVisible);
-        });
+        itemsListElements.forEach(itemsList => {
+            let allHidden = true;
 
-        
-        
+            itemsList.forEach(item => {
+                const lowerCaseItemName = item.innerText.toLowerCase();
+                const isVisible = lowerCaseItemName.includes(value);
+                item.classList.toggle('hide', !isVisible);
+
+                if (isVisible) {
+                    allHidden = false;
+                }
+            });
+
+            switch (itemsListElements.indexOf(itemsList)) {
+                case 0:
+                    treasureItemsHeader.classList.toggle('hide', allHidden);
+                    break;
+                case 1:
+                    artifactItemsHeader.classList.toggle('hide', allHidden);
+                    break;
+                case 2:
+                    equipmentItemsHeader.classList.toggle('hide', allHidden);
+                    break;
+            }
+
+        });    
+
+
+        // listItemElements.forEach(itemElement => {
+        //     const lowerCaseItemName = itemElement.innerText.toLowerCase();
+        //     const isVisible = lowerCaseItemName.includes(value);
+        //     itemElement.classList.toggle('hide', !isVisible);
+        // });
     });
 })();
