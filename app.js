@@ -251,10 +251,10 @@ const characterSheet = (character) => {
         const defDiceSel = document.getElementById(getDefendDice(characterId));
         const startBodyPtsInput = document.getElementById(getStartBodyPoints(characterId));
         const startMindPtsInput = document.getElementById(getStartMindPoints(characterId));
-        const weaponsAndArmorList = document. getElementById(getWeaponsAndArmor(characterId)).querySelectorAll('.equippable-item');
+        const weaponsAndArmorList = document. getElementById(getWeaponsAndArmor(characterId)).querySelectorAll('li');
         const curBodyPtsInput = document.getElementById(getCurrentBodyPoints(characterId));
         const curGoldCoins = document.getElementById(getCurrentGoldCoins(characterId));
-        const potionsItemsList = document.getElementById(getPotionsAndItems(characterId)).querySelectorAll('.equippable-item');
+        const potionsItemsList = document.getElementById(getPotionsAndItems(characterId)).querySelectorAll('li');
         const nameInput = document.getElementById(getCharacterName(characterId));
         const equippedItemsImages = document.getElementById(getEquippedItems(uniqueId)).querySelectorAll('.item-image');
 
@@ -540,7 +540,7 @@ function createItemModal(itemName, characterId) {
     const itemCard = createItemCard(item);
     modal.appendChild(itemCard);
 
-    const equipOrUnequipBtn = createEquipOrUnequipItemBtn(characterId, item);
+    const equipOrUnequipBtn = createEquipUnequipOrConsumeBtn(characterId, item);
     modal.appendChild(equipOrUnequipBtn);
 
     modal.showModal();
@@ -590,7 +590,7 @@ function addItemsListToCharacter(element, itemsListByName) {
     itemsListByName.forEach(itemToAddByName => {
         const foundItem = items.find(item => item.id === itemToAddByName.id || item.name === itemToAddByName);
         addItemToCharacterList(characterId, element, foundItem);
-        checkItemCompatibility(characterId, foundItem)
+        checkItemCompatibility(characterId, foundItem);
     });    
 }
 
@@ -619,22 +619,39 @@ function checkItemCompatibility(characterId, item) {
     }
 }
 
-function checkItemsCompatibility(characterId, itemsByName) {
-    const characterType = document.getElementById(`character-${characterId}-type`).value;
-    const characterItems = items.filter(item => itemsByName.includes(item.name));
+function checkCharacterItemsCompatibility(characterId) {
+    const storedCharacter = getStoredCharacter(characterId);
+
+    if (storedCharacter) {
+        characterType = storedCharacter.type;
+        weaponsAndArmor = storedCharacter.weaponsAndArmor;
+        potionsAndItems = storedCharacter.potionsAndItems;
+    } else {
+        characterType = document.getElementById(`character-${characterId}-type`).value;
+        weaponsAndArmor = getWeaponsAndArmor(characterId);
+        potionsAndItems = getPotionsAndItems(characterId);
+    }
+
     const equippedItems = getCharacterEquippedItems(characterId);
-    const equippedItemsById = equippedItems.map(equippedItem => equippedItem.id);
+    // const characterItems = items.filter(item => itemsByName.includes(item.name));
+    // const equippedItemsById = equippedItems.map(equippedItem => equippedItem.id);
+    const characterItems = weaponsAndArmor.concat(potionsAndItems); 
     const incompatibleItems = [];
 
     characterItems.forEach(item => {
+        const element = document.getElementById(`character-${characterId}-${item.id}`);
         // Would this work? item.incompatibilities.includes(...[item.id])
-        if (item.incompatibilities?.includes(characterType) || item.incompatibilities?.some(incompatibility => equippedItemsById.includes(incompatibility))) {
-            const element = document.getElementById(`character-${characterId}-${item.id}`);
+        if (item.incompatibilities?.includes(characterType) || item.incompatibilities?.some(incompatibility => equippedItems.some(equippedItem => equippedItem.id === incompatibility))) {
             element.classList.add('incompatible');
             incompatibleItems.push(item);
-            element.setAttribute('data-hover', `${item.name} can't be equipped. Please check the ${item.name} card for why.`);
-            // const incompatibleMessage = createIncompatibleItemMessageBox(item);
-            // element.after(incompatibleMessage);
+            // element.setAttribute('data-hover', `${item.name} can't be equipped. Please check the ${item.name} card for why.`);
+            const incompatibleMessage = createIncompatibleItemMessageBox(item);
+            element.after(incompatibleMessage);
+        } else {
+            if (!equippedItems.includes(item) && incompatibleItems.indexOf(item) != -1){
+                element.classList.remove('incompatible');
+                incompatibleItems.splice(incompatibleItems.indexOf(item), 1);  
+            }
         }
     })
 }
@@ -651,7 +668,7 @@ function createCharacterItemsList(nodeList) {
     return characterItems;
 }
 
-function createEquipOrUnequipItemBtn(characterId, item) {
+function createEquipUnequipOrConsumeBtn(characterId, item) {
     const currentCharacter = getStoredCharacter(characterId);
     const equippedItem = currentCharacter?.equippedItems?.find(equippedItem => equippedItem.id === item.id); 
 
@@ -664,6 +681,7 @@ function createEquipOrUnequipItemBtn(characterId, item) {
         equipItemBtn.addEventListener('click', () => {
             if (!checkIfEquippedLocationTaken(characterId, item)) {
                 equipItem(characterId, item);
+                checkCharacterItemsCompatibility(characterId);
                 modal.close();
                 clearModal(modal);    
             } else {
@@ -705,6 +723,7 @@ function createEquipOrUnequipItemBtn(characterId, item) {
 
             modal.close();
             clearModal(modal);
+            checkCharacterItemsCompatibility(characterId);
         })
         return consumeItemBtn;
     } else {
@@ -919,6 +938,12 @@ function getExistingCharacter(characters, character) {
     });
 }
 
+function getPotionsAndItems(characterId) {
+    const potionsAndItemsElements = document.getElementById(`character-${characterId}-potions-items`).querySelectorAll('li');
+    const potionsAndItems = potionsAndItemsElments.map(element => findItemWithId(element.dataset.characterItemId));
+    return potionsAndItems;
+}
+
 function getSelectedItemNames() {
     const itemsList = document.querySelectorAll('input[type=checkbox]');
     const selectedItems = [];
@@ -930,6 +955,12 @@ function getSelectedItemNames() {
     });
 
     return selectedItems;
+}
+
+function getWeaponsAndArmor(characterId) {
+    const weaponsAndArmorElements = document.getElementById(`character-${characterId}-weaqpons-armor`).querySelectorAll('li');
+    const weaponsAndArmor = weaponsAndArmorElements.map(element => findItemWithId(element.dataset.characterItemId));
+    return weaponsAndArmor;
 }
 
 function increaseNumber(element, maxNum) {
