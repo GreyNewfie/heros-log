@@ -540,7 +540,7 @@ function createItemModal(itemName, characterId) {
     const itemCard = createItemCard(item);
     modal.appendChild(itemCard);
 
-    const equipOrUnequipBtn = createEquipOrUnequipItemBtn(characterId, item);
+    const equipOrUnequipBtn = createEquipUnequipOrConsumeBtn(characterId, item);
     modal.appendChild(equipOrUnequipBtn);
 
     modal.showModal();
@@ -553,7 +553,7 @@ function addCharacter(character) {
 
 function addItemToCharacterList(characterId, list, item) {
     const li = document.createElement('li');
-    li.setAttribute('value', (item.id));
+    li.setAttribute('data-character-item-id', (item.id));
     
     const itemSpan = document.createElement('span');
     itemSpan.setAttribute('class', 'equippable-item');
@@ -590,7 +590,7 @@ function addItemsListToCharacter(element, itemsListByName) {
     itemsListByName.forEach(itemToAddByName => {
         const foundItem = items.find(item => item.id === itemToAddByName.id || item.name === itemToAddByName);
         addItemToCharacterList(characterId, element, foundItem);
-        checkItemCompatibility(characterId, foundItem)
+        checkItemCompatibility(characterId, foundItem);
     });    
 }
 
@@ -607,39 +607,72 @@ function characterDeath(event, characters, character) {
 function checkItemCompatibility(characterId, item) {
     const characterType = document.getElementById(`character-${characterId}-type`).value;
     const equippedItems = getCharacterEquippedItems(characterId);
-    const equippedItemsById = equippedItems.map(equippedItem => equippedItem.id);
+    const equippedItemsById = equippedItems?.map(equippedItem => equippedItem.id);
 
-    if (item.incompatibilities?.includes(characterType) || item.incompatibilities?.some(incompatibility => equippedItemsById.includes(incompatibility))) {
+    if (item.incompatibilities?.includes(characterType) || item.incompatibilities?.some(incompatibility => equippedItemsById?.includes(incompatibility))) {
         const element = document.getElementById(`character-${characterId}-${item.id}`);
         element.classList.add('incompatible');
+        // element.setAttribute('data-hover', `${item.name} can't be equipped. Please check the ${item.name} card for why.`);
+        const incompatibleMessage = createIncompatibleItemMessageBox(item);
+        element.after(incompatibleMessage);
         return 'incompatible';
     }
 }
 
-function checkItemsCompatibility(characterId, itemsByName) {
-    const characterType = document.getElementById(`character-${characterId}-type`).value;
-    const characterItems = items.filter(item => itemsByName.includes(item.name));
+function checkCharacterItemsCompatibility(characterId) {
+    const storedCharacter = getStoredCharacter(characterId);
+
+    if (storedCharacter) {
+        characterType = storedCharacter.type;
+        weaponsAndArmor = storedCharacter.weaponsAndArmor;
+        potionsAndItems = storedCharacter.potionsAndItems;
+    } else {
+        characterType = document.getElementById(`character-${characterId}-type`).value;
+        weaponsAndArmor = getWeaponsAndArmor(characterId);
+        potionsAndItems = getPotionsAndItems(characterId);
+    }
+
     const equippedItems = getCharacterEquippedItems(characterId);
-    const equippedItemsById = equippedItems.map(equippedItem => equippedItem.id);
+    // const characterItems = items.filter(item => itemsByName.includes(item.name));
+    // const equippedItemsById = equippedItems.map(equippedItem => equippedItem.id);
+    const characterItems = weaponsAndArmor.concat(potionsAndItems); 
     const incompatibleItems = [];
 
     characterItems.forEach(item => {
+        const element = document.getElementById(`character-${characterId}-${item.id}`);
         // Would this work? item.incompatibilities.includes(...[item.id])
-        if (item.incompatibilities?.includes(characterType) || item.incompatibilities?.some(incompatibility => equippedItemsById.includes(incompatibility))) {
-            const element = document.getElementById(`character-${characterId}-${item.id}`);
+        if (item.incompatibilities?.includes(characterType) || item.incompatibilities?.some(incompatibility => equippedItems.some(equippedItem => equippedItem.id === incompatibility))) {
             element.classList.add('incompatible');
             incompatibleItems.push(item);
+            // element.setAttribute('data-hover', `${item.name} can't be equipped. Please check the ${item.name} card for why.`);
+            const incompatibleMessage = createIncompatibleItemMessageBox(item);
+            element.after(incompatibleMessage);
+        } else {
+            if (!equippedItems.includes(item)){
+                element.classList.remove('incompatible');
+
+            }
+
+            if (incompatibleItems.indexOf(item) != -1) {
+                incompatibleItems.splice(incompatibleItems.indexOf(item), 1);  
+            }
         }
     })
 }
 
 function createCharacterItemsList(nodeList) {
-    const characterList = [];
-    nodeList.forEach(li => characterList.push((li.textContent).slice(0,-1)));
-    return characterList;
+    const characterItems = [];
+    nodeList.forEach(li => {
+        const itemId = li.dataset.characterItemId;
+        const foundItem = findItemWithId(itemId);
+        if (foundItem) {
+            characterItems.push(foundItem);
+        }
+    });
+    return characterItems;
 }
 
-function createEquipOrUnequipItemBtn(characterId, item) {
+function createEquipUnequipOrConsumeBtn(characterId, item) {
     const currentCharacter = getStoredCharacter(characterId);
     const equippedItem = currentCharacter?.equippedItems?.find(equippedItem => equippedItem.id === item.id); 
 
@@ -652,6 +685,7 @@ function createEquipOrUnequipItemBtn(characterId, item) {
         equipItemBtn.addEventListener('click', () => {
             if (!checkIfEquippedLocationTaken(characterId, item)) {
                 equipItem(characterId, item);
+                checkCharacterItemsCompatibility(characterId);
                 modal.close();
                 clearModal(modal);    
             } else {
@@ -693,6 +727,7 @@ function createEquipOrUnequipItemBtn(characterId, item) {
 
             modal.close();
             clearModal(modal);
+            checkCharacterItemsCompatibility(characterId);
         })
         return consumeItemBtn;
     } else {
@@ -704,6 +739,7 @@ function createEquipOrUnequipItemBtn(characterId, item) {
             unequipItem(characterId, item);
             modal.close();
             clearModal(modal);
+            checkCharacterItemsCompatibility(characterId);
         });
 
         return unequipItemBtn;
@@ -728,6 +764,19 @@ function createEquippedItemContainer(equippedItemLocation, playerId) {
     equippedItemContainer.setAttribute('id', `character-${playerId}-${equippedItemLocation}-container`);
     equippedItemContainer.setAttribute('class', `equipped-${equippedItemLocation}-item`);
     return equippedItemContainer;
+}
+
+function createIncompatibleItemMessageBox(item) {
+    const messageBox = document.createElement('div');
+    messageBox.setAttribute('class', 'incompatible-message');
+    messageBox.setAttribute('class', 'hide');
+
+    const message = document.createElement('span');
+    message.textContent = `${item.name} can't be equipped. Please check the ${item.name} card for why.`;
+    
+    messageBox.appendChild(message);
+
+    return messageBox;
 }
 
 function createItemCard(item) {
@@ -818,6 +867,7 @@ function equipItem(characterId, item) {
                 createItemModal(item.name, characterId);
             });
             bodyContainer.appendChild(bodyItemImage);
+            storeEquippedItemToCharacter(characterId, item);
             break;
         case 'left-hand':
             const leftHandContainer = document.getElementById(`character-${characterId}-left-hand-container`);
@@ -826,6 +876,7 @@ function equipItem(characterId, item) {
                 createItemModal(item.name, characterId);
             });
             leftHandContainer.appendChild(leftHandItemImage);
+            storeEquippedItemToCharacter(characterId, item);
             break;
         case 'right-hand':
             const rightHandContainer = document.getElementById(`character-${characterId}-right-hand-container`);
@@ -834,6 +885,7 @@ function equipItem(characterId, item) {
                 createItemModal(item.name, characterId);
             });
             rightHandContainer.appendChild(rightHandItemImage);
+            storeEquippedItemToCharacter(characterId, item);
             break;
         case 'extra':
             if (!document.querySelector(`#character-${characterId}-extra-1-container img`)) {
@@ -894,6 +946,12 @@ function getExistingCharacter(characters, character) {
     });
 }
 
+function getPotionsAndItems(characterId) {
+    const potionsAndItemsElements = document.getElementById(`character-${characterId}-potions-items`).querySelectorAll('li');
+    const potionsAndItems = potionsAndItemsElments.map(element => findItemWithId(element.dataset.characterItemId));
+    return potionsAndItems;
+}
+
 function getSelectedItemNames() {
     const itemsList = document.querySelectorAll('input[type=checkbox]');
     const selectedItems = [];
@@ -905,6 +963,12 @@ function getSelectedItemNames() {
     });
 
     return selectedItems;
+}
+
+function getWeaponsAndArmor(characterId) {
+    const weaponsAndArmorElements = document.getElementById(`character-${characterId}-weaqpons-armor`).querySelectorAll('li');
+    const weaponsAndArmor = weaponsAndArmorElements.map(element => findItemWithId(element.dataset.characterItemId));
+    return weaponsAndArmor;
 }
 
 function increaseNumber(element, maxNum) {

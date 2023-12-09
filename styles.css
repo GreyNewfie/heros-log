@@ -208,6 +208,7 @@ header ul {
 .weapons-armor-items-container {
     display: flex;
     justify-content: space-around;
+    position: relative;
 }
 
 .weapons-armor-items-header {
@@ -233,7 +234,47 @@ header ul {
 }
 
 .incompatible {
-    cursor: not-allowed;
+    color: silver;
+    /* position: relative; */
+}
+
+/* .incompatible::before {
+    content: attr(data-hover);
+    visibility: hidden;
+    opacity: 0;
+    background-color: black;
+    color: orange;
+    border: solid 1px silver;
+    border-radius: 8%;
+    transition: opacity 1s ease-in-out 1s;
+    
+    position: absolute;
+    z-index: 1;
+    top: 110%;
+}
+
+.incompatible:hover::before {
+    visibility: visible;
+    opacity: 1;
+} */
+
+.hide {
+    visibility: hidden;
+    opacity: 0;
+    background: black;
+    color: orange;
+    border: 1px solid silver;
+    border-radius: 10px;
+    padding: 2px;
+    transition: opacity 1s ease-in-out 1s;
+
+    position: absolute;
+    z-index: 1;
+}
+
+.incompatible:hover + .hide {
+    visibility: visible;
+    opacity: 1;
 }
 
 .item-image {
@@ -365,9 +406,9 @@ dialog > fieldset {
     font-weight: 600;
 }
 
-.hide {
+/* .hide {
     display: none;
-}
+} */
 
 .items-card-container {
     width: 100%;
