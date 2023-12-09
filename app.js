@@ -648,8 +648,12 @@ function checkCharacterItemsCompatibility(characterId) {
             const incompatibleMessage = createIncompatibleItemMessageBox(item);
             element.after(incompatibleMessage);
         } else {
-            if (!equippedItems.includes(item) && incompatibleItems.indexOf(item) != -1){
+            if (!equippedItems.includes(item)){
                 element.classList.remove('incompatible');
+
+            }
+
+            if (incompatibleItems.indexOf(item) != -1) {
                 incompatibleItems.splice(incompatibleItems.indexOf(item), 1);  
             }
         }
@@ -735,6 +739,7 @@ function createEquipUnequipOrConsumeBtn(characterId, item) {
             unequipItem(characterId, item);
             modal.close();
             clearModal(modal);
+            checkCharacterItemsCompatibility(characterId);
         });
 
         return unequipItemBtn;
@@ -862,6 +867,7 @@ function equipItem(characterId, item) {
                 createItemModal(item.name, characterId);
             });
             bodyContainer.appendChild(bodyItemImage);
+            storeEquippedItemToCharacter(characterId, item);
             break;
         case 'left-hand':
             const leftHandContainer = document.getElementById(`character-${characterId}-left-hand-container`);
@@ -870,6 +876,7 @@ function equipItem(characterId, item) {
                 createItemModal(item.name, characterId);
             });
             leftHandContainer.appendChild(leftHandItemImage);
+            storeEquippedItemToCharacter(characterId, item);
             break;
         case 'right-hand':
             const rightHandContainer = document.getElementById(`character-${characterId}-right-hand-container`);
@@ -878,6 +885,7 @@ function equipItem(characterId, item) {
                 createItemModal(item.name, characterId);
             });
             rightHandContainer.appendChild(rightHandItemImage);
+            storeEquippedItemToCharacter(characterId, item);
             break;
         case 'extra':
             if (!document.querySelector(`#character-${characterId}-extra-1-container img`)) {
