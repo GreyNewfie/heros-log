@@ -644,7 +644,9 @@ function createCharacterItemsList(nodeList) {
     nodeList.forEach(li => {
         const itemId = li.dataset.characterItemId;
         const foundItem = findItemWithId(itemId);
-        characterItems.push(foundItem);
+        if (foundItem) {
+            characterItems.push(foundItem);
+        }
     });
     return characterItems;
 }
