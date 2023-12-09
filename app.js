@@ -251,10 +251,10 @@ const characterSheet = (character) => {
         const defDiceSel = document.getElementById(getDefendDice(characterId));
         const startBodyPtsInput = document.getElementById(getStartBodyPoints(characterId));
         const startMindPtsInput = document.getElementById(getStartMindPoints(characterId));
-        const weaponsAndArmorList = document. getElementById(getWeaponsAndArmor(characterId)).querySelectorAll('li');
+        const weaponsAndArmorList = document. getElementById(getWeaponsAndArmor(characterId)).querySelectorAll('.equippable-item');
         const curBodyPtsInput = document.getElementById(getCurrentBodyPoints(characterId));
         const curGoldCoins = document.getElementById(getCurrentGoldCoins(characterId));
-        const potionsItemsList = document.getElementById(getPotionsAndItems(characterId)).querySelectorAll('li');
+        const potionsItemsList = document.getElementById(getPotionsAndItems(characterId)).querySelectorAll('.equippable-item');
         const nameInput = document.getElementById(getCharacterName(characterId));
         const equippedItemsImages = document.getElementById(getEquippedItems(uniqueId)).querySelectorAll('.item-image');
 
@@ -553,7 +553,7 @@ function addCharacter(character) {
 
 function addItemToCharacterList(characterId, list, item) {
     const li = document.createElement('li');
-    li.setAttribute('value', (item.id));
+    li.setAttribute('data-character-item-id', (item.id));
     
     const itemSpan = document.createElement('span');
     itemSpan.setAttribute('class', 'equippable-item');
@@ -607,11 +607,12 @@ function characterDeath(event, characters, character) {
 function checkItemCompatibility(characterId, item) {
     const characterType = document.getElementById(`character-${characterId}-type`).value;
     const equippedItems = getCharacterEquippedItems(characterId);
-    const equippedItemsById = equippedItems.map(equippedItem => equippedItem.id);
+    const equippedItemsById = equippedItems?.map(equippedItem => equippedItem.id);
 
-    if (item.incompatibilities?.includes(characterType) || item.incompatibilities?.some(incompatibility => equippedItemsById.includes(incompatibility))) {
+    if (item.incompatibilities?.includes(characterType) || item.incompatibilities?.some(incompatibility => equippedItemsById?.includes(incompatibility))) {
         const element = document.getElementById(`character-${characterId}-${item.id}`);
         element.classList.add('incompatible');
+        // element.setAttribute('data-hover', `${item.name} can't be equipped. Please check the ${item.name} card for why.`);
         const incompatibleMessage = createIncompatibleItemMessageBox(item);
         element.after(incompatibleMessage);
         return 'incompatible';
@@ -631,16 +632,21 @@ function checkItemsCompatibility(characterId, itemsByName) {
             const element = document.getElementById(`character-${characterId}-${item.id}`);
             element.classList.add('incompatible');
             incompatibleItems.push(item);
-            const incompatibleMessage = createIncompatibleItemMessageBox(item);
-            element.after(incompatibleMessage);
+            element.setAttribute('data-hover', `${item.name} can't be equipped. Please check the ${item.name} card for why.`);
+            // const incompatibleMessage = createIncompatibleItemMessageBox(item);
+            // element.after(incompatibleMessage);
         }
     })
 }
 
 function createCharacterItemsList(nodeList) {
-    const characterList = [];
-    nodeList.forEach(li => characterList.push((li.textContent).slice(0,-1)));
-    return characterList;
+    const characterItems = [];
+    nodeList.forEach(li => {
+        const itemId = li.dataset.characterItemId;
+        const foundItem = findItemWithId(itemId);
+        characterItems.push(foundItem);
+    });
+    return characterItems;
 }
 
 function createEquipOrUnequipItemBtn(characterId, item) {
@@ -739,8 +745,8 @@ function createIncompatibleItemMessageBox(item) {
     messageBox.setAttribute('class', 'incompatible-message');
     messageBox.setAttribute('class', 'hide');
 
-    const message = document.createElement('p');
-    message.textContent = `${item.name} can't be equipped. Please read the ${item.name} card for why.`;
+    const message = document.createElement('span');
+    message.textContent = `${item.name} can't be equipped. Please check the ${item.name} card for why.`;
     
     messageBox.appendChild(message);
 
