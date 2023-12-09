@@ -280,7 +280,7 @@ const items = [
         image: 'item-longsword-132x100.png',
         imageDescription: 'A sword lying in a field next to a sheath',
         equippedLocation: 'right-hand',
-        incompatibilities: 'wizard',
+        incompatibilities: ['wizard'],
         modifiers: {
             attackDice: 3
         }
