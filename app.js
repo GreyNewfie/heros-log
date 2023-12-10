@@ -650,7 +650,6 @@ function checkCharacterItemsCompatibility(characterId) {
         } else {
             if (!equippedItems.includes(item)){
                 element.classList.remove('incompatible');
-
             }
 
             if (incompatibleItems.indexOf(item) != -1) {
@@ -717,14 +716,9 @@ function createEquipUnequipOrConsumeBtn(characterId, item) {
         // item.name === 'Holy Water' ? consumeItemBtn.textContent = 'Use' : consumeItemBtn.textContent = 'Consume';
 
         consumeItemBtn.addEventListener('click', () => {
-            const characterConsumedItem = document.getElementById(`character-${characterId}-${item.id}`).parentNode;
-            characterConsumedItem.remove();
-            if (currentCharacter.weaponsAndArmor.find(weaponsArmorItem => weaponsArmorItem === item.name)) {
-                currentCharacter.weaponsAndArmor.pop(item.name);
-            } else if (currentCharacter.potionsAndItems.find(potionOrItem => potionOrItem === item.name)) {
-                currentCharacter.potionsAndItems.pop(item.name);
-            }
-
+            // const consumedItemElement = document.getElementById(`character-${characterId}-${item.id}`).parentNode;
+            // consumedItemElement.remove();
+            removeItemFromCharacter(characterId, item);
             modal.close();
             clearModal(modal);
             checkCharacterItemsCompatibility(characterId);
@@ -1014,16 +1008,41 @@ function isExtraItemContainerAvailable(characterId, item) {
 
 function removeItem(itemsList, itemId) {
     const [,characterId] = (itemsList.id).split('-');
-    const characterItems = itemsList.childNodes;
-    characterItems.forEach(item => {
-        const characterItemId = item.attributes.value.value;
-        const characterItemName = (item.textContent).slice(0,-1);
+    const characterItemsElements = itemsList.childNodes;
+    characterItemsElements.forEach(element => {
+        const characterItemId = element.dataset.characterItemId;
+        const characterItemName = (element.textContent).slice(0,-1);
         if (characterItemId === itemId) {
             // Do I want the item removed from storage before user saves character?
             // removeStoredCharacterWeapon(characterId, characterItemName);
-            item.remove();
+            element.remove();
         }
     });
+}
+
+function removeItemFromCharacter(characterId, item) {
+    // Remove item from list of items
+    const itemElementToRemove = document.getElementById(`character-${characterId}-${item.id}`).parentNode;
+    itemElementToRemove.remove();
+    
+    // Get character
+    const characters = getCharacters();
+    const character = characters.find(character => character.characterId === parseInt(characterId));
+    if (!character) {
+        console.log('Error: removeItemFromCharacter didn\'t find the character to remove item.');
+        return;
+    }
+    // Remove item from stored items
+    if (character.weaponsAndArmor.find(weaponOrArmor => weaponOrArmor.name === item.name)) {
+        const index = character.weaponsAndArmor.indexOf(item);
+        character.weaponsAndArmor.splice(index, 1);
+    } else if (character.potionsAndItems.find(potionOrItem => potionOrItem.name === item.name)) {
+        const index = character.potionsAndItems.findIndex(potionOrItem => potionOrItem.id === item.id);
+        if (index != -1) {
+            character.potionsAndItems.splice(index, 1);
+        }
+    }
+    storeCharacters(characters);
 }
 
 function setInitialStats(heroTypeId, characterId) {
