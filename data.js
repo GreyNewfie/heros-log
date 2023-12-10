@@ -210,7 +210,7 @@ const items = [
         image: 'item-borins-armor-132x100.png',
         imageDescription: 'Elaborate body armor and matching helmet',
         equippedLocation: 'body',
-        incompatibilities: ['helmet', 'shield', 'wizard'],
+        incompatibilities: ['wizard'],
         modifiers: {
             defendDice: 2
         }
@@ -403,7 +403,7 @@ const items = [
         image: 'item-broadsword-132x100.png',
         imageDescription: 'A sword partially out of its sheath',
         equippedLocation: 'right-hand',
-        incompatibilities: 'wizard',
+        incompatibilities: ['wizard'],
         modifiers: {
             attackDice: 3
         }
@@ -418,7 +418,7 @@ const items = [
         image: 'item-shortsword-132x100.png',
         imageDescription: 'A short sword partially sticking out of ground next to its sheath',
         equippedLocation: 'right-hand',
-        incompatibilities: 'wizard',
+        incompatibilities: ['wizard'],
         modifiers: {
             attackDice: 2
         }
