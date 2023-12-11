@@ -223,6 +223,10 @@ input[type='checkbox'].toggle:checked + .slider::before {
     position: relative;
 }
 
+.equippable-item {
+    margin-right: 4px;
+}
+
 .character-outline {
     width: 260px;
     opacity: .1;

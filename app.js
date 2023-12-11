@@ -52,6 +52,7 @@ const characterSheet = (character) => {
         characterSaveBtn.addEventListener('click', (event) => {
             if (!character) {
                 character = createNewCharacter();
+                checkCharacterItemsCompatibility(uniqueId);
             }
             if (isCurrentCharacter(characters, character)) {
                 const storedCharacter = getExistingCharacter(characters, character);
@@ -985,7 +986,7 @@ function getSelectedItemNames() {
 }
 
 function getWeaponsAndArmor(characterId) {
-    const weaponsAndArmorElements = document.getElementById(`character-${characterId}-weaqpons-armor`).querySelectorAll('li');
+    const weaponsAndArmorElements = document.getElementById(`character-${characterId}-weapons-armor`).querySelectorAll('li');
     const weaponsAndArmor = weaponsAndArmorElements.map(element => findItemWithId(element.dataset.characterItemId));
     return weaponsAndArmor;
 }
