@@ -645,6 +645,41 @@ function checkItemCompatibility(characterId, item) {
     }
 }
 
+function checkAndAddItemModifiers(characterId, item) {
+    if(checkItemCompatibility(characterId, item) === 'incompatible') {
+        console.log('Item modifiers weren\'t added because item is incompatible.');
+        return;
+    }
+
+    const autoUpdateChecked = document.getElementById(`character-${characterId}-auto-update-btn`).checked;
+    
+    if (!autoUpdateChecked || !item.modifiers) {
+        return;
+    }
+
+    for (const modifier in item.modifiers) {
+        switch (modifier) {
+            case 'attackDice':
+                console.log(`${modifier}: ${item.modifiers[modifier]}`);
+                break;
+            case 'defendDice':
+                console.log(`${modifier}: ${item.modifiers[modifier]}`);
+                break;
+            case 'bodyPoints':
+                console.log(`${modifier}: ${item.modifiers[modifier]}`);
+                break;
+            case 'mindPoints':
+                console.log(`${modifier}: ${item.modifiers[modifier]}`);
+                break;
+            case 'redDice':
+                console.log(`${modifier}: ${item.modifiers[modifier]}`);
+                break;
+    
+            }
+
+    };
+}
+
 function checkCharacterItemsCompatibility(characterId) {
     const storedCharacter = getStoredCharacter(characterId);
 
@@ -710,6 +745,7 @@ function createEquipUnequipOrConsumeBtn(characterId, item) {
         equipItemBtn.addEventListener('click', () => {
             if (!checkIfEquippedLocationTaken(characterId, item)) {
                 equipItem(characterId, item);
+                checkAndAddItemModifiers(characterId, item);
                 checkCharacterItemsCompatibility(characterId);
                 modal.close();
                 clearModal(modal);    
@@ -739,11 +775,7 @@ function createEquipUnequipOrConsumeBtn(characterId, item) {
                 consumeItemBtn.textContent = 'Consume';
         }
 
-        // item.name === 'Holy Water' ? consumeItemBtn.textContent = 'Use' : consumeItemBtn.textContent = 'Consume';
-
         consumeItemBtn.addEventListener('click', () => {
-            // const consumedItemElement = document.getElementById(`character-${characterId}-${item.id}`).parentNode;
-            // consumedItemElement.remove();
             removeItemFromCharacter(characterId, item);
             modal.close();
             clearModal(modal);
