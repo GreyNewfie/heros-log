@@ -575,7 +575,7 @@ function addItemToCharacterList(characterId, list, item) {
     removeBtn.setAttribute('class', 'remove-item');
     removeBtn.textContent = 'x';
     li.appendChild(removeBtn);
-    removeBtn.addEventListener('click', (event) => removeItem(list, item.id));
+    removeBtn.addEventListener('click', (event) => removeItemFromCharacter(characterId, item));
 
     list.appendChild(li);
 }
@@ -942,7 +942,7 @@ function getExistingCharacter(characters, character) {
 
 function getPotionsAndItems(characterId) {
     const potionsAndItemsElements = document.getElementById(`character-${characterId}-potions-items`).querySelectorAll('li');
-    const potionsAndItems = potionsAndItemsElments.map(element => findItemWithId(element.dataset.characterItemId));
+    const potionsAndItems = potionsAndItemsElements.map(element => findItemWithId(element.dataset.characterItemId));
     return potionsAndItems;
 }
 
@@ -1006,30 +1006,41 @@ function isExtraItemContainerAvailable(characterId, item) {
     }
 }
 
-function removeItem(itemsList, itemId) {
-    const [,characterId] = (itemsList.id).split('-');
-    const characterItemsElements = itemsList.childNodes;
-    characterItemsElements.forEach(element => {
-        const characterItemId = element.dataset.characterItemId;
-        const characterItemName = (element.textContent).slice(0,-1);
-        if (characterItemId === itemId) {
-            // Do I want the item removed from storage before user saves character?
-            // removeStoredCharacterWeapon(characterId, characterItemName);
-            element.remove();
-        }
-    });
+function isItemEquipped(characterId, item) {
+    const equippedItems = getCharacterEquippedItems(characterId);
+    const itemIsEquipped = equippedItems.find(equippedItem => equippedItem.id === item.id);
+    return itemIsEquipped ? true : false;
 }
 
+// function removeItem(itemsList, itemId) {
+//     const [,characterId] = (itemsList.id).split('-');
+//     const characterItemsElements = itemsList.childNodes;
+//     characterItemsElements.forEach(element => {
+//         const characterItemId = element.dataset.characterItemId;
+//         const characterItemName = (element.textContent).slice(0,-1);
+//         if (characterItemId === itemId) {
+//             // Do I want the item removed from storage before user saves character?
+//             // removeStoredCharacterWeapon(characterId, characterItemName);
+//             element.remove();
+//         }
+//     });
+// }
+
 function removeItemFromCharacter(characterId, item) {
+    if(isItemEquipped(characterId, item)) {
+        alert(`${item.name} must be unequipped before you can remove it.`);
+        return;
+    }
+
     // Remove item from list of items
-    const itemElementToRemove = document.getElementById(`character-${characterId}-${item.id}`).parentNode;
+    const itemElementToRemove = document.querySelector(`.equippable-item#character-${characterId}-${item.id}`).parentNode;
     itemElementToRemove.remove();
     
     // Get character
     const characters = getCharacters();
     const character = characters.find(character => character.characterId === parseInt(characterId));
     if (!character) {
-        console.log('Error: removeItemFromCharacter didn\'t find the character to remove item.');
+        console.log('Function removeItemFromCharacter didn\'t find a character to remove item from.');
         return;
     }
     // Remove item from stored items
