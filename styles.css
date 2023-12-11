@@ -223,9 +223,7 @@ input[type='checkbox'].toggle:checked + .slider::before {
     position: relative;
 }
 
-.equippable-item {
-    margin-right: 4px;
-}
+/* EQUIPPED ITEMS SECTION */
 
 .character-outline {
     width: 260px;
@@ -275,6 +273,8 @@ input[type='checkbox'].toggle:checked + .slider::before {
     cursor: pointer;
 }
 
+/* WEAPONS & ARMOR AND POTIONS & ITEMS SECTION */
+
 .character-sheet ul {
     list-style-type: none;
 }
@@ -299,11 +299,11 @@ input[type='checkbox'].toggle:checked + .slider::before {
     cursor: default;
 }
 
-.weapons-armor-items-container label > span {
-    margin-right: 5px;
+.equippable-item {
+    margin-right: 4px;
 }
 
-.weapons-armor-items-container label > span:hover {
+.equippable-item:hover {
     color: grey;
 }
 
@@ -350,6 +350,8 @@ input[type='checkbox'].toggle:checked + .slider::before {
     visibility: visible;
     opacity: 1;
 }
+
+/* ITEMS MODAL */
 
 .item-image {
     width: 60px;
