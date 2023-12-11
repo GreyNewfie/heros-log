@@ -7,6 +7,10 @@
     padding: 0;
 }
 
+:root {
+    --logo-yellow: var(#e7b42f);
+}
+
 h1 {
     font-size: clamp(1.25rem, 1vw + 1rem, 2.5rem);
 }
@@ -77,14 +81,53 @@ header ul {
     margin-bottom: 10px;
 }
 
-input[type='checkbox'].toggle {
-    opacity: 0;
-    /* width: 0;
-    height: 0; */
+/* Create Automatically Update Stats Toggle Switch */
+.auto-update-ui-container > label {
+    display: flex;
+    gap: .1em;
 }
 
-input[type='checkbox'].toggle:checked + label {
-    color: red;
+input[type='checkbox'].toggle {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+input[type='checkbox'].toggle + span {
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+input[type='checkbox'].toggle + span::before {
+    content: "";
+    width: 2em;
+    height: 1em;
+    background-color: #DDD;
+    border-radius: 1em;
+    margin-right: .25em;
+}
+
+input[type='checkbox'].toggle + span::after {
+    content: "";
+    width: .9em;
+    height: .9em;
+    background-color: hsl(233, 3%, 42%);
+    border-radius: 50%;
+    position: absolute;
+    left: .1em;
+}
+
+input[type='checkbox'].toggle:checked + span::after {
+    -webkit-transform: translateX(100%);
+    -ms-transform: translateX(100%);
+    transform: translateX(100%);
+    background-color: #e7b42f;
+}
+
+input[type='checkbox'].toggle:checked + span::before {
+    background-color: #e7b42f;
+    opacity: .5;
 }
 
 /* Character sheet skull icon */
@@ -237,11 +280,11 @@ input[type='checkbox'].toggle:checked + label {
     cursor: default;
 }
 
-.weapons-armor-items-container span {
+.weapons-armor-items-container label > span {
     margin-right: 5px;
 }
 
-.weapons-armor-items-container span:hover {
+.weapons-armor-items-container label > span:hover {
     color: grey;
 }
 

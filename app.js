@@ -279,17 +279,22 @@ const characterSheet = (character) => {
 
 function createAutoUpdateInitialStatsUI(characterId) {
     const autoUpdateUiContainer = document.createElement('div');
+    autoUpdateUiContainer.setAttribute('class', 'auto-update-ui-container')
 
     const autoUpdateBtnLabel = document.createElement('label');
     autoUpdateBtnLabel.setAttribute('for', `character-${characterId}-auto-update-btn`);
-    autoUpdateBtnLabel.textContent = 'Automatically update player stats: '
+    autoUpdateBtnLabel.textContent = 'Automatically Update Dice & Points';
     autoUpdateUiContainer.appendChild(autoUpdateBtnLabel);
 
-    const autoUpdateBtn = document.createElement('input');
-    autoUpdateBtn.setAttribute('type', 'checkbox');
-    autoUpdateBtn.setAttribute('id', `character-${characterId}-auto-update-btn`);
-    autoUpdateBtn.setAttribute('class', 'toggle');
-    autoUpdateUiContainer.appendChild(autoUpdateBtn);
+    const autoUpdateCheckbox = document.createElement('input');
+    autoUpdateCheckbox.setAttribute('type', 'checkbox');
+    autoUpdateCheckbox.setAttribute('id', `character-${characterId}-auto-update-btn`);
+    autoUpdateCheckbox.setAttribute('class', 'toggle');
+    autoUpdateBtnLabel.appendChild(autoUpdateCheckbox);
+
+    const autoUpdateSlider = document.createElement('span');
+    autoUpdateSlider.setAttribute('class', 'slider');
+    autoUpdateBtnLabel.appendChild(autoUpdateSlider);
 
     return autoUpdateUiContainer;
 }
