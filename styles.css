@@ -78,13 +78,18 @@ header ul {
 }
 
 .character-name-type-container {
-    margin-bottom: 10px;
+    margin-bottom: 5px;
 }
 
 /* Create Automatically Update Stats Toggle Switch */
+.auto-update-ui-container {
+    margin-bottom: 5px;
+}
+
 .auto-update-ui-container > label {
     display: flex;
     gap: .1em;
+    cursor: pointer;
 }
 
 input[type='checkbox'].toggle {
@@ -93,41 +98,51 @@ input[type='checkbox'].toggle {
     height: 0;
 }
 
-input[type='checkbox'].toggle + span {
+input[type='checkbox'].toggle + .slider {
     display: flex;
     align-items: center;
     position: relative;
 }
 
-input[type='checkbox'].toggle + span::before {
+input[type='checkbox'].toggle + .slider::before {
     content: "";
     width: 2em;
     height: 1em;
     background-color: #DDD;
     border-radius: 1em;
     margin-right: .25em;
+    transition: background-color 200ms ease-in-out;
 }
 
-input[type='checkbox'].toggle + span::after {
-    content: "";
-    width: .9em;
-    height: .9em;
+input[type='checkbox'].toggle + .slider::after {
+    content: "\2715";
+    color: white;
+    font-size: .5em;
+    width: 1.8em;
+    height: 1.8em;
     background-color: hsl(233, 3%, 42%);
     border-radius: 50%;
     position: absolute;
-    left: .1em;
+    left: .2em;
+    transition: background-color 200ms ease-in-out,
+    transform 200ms ease-in-out;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-input[type='checkbox'].toggle:checked + span::after {
+input[type='checkbox'].toggle:checked + .slider::after {
     -webkit-transform: translateX(100%);
     -ms-transform: translateX(100%);
     transform: translateX(100%);
     background-color: #e7b42f;
+    content: "\2713";
 }
 
-input[type='checkbox'].toggle:checked + span::before {
+input[type='checkbox'].toggle:checked + .slider::before {
     background-color: #e7b42f;
-    opacity: .5;
+    opacity: .4;
 }
 
 /* Character sheet skull icon */
