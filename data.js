@@ -46,7 +46,7 @@ const heroTypes= [
         startBodyPts: 8,
         startMindPts: 2,
         movement: 2,
-        startingWeapon: 'Broadsword',
+        startingWeapon: 'broadsword',
         startingArmor: 'none'
     },
     {

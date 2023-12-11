@@ -35,6 +35,9 @@ const characterSheet = (character) => {
         //Character type select
         const characterTypeDiv = document.createElement('div');
         createCharacterTypeUi(characterTypeDiv, uniqueId);
+
+        // Automatically Update Character Statistics UI
+        const characterAutoUpdateUi = createAutoUpdateInitialStatsUI(uniqueId);
     
         //Character buttons div
         const characterButtonsDiv = document.createElement('div');
@@ -131,7 +134,7 @@ const characterSheet = (character) => {
         initialStatsDiv.append(attackDiceUi, defendDiceUi, startingPointsDiv);
         currentStatsTrackerDiv.append(bodyPtsUi, goldCoinsUi);
 
-        characterSheetDiv.append(CharacterNameTypeDiv, characterButtonsDiv, initialStatsDiv, currentStatsTrackerDiv, equippedItemsSection, WeaponsArmorItemsContainer);
+        characterSheetDiv.append(CharacterNameTypeDiv, characterAutoUpdateUi, characterButtonsDiv, initialStatsDiv, currentStatsTrackerDiv, equippedItemsSection, WeaponsArmorItemsContainer);
         
         // Postions the Add Character sheet after character Sheets
         const createCharacterSheet = document.getElementById('create-character-sheet');
@@ -272,6 +275,23 @@ const characterSheet = (character) => {
 
         storeCharacters(characters);
     }
+}
+
+function createAutoUpdateInitialStatsUI(characterId) {
+    const autoUpdateUiContainer = document.createElement('div');
+
+    const autoUpdateBtnLabel = document.createElement('label');
+    autoUpdateBtnLabel.setAttribute('for', `character-${characterId}-auto-update-btn`);
+    autoUpdateBtnLabel.textContent = 'Automatically update player stats: '
+    autoUpdateUiContainer.appendChild(autoUpdateBtnLabel);
+
+    const autoUpdateBtn = document.createElement('input');
+    autoUpdateBtn.setAttribute('type', 'checkbox');
+    autoUpdateBtn.setAttribute('id', `character-${characterId}-auto-update-btn`);
+    autoUpdateBtn.setAttribute('class', 'toggle');
+    autoUpdateUiContainer.appendChild(autoUpdateBtn);
+
+    return autoUpdateUiContainer;
 }
 
 function createCharacterTypeUi(container, uniqueId) {
