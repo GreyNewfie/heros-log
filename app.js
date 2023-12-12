@@ -208,6 +208,7 @@ const characterSheet = (character) => {
         const curGoldCoins = document.getElementById(getCurrentGoldCoins(uniqueId));
         const potionsItemsList = document.getElementById(getPotionsAndItems(uniqueId)).querySelectorAll('li');
         const equippedItemsImages = document.getElementById(getEquippedItems(uniqueId)).querySelectorAll('.item-image');
+        const autoUpdateBtnStatus = getAutoUpdateButtonStatus(uniqueId);
 
         this.name = nameInput.value;
         this.type = typeSelect.value;
@@ -220,8 +221,9 @@ const characterSheet = (character) => {
         this.goldCoins = curGoldCoins.value;
         this.potionsAndItems = createCharacterItemsList(potionsItemsList);
         this.equippedItems = createEquippedItemsList(equippedItemsImages);
+        this.autoUpdateStatus = autoUpdateBtnStatus;
 
-        return({characterId, name, type, attackDice, defendDice, startBodyPts, startMindPts, bodyPts, goldCoins, weaponsAndArmor, potionsAndItems, equippedItems});
+        return({characterId, name, type, attackDice, defendDice, startBodyPts, startMindPts, bodyPts, goldCoins, weaponsAndArmor, potionsAndItems, equippedItems, autoUpdateStatus});
     }
 
     function createExistingCharacter(character) {
@@ -247,6 +249,7 @@ const characterSheet = (character) => {
         curGoldCoins.value = character.goldCoins;
         addItemsListToCharacter(potionsItemsList, character.potionsAndItems);
         displayEquippedItems(character.equippedItems, uniqueId);
+        updateAutoUpdateBtnStatus(character.characterId, character.autoUpdateStatus);
     }
 
     function updateCharacter(storedCharacter, characterId) {
@@ -261,6 +264,7 @@ const characterSheet = (character) => {
         const potionsItemsList = document.getElementById(getPotionsAndItems(characterId)).querySelectorAll('li');
         const nameInput = document.getElementById(getCharacterName(characterId));
         const equippedItemsImages = document.getElementById(getEquippedItems(uniqueId)).querySelectorAll('.item-image');
+        const autoUpdateBtnStatus = getAutoUpdateButtonStatus(uniqueId);
 
         storedCharacter.type = typeSelect.value;
         storedCharacter.attackDice = attDiceSel.value;
@@ -273,6 +277,7 @@ const characterSheet = (character) => {
         storedCharacter.potionsAndItems = createCharacterItemsList(potionsItemsList);
         storedCharacter.name = nameInput.value;
         storedCharacter.equippedItems = createEquippedItemsList(equippedItemsImages);
+        storedCharacter.autoUpdateStatus = autoUpdateBtnStatus;
 
         storeCharacters(characters);
     }
@@ -536,7 +541,6 @@ function createSelectItemsModalUi(listElement, itemFilters) {
     submitItems.addEventListener('click', event => {
         modal.close();
         const selectedItemNames = getSelectedItemNames();
-        // const selectedItems = items.map()
         addItemsListToCharacter(listElement, selectedItemNames);
         clearModal(modal);
     });
@@ -674,7 +678,7 @@ function checkAndAddItemModifiers(characterId, item) {
             case 'redDice':
                 console.log(`${modifier}: ${item.modifiers[modifier]}`);
                 break;
-    
+
             }
 
     };
@@ -984,11 +988,16 @@ function getCharacterEquippedItems(characterId) {
     const equippedItemsImages = document.getElementById(`character-${characterId}-equipped-items-section`).querySelectorAll('.item-image');
     const displayedEquippedItems = createEquippedItemsList(equippedItemsImages);
 
-    if (storedEquippedItems || displayedEquippedItems) {
-        return displayedEquippedItems.length > 0 ? displayedEquippedItems : storedEquippedItems; 
+    if (storedEquippedItems) {
+        return storedEquippedItems; 
     } else {
-        return [];
+        return displayedEquippedItems > 0 ? displayedEquippedItems : [];
     }
+}
+
+function getAutoUpdateButtonStatus(characterId) {
+    const autoUpdateBtn = document.getElementById(`character-${characterId}-auto-update-btn`);
+    return autoUpdateBtn.checked;
 }
 
 function getExistingCharacter(characters, character) {
@@ -1000,12 +1009,12 @@ function getExistingCharacter(characters, character) {
 
 function getPotionsAndItems(characterId) {
     const potionsAndItemsElements = document.getElementById(`character-${characterId}-potions-items`).querySelectorAll('li');
-    const potionsAndItems = potionsAndItemsElements.map(element => findItemWithId(element.dataset.characterItemId));
+    const potionsAndItems = [...potionsAndItemsElements].map(element => findItemWithId(element.dataset.characterItemId));
     return potionsAndItems;
 }
 
 function getSelectedItemNames() {
-    const itemsList = document.querySelectorAll('input[type=checkbox]');
+    const itemsList = document.querySelectorAll('#choose-items input[type=checkbox]');
     const selectedItems = [];
 
     itemsList.forEach(item => {
@@ -1019,9 +1028,10 @@ function getSelectedItemNames() {
 
 function getWeaponsAndArmor(characterId) {
     const weaponsAndArmorElements = document.getElementById(`character-${characterId}-weapons-armor`).querySelectorAll('li');
-    const weaponsAndArmor = weaponsAndArmorElements.map(element => findItemWithId(element.dataset.characterItemId));
+    const weaponsAndArmor = [...weaponsAndArmorElements].map(element => findItemWithId(element.dataset.characterItemId));
     return weaponsAndArmor;
 }
+
 
 function increaseNumber(element, maxNum) {
     const currentNum = parseInt(element.value);
@@ -1134,6 +1144,11 @@ function unequipItem(characterId, item) {
     const imageToRemove = document.getElementById(`character-${characterId}-${item.id}`);
     imageToRemove.remove();
     removeItemFromEquippedItems(characterId, item);
+}
+
+function updateAutoUpdateBtnStatus(characterId, boolean) {
+    const autoUpdateBtn = document.getElementById(`character-${characterId}-auto-update-btn`);
+    autoUpdateBtn.checked = boolean;
 }
 
 const displayCharacters = (function () {
