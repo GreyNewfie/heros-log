@@ -915,6 +915,7 @@ function equipItem(characterId, item) {
             });
             headContainer.appendChild(headItemImage);
             storeEquippedItemToCharacter(characterId, item);
+            checkCharacterItemsCompatibility(characterId);
             break;
         case 'body':
             const bodyContainer = document.getElementById(`character-${characterId}-body-container`);
@@ -924,6 +925,7 @@ function equipItem(characterId, item) {
             });
             bodyContainer.appendChild(bodyItemImage);
             storeEquippedItemToCharacter(characterId, item);
+            checkCharacterItemsCompatibility(characterId);
             break;
         case 'left-hand':
             const leftHandContainer = document.getElementById(`character-${characterId}-left-hand-container`);
@@ -933,6 +935,7 @@ function equipItem(characterId, item) {
             });
             leftHandContainer.appendChild(leftHandItemImage);
             storeEquippedItemToCharacter(characterId, item);
+            checkCharacterItemsCompatibility(characterId);
             break;
         case 'right-hand':
             const rightHandContainer = document.getElementById(`character-${characterId}-right-hand-container`);
@@ -942,6 +945,7 @@ function equipItem(characterId, item) {
             });
             rightHandContainer.appendChild(rightHandItemImage);
             storeEquippedItemToCharacter(characterId, item);
+            checkCharacterItemsCompatibility(characterId);
             break;
         case 'extra':
             if (!document.querySelector(`#character-${characterId}-extra-1-container img`)) {
@@ -1144,6 +1148,7 @@ function unequipItem(characterId, item) {
     const imageToRemove = document.getElementById(`character-${characterId}-${item.id}`);
     imageToRemove.remove();
     removeItemFromEquippedItems(characterId, item);
+    checkCharacterItemsCompatibility(characterId);
 }
 
 function updateAutoUpdateBtnStatus(characterId, boolean) {
