@@ -995,7 +995,7 @@ function getCharacterEquippedItems(characterId) {
     if (storedEquippedItems) {
         return storedEquippedItems; 
     } else {
-        return displayedEquippedItems > 0 ? displayedEquippedItems : [];
+        return displayedEquippedItems.length > 0 ? displayedEquippedItems : [];
     }
 }
 

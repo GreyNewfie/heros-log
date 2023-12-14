@@ -101,4 +101,3 @@ function storeEquippedItemToCharacter(characterId, item) {
         storeCharacters(characters);
     }
 }
-
