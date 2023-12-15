@@ -55,7 +55,7 @@ const characterSheet = (character) => {
                 checkCharacterItemsCompatibility(uniqueId);
             }
             if (isCurrentCharacter(characters, character)) {
-                const storedCharacter = getExistingCharacter(characters, character);
+                const storedCharacter = getStoredCharacter(uniqueId);
                 updateCharacter(storedCharacter, character.characterId);
             } else {
                 addCharacter(character);
@@ -628,7 +628,7 @@ function characterDeath(event, characters, character) {
     if (confirm("Are you sure you want to kill your character?")){
         const targetCharSheet = event.target.parentNode.parentNode.parentNode;
         targetCharSheet.remove();
-        const index = getCharacterIndex(characters, character.characterId);
+        const index = getCharacterIndex(character.characterId);
         characters.splice(index, 1);
         storeCharacters(characters);
     }
@@ -664,6 +664,9 @@ function checkAndAddItemModifiers(characterId, item) {
     for (const modifier in item.modifiers) {
         switch (modifier) {
             case 'attackDice':
+                // Update attack dice input
+                // Update character's stored attack dice
+                addToAttackDiceBucket(characterId, item);
                 console.log(`${modifier}: ${item.modifiers[modifier]}`);
                 break;
             case 'defendDice':
@@ -682,6 +685,28 @@ function checkAndAddItemModifiers(characterId, item) {
             }
 
     };
+}
+
+function addToAttackDiceBucket(characterId, item) {
+    //create object with attackDice and origin of item name
+    const attackDiceModifier = {
+        'origin': item.name,
+        'attackDice': item.modifiers.attackDice
+    };
+
+    const characters = getCharacters();
+    const characterIndex = getCharacterIndex(characterId);
+    
+    if (characterIndex === -1) {
+        console.log("Unable to get character to add a to attackDiceBucket");
+        return;
+    }
+    const character = characters[characterIndex];
+
+    character['attackDiceBucket'] = [attackDiceModifier];
+
+    const attackDice = document.getElementById(`attack-dice-${characterId}`);
+    attackDice.value = attackDiceModifier[attackDice];
 }
 
 function checkCharacterItemsCompatibility(characterId) {
@@ -981,8 +1006,9 @@ function findItemWithName(itemName) {
     return foundItem;
 }
 
-function getCharacterIndex(characters, characterId) {
-    return characters.findIndex((character) => character.characterId === characterId);
+function getCharacterIndex(characterId) {
+    const characters = getCharacters();
+    return characters.findIndex((character) => character.characterId === parseInt(characterId));
 }
 
 function getCharacterEquippedItems(characterId) {
@@ -1004,12 +1030,10 @@ function getAutoUpdateButtonStatus(characterId) {
     return autoUpdateBtn.checked;
 }
 
-function getExistingCharacter(characters, character) {
-    const characterId = character.characterId;
-    return foundCharacter = characters.find(character => {
-        return character.characterId === characterId;
-    });
-}
+// function getStoredCharacter(characters, character) {
+//     const characterId = character.characterId;
+//     return foundCharacter = characters.find(character => character.characterId === characterId);
+// }
 
 function getPotionsAndItems(characterId) {
     const potionsAndItemsElements = document.getElementById(`character-${characterId}-potions-items`).querySelectorAll('li');
@@ -1035,7 +1059,6 @@ function getWeaponsAndArmor(characterId) {
     const weaponsAndArmor = [...weaponsAndArmorElements].map(element => findItemWithId(element.dataset.characterItemId));
     return weaponsAndArmor;
 }
-
 
 function increaseNumber(element, maxNum) {
     const currentNum = parseInt(element.value);
@@ -1083,20 +1106,6 @@ function isItemEquipped(characterId, item) {
     const itemIsEquipped = equippedItems.find(equippedItem => equippedItem.id === item.id);
     return itemIsEquipped ? true : false;
 }
-
-// function removeItem(itemsList, itemId) {
-//     const [,characterId] = (itemsList.id).split('-');
-//     const characterItemsElements = itemsList.childNodes;
-//     characterItemsElements.forEach(element => {
-//         const characterItemId = element.dataset.characterItemId;
-//         const characterItemName = (element.textContent).slice(0,-1);
-//         if (characterItemId === itemId) {
-//             // Do I want the item removed from storage before user saves character?
-//             // removeStoredCharacterWeapon(characterId, characterItemName);
-//             element.remove();
-//         }
-//     });
-// }
 
 function removeItemFromCharacter(characterId, item) {
     if(isItemEquipped(characterId, item)) {
