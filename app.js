@@ -706,7 +706,7 @@ function addToAttackDiceBucket(characterId, item) {
     character['attackDiceBucket'] = [attackDiceModifier];
 
     const attackDice = document.getElementById(`attack-dice-${characterId}`);
-    attackDice.value = attackDiceModifier[attackDice];
+    attackDice.value = attackDiceModifier['attackDice'];
 }
 
 function checkCharacterItemsCompatibility(characterId) {
