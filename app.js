@@ -279,7 +279,7 @@ const characterSheet = (character) => {
         storedCharacter.equippedItems = createEquippedItemsList(equippedItemsImages);
         storedCharacter.autoUpdateStatus = autoUpdateBtnStatus;
 
-        storeCharacters(characters);
+        storeCharacter(storedCharacter);
     }
 }
 

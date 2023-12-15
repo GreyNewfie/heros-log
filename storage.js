@@ -1,3 +1,10 @@
+function storeCharacter(character) {
+    const characters = getCharacters()
+    const characterIndex = characters.findIndex(storedcharacter => storedcharacter.characterId === parseInt(character.characterId));
+    characters[characterIndex] = character;
+    storeCharacters(characters);
+}
+
 function storeCharacters(characters) {
     localStorage.setItem('characterList', JSON.stringify(characters));
 }
