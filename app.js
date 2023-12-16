@@ -666,12 +666,10 @@ function checkAndAddItemModifiers(characterId, item) {
             case 'attackDice':
                 // Update attack dice input
                 // Update character's stored attack dice
-                addToAttackDiceBucket(characterId, item);
-                console.log(`${modifier}: ${item.modifiers[modifier]}`);
+                addToDiceOrPointsBucket(characterId, item);
                 break;
             case 'defendDice':
-                addToDefendDiceBucket(characterId, item);
-                console.log(`${modifier}: ${item.modifiers[modifier]}`);
+                addToDiceOrPointsBucket(characterId, item);
                 break;
             case 'bodyPoints':
                 console.log(`${modifier}: ${item.modifiers[modifier]}`);
@@ -682,7 +680,6 @@ function checkAndAddItemModifiers(characterId, item) {
             case 'redDice':
                 console.log(`${modifier}: ${item.modifiers[modifier]}`);
                 break;
-
             }
 
     }
@@ -702,25 +699,25 @@ function checkAndRemoveItemModifiers(characterId, item) {
                 const attackDice = document.getElementById(`attack-dice-${characterId}`);
                 attackDice.value = characterPrototype.attackDice
                 character.attackDice = characterPrototype.attackDice;
-                removeItemFromBucket(characterId, item);
+                removeItemFromBucket(character, item);
                 break;
             case 'defendDice':
                 const defendDice = document.getElementById(`defend-dice-${characterId}`);
                 defendDice.value = characterPrototype.defendDice
                 character.defendDice = characterPrototype.defendDice;
-                removeItemFromBucket(characterId, item);
+                removeItemFromBucket(character, item);
                 break;
             case 'bodyPoints':
                 const bodyPoints = document.getElementById(`body-${characterId}`);
                 bodyPoints.value = characterPrototype.startBodyPts;
                 character.startBodyPts = characterPrototype.startBodyPts;
-                removeItemFromBucket(characterId, item);
+                removeItemFromBucket(character, item);
                 break;
             case 'mindPoints':
                 const mindPoints = document.getElementById(`mind-${characterId}`);
                 mindPoints.value = characterPrototype.startMindPts;
                 character.startBodyPts = characterPrototype.startBodyPts;
-                removeItemFromBucket(characterId, item);
+                removeItemFromBucket(character, item);
                 break;
             case 'redDice':
                 console.log(`${modifier}: ${item.modifiers[modifier]}`);
@@ -748,6 +745,66 @@ function addToAttackDiceBucket(characterId, item) {
     attackDice.value = attackDiceModifier['attackDice'];
 
     storeCharacter(character);
+}
+
+function addToDiceOrPointsBucket(characterId, item) {
+    let character = getStoredCharacter(characterId);
+
+    for (const modifier in item.modifiers) {
+        switch (modifier) {
+            case 'attackDice':
+            const attackDiceModifier = createStatModifier(item);
+            character = checkIfCharacterHasBucket(character, 'attackDiceBucket');
+            character.attackDiceBucket.push(attackDiceModifier);
+            const attackDice = document.getElementById(`attack-dice-${characterId}`);
+            attackDice.value = attackDiceModifier['attackDice'];
+            character.attackDice = attackDiceModifier['attackDice'];
+            break;
+        case 'defendDice':
+            const defendDiceModifier = createStatModifier(item);
+            character = checkIfCharacterHasBucket(character, 'defendDiceBucket');
+            character.defendDiceBucket.push(defendDiceModifier);
+            const defendDice = document.getElementById(`defend-dice-${characterId}`);
+            defendDice.value = defendDiceModifier['defendDice'];
+            break;
+        case 'bodyPoints':
+            const bodyPointsModifier = createStatModifier(item);
+            character = checkIfCharacterHasBucket(character, 'bodyPointsBucket');
+            character.bodyPointsBucket.push(bodyPointsModifier);
+            const bodyPoints = document.getElementById(`body-${characterId}`);
+            bodyPoints.value = bodyPointsModifier['bodyPoints'];
+            break;
+        case 'mindPoints':
+            const mindPointsModifier = createStatModifier(item);
+            character = checkIfCharacterHasBucket(character, 'mindPointsBucket');
+            character.mindPointsBucket.push(mindPointsModifier);
+            const mindPoints = document.getElementById(`mind-${characterId}`);
+            mindPoints.value = mindPointsModifier['mindPoints'];
+        }
+    }
+
+    storeCharacter(character);
+}
+
+/***************************************************************************/
+/*  ADD A STAT BUCKET TO CHARACTER AND REMOVE THIS FUNCTION WHEN COMPLETE  */
+/***************************************************************************/
+function checkIfCharacterHasBucket(character, bucketName) {
+    if (character[bucketName]) {
+        return character;
+    }
+
+    character[bucketName] = [];
+    return character;
+}
+
+function createStatModifier(item) {
+    const statModifier = {
+        'origin': item.name,
+        'attackDice': item.modifiers.attackDice
+    }
+
+    return statModifier;
 }
 
 function checkCharacterItemsCompatibility(characterId) {
@@ -1143,8 +1200,8 @@ function isItemEquipped(characterId, item) {
     return itemIsEquipped ? true : false;
 }
 
-function removeItemFromBucket(characterId, item) {
-    const character = getStoredCharacter(characterId);
+function removeItemFromBucket(character, item) {
+    // const character = getStoredCharacter(characterId);
     const modifiers = item.modifiers;
 
     for (const statToModify in modifiers) {
@@ -1196,18 +1253,16 @@ function removeItemFromCharacter(characterId, item) {
         return;
     }
 
-    // Remove item from list of items
     const itemElementToRemove = document.querySelector(`.equippable-item#character-${characterId}-${item.id}`).parentNode;
     itemElementToRemove.remove();
     
-    // Get character
     const characters = getCharacters();
     const character = characters.find(character => character.characterId === parseInt(characterId));
     if (!character) {
         console.log('Function removeItemFromCharacter didn\'t find a character to remove item from.');
         return;
     }
-    // Remove item from stored items
+
     if (character.weaponsAndArmor.find(weaponOrArmor => weaponOrArmor.name === item.name)) {
         const index = character.weaponsAndArmor.indexOf(item);
         character.weaponsAndArmor.splice(index, 1);
@@ -1217,6 +1272,7 @@ function removeItemFromCharacter(characterId, item) {
             character.potionsAndItems.splice(index, 1);
         }
     }
+
     storeCharacters(characters);
 }
 
