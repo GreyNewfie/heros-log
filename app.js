@@ -708,16 +708,19 @@ function checkAndRemoveItemModifiers(characterId, item) {
                 const defendDice = document.getElementById(`defend-dice-${characterId}`);
                 defendDice.value = characterPrototype.defendDice
                 character.defendDice = characterPrototype.defendDice;
+                removeItemFromBucket(characterId, item);
                 break;
             case 'bodyPoints':
                 const bodyPoints = document.getElementById(`body-${characterId}`);
                 bodyPoints.value = characterPrototype.startBodyPts;
                 character.startBodyPts = characterPrototype.startBodyPts;
+                removeItemFromBucket(characterId, item);
                 break;
             case 'mindPoints':
                 const mindPoints = document.getElementById(`mind-${characterId}`);
                 mindPoints.value = characterPrototype.startMindPts;
                 character.startBodyPts = characterPrototype.startBodyPts;
+                removeItemFromBucket(characterId, item);
                 break;
             case 'redDice':
                 console.log(`${modifier}: ${item.modifiers[modifier]}`);
