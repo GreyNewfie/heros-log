@@ -684,7 +684,45 @@ function checkAndAddItemModifiers(characterId, item) {
 
             }
 
-    };
+    }
+}
+
+function checkAndRemoveItemModifiers(characterId, item) {
+    if (!item.modifiers) {
+        return;
+    }
+
+    const character = getStoredCharacter(characterId);
+    const characterPrototype = heroTypes.find(type => type.id === character.type); 
+
+    for (const modifier in item.modifiers) {
+        switch (modifier) {
+            case 'attackDice':
+                const attackDice = document.getElementById(`attack-dice-${characterId}`);
+                attackDice.value = characterPrototype.attackDice
+                character.attackDice = characterPrototype.attackDice;
+                break;
+            case 'defendDice':
+                const defendDice = document.getElementById(`defend-dice-${characterId}`);
+                defendDice.value = characterPrototype.defendDice
+                character.defendDice = characterPrototype.defendDice;
+                break;
+            case 'bodyPoints':
+                const bodyPoints = document.getElementById(`body-${characterId}`);
+                bodyPoints.value = characterPrototype.startBodyPts;
+                character.startBodyPts = characterPrototype.startBodyPts;
+                break;
+            case 'mindPoints':
+                const mindPoints = document.getElementById(`mind-${characterId}`);
+                mindPoints.value = characterPrototype.startMindPts;
+                character.startBodyPts = characterPrototype.startBodyPts;
+                break;
+            case 'redDice':
+                console.log(`${modifier}: ${item.modifiers[modifier]}`);
+                break;
+        }
+    }
+    storeCharacter(character);
 }
 
 function addToAttackDiceBucket(characterId, item) {
@@ -692,7 +730,7 @@ function addToAttackDiceBucket(characterId, item) {
     const attackDiceModifier = {
         'origin': item.name,
         'attackDice': item.modifiers.attackDice
-    };
+    }
 
     const characters = getCharacters();
     const characterIndex = getCharacterIndex(characterId);
@@ -1157,6 +1195,7 @@ function unequipItem(characterId, item) {
     const imageToRemove = document.getElementById(`character-${characterId}-${item.id}`);
     imageToRemove.remove();
     removeItemFromEquippedItems(characterId, item);
+    checkAndRemoveItemModifiers(characterId, item);
     checkCharacterItemsCompatibility(characterId);
 }
 
