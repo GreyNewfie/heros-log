@@ -766,9 +766,9 @@ function addToDiceOrPointsBucket(characterId, item) {
             const defendDiceModifier = createStatModifier(item);
             character = checkIfCharacterHasBucket(character, 'defendDiceBucket');
             character.defendDiceBucket.push(defendDiceModifier);
-            const numOfDefendDice = getTotalWithModifiers(character)
+            const numOfDefendDice = getTotalDefendDiceWithModifiers(character)
             const defendDice = document.getElementById(`defend-dice-${characterId}`);
-            defendDice.value = defendDiceModifier['defendDice'];
+            defendDice.value = numOfDefendDice;
             break;
         case 'bodyPoints':
             const bodyPointsModifier = createStatModifier(item);
@@ -835,6 +835,8 @@ function createInitialCharacter(characterId) {
     this.potionsAndItems = createCharacterItemsList(potionsItemsList);
     this.equippedItems = createEquippedItemsList(equippedItemsImages);
     this.autoUpdateStatus = autoUpdateBtnStatus;
+
+    this.attackDiceBucket.push()
 
     return({characterId, name, type, heroPrototype, attackDice, attackDiceBucket, defendDice, defendDiceBucket, startBodyPts, bodyPointsBucket, startMindPts, mindPointsBucket, bodyPts, goldCoins, weaponsAndArmor, potionsAndItems, equippedItems, autoUpdateStatus});
 }
@@ -1193,8 +1195,15 @@ function getSelectedItemNames() {
     return selectedItems;
 }
 
-function getTotalWithModifiers(character) {
-    console.log(character);
+function getTotalDefendDiceWithModifiers(character) {
+    const defendDiceModifiers = character.defendDiceBucket;
+    let numOfDefendDice = 0;
+
+    for (const modifier in defendDiceModifiers) {
+        numOfDefendDice += modifier['defendDice'];
+    }
+
+    return numOfDefendDice;
 }
 
 function getWeaponsAndArmor(characterId) {
