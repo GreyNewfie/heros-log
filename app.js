@@ -167,23 +167,23 @@ const characterSheet = (character) => {
     }
 
     function getWeaponsAndArmor(characterId) {
-        return `character-${characterId}-weapons-armor`
+        return `character-${characterId}-weapons-armor`;
     }
 
-    function getWeapons(characterId) {
-        return `character-${characterId}-weapons`;
-    }
+    // function getWeapons(characterId) {
+    //     return `character-${characterId}-weapons`;
+    // }
 
-    function getArmor(characterId) {
-        return `character-${characterId}-armor`;
-    }
+    // function getArmor(characterId) {
+    //     return `character-${characterId}-armor`;
+    // }
 
     function getCurrentBodyPoints(characterId) {
         return `body-points-${characterId}`;
     }
 
     function getCurrentGoldCoins(characterId) {
-        return `gold-coins-${characterId}`
+        return `gold-coins-${characterId}`;
     }
 
     function getPotionsAndItems(characterId) {
@@ -191,7 +191,7 @@ const characterSheet = (character) => {
     }
 
     function getEquippedItems(characterId) {
-        return `character-${characterId}-equipped-items-section`
+        return `character-${characterId}-equipped-items-section`;
     }
 
     const createNewCharacter = () => {
@@ -319,6 +319,8 @@ function createCharacterTypeUi(container, uniqueId) {
     characterTypeSelect.addEventListener('change', (event) => {
         const heroTypeId = event.target.value;
         const characterId = uniqueId;
+        const character = createInitialCharacter(uniqueId);
+        storeCharacter(character);
         setInitialStats(heroTypeId, characterId);
     });
 }
@@ -764,6 +766,7 @@ function addToDiceOrPointsBucket(characterId, item) {
             const defendDiceModifier = createStatModifier(item);
             character = checkIfCharacterHasBucket(character, 'defendDiceBucket');
             character.defendDiceBucket.push(defendDiceModifier);
+            const numOfDefendDice = getTotalWithModifiers(character)
             const defendDice = document.getElementById(`defend-dice-${characterId}`);
             defendDice.value = defendDiceModifier['defendDice'];
             break;
@@ -796,6 +799,44 @@ function checkIfCharacterHasBucket(character, bucketName) {
 
     character[bucketName] = [];
     return character;
+}
+
+function createInitialCharacter(characterId) {
+    const nameInput = document.getElementById(`character-name-${characterId}`);
+    const typeSelect = document.getElementById(`character-${characterId}-type`);
+    // const attDice = document.getElementById(`attack-dice-${characterId}`);
+    // const defDice = document.getElementById(`defend-dice-${characterId}`);
+    // const startBodyPtsInput = document.getElementById(`body-${characterId}`);
+    // const startMindPtsInput = document.getElementById(`mind-${characterId}`);
+    const weaponsAndArmorList = document.getElementById(`character-${characterId}-weapons-armor`).querySelectorAll('li');
+    const curBodyPts = document.getElementById(`body-points-${characterId}`);
+    const curGoldCoins = document.getElementById(`gold-coins-${characterId}`);
+    const potionsItemsList = document.getElementById(`character-${characterId}-potions-items`).querySelectorAll('li');
+    const equippedItemsImages = document.getElementById(`character-${characterId}-equipped-items-section`).querySelectorAll('.item-image');
+    const autoUpdateBtnStatus = getAutoUpdateButtonStatus(characterId);
+
+    const heroType = heroTypes.find(type => type.id === typeSelect.value);
+
+    this.name = nameInput.value;
+    this.type = heroType.value;
+    /************** THIS COULD CAUSE ISSUES, NEED TO REMOVE IF NOT USED ***************/
+    this.heroPrototype = heroType;
+    this.attackDice = heroType.attackDice;
+    this.attackDiceBucket = [];
+    this.defendDice = heroType.defendDice;
+    this.defendDiceBucket = [];
+    this.startBodyPts = heroType.startBodyPts;
+    this.bodyPointsBucket = [];
+    this.startMindPts = heroType.startMindPts;
+    this.mindPointsBucket = [];
+    this.weaponsAndArmor = createCharacterItemsList(weaponsAndArmorList);
+    this.bodyPts = curBodyPts.value;
+    this.goldCoins = curGoldCoins.value;
+    this.potionsAndItems = createCharacterItemsList(potionsItemsList);
+    this.equippedItems = createEquippedItemsList(equippedItemsImages);
+    this.autoUpdateStatus = autoUpdateBtnStatus;
+
+    return({characterId, name, type, heroPrototype, attackDice, attackDiceBucket, defendDice, defendDiceBucket, startBodyPts, bodyPointsBucket, startMindPts, mindPointsBucket, bodyPts, goldCoins, weaponsAndArmor, potionsAndItems, equippedItems, autoUpdateStatus});
 }
 
 function createStatModifier(item) {
@@ -1150,6 +1191,10 @@ function getSelectedItemNames() {
     });
 
     return selectedItems;
+}
+
+function getTotalWithModifiers(character) {
+    console.log(character);
 }
 
 function getWeaponsAndArmor(characterId) {
