@@ -2,7 +2,7 @@ function storeCharacter(character) {
     const characters = getCharacters();
 
     if (characters.length < 1) {
-        character.push(character);
+        characters.push(character);
     } else {
         const characterIndex = characters.findIndex(storedcharacter => storedcharacter.characterId === parseInt(character.characterId));
         if (characterIndex != -1) {
