@@ -271,13 +271,13 @@ const characterSheet = (character) => {
         const autoUpdateBtnStatus = getAutoUpdateButtonStatus(uniqueId);
 
         storedCharacter.type = typeSelect.value;
-        storedCharacter.attackDice = attDiceSel.value;
-        storedCharacter.defendDice = defDiceSel.value;
-        storedCharacter.startBodyPts = startBodyPtsInput.value;
-        storedCharacter.startMindPts = startMindPtsInput.value;
+        storedCharacter.attackDice = parseInt(attDiceSel.value);
+        storedCharacter.defendDice = parseInt(defDiceSel.value);
+        storedCharacter.startBodyPts = parseInt(startBodyPtsInput.value);
+        storedCharacter.startMindPts = parseInt(startMindPtsInput.value);
         storedCharacter.weaponsAndArmor = createCharacterItemsList(weaponsAndArmorList);
-        storedCharacter.bodyPts = curBodyPtsInput.value;
-        storedCharacter.goldCoins = curGoldCoins.value;
+        storedCharacter.bodyPts = paraseInt(curBodyPtsInput.value);
+        storedCharacter.goldCoins = parseInt(curGoldCoins.value);
         storedCharacter.potionsAndItems = createCharacterItemsList(potionsItemsList);
         storedCharacter.name = nameInput.value;
         storedCharacter.equippedItems = createEquippedItemsList(equippedItemsImages);
@@ -867,13 +867,9 @@ function createInitialCharacter(characterId) {
     /************** THIS COULD CAUSE ISSUES, NEED TO REMOVE IF NOT USED ***************/
     this.heroPrototype = heroType;
     this.attackDice = heroType.attackDice;
-    this.attackDiceBucket = [];
     this.defendDice = heroType.defendDice;
-    this.defendDiceBucket = [];
     this.startBodyPts = heroType.startBodyPts;
-    this.bodyPointsBucket = [];
     this.startMindPts = heroType.startMindPts;
-    this.mindPointsBucket = [];
     this.weaponsAndArmor = createCharacterItemsList(weaponsAndArmorList);
     this.bodyPts = curBodyPts.value;
     this.goldCoins = curGoldCoins.value;
