@@ -1,13 +1,11 @@
 function storeCharacter(character) {
     const characters = getCharacters();
+    const characterIndex = characters.findIndex(storedcharacter => storedcharacter.characterId === parseInt(character.characterId));
 
-    if (characters.length < 1) {
-        characters.push(character);
+    if (characterIndex != -1) {
+        characters[characterIndex] = character;
     } else {
-        const characterIndex = characters.findIndex(storedcharacter => storedcharacter.characterId === parseInt(character.characterId));
-        if (characterIndex != -1) {
-            characters[characterIndex] = character;
-        }
+        characters.push(character);
     }
     
     storeCharacters(characters);
