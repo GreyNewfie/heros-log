@@ -50,13 +50,14 @@ const characterSheet = (character) => {
         characterSaveSpan.append('Save');
         characterSaveBtn.append(characterSaveSpan);
         characterSaveBtn.addEventListener('click', (event) => {
+            const character = getStoredCharacter(uniqueId);
             if (!character) {
                 character = createNewCharacter();
                 checkCharacterItemsCompatibility(uniqueId);
             }
             if (isCurrentCharacter(characters, character)) {
-                const storedCharacter = getStoredCharacter(uniqueId);
-                updateCharacter(storedCharacter, character.characterId);
+                // const storedCharacter = getStoredCharacter(uniqueId);
+                updateCharacter(character, character.characterId);
             } else {
                 addCharacter(character);
             }
@@ -170,14 +171,6 @@ const characterSheet = (character) => {
         return `character-${characterId}-weapons-armor`;
     }
 
-    // function getWeapons(characterId) {
-    //     return `character-${characterId}-weapons`;
-    // }
-
-    // function getArmor(characterId) {
-    //     return `character-${characterId}-armor`;
-    // }
-
     function getCurrentBodyPoints(characterId) {
         return `body-points-${characterId}`;
     }
@@ -243,7 +236,7 @@ const characterSheet = (character) => {
         const potionsItemsList= document.getElementById(getPotionsAndItems(character.characterId));
 
         nameInput.value = character.name;
-        typeSelect.value = character.type;
+        typeSelect.value = character.heroPrototype?.name;
         attDice.value = character.attackDice;
         defDice.value = character.defendDice;
         startBodyPts.value = character.startBodyPts;
@@ -276,7 +269,7 @@ const characterSheet = (character) => {
         storedCharacter.startBodyPts = parseInt(startBodyPtsInput.value);
         storedCharacter.startMindPts = parseInt(startMindPtsInput.value);
         storedCharacter.weaponsAndArmor = createCharacterItemsList(weaponsAndArmorList);
-        storedCharacter.bodyPts = paraseInt(curBodyPtsInput.value);
+        storedCharacter.bodyPts = parseInt(curBodyPtsInput.value);
         storedCharacter.goldCoins = parseInt(curGoldCoins.value);
         storedCharacter.potionsAndItems = createCharacterItemsList(potionsItemsList);
         storedCharacter.name = nameInput.value;
@@ -703,8 +696,8 @@ function checkAndRemoveItemModifiers(characterId, item) {
         switch (modifier) {
             case 'attackDice':
                 const attackDice = document.getElementById(`attack-dice-${characterId}`);
-                attackDice.value = characterPrototype.attackDice
-                character.attackDice = characterPrototype.attackDice;
+                attackDice.value = character.heroPrototype.attackDice;
+                character.attackDice = character.heroPrototype.attackDice;
                 removeItemFromBucket(character, item);
                 break;
             case 'defendDice':
@@ -760,15 +753,16 @@ function addToDiceOrPointsBucket(characterId, item) {
         switch (modifier) {
             case 'attackDice':
             const attackDiceModifier = createStatModifier(item);
-            character = checkIfCharacterHasBucket(character, 'attackDiceBucket');
+            // character = checkIfCharacterHasBucket(character, 'attackDiceBucket');
             character.attackDiceBucket.push(attackDiceModifier);
             const attackDice = document.getElementById(`attack-dice-${characterId}`);
+            // Need a function that returns the number of attackDice based on equipped
             attackDice.value = attackDiceModifier['attackDice'];
             character.attackDice = attackDiceModifier['attackDice'];
             break;
         case 'defendDice':
             const defendDiceModifier = createStatModifier(item);
-            character = checkIfCharacterHasBucket(character, 'defendDiceBucket');
+            // character = checkIfCharacterHasBucket(character, 'defendDiceBucket');
             character.defendDiceBucket.push(defendDiceModifier);
             const numOfDefendDice = getTotalDefendDiceWithModifiers(character)
             const defendDice = document.getElementById(`defend-dice-${characterId}`);
@@ -776,14 +770,14 @@ function addToDiceOrPointsBucket(characterId, item) {
             break;
         case 'bodyPoints':
             const bodyPointsModifier = createStatModifier(item);
-            character = checkIfCharacterHasBucket(character, 'bodyPointsBucket');
+            // character = checkIfCharacterHasBucket(character, 'bodyPointsBucket');
             character.bodyPointsBucket.push(bodyPointsModifier);
             const bodyPoints = document.getElementById(`body-${characterId}`);
             bodyPoints.value = bodyPointsModifier['bodyPoints'];
             break;
         case 'mindPoints':
             const mindPointsModifier = createStatModifier(item);
-            character = checkIfCharacterHasBucket(character, 'mindPointsBucket');
+            // character = checkIfCharacterHasBucket(character, 'mindPointsBucket');
             character.mindPointsBucket.push(mindPointsModifier);
             const mindPoints = document.getElementById(`mind-${characterId}`);
             mindPoints.value = mindPointsModifier['mindPoints'];
@@ -834,25 +828,9 @@ function addHeroTypeStatsToCharacter(character) {
     storeCharacter(character);
 }
 
-/***************************************************************************/
-/*  ADD A STAT BUCKET TO CHARACTER AND REMOVE THIS FUNCTION WHEN COMPLETE  */
-/***************************************************************************/
-function checkIfCharacterHasBucket(character, bucketName) {
-    if (character[bucketName]) {
-        return character;
-    }
-
-    character[bucketName] = [];
-    return character;
-}
-
 function createInitialCharacter(characterId) {
     const nameInput = document.getElementById(`character-name-${characterId}`);
     const typeSelect = document.getElementById(`character-${characterId}-type`);
-    // const attDice = document.getElementById(`attack-dice-${characterId}`);
-    // const defDice = document.getElementById(`defend-dice-${characterId}`);
-    // const startBodyPtsInput = document.getElementById(`body-${characterId}`);
-    // const startMindPtsInput = document.getElementById(`mind-${characterId}`);
     const weaponsAndArmorList = document.getElementById(`character-${characterId}-weapons-armor`).querySelectorAll('li');
     const curBodyPts = document.getElementById(`body-points-${characterId}`);
     const curGoldCoins = document.getElementById(`gold-coins-${characterId}`);
@@ -867,9 +845,13 @@ function createInitialCharacter(characterId) {
     /************** THIS COULD CAUSE ISSUES, NEED TO REMOVE IF NOT USED ***************/
     this.heroPrototype = heroType;
     this.attackDice = heroType.attackDice;
+    this.attackDiceBucket = [];
     this.defendDice = heroType.defendDice;
+    this.defendDiceBucket = [];
     this.startBodyPts = heroType.startBodyPts;
+    this.bodyPointsBucket = [];
     this.startMindPts = heroType.startMindPts;
+    this.mindPointsBucket = [];
     this.weaponsAndArmor = createCharacterItemsList(weaponsAndArmorList);
     this.bodyPts = curBodyPts.value;
     this.goldCoins = curGoldCoins.value;
@@ -878,10 +860,8 @@ function createInitialCharacter(characterId) {
     this.autoUpdateStatus = autoUpdateBtnStatus;
 
     const newCharacter = {characterId, name, type, heroPrototype, attackDice, attackDiceBucket, defendDice, defendDiceBucket, startBodyPts, bodyPointsBucket, startMindPts, mindPointsBucket, bodyPts, goldCoins, weaponsAndArmor, potionsAndItems, equippedItems, autoUpdateStatus};
-    
     addHeroTypeStatsToCharacter(newCharacter);
 
-    // return({characterId, name, type, heroPrototype, attackDice, attackDiceBucket, defendDice, defendDiceBucket, startBodyPts, bodyPointsBucket, startMindPts, mindPointsBucket, bodyPts, goldCoins, weaponsAndArmor, potionsAndItems, equippedItems, autoUpdateStatus});
     return newCharacter;
 }
 
@@ -1299,7 +1279,6 @@ function isItemEquipped(characterId, item) {
 }
 
 function removeItemFromBucket(character, item) {
-    // const character = getStoredCharacter(characterId);
     const modifiers = item.modifiers;
 
     for (const statToModify in modifiers) {
