@@ -213,17 +213,21 @@ const characterSheet = (character) => {
         this.name = nameInput.value;
         this.type = typeSelect.value;
         this.attackDice = attDice.value;
+        this.attackDiceBucket = [];
         this.defendDice = defDice.value;
+        this.defendDiceBucket = [];
         this.startBodyPts = startBodyPtsInput.value;
+        this.bodyPointsBucket = [];
         this.startMindPts = startMindPtsInput.value;
+        this.mindPointsBucket = [];
         this.weaponsAndArmor = createCharacterItemsList(weaponsAndArmorList);
         this.bodyPts = curBodyPts.value;
         this.goldCoins = curGoldCoins.value;
         this.potionsAndItems = createCharacterItemsList(potionsItemsList);
         this.equippedItems = createEquippedItemsList(equippedItemsImages);
         this.autoUpdateStatus = autoUpdateBtnStatus;
-
-        return({characterId, name, type, attackDice, defendDice, startBodyPts, startMindPts, bodyPts, goldCoins, weaponsAndArmor, potionsAndItems, equippedItems, autoUpdateStatus});
+    
+        return({characterId, name, type, attackDice, attackDiceBucket, defendDice, defendDiceBucket, startBodyPts, bodyPointsBucket, startMindPts, mindPointsBucket, bodyPts, goldCoins, weaponsAndArmor, potionsAndItems, equippedItems, autoUpdateStatus});
     }
 
     function createExistingCharacter(character) {
@@ -321,7 +325,7 @@ function createCharacterTypeUi(container, uniqueId) {
         const characterId = uniqueId;
         const character = createInitialCharacter(uniqueId);
         storeCharacter(character);
-        setInitialStats(heroTypeId, characterId);
+        // setInitialStats(heroTypeId, characterId);
     });
 }
 
@@ -789,6 +793,47 @@ function addToDiceOrPointsBucket(characterId, item) {
     storeCharacter(character);
 }
 
+function addHeroTypeStatsToCharacter(character) {
+    
+    const attackDiceModifier = {
+        'origin': 'character',
+        'attackDice': character.heroPrototype.attackDice
+    }
+
+    const defendDiceModifier = {
+        'origin': 'character',
+        'defendDice': character.heroPrototype.defendDice
+    }
+    const bodyPointsModifier = {
+        'origin': 'character',
+        'bodyPoints': character.heroPrototype.startBodyPts
+    }
+
+    const mindPointsModifier = {
+        'origin': 'character',
+        'mindPoints': character.heroPrototype.startMindPts
+    }
+
+    character.attackDiceBucket.push(attackDiceModifier);
+    character.defendDiceBucket.push(defendDiceModifier);
+    character.bodyPointsBucket.push(bodyPointsModifier);
+    character.mindPointsBucket.push(mindPointsModifier);
+
+    const attackDice = document.getElementById(`attack-dice-${character.characterId}`);
+    attackDice.value = character.heroPrototype.attackDice;
+
+    const defendDice = document.getElementById(`defend-dice-${character.characterId}`);
+    defendDice.value = character.heroPrototype.defendDice;
+
+    const bodyPoints = document.getElementById(`body-${character.characterId}`);
+    bodyPoints.value = character.heroPrototype.startBodyPts;
+
+    const mindPoints = document.getElementById(`mind-${character.characterId}`);
+    mindPoints.value = character.heroPrototype.startMindPts;
+
+    storeCharacter(character);
+}
+
 /***************************************************************************/
 /*  ADD A STAT BUCKET TO CHARACTER AND REMOVE THIS FUNCTION WHEN COMPLETE  */
 /***************************************************************************/
@@ -836,9 +881,12 @@ function createInitialCharacter(characterId) {
     this.equippedItems = createEquippedItemsList(equippedItemsImages);
     this.autoUpdateStatus = autoUpdateBtnStatus;
 
-    this.attackDiceBucket.push()
+    const newCharacter = {characterId, name, type, heroPrototype, attackDice, attackDiceBucket, defendDice, defendDiceBucket, startBodyPts, bodyPointsBucket, startMindPts, mindPointsBucket, bodyPts, goldCoins, weaponsAndArmor, potionsAndItems, equippedItems, autoUpdateStatus};
+    
+    addHeroTypeStatsToCharacter(newCharacter);
 
-    return({characterId, name, type, heroPrototype, attackDice, attackDiceBucket, defendDice, defendDiceBucket, startBodyPts, bodyPointsBucket, startMindPts, mindPointsBucket, bodyPts, goldCoins, weaponsAndArmor, potionsAndItems, equippedItems, autoUpdateStatus});
+    // return({characterId, name, type, heroPrototype, attackDice, attackDiceBucket, defendDice, defendDiceBucket, startBodyPts, bodyPointsBucket, startMindPts, mindPointsBucket, bodyPts, goldCoins, weaponsAndArmor, potionsAndItems, equippedItems, autoUpdateStatus});
+    return newCharacter;
 }
 
 function createStatModifier(item) {
@@ -1330,6 +1378,7 @@ function removeItemFromCharacter(characterId, item) {
     storeCharacters(characters);
 }
 
+/*********** CHECK IS THIS FUNCTION IS STILL BEING USED ***********/
 function setInitialStats(heroTypeId, characterId) {
     const heroType = heroTypes.find(type => type.id === heroTypeId);
 
