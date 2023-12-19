@@ -55,7 +55,7 @@ const characterSheet = (character) => {
                 character = createNewCharacter();
                 checkCharacterItemsCompatibility(uniqueId);
             }
-            if (isCurrentCharacter(characters, character)) {
+            if (isCurrentCharacter(character)) {
                 // const storedCharacter = getStoredCharacter(uniqueId);
                 updateCharacter(character, character.characterId);
             } else {
@@ -70,7 +70,7 @@ const characterSheet = (character) => {
         characterKilledSpan.setAttribute('class', 'material-symbols-outlined');
         characterKilledSpan.append('skull');
         characterKilledBtn.append(characterKilledSpan);
-        characterKilledBtn.addEventListener('click', (event) => characterDeath(event, characters, character));
+        characterKilledBtn.addEventListener('click', (event) => characterDeath(event, character));
     
         characterButtonsDiv.append(characterSaveBtn, characterKilledBtn);
     
@@ -236,7 +236,7 @@ const characterSheet = (character) => {
         const potionsItemsList= document.getElementById(getPotionsAndItems(character.characterId));
 
         nameInput.value = character.name;
-        typeSelect.value = character.heroPrototype?.name;
+        typeSelect.value = character.heroPrototype.id;
         attDice.value = character.attackDice;
         defDice.value = character.defendDice;
         startBodyPts.value = character.startBodyPts;
@@ -623,11 +623,13 @@ function addItemsListToCharacter(element, itemsListByName) {
     });    
 }
 
-function characterDeath(event, characters, character) {
+function characterDeath(event, character) {
     if (confirm("Are you sure you want to kill your character?")){
         const targetCharSheet = event.target.parentNode.parentNode.parentNode;
         targetCharSheet.remove();
+
         const index = getCharacterIndex(character.characterId);
+        const characters = getCharacters();
         characters.splice(index, 1);
         storeCharacters(characters);
     }
@@ -753,20 +755,18 @@ function addToDiceOrPointsBucket(characterId, item) {
         switch (modifier) {
             case 'attackDice':
             const attackDiceModifier = createStatModifier(item);
-            // character = checkIfCharacterHasBucket(character, 'attackDiceBucket');
             character.attackDiceBucket.push(attackDiceModifier);
             const attackDice = document.getElementById(`attack-dice-${characterId}`);
-            // Need a function that returns the number of attackDice based on equipped
             attackDice.value = attackDiceModifier['attackDice'];
             character.attackDice = attackDiceModifier['attackDice'];
             break;
         case 'defendDice':
             const defendDiceModifier = createStatModifier(item);
-            // character = checkIfCharacterHasBucket(character, 'defendDiceBucket');
             character.defendDiceBucket.push(defendDiceModifier);
             const numOfDefendDice = getTotalDefendDiceWithModifiers(character)
+            character.defendDice = numOfDefendDice;
             const defendDice = document.getElementById(`defend-dice-${characterId}`);
-            defendDice.value = numOfDefendDice;
+            defendDice.value = character.defendDice;
             break;
         case 'bodyPoints':
             const bodyPointsModifier = createStatModifier(item);
@@ -1241,8 +1241,9 @@ function increaseNumber(element, maxNum) {
     return element.value = currentNum < maxNum || !maxNum ? currentNum + 1 : currentNum;
 }
 
-function isCurrentCharacter(characters, { characterId }) {
-    return characters.some(character => character.characterId === characterId);
+function isCurrentCharacter(character) {
+    const characters = getCharacters();
+    return characters.some(storedCharacter => storedCharacter.characterId === character.characterId);
 }
 
 function isEquippedItemDisplayed(characterId, item) {
@@ -1385,7 +1386,7 @@ function updateAutoUpdateBtnStatus(characterId, boolean) {
 
 const displayCharacters = (function () {
     // Initializtion
-    characters = getCharacters();
+    const characters = getCharacters();
     characters.forEach(character => characterSheet(character));
 
     // characters.forEach(character => {
