@@ -448,7 +448,7 @@ const items = [
         image: 'item-chain-mail-132x100.png',
         imageDescription: 'A soldier wearing chain body armor',
         equippedLocation: 'body',
-        incompatiabilities: ['wizard'],
+        incompatibilities: ['wizard'],
         modifiers: {
             defendDice: 1
         }
