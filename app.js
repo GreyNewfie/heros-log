@@ -754,14 +754,14 @@ function addToDiceOrPointsBucket(characterId, item) {
     for (const modifier in item.modifiers) {
         switch (modifier) {
             case 'attackDice':
-            const attackDiceModifier = createStatModifier(item);
+            const attackDiceModifier = createAttackDiceModifier(item);
             character.attackDiceBucket.push(attackDiceModifier);
             const attackDice = document.getElementById(`attack-dice-${characterId}`);
             attackDice.value = attackDiceModifier['attackDice'];
             character.attackDice = attackDiceModifier['attackDice'];
             break;
         case 'defendDice':
-            const defendDiceModifier = createStatModifier(item);
+            const defendDiceModifier = createDefendDiceModifier(item);
             character.defendDiceBucket.push(defendDiceModifier);
             const numOfDefendDice = getTotalDefendDiceWithModifiers(character)
             character.defendDice = numOfDefendDice;
@@ -769,15 +769,13 @@ function addToDiceOrPointsBucket(characterId, item) {
             defendDice.value = character.defendDice;
             break;
         case 'bodyPoints':
-            const bodyPointsModifier = createStatModifier(item);
-            // character = checkIfCharacterHasBucket(character, 'bodyPointsBucket');
+            const bodyPointsModifier = createBodyPointsModifier(item);
             character.bodyPointsBucket.push(bodyPointsModifier);
             const bodyPoints = document.getElementById(`body-${characterId}`);
             bodyPoints.value = bodyPointsModifier['bodyPoints'];
             break;
         case 'mindPoints':
-            const mindPointsModifier = createStatModifier(item);
-            // character = checkIfCharacterHasBucket(character, 'mindPointsBucket');
+            const mindPointsModifier = createMindPointsModifier(item);
             character.mindPointsBucket.push(mindPointsModifier);
             const mindPoints = document.getElementById(`mind-${characterId}`);
             mindPoints.value = mindPointsModifier['mindPoints'];
@@ -865,10 +863,37 @@ function createInitialCharacter(characterId) {
     return newCharacter;
 }
 
-function createStatModifier(item) {
+function createAttackDiceModifier(item) {
     const statModifier = {
         'origin': item.name,
         'attackDice': item.modifiers.attackDice
+    }
+
+    return statModifier;
+}
+
+function createDefendDiceModifier(item) {
+    const statModifier = {
+        'origin': item.name,
+        'defendDice': item.modifiers.defendDice
+    }
+
+    return statModifier;
+}
+
+function createBodyPointsModifier(item) {
+    const statModifier = {
+        'origin': item.name,
+        'bodyPoints': item.modifiers.bodyPoints
+    }
+
+    return statModifier;
+}
+
+function createMindPointsModifier(item) {
+    const statModifier = {
+        'origin': item.name,
+        'mindPoints': item.modifiers.mindPoints
     }
 
     return statModifier;
@@ -1223,9 +1248,7 @@ function getTotalDefendDiceWithModifiers(character) {
     const defendDiceModifiers = character.defendDiceBucket;
     let numOfDefendDice = 0;
 
-    for (const modifier in defendDiceModifiers) {
-        numOfDefendDice += modifier['defendDice'];
-    }
+    defendDiceModifiers.forEach(modifier => numOfDefendDice += modifier.defendDice);
 
     return numOfDefendDice;
 }
@@ -1281,11 +1304,12 @@ function isItemEquipped(characterId, item) {
 
 function removeItemFromBucket(character, item) {
     const modifiers = item.modifiers;
+    let modifierIndex = '';
 
     for (const statToModify in modifiers) {
         switch (statToModify) {
             case 'attackDice':
-                let modifierIndex = character.attackDiceBucket.findIndex(modifier => modifier.origin === item.name); 
+                modifierIndex = character.attackDiceBucket.findIndex(modifier => modifier.origin === item.name); 
                 if (modifierIndex === -1) {
                     console.log('Can\'t find item to remove from attackDiceBucket.');
                     return;
@@ -1298,7 +1322,7 @@ function removeItemFromBucket(character, item) {
                     console.log('Can\'t find item to remove from defend dice bucket.');
                     return;
                 }
-                character.defendDiceBucket.splice(itemIndex, 1);
+                character.defendDiceBucket.splice(modifierIndex, 1);
                 break;
             case 'bodyPoints':
                 modifierIndex = character.bodyPointsBucket.findIndex(modifier => modifier.origin === item.name);
@@ -1306,7 +1330,7 @@ function removeItemFromBucket(character, item) {
                     console.log('Can\'t find item to remove from body points bucket.');
                     return;
                 }
-                character.bodyPointsBucket.splice(itemIndex, 1);
+                character.bodyPointsBucket.splice(modifierIndex, 1);
                 break;
             case 'mindPoints':
                 modifierIndex = character.mindPointsBucket.findIndex(modifier => modifier.origin === item.name);
@@ -1314,7 +1338,7 @@ function removeItemFromBucket(character, item) {
                     console.log('Can\'t find item to remove from mind points bucket.');
                     return;
                 }
-                character.mindPointsBucket.splice(itemIndex, 1);
+                character.mindPointsBucket.splice(modifierIndex, 1);
                 break;
             case 'redDice':
                 console.log('Player can only use 2 red dice to move.');
