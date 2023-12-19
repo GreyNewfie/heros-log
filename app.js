@@ -704,9 +704,10 @@ function checkAndRemoveItemModifiers(characterId, item) {
                 break;
             case 'defendDice':
                 const defendDice = document.getElementById(`defend-dice-${characterId}`);
-                defendDice.value = characterPrototype.defendDice
-                character.defendDice = characterPrototype.defendDice;
                 removeItemFromBucket(character, item);
+                const numOfDefendDice = getTotalDefendDiceFromBucket(character);
+                character.defendDice = numOfDefendDice;
+                defendDice.value = character.defendDice;
                 break;
             case 'bodyPoints':
                 const bodyPoints = document.getElementById(`body-${characterId}`);
@@ -763,7 +764,7 @@ function addToDiceOrPointsBucket(characterId, item) {
         case 'defendDice':
             const defendDiceModifier = createDefendDiceModifier(item);
             character.defendDiceBucket.push(defendDiceModifier);
-            const numOfDefendDice = getTotalDefendDiceWithModifiers(character)
+            const numOfDefendDice = getTotalDefendDiceFromBucket(character)
             character.defendDice = numOfDefendDice;
             const defendDice = document.getElementById(`defend-dice-${characterId}`);
             defendDice.value = character.defendDice;
@@ -1244,7 +1245,7 @@ function getSelectedItemNames() {
     return selectedItems;
 }
 
-function getTotalDefendDiceWithModifiers(character) {
+function getTotalDefendDiceFromBucket(character) {
     const defendDiceModifiers = character.defendDiceBucket;
     let numOfDefendDice = 0;
 
