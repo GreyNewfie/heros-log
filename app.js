@@ -665,8 +665,6 @@ function checkAndAddItemModifiers(characterId, item) {
     for (const modifier in item.modifiers) {
         switch (modifier) {
             case 'attackDice':
-                // Update attack dice input
-                // Update character's stored attack dice
                 addToDiceOrPointsBucket(characterId, item);
                 break;
             case 'defendDice':
@@ -917,8 +915,6 @@ function checkCharacterItemsCompatibility(characterId) {
     }
 
     const equippedItems = getCharacterEquippedItems(characterId);
-    // const characterItems = items.filter(item => itemsByName.includes(item.name));
-    // const equippedItemsById = equippedItems.map(equippedItem => equippedItem.id);
     const characterItems = weaponsAndArmor.concat(potionsAndItems); 
     const incompatibleItems = [];
 
