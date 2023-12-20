@@ -674,7 +674,7 @@ function checkAndAddItemModifiers(characterId, item) {
                 addToDiceOrPointsBucket(characterId, item);
                 break;
             case 'mindPoints':
-                console.log(`${modifier}: ${item.modifiers[modifier]}`);
+                addToDiceOrPointsBucket(characterId, item);
                 break;
             case 'redDice':
                 console.log(`${modifier}: ${item.modifiers[modifier]}`);
@@ -715,10 +715,11 @@ function checkAndRemoveItemModifiers(characterId, item) {
                 startBodyPoints.value = character.startBodyPts;
                 break;
             case 'mindPoints':
-                const mindPoints = document.getElementById(`mind-${characterId}`);
-                mindPoints.value = characterPrototype.startMindPts;
-                character.startBodyPts = characterPrototype.startBodyPts;
+                const startMindPoints = document.getElementById(`mind-${characterId}`);
                 removeItemFromBucket(character, item);
+                const numOfMindPoints = getTotalMindPointsFromBucket(character);
+                character.startMindPts = numOfMindPoints;
+                startMindPoints.value = character.startMindPts;
                 break;
             case 'redDice':
                 console.log(`${modifier}: ${item.modifiers[modifier]}`);
@@ -771,16 +772,18 @@ function addToDiceOrPointsBucket(characterId, item) {
         case 'bodyPoints':
             const bodyPointsModifier = createBodyPointsModifier(item);
             character.bodyPointsBucket.push(bodyPointsModifier);
-            const numOfMindPoints = getTotalBodyPointsFromBucket(character);
-            character.bodyPts = numOfMindPoints;
+            const numOfBodyPoints = getTotalBodyPointsFromBucket(character);
+            character.bodyPts = numOfBodyPoints;
             const bodyPoints = document.getElementById(`body-${characterId}`);
             bodyPoints.value = character.bodyPts;
             break;
         case 'mindPoints':
             const mindPointsModifier = createMindPointsModifier(item);
             character.mindPointsBucket.push(mindPointsModifier);
+            const numOfMindPoints = getTotalMindPointsFromBucket(character);
+            character.mindPts = numOfMindPoints;
             const mindPoints = document.getElementById(`mind-${characterId}`);
-            mindPoints.value = mindPointsModifier['mindPoints'];
+            mindPoints.value = character.mindPts;
         }
     }
 
@@ -1258,6 +1261,15 @@ function getTotalBodyPointsFromBucket(character) {
     let numOfBodyPoints = 0
 
     bodyPointsModifiers.forEach(modifier => numOfBodyPoints += modifier.bodyPoints);
+
+    return numOfBodyPoints;
+}
+
+function getTotalMindPointsFromBucket(character) {
+    const mindPointsModifiers = character.mindPointsBucket;
+    let numOfBodyPoints = 0;
+
+    mindPointsModifiers.forEach(modifier => numOfBodyPoints += modifier.mindPoints);
 
     return numOfBodyPoints;
 }
