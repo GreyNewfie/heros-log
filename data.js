@@ -46,7 +46,7 @@ const heroTypes= [
         startBodyPts: 8,
         startMindPts: 2,
         movement: 2,
-        startingWeapon: 'Broadsword',
+        startingWeapon: 'broadsword',
         startingArmor: 'none'
     },
     {
@@ -448,7 +448,7 @@ const items = [
         image: 'item-chain-mail-132x100.png',
         imageDescription: 'A soldier wearing chain body armor',
         equippedLocation: 'body',
-        incompatiabilities: ['wizard'],
+        incompatibilities: ['wizard'],
         modifiers: {
             defendDice: 1
         }

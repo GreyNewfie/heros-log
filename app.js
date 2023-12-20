@@ -35,6 +35,9 @@ const characterSheet = (character) => {
         //Character type select
         const characterTypeDiv = document.createElement('div');
         createCharacterTypeUi(characterTypeDiv, uniqueId);
+
+        // Automatically Update Character Statistics UI
+        const characterAutoUpdateUi = createAutoUpdateInitialStatsUI(uniqueId);
     
         //Character buttons div
         const characterButtonsDiv = document.createElement('div');
@@ -47,12 +50,14 @@ const characterSheet = (character) => {
         characterSaveSpan.append('Save');
         characterSaveBtn.append(characterSaveSpan);
         characterSaveBtn.addEventListener('click', (event) => {
+            const character = getStoredCharacter(uniqueId);
             if (!character) {
                 character = createNewCharacter();
+                checkCharacterItemsCompatibility(uniqueId);
             }
-            if (isCurrentCharacter(characters, character)) {
-                const storedCharacter = getExistingCharacter(characters, character);
-                updateCharacter(storedCharacter, character.characterId);
+            if (isCurrentCharacter(character)) {
+                // const storedCharacter = getStoredCharacter(uniqueId);
+                updateCharacter(character, character.characterId);
             } else {
                 addCharacter(character);
             }
@@ -65,7 +70,7 @@ const characterSheet = (character) => {
         characterKilledSpan.setAttribute('class', 'material-symbols-outlined');
         characterKilledSpan.append('skull');
         characterKilledBtn.append(characterKilledSpan);
-        characterKilledBtn.addEventListener('click', (event) => characterDeath(event, characters, character));
+        characterKilledBtn.addEventListener('click', (event) => characterDeath(event, character));
     
         characterButtonsDiv.append(characterSaveBtn, characterKilledBtn);
     
@@ -131,7 +136,7 @@ const characterSheet = (character) => {
         initialStatsDiv.append(attackDiceUi, defendDiceUi, startingPointsDiv);
         currentStatsTrackerDiv.append(bodyPtsUi, goldCoinsUi);
 
-        characterSheetDiv.append(CharacterNameTypeDiv, characterButtonsDiv, initialStatsDiv, currentStatsTrackerDiv, equippedItemsSection, WeaponsArmorItemsContainer);
+        characterSheetDiv.append(CharacterNameTypeDiv, characterAutoUpdateUi, characterButtonsDiv, initialStatsDiv, currentStatsTrackerDiv, equippedItemsSection, WeaponsArmorItemsContainer);
         
         // Postions the Add Character sheet after character Sheets
         const createCharacterSheet = document.getElementById('create-character-sheet');
@@ -163,15 +168,7 @@ const characterSheet = (character) => {
     }
 
     function getWeaponsAndArmor(characterId) {
-        return `character-${characterId}-weapons-armor`
-    }
-
-    function getWeapons(characterId) {
-        return `character-${characterId}-weapons`;
-    }
-
-    function getArmor(characterId) {
-        return `character-${characterId}-armor`;
+        return `character-${characterId}-weapons-armor`;
     }
 
     function getCurrentBodyPoints(characterId) {
@@ -179,7 +176,7 @@ const characterSheet = (character) => {
     }
 
     function getCurrentGoldCoins(characterId) {
-        return `gold-coins-${characterId}`
+        return `gold-coins-${characterId}`;
     }
 
     function getPotionsAndItems(characterId) {
@@ -187,7 +184,7 @@ const characterSheet = (character) => {
     }
 
     function getEquippedItems(characterId) {
-        return `character-${characterId}-equipped-items-section`
+        return `character-${characterId}-equipped-items-section`;
     }
 
     const createNewCharacter = () => {
@@ -204,20 +201,26 @@ const characterSheet = (character) => {
         const curGoldCoins = document.getElementById(getCurrentGoldCoins(uniqueId));
         const potionsItemsList = document.getElementById(getPotionsAndItems(uniqueId)).querySelectorAll('li');
         const equippedItemsImages = document.getElementById(getEquippedItems(uniqueId)).querySelectorAll('.item-image');
+        const autoUpdateBtnStatus = getAutoUpdateButtonStatus(uniqueId);
 
         this.name = nameInput.value;
         this.type = typeSelect.value;
         this.attackDice = attDice.value;
+        this.attackDiceBucket = [];
         this.defendDice = defDice.value;
+        this.defendDiceBucket = [];
         this.startBodyPts = startBodyPtsInput.value;
+        this.bodyPointsBucket = [];
         this.startMindPts = startMindPtsInput.value;
+        this.mindPointsBucket = [];
         this.weaponsAndArmor = createCharacterItemsList(weaponsAndArmorList);
         this.bodyPts = curBodyPts.value;
         this.goldCoins = curGoldCoins.value;
         this.potionsAndItems = createCharacterItemsList(potionsItemsList);
         this.equippedItems = createEquippedItemsList(equippedItemsImages);
-
-        return({characterId, name, type, attackDice, defendDice, startBodyPts, startMindPts, bodyPts, goldCoins, weaponsAndArmor, potionsAndItems, equippedItems});
+        this.autoUpdateStatus = autoUpdateBtnStatus;
+    
+        return({characterId, name, type, attackDice, attackDiceBucket, defendDice, defendDiceBucket, startBodyPts, bodyPointsBucket, startMindPts, mindPointsBucket, bodyPts, goldCoins, weaponsAndArmor, potionsAndItems, equippedItems, autoUpdateStatus});
     }
 
     function createExistingCharacter(character) {
@@ -233,7 +236,7 @@ const characterSheet = (character) => {
         const potionsItemsList= document.getElementById(getPotionsAndItems(character.characterId));
 
         nameInput.value = character.name;
-        typeSelect.value = character.type;
+        typeSelect.value = character.heroPrototype.id;
         attDice.value = character.attackDice;
         defDice.value = character.defendDice;
         startBodyPts.value = character.startBodyPts;
@@ -243,6 +246,7 @@ const characterSheet = (character) => {
         curGoldCoins.value = character.goldCoins;
         addItemsListToCharacter(potionsItemsList, character.potionsAndItems);
         displayEquippedItems(character.equippedItems, uniqueId);
+        updateAutoUpdateBtnStatus(character.characterId, character.autoUpdateStatus);
     }
 
     function updateCharacter(storedCharacter, characterId) {
@@ -257,21 +261,45 @@ const characterSheet = (character) => {
         const potionsItemsList = document.getElementById(getPotionsAndItems(characterId)).querySelectorAll('li');
         const nameInput = document.getElementById(getCharacterName(characterId));
         const equippedItemsImages = document.getElementById(getEquippedItems(uniqueId)).querySelectorAll('.item-image');
+        const autoUpdateBtnStatus = getAutoUpdateButtonStatus(uniqueId);
 
         storedCharacter.type = typeSelect.value;
-        storedCharacter.attackDice = attDiceSel.value;
-        storedCharacter.defendDice = defDiceSel.value;
-        storedCharacter.startBodyPts = startBodyPtsInput.value;
-        storedCharacter.startMindPts = startMindPtsInput.value;
+        storedCharacter.attackDice = parseInt(attDiceSel.value);
+        storedCharacter.defendDice = parseInt(defDiceSel.value);
+        storedCharacter.startBodyPts = parseInt(startBodyPtsInput.value);
+        storedCharacter.startMindPts = parseInt(startMindPtsInput.value);
         storedCharacter.weaponsAndArmor = createCharacterItemsList(weaponsAndArmorList);
-        storedCharacter.bodyPts = curBodyPtsInput.value;
-        storedCharacter.goldCoins = curGoldCoins.value;
+        storedCharacter.bodyPts = parseInt(curBodyPtsInput.value);
+        storedCharacter.goldCoins = parseInt(curGoldCoins.value);
         storedCharacter.potionsAndItems = createCharacterItemsList(potionsItemsList);
         storedCharacter.name = nameInput.value;
         storedCharacter.equippedItems = createEquippedItemsList(equippedItemsImages);
+        storedCharacter.autoUpdateStatus = autoUpdateBtnStatus;
 
-        storeCharacters(characters);
+        storeCharacter(storedCharacter);
     }
+}
+
+function createAutoUpdateInitialStatsUI(characterId) {
+    const autoUpdateUiContainer = document.createElement('div');
+    autoUpdateUiContainer.setAttribute('class', 'auto-update-ui-container')
+
+    const autoUpdateBtnLabel = document.createElement('label');
+    autoUpdateBtnLabel.setAttribute('for', `character-${characterId}-auto-update-btn`);
+    autoUpdateBtnLabel.textContent = 'Automatically Update Dice & Points';
+    autoUpdateUiContainer.appendChild(autoUpdateBtnLabel);
+
+    const autoUpdateCheckbox = document.createElement('input');
+    autoUpdateCheckbox.setAttribute('type', 'checkbox');
+    autoUpdateCheckbox.setAttribute('id', `character-${characterId}-auto-update-btn`);
+    autoUpdateCheckbox.setAttribute('class', 'toggle');
+    autoUpdateBtnLabel.appendChild(autoUpdateCheckbox);
+
+    const autoUpdateSlider = document.createElement('span');
+    autoUpdateSlider.setAttribute('class', 'slider');
+    autoUpdateBtnLabel.appendChild(autoUpdateSlider);
+
+    return autoUpdateUiContainer;
 }
 
 function createCharacterTypeUi(container, uniqueId) {
@@ -288,7 +316,9 @@ function createCharacterTypeUi(container, uniqueId) {
     characterTypeSelect.addEventListener('change', (event) => {
         const heroTypeId = event.target.value;
         const characterId = uniqueId;
-        setInitialStats(heroTypeId, characterId);
+        const character = createInitialCharacter(uniqueId);
+        storeCharacter(character);
+        // setInitialStats(heroTypeId, characterId);
     });
 }
 
@@ -510,7 +540,6 @@ function createSelectItemsModalUi(listElement, itemFilters) {
     submitItems.addEventListener('click', event => {
         modal.close();
         const selectedItemNames = getSelectedItemNames();
-        // const selectedItems = items.map()
         addItemsListToCharacter(listElement, selectedItemNames);
         clearModal(modal);
     });
@@ -594,11 +623,13 @@ function addItemsListToCharacter(element, itemsListByName) {
     });    
 }
 
-function characterDeath(event, characters, character) {
+function characterDeath(event, character) {
     if (confirm("Are you sure you want to kill your character?")){
         const targetCharSheet = event.target.parentNode.parentNode.parentNode;
         targetCharSheet.remove();
-        const index = getCharacterIndex(characters, character.characterId);
+
+        const index = getCharacterIndex(character.characterId);
+        const characters = getCharacters();
         characters.splice(index, 1);
         storeCharacters(characters);
     }
@@ -619,6 +650,260 @@ function checkItemCompatibility(characterId, item) {
     }
 }
 
+function checkAndAddItemModifiers(characterId, item) {
+    if(checkItemCompatibility(characterId, item) === 'incompatible') {
+        console.log('Item modifiers weren\'t added because item is incompatible.');
+        return;
+    }
+
+    const autoUpdateChecked = document.getElementById(`character-${characterId}-auto-update-btn`).checked;
+    
+    if (!autoUpdateChecked || !item.modifiers) {
+        return;
+    }
+
+    for (const modifier in item.modifiers) {
+        switch (modifier) {
+            case 'attackDice':
+                addToDiceOrPointsBucket(characterId, item);
+                break;
+            case 'defendDice':
+                addToDiceOrPointsBucket(characterId, item);
+                break;
+            case 'bodyPoints':
+                addToDiceOrPointsBucket(characterId, item);
+                break;
+            case 'mindPoints':
+                addToDiceOrPointsBucket(characterId, item);
+                break;
+            case 'redDice':
+                console.log(`${modifier}: ${item.modifiers[modifier]}`);
+                break;
+            }
+
+    }
+}
+
+function checkAndRemoveItemModifiers(characterId, item) {
+    if (!item.modifiers) {
+        return;
+    }
+
+    const character = getStoredCharacter(characterId);
+    const characterPrototype = heroTypes.find(type => type.id === character.type); 
+
+    for (const modifier in item.modifiers) {
+        switch (modifier) {
+            case 'attackDice':
+                const attackDice = document.getElementById(`attack-dice-${characterId}`);
+                attackDice.value = character.heroPrototype.attackDice;
+                character.attackDice = character.heroPrototype.attackDice;
+                removeItemFromBucket(character, item);
+                break;
+            case 'defendDice':
+                const defendDice = document.getElementById(`defend-dice-${characterId}`);
+                removeItemFromBucket(character, item);
+                const numOfDefendDice = getTotalDefendDiceFromBucket(character);
+                character.defendDice = numOfDefendDice;
+                defendDice.value = character.defendDice;
+                break;
+            case 'bodyPoints':
+                const startBodyPoints = document.getElementById(`body-${characterId}`);
+                removeItemFromBucket(character, item);
+                const numOfBodyPoints = getTotalBodyPointsFromBucket(character);
+                character.startBodyPts = numOfBodyPoints;
+                startBodyPoints.value = character.startBodyPts;
+                break;
+            case 'mindPoints':
+                const startMindPoints = document.getElementById(`mind-${characterId}`);
+                removeItemFromBucket(character, item);
+                const numOfMindPoints = getTotalMindPointsFromBucket(character);
+                character.startMindPts = numOfMindPoints;
+                startMindPoints.value = character.startMindPts;
+                break;
+            case 'redDice':
+                console.log(`${modifier}: ${item.modifiers[modifier]}`);
+                break;
+        }
+    }
+}
+
+function addToAttackDiceBucket(characterId, item) {
+    const attackDiceModifier = {
+        'origin': item.name,
+        'attackDice': item.modifiers.attackDice
+    }
+
+    const character = getStoredCharacter(characterId);
+    
+    if (!character) {
+        console.log("Unable to get character to add a to attackDiceBucket");
+        return;
+    }
+
+    character['attackDiceBucket'] = [attackDiceModifier];
+
+    const attackDice = document.getElementById(`attack-dice-${characterId}`);
+    attackDice.value = attackDiceModifier['attackDice'];
+
+    storeCharacter(character);
+}
+
+function addToDiceOrPointsBucket(characterId, item) {
+    let character = getStoredCharacter(characterId);
+
+    for (const modifier in item.modifiers) {
+        switch (modifier) {
+            case 'attackDice':
+            const attackDiceModifier = createAttackDiceModifier(item);
+            character.attackDiceBucket.push(attackDiceModifier);
+            const attackDice = document.getElementById(`attack-dice-${characterId}`);
+            attackDice.value = attackDiceModifier['attackDice'];
+            character.attackDice = attackDiceModifier['attackDice'];
+            break;
+        case 'defendDice':
+            const defendDiceModifier = createDefendDiceModifier(item);
+            character.defendDiceBucket.push(defendDiceModifier);
+            const numOfDefendDice = getTotalDefendDiceFromBucket(character)
+            character.defendDice = numOfDefendDice;
+            const defendDice = document.getElementById(`defend-dice-${characterId}`);
+            defendDice.value = character.defendDice;
+            break;
+        case 'bodyPoints':
+            const bodyPointsModifier = createBodyPointsModifier(item);
+            character.bodyPointsBucket.push(bodyPointsModifier);
+            const numOfBodyPoints = getTotalBodyPointsFromBucket(character);
+            character.bodyPts = numOfBodyPoints;
+            const bodyPoints = document.getElementById(`body-${characterId}`);
+            bodyPoints.value = character.bodyPts;
+            break;
+        case 'mindPoints':
+            const mindPointsModifier = createMindPointsModifier(item);
+            character.mindPointsBucket.push(mindPointsModifier);
+            const numOfMindPoints = getTotalMindPointsFromBucket(character);
+            character.mindPts = numOfMindPoints;
+            const mindPoints = document.getElementById(`mind-${characterId}`);
+            mindPoints.value = character.mindPts;
+        }
+    }
+
+    storeCharacter(character);
+}
+
+function addHeroTypeStatsToCharacter(character) {
+    
+    const attackDiceModifier = {
+        'origin': 'character',
+        'attackDice': character.heroPrototype.attackDice
+    }
+
+    const defendDiceModifier = {
+        'origin': 'character',
+        'defendDice': character.heroPrototype.defendDice
+    }
+    const bodyPointsModifier = {
+        'origin': 'character',
+        'bodyPoints': character.heroPrototype.startBodyPts
+    }
+
+    const mindPointsModifier = {
+        'origin': 'character',
+        'mindPoints': character.heroPrototype.startMindPts
+    }
+
+    character.attackDiceBucket.push(attackDiceModifier);
+    character.defendDiceBucket.push(defendDiceModifier);
+    character.bodyPointsBucket.push(bodyPointsModifier);
+    character.mindPointsBucket.push(mindPointsModifier);
+
+    const attackDice = document.getElementById(`attack-dice-${character.characterId}`);
+    attackDice.value = character.heroPrototype.attackDice;
+
+    const defendDice = document.getElementById(`defend-dice-${character.characterId}`);
+    defendDice.value = character.heroPrototype.defendDice;
+
+    const bodyPoints = document.getElementById(`body-${character.characterId}`);
+    bodyPoints.value = character.heroPrototype.startBodyPts;
+
+    const mindPoints = document.getElementById(`mind-${character.characterId}`);
+    mindPoints.value = character.heroPrototype.startMindPts;
+
+    storeCharacter(character);
+}
+
+function createInitialCharacter(characterId) {
+    const nameInput = document.getElementById(`character-name-${characterId}`);
+    const typeSelect = document.getElementById(`character-${characterId}-type`);
+    const weaponsAndArmorList = document.getElementById(`character-${characterId}-weapons-armor`).querySelectorAll('li');
+    const curBodyPts = document.getElementById(`body-points-${characterId}`);
+    const curGoldCoins = document.getElementById(`gold-coins-${characterId}`);
+    const potionsItemsList = document.getElementById(`character-${characterId}-potions-items`).querySelectorAll('li');
+    const equippedItemsImages = document.getElementById(`character-${characterId}-equipped-items-section`).querySelectorAll('.item-image');
+    const autoUpdateBtnStatus = getAutoUpdateButtonStatus(characterId);
+
+    const heroType = heroTypes.find(type => type.id === typeSelect.value);
+
+    this.name = nameInput.value;
+    this.type = heroType.value;
+    /************** THIS COULD CAUSE ISSUES, NEED TO REMOVE IF NOT USED ***************/
+    this.heroPrototype = heroType;
+    this.attackDice = heroType.attackDice;
+    this.attackDiceBucket = [];
+    this.defendDice = heroType.defendDice;
+    this.defendDiceBucket = [];
+    this.startBodyPts = heroType.startBodyPts;
+    this.bodyPointsBucket = [];
+    this.startMindPts = heroType.startMindPts;
+    this.mindPointsBucket = [];
+    this.weaponsAndArmor = createCharacterItemsList(weaponsAndArmorList);
+    this.bodyPts = curBodyPts.value;
+    this.goldCoins = curGoldCoins.value;
+    this.potionsAndItems = createCharacterItemsList(potionsItemsList);
+    this.equippedItems = createEquippedItemsList(equippedItemsImages);
+    this.autoUpdateStatus = autoUpdateBtnStatus;
+
+    const newCharacter = {characterId, name, type, heroPrototype, attackDice, attackDiceBucket, defendDice, defendDiceBucket, startBodyPts, bodyPointsBucket, startMindPts, mindPointsBucket, bodyPts, goldCoins, weaponsAndArmor, potionsAndItems, equippedItems, autoUpdateStatus};
+    addHeroTypeStatsToCharacter(newCharacter);
+
+    return newCharacter;
+}
+
+function createAttackDiceModifier(item) {
+    const statModifier = {
+        'origin': item.name,
+        'attackDice': item.modifiers.attackDice
+    }
+
+    return statModifier;
+}
+
+function createDefendDiceModifier(item) {
+    const statModifier = {
+        'origin': item.name,
+        'defendDice': item.modifiers.defendDice
+    }
+
+    return statModifier;
+}
+
+function createBodyPointsModifier(item) {
+    const statModifier = {
+        'origin': item.name,
+        'bodyPoints': item.modifiers.bodyPoints
+    }
+
+    return statModifier;
+}
+
+function createMindPointsModifier(item) {
+    const statModifier = {
+        'origin': item.name,
+        'mindPoints': item.modifiers.mindPoints
+    }
+
+    return statModifier;
+}
+
 function checkCharacterItemsCompatibility(characterId) {
     const storedCharacter = getStoredCharacter(characterId);
 
@@ -633,8 +918,6 @@ function checkCharacterItemsCompatibility(characterId) {
     }
 
     const equippedItems = getCharacterEquippedItems(characterId);
-    // const characterItems = items.filter(item => itemsByName.includes(item.name));
-    // const equippedItemsById = equippedItems.map(equippedItem => equippedItem.id);
     const characterItems = weaponsAndArmor.concat(potionsAndItems); 
     const incompatibleItems = [];
 
@@ -671,6 +954,11 @@ function createCharacterItemsList(nodeList) {
     return characterItems;
 }
 
+function checkIfEquippedLocationTaken(characterId, item) {
+    const containerToCheck = document.getElementById(`character-${characterId}-${item.equippedLocation}-container`);
+    return containerToCheck?.querySelector('.item-image');
+}
+
 function createEquipUnequipOrConsumeBtn(characterId, item) {
     const currentCharacter = getStoredCharacter(characterId);
     const equippedItem = currentCharacter?.equippedItems?.find(equippedItem => equippedItem.id === item.id); 
@@ -684,6 +972,7 @@ function createEquipUnequipOrConsumeBtn(characterId, item) {
         equipItemBtn.addEventListener('click', () => {
             if (!checkIfEquippedLocationTaken(characterId, item)) {
                 equipItem(characterId, item);
+                checkAndAddItemModifiers(characterId, item);
                 checkCharacterItemsCompatibility(characterId);
                 modal.close();
                 clearModal(modal);    
@@ -713,11 +1002,7 @@ function createEquipUnequipOrConsumeBtn(characterId, item) {
                 consumeItemBtn.textContent = 'Consume';
         }
 
-        // item.name === 'Holy Water' ? consumeItemBtn.textContent = 'Use' : consumeItemBtn.textContent = 'Consume';
-
         consumeItemBtn.addEventListener('click', () => {
-            // const consumedItemElement = document.getElementById(`character-${characterId}-${item.id}`).parentNode;
-            // consumedItemElement.remove();
             removeItemFromCharacter(characterId, item);
             modal.close();
             clearModal(modal);
@@ -853,6 +1138,7 @@ function equipItem(characterId, item) {
             });
             headContainer.appendChild(headItemImage);
             storeEquippedItemToCharacter(characterId, item);
+            checkCharacterItemsCompatibility(characterId);
             break;
         case 'body':
             const bodyContainer = document.getElementById(`character-${characterId}-body-container`);
@@ -862,6 +1148,7 @@ function equipItem(characterId, item) {
             });
             bodyContainer.appendChild(bodyItemImage);
             storeEquippedItemToCharacter(characterId, item);
+            checkCharacterItemsCompatibility(characterId);
             break;
         case 'left-hand':
             const leftHandContainer = document.getElementById(`character-${characterId}-left-hand-container`);
@@ -871,6 +1158,7 @@ function equipItem(characterId, item) {
             });
             leftHandContainer.appendChild(leftHandItemImage);
             storeEquippedItemToCharacter(characterId, item);
+            checkCharacterItemsCompatibility(characterId);
             break;
         case 'right-hand':
             const rightHandContainer = document.getElementById(`character-${characterId}-right-hand-container`);
@@ -880,6 +1168,7 @@ function equipItem(characterId, item) {
             });
             rightHandContainer.appendChild(rightHandItemImage);
             storeEquippedItemToCharacter(characterId, item);
+            checkCharacterItemsCompatibility(characterId);
             break;
         case 'extra':
             if (!document.querySelector(`#character-${characterId}-extra-1-container img`)) {
@@ -915,8 +1204,9 @@ function findItemWithName(itemName) {
     return foundItem;
 }
 
-function getCharacterIndex(characters, characterId) {
-    return characters.findIndex((character) => character.characterId === characterId);
+function getCharacterIndex(characterId) {
+    const characters = getCharacters();
+    return characters.findIndex((character) => character.characterId === parseInt(characterId));
 }
 
 function getCharacterEquippedItems(characterId) {
@@ -926,28 +1216,26 @@ function getCharacterEquippedItems(characterId) {
     const equippedItemsImages = document.getElementById(`character-${characterId}-equipped-items-section`).querySelectorAll('.item-image');
     const displayedEquippedItems = createEquippedItemsList(equippedItemsImages);
 
-    if (storedEquippedItems || displayedEquippedItems) {
-        return displayedEquippedItems.length > 0 ? displayedEquippedItems : storedEquippedItems; 
+    if (storedEquippedItems) {
+        return storedEquippedItems; 
     } else {
-        return [];
+        return displayedEquippedItems.length > 0 ? displayedEquippedItems : [];
     }
 }
 
-function getExistingCharacter(characters, character) {
-    const characterId = character.characterId;
-    return foundCharacter = characters.find(character => {
-        return character.characterId === characterId;
-    });
+function getAutoUpdateButtonStatus(characterId) {
+    const autoUpdateBtn = document.getElementById(`character-${characterId}-auto-update-btn`);
+    return autoUpdateBtn.checked;
 }
 
 function getPotionsAndItems(characterId) {
     const potionsAndItemsElements = document.getElementById(`character-${characterId}-potions-items`).querySelectorAll('li');
-    const potionsAndItems = potionsAndItemsElements.map(element => findItemWithId(element.dataset.characterItemId));
+    const potionsAndItems = [...potionsAndItemsElements].map(element => findItemWithId(element.dataset.characterItemId));
     return potionsAndItems;
 }
 
 function getSelectedItemNames() {
-    const itemsList = document.querySelectorAll('input[type=checkbox]');
+    const itemsList = document.querySelectorAll('#choose-items input[type=checkbox]');
     const selectedItems = [];
 
     itemsList.forEach(item => {
@@ -959,9 +1247,36 @@ function getSelectedItemNames() {
     return selectedItems;
 }
 
+function getTotalDefendDiceFromBucket(character) {
+    const defendDiceModifiers = character.defendDiceBucket;
+    let numOfDefendDice = 0;
+
+    defendDiceModifiers.forEach(modifier => numOfDefendDice += modifier.defendDice);
+
+    return numOfDefendDice;
+}
+
+function getTotalBodyPointsFromBucket(character) {
+    const bodyPointsModifiers = character.bodyPointsBucket;
+    let numOfBodyPoints = 0
+
+    bodyPointsModifiers.forEach(modifier => numOfBodyPoints += modifier.bodyPoints);
+
+    return numOfBodyPoints;
+}
+
+function getTotalMindPointsFromBucket(character) {
+    const mindPointsModifiers = character.mindPointsBucket;
+    let numOfBodyPoints = 0;
+
+    mindPointsModifiers.forEach(modifier => numOfBodyPoints += modifier.mindPoints);
+
+    return numOfBodyPoints;
+}
+
 function getWeaponsAndArmor(characterId) {
-    const weaponsAndArmorElements = document.getElementById(`character-${characterId}-weaqpons-armor`).querySelectorAll('li');
-    const weaponsAndArmor = weaponsAndArmorElements.map(element => findItemWithId(element.dataset.characterItemId));
+    const weaponsAndArmorElements = document.getElementById(`character-${characterId}-weapons-armor`).querySelectorAll('li');
+    const weaponsAndArmor = [...weaponsAndArmorElements].map(element => findItemWithId(element.dataset.characterItemId));
     return weaponsAndArmor;
 }
 
@@ -970,8 +1285,9 @@ function increaseNumber(element, maxNum) {
     return element.value = currentNum < maxNum || !maxNum ? currentNum + 1 : currentNum;
 }
 
-function isCurrentCharacter(characters, { characterId }) {
-    return characters.some(character => character.characterId === characterId);
+function isCurrentCharacter(character) {
+    const characters = getCharacters();
+    return characters.some(storedCharacter => storedCharacter.characterId === character.characterId);
 }
 
 function isEquippedItemDisplayed(characterId, item) {
@@ -988,11 +1304,6 @@ function isEquippedItemDisplayed(characterId, item) {
         foundItem = equippedItemContainer?.querySelector(`#character-${characterId}-${item.id}`); 
         return foundItem ? true : false;   
     }
-}
-
-function checkIfEquippedLocationTaken(characterId, item) {
-    const containerToCheck = document.getElementById(`character-${characterId}-${item.equippedLocation}-container`);
-    return containerToCheck?.querySelector('.item-image');
 }
 
 function isExtraItemContainerAvailable(characterId, item) {
@@ -1012,19 +1323,52 @@ function isItemEquipped(characterId, item) {
     return itemIsEquipped ? true : false;
 }
 
-// function removeItem(itemsList, itemId) {
-//     const [,characterId] = (itemsList.id).split('-');
-//     const characterItemsElements = itemsList.childNodes;
-//     characterItemsElements.forEach(element => {
-//         const characterItemId = element.dataset.characterItemId;
-//         const characterItemName = (element.textContent).slice(0,-1);
-//         if (characterItemId === itemId) {
-//             // Do I want the item removed from storage before user saves character?
-//             // removeStoredCharacterWeapon(characterId, characterItemName);
-//             element.remove();
-//         }
-//     });
-// }
+function removeItemFromBucket(character, item) {
+    const modifiers = item.modifiers;
+    let modifierIndex = '';
+
+    for (const statToModify in modifiers) {
+        switch (statToModify) {
+            case 'attackDice':
+                modifierIndex = character.attackDiceBucket.findIndex(modifier => modifier.origin === item.name); 
+                if (modifierIndex === -1) {
+                    console.log('Can\'t find item to remove from attackDiceBucket.');
+                    return;
+                }
+                character.attackDiceBucket.splice(modifierIndex, 1);
+                break;
+            case 'defendDice':
+                modifierIndex = character.defendDiceBucket.findIndex(modifier => modifier.origin === item.name);
+                if (modifierIndex === -1) {
+                    console.log('Can\'t find item to remove from defend dice bucket.');
+                    return;
+                }
+                character.defendDiceBucket.splice(modifierIndex, 1);
+                break;
+            case 'bodyPoints':
+                modifierIndex = character.bodyPointsBucket.findIndex(modifier => modifier.origin === item.name);
+                if (modifierIndex === -1) {
+                    console.log('Can\'t find item to remove from body points bucket.');
+                    return;
+                }
+                character.bodyPointsBucket.splice(modifierIndex, 1);
+                break;
+            case 'mindPoints':
+                modifierIndex = character.mindPointsBucket.findIndex(modifier => modifier.origin === item.name);
+                if (modifierIndex === -1) {
+                    console.log('Can\'t find item to remove from mind points bucket.');
+                    return;
+                }
+                character.mindPointsBucket.splice(modifierIndex, 1);
+                break;
+            case 'redDice':
+                console.log('Player can only use 2 red dice to move.');
+                break;
+        }
+    }
+
+    storeCharacter(character);
+}
 
 function removeItemFromCharacter(characterId, item) {
     if(isItemEquipped(characterId, item)) {
@@ -1032,18 +1376,16 @@ function removeItemFromCharacter(characterId, item) {
         return;
     }
 
-    // Remove item from list of items
     const itemElementToRemove = document.querySelector(`.equippable-item#character-${characterId}-${item.id}`).parentNode;
     itemElementToRemove.remove();
     
-    // Get character
     const characters = getCharacters();
     const character = characters.find(character => character.characterId === parseInt(characterId));
     if (!character) {
         console.log('Function removeItemFromCharacter didn\'t find a character to remove item from.');
         return;
     }
-    // Remove item from stored items
+
     if (character.weaponsAndArmor.find(weaponOrArmor => weaponOrArmor.name === item.name)) {
         const index = character.weaponsAndArmor.indexOf(item);
         character.weaponsAndArmor.splice(index, 1);
@@ -1053,9 +1395,11 @@ function removeItemFromCharacter(characterId, item) {
             character.potionsAndItems.splice(index, 1);
         }
     }
+
     storeCharacters(characters);
 }
 
+/*********** CHECK IS THIS FUNCTION IS STILL BEING USED ***********/
 function setInitialStats(heroTypeId, characterId) {
     const heroType = heroTypes.find(type => type.id === heroTypeId);
 
@@ -1076,11 +1420,18 @@ function unequipItem(characterId, item) {
     const imageToRemove = document.getElementById(`character-${characterId}-${item.id}`);
     imageToRemove.remove();
     removeItemFromEquippedItems(characterId, item);
+    checkAndRemoveItemModifiers(characterId, item);
+    checkCharacterItemsCompatibility(characterId);
+}
+
+function updateAutoUpdateBtnStatus(characterId, boolean) {
+    const autoUpdateBtn = document.getElementById(`character-${characterId}-auto-update-btn`);
+    autoUpdateBtn.checked = boolean;
 }
 
 const displayCharacters = (function () {
     // Initializtion
-    characters = getCharacters();
+    const characters = getCharacters();
     characters.forEach(character => characterSheet(character));
 
     // characters.forEach(character => {
