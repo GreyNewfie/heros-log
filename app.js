@@ -673,7 +673,7 @@ function checkAndAddItemModifiers(characterId, item) {
                 addToDiceOrPointsBucket(characterId, item);
                 break;
             case 'bodyPoints':
-                console.log(`${modifier}: ${item.modifiers[modifier]}`);
+                addToDiceOrPointsBucket(characterId, item);
                 break;
             case 'mindPoints':
                 console.log(`${modifier}: ${item.modifiers[modifier]}`);
@@ -710,10 +710,11 @@ function checkAndRemoveItemModifiers(characterId, item) {
                 defendDice.value = character.defendDice;
                 break;
             case 'bodyPoints':
-                const bodyPoints = document.getElementById(`body-${characterId}`);
-                bodyPoints.value = characterPrototype.startBodyPts;
-                character.startBodyPts = characterPrototype.startBodyPts;
+                const startBodyPoints = document.getElementById(`body-${characterId}`);
                 removeItemFromBucket(character, item);
+                const numOfBodyPoints = getTotalBodyPointsFromBucket(character);
+                character.startBodyPts = numOfBodyPoints;
+                startBodyPoints.value = character.startBodyPts;
                 break;
             case 'mindPoints':
                 const mindPoints = document.getElementById(`mind-${characterId}`);
@@ -772,8 +773,10 @@ function addToDiceOrPointsBucket(characterId, item) {
         case 'bodyPoints':
             const bodyPointsModifier = createBodyPointsModifier(item);
             character.bodyPointsBucket.push(bodyPointsModifier);
+            const numOfMindPoints = getTotalBodyPointsFromBucket(character);
+            character.bodyPts = numOfMindPoints;
             const bodyPoints = document.getElementById(`body-${characterId}`);
-            bodyPoints.value = bodyPointsModifier['bodyPoints'];
+            bodyPoints.value = character.bodyPts;
             break;
         case 'mindPoints':
             const mindPointsModifier = createMindPointsModifier(item);
@@ -1252,6 +1255,15 @@ function getTotalDefendDiceFromBucket(character) {
     defendDiceModifiers.forEach(modifier => numOfDefendDice += modifier.defendDice);
 
     return numOfDefendDice;
+}
+
+function getTotalBodyPointsFromBucket(character) {
+    const bodyPointsModifiers = character.bodyPointsBucket;
+    let numOfBodyPoints = 0
+
+    bodyPointsModifiers.forEach(modifier => numOfBodyPoints += modifier.bodyPoints);
+
+    return numOfBodyPoints;
 }
 
 function getWeaponsAndArmor(characterId) {
