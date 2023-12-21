@@ -1,7 +1,6 @@
 const addCharacterButton = document.getElementById('add-character-button');
 
 addCharacterButton.addEventListener('click', () => {
-    utils.sayHello()
     characterSheet();
 });
 

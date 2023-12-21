@@ -28,7 +28,7 @@ class Utils {
     }
 }
 
-const Utils = new Utils('bob');
+// const Utils = new Utils('bob');
 
 /**
  * Recommendations:
