@@ -1,7 +1,9 @@
 const addCharacterButton = document.getElementById('add-character-button');
 
 addCharacterButton.addEventListener('click', () => {
-    characterSheet();
+    const uniqueId = Date.now();
+    createEnterCharacterNameUi(uniqueId);
+    // characterSheet(character);
 });
 
 
@@ -355,6 +357,42 @@ function createDiceUi(typeOfDice, uniqueId, maxNum) {
     diceContainer.appendChild(diceDiv);
 
     return diceContainer;
+}
+
+function createEnterCharacterNameUi(characterId) {
+    const modal = document.getElementById('modal');
+
+    createCancelModalUi(modal);
+
+    const enterNameContainer = document.createElement('div');
+
+    const enterNameLabel = document.createElement('label');
+    enterNameLabel.setAttribute('for', `character-${characterId}-name`);
+    enterNameLabel.textContent = 'Enter your hero\'s name';
+    enterNameContainer.appendChild(enterNameLabel);
+
+    const enterNameInput = document.createElement('input');
+    enterNameInput.setAttribute('type', 'text');
+    enterNameInput.setAttribute('id', `character-${characterId}-name`);
+    enterNameInput.setAttribute('name', `character-${characterId}-name`);
+    enterNameContainer.appendChild(enterNameInput);
+
+    const doneButton = document.createElement('button');
+    doneButton.textContent = 'Done';
+    doneButton.addEventListener('click', (e) => {
+        const heroName = document.getElementById(`character-${characterId}-name`).value;
+        const character = {
+            'characterId': characterId,
+            'name': heroName
+        };
+        storeCharacter(character);
+        modal.close();
+        clearModal(modal);
+    });
+    enterNameContainer.appendChild(doneButton);
+    modal.appendChild(enterNameContainer);
+
+    modal.showModal();
 }
 
 function createEquippedItemsUi(uniqueId) {
