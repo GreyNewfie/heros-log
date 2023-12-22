@@ -365,6 +365,7 @@ function createEnterCharacterNameUi(characterId) {
     createCancelModalUi(modal);
 
     const enterNameContainer = document.createElement('div');
+    enterNameContainer.setAttribute('class', 'enter-name-input');
 
     const enterNameLabel = document.createElement('label');
     enterNameLabel.setAttribute('for', `character-${characterId}-name`);

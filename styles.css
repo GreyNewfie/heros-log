@@ -58,6 +58,10 @@ header ul {
 /*************************************************/
 /*              CHARACTERS PAGE                  */
 /*************************************************/
+.enter-name-input {
+    display: flex;
+    flex-direction: column;
+}
 
 .character-sheet-container {
     display: flex;
