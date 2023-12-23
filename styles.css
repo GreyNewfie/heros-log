@@ -86,9 +86,19 @@ header ul {
 }
 
 /* Select Character Type Modal */
+.select-hero-type-modal {
+    width: max-content;
+}
+
+.hero-types-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+}
 
 .character-type-card {
-    width: 300px;
+    width: 225px;
 }
 
 .character-type-card:hover {
