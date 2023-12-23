@@ -85,6 +85,16 @@ header ul {
     margin-bottom: 5px;
 }
 
+/* Select Character Type Modal */
+
+.character-type-card {
+    width: 300px;
+}
+
+.character-type-card:hover {
+    border: 2px solid green;
+}
+
 /* Create Automatically Update Stats Toggle Switch */
 .auto-update-ui-container {
     margin-bottom: 5px;

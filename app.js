@@ -376,6 +376,7 @@ function createEnterCharacterNameUi(characterId) {
     enterNameInput.setAttribute('type', 'text');
     enterNameInput.setAttribute('id', `character-${characterId}-name`);
     enterNameInput.setAttribute('name', `character-${characterId}-name`);
+    enterNameInput.setAttribute('autofocus', '');
     enterNameContainer.appendChild(enterNameInput);
 
     const doneButton = document.createElement('button');
@@ -386,12 +387,44 @@ function createEnterCharacterNameUi(characterId) {
             'characterId': characterId,
             'name': heroName
         };
-        storeCharacter(character);
+        // storeCharacter(character);
         modal.close();
         clearModal(modal);
+        createSelectCharacterTypeUi(character);
     });
     enterNameContainer.appendChild(doneButton);
     modal.appendChild(enterNameContainer);
+
+    modal.showModal();
+}
+
+function createSelectCharacterTypeUi(character) {
+    const modal = document.getElementById('modal');
+
+    createCancelModalUi(modal);
+
+    const heroTypesContainer = document.createElement('div');
+    heroTypesContainer.setAttribute('class', 'hero-types-container');
+
+    // const barbarianImageContainer = document.createElement('div');
+    // barbarianImageContainer.setAttribute('id', `barbarian-${character.characterId}-`)
+    const barbarianContainer = document.createElement('div');
+    barbarianContainer.setAttribute('class', 'hero-type-image-container');
+    barbarianContainer.setAttribute('data-hero-type', 'barbarian');
+
+    const barbarianImage = document.createElement('img');
+    barbarianImage.setAttribute('src', 'images/character-type-card-barbarian.png');
+    barbarianImage.setAttribute('alt', 'Heroquest barbarian playing card');
+    barbarianImage.setAttribute('class', 'character-type-card');
+    barbarianContainer.appendChild(barbarianImage);
+
+    heroTypesContainer.appendChild(barbarianContainer);
+    modal.appendChild(heroTypesContainer);
+
+    barbarianImage.addEventListener('click', (event) => {
+        const heroType = 'barbarian';
+        console.log('You selected ' + heroType);
+    });
 
     modal.showModal();
 }
@@ -603,7 +636,6 @@ function createItemModal(itemName, characterId) {
     createCancelModalUi(modal);
 
     const item = findItemWithName(itemName);
-    // const itemContainer = document.getElementById(`character-${characterId}-${item.equippedLocation}-container`);
 
     const itemCard = createItemCard(item);
     modal.appendChild(itemCard);
