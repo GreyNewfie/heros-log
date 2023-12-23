@@ -406,27 +406,40 @@ function createSelectCharacterTypeUi(character) {
     const heroTypesContainer = document.createElement('div');
     heroTypesContainer.setAttribute('class', 'hero-types-container');
 
-    // const barbarianImageContainer = document.createElement('div');
-    // barbarianImageContainer.setAttribute('id', `barbarian-${character.characterId}-`)
-    const barbarianContainer = document.createElement('div');
-    barbarianContainer.setAttribute('class', 'hero-type-image-container');
-    barbarianContainer.setAttribute('data-hero-type', 'barbarian');
+    const barbarianContainer = createHeroTypeCard('barbarian');
+    const elfContainer = createHeroTypeCard('elf');
+    const dwarfContainer = createHeroTypeCard('dwarf');
+    const wizardContainer = createHeroTypeCard('wizard');
 
-    const barbarianImage = document.createElement('img');
-    barbarianImage.setAttribute('src', 'images/character-type-card-barbarian.png');
-    barbarianImage.setAttribute('alt', 'Heroquest barbarian playing card');
-    barbarianImage.setAttribute('class', 'character-type-card');
-    barbarianContainer.appendChild(barbarianImage);
-
-    heroTypesContainer.appendChild(barbarianContainer);
+    heroTypesContainer.append(barbarianContainer, elfContainer, dwarfContainer, wizardContainer);
     modal.appendChild(heroTypesContainer);
+    
+    const heroTypeCards = document.querySelectorAll('.character-type-card');
 
-    barbarianImage.addEventListener('click', (event) => {
-        const heroType = 'barbarian';
-        console.log('You selected ' + heroType);
-    });
+    heroTypeCards.forEach(card => 
+        card.addEventListener('click', (event) => {
+            const selectedHeroType = 'barbarian';
+            console.log('You selected ' + selectedHeroType);
+    }));
 
     modal.showModal();
+
+    function createHeroTypeCard(heroType) {    
+        const heroTypeContainer = document.createElement('div');
+        heroTypeContainer.setAttribute('class', 'hero-type-image-container');
+        heroTypeContainer.setAttribute('data-hero-type', heroType);
+
+        let imagePath = `images/character-type-card-${heroType}.png`;
+        let altText = `Heroquest ${heroType} character game card'`
+    
+        const heroTypeImage = document.createElement('img');
+        heroTypeImage.setAttribute('src', imagePath);
+        heroTypeImage.setAttribute('alt', altText);
+        heroTypeImage.setAttribute('class', 'character-type-card');
+        heroTypeContainer.appendChild(heroTypeImage);
+        
+        return heroTypeContainer;
+    }
 }
 
 function createEquippedItemsUi(uniqueId) {
