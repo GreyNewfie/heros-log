@@ -400,6 +400,7 @@ function createEnterCharacterNameUi(characterId) {
 
 function createSelectCharacterTypeUi(character) {
     const modal = document.getElementById('modal');
+    modal.setAttribute('class', 'select-hero-type-modal');
 
     createCancelModalUi(modal);
 
