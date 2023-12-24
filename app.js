@@ -282,6 +282,7 @@ const characterSheet = (character) => {
     }
 }
 
+// Check to see if this should be removed
 function createAutoUpdateInitialStatsUI(characterId) {
     const autoUpdateUiContainer = document.createElement('div');
     autoUpdateUiContainer.setAttribute('class', 'auto-update-ui-container')
@@ -403,6 +404,7 @@ function createSelectCharacterTypeUi(character) {
     modal.setAttribute('class', 'select-hero-type-modal');
 
     createCancelModalUi(modal);
+    // If cancel button is clicked then delete character
 
     const heroTypesContainer = document.createElement('div');
     heroTypesContainer.setAttribute('class', 'hero-types-container');
@@ -419,8 +421,8 @@ function createSelectCharacterTypeUi(character) {
 
     heroTypeCards.forEach(card => 
         card.addEventListener('click', (event) => {
-            const selectedHeroType = 'barbarian';
-            console.log('You selected ' + selectedHeroType);
+            console.log(event.target.dataset.heroType);
+            // Remove 'select-hero-type-modal class
     }));
 
     modal.showModal();
@@ -428,7 +430,6 @@ function createSelectCharacterTypeUi(character) {
     function createHeroTypeCard(heroType) {    
         const heroTypeContainer = document.createElement('div');
         heroTypeContainer.setAttribute('class', 'hero-type-image-container');
-        heroTypeContainer.setAttribute('data-hero-type', heroType);
 
         let imagePath = `images/character-type-card-${heroType}.png`;
         let altText = `Heroquest ${heroType} character game card'`
@@ -437,6 +438,7 @@ function createSelectCharacterTypeUi(character) {
         heroTypeImage.setAttribute('src', imagePath);
         heroTypeImage.setAttribute('alt', altText);
         heroTypeImage.setAttribute('class', 'character-type-card');
+        heroTypeImage.setAttribute('data-hero-type', heroType);
         heroTypeContainer.appendChild(heroTypeImage);
         
         return heroTypeContainer;
@@ -640,9 +642,20 @@ function createCancelModalUi(modal) {
     modal.appendChild(cancelModal);
 
     cancelModal.addEventListener('click', () => {
+        const modalClasses = modal.classList;
+        if (modalClasses.contains('select-hero-type-modal')) {
+            modal.classList.remove('select-hero-type-modal');
+            removeCharactersWithoutType();
+        }
         modal.close();
         clearModal(modal);
     }); 
+
+    function removeCharactersWithoutType() {
+        const characters = getCharacters();
+        characters.filter(character => character.type);
+        storeCharacters(characters);
+    }
 }
 
 function createItemModal(itemName, characterId) {
