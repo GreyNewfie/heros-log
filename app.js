@@ -388,7 +388,6 @@ function createEnterCharacterNameUi(characterId) {
             'characterId': characterId,
             'name': heroName
         };
-        // storeCharacter(character);
         modal.close();
         clearModal(modal);
         createSelectCharacterTypeUi(character);
@@ -420,9 +419,15 @@ function createSelectCharacterTypeUi(character) {
     const heroTypeCards = document.querySelectorAll('.character-type-card');
 
     heroTypeCards.forEach(card => 
-        card.addEventListener('click', (event) => {
-            console.log(event.target.dataset.heroType);
+        card.addEventListener('click', (e) => {
+            const heroType = e.target.dataset.heroType;
+            character['type'] = heroType;
             // Remove 'select-hero-type-modal class
+            modal.close();
+            modal.classList.remove('select-hero-type-modal');
+            clearModal(modal);
+            storeCharacter(character);
+            characterSheet(character);
     }));
 
     modal.showModal();
