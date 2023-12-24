@@ -247,7 +247,7 @@ const characterSheet = (character) => {
         curBodyPtsInput.value = character.bodyPts;
         curGoldCoins.value = character.goldCoins;
         addItemsListToCharacter(potionsItemsList, character.potionsAndItems);
-        displayEquippedItems(character.equippedItems, uniqueId);
+        displayEquippedItems(character.equippedItems, character.characterId);
         updateAutoUpdateBtnStatus(character.characterId, character.autoUpdateStatus);
     }
 
@@ -282,7 +282,7 @@ const characterSheet = (character) => {
     }
 }
 
-// Check to see if this should be removed
+// Check to see if this is being used
 function createAutoUpdateInitialStatsUI(characterId) {
     const autoUpdateUiContainer = document.createElement('div');
     autoUpdateUiContainer.setAttribute('class', 'auto-update-ui-container')
@@ -304,7 +304,7 @@ function createAutoUpdateInitialStatsUI(characterId) {
 
     return autoUpdateUiContainer;
 }
-
+// Checkc to see if this is being used
 function createCharacterTypeUi(container, uniqueId) {
     const characterTypeLabel = document.createElement('label');
     characterTypeLabel.setAttribute('for', `character-${uniqueId}-type`);
@@ -420,14 +420,13 @@ function createSelectCharacterTypeUi(character) {
 
     heroTypeCards.forEach(card => 
         card.addEventListener('click', (e) => {
-            const heroType = e.target.dataset.heroType;
-            character['type'] = heroType;
-            // Remove 'select-hero-type-modal class
+            const heroPrototype = heroTypes.find(type => type.id === e.target.dataset.heroType);
+            character['heroPrototype'] = heroPrototype;
             modal.close();
             modal.classList.remove('select-hero-type-modal');
             clearModal(modal);
-            storeCharacter(character);
-            characterSheet(character);
+            const newCharacter = createInitialCharacter(character);
+            characterSheet(newCharacter);
     }));
 
     modal.showModal();
@@ -893,8 +892,22 @@ function addToDiceOrPointsBucket(characterId, item) {
     storeCharacter(character);
 }
 
-function addHeroTypeStatsToCharacter(character) {
-    
+//********* IS THIS FUNCTION BEING USED? ****************/
+function addHeroTypeStatsToCharacterSheet(character) {
+    const attackDice = document.getElementById(`attack-dice-${character.characterId}`);
+    attackDice.value = character.heroPrototype.attackDice;
+
+    const defendDice = document.getElementById(`defend-dice-${character.characterId}`);
+    defendDice.value = character.heroPrototype.defendDice;
+
+    const bodyPoints = document.getElementById(`body-${character.characterId}`);
+    bodyPoints.value = character.heroPrototype.startBodyPts;
+
+    const mindPoints = document.getElementById(`mind-${character.characterId}`);
+    mindPoints.value = character.heroPrototype.startMindPts;
+}
+
+function addHeroTypeStatsToBuckets(character) {
     const attackDiceModifier = {
         'origin': 'character',
         'attackDice': character.heroPrototype.attackDice
@@ -919,54 +932,31 @@ function addHeroTypeStatsToCharacter(character) {
     character.bodyPointsBucket.push(bodyPointsModifier);
     character.mindPointsBucket.push(mindPointsModifier);
 
-    const attackDice = document.getElementById(`attack-dice-${character.characterId}`);
-    attackDice.value = character.heroPrototype.attackDice;
-
-    const defendDice = document.getElementById(`defend-dice-${character.characterId}`);
-    defendDice.value = character.heroPrototype.defendDice;
-
-    const bodyPoints = document.getElementById(`body-${character.characterId}`);
-    bodyPoints.value = character.heroPrototype.startBodyPts;
-
-    const mindPoints = document.getElementById(`mind-${character.characterId}`);
-    mindPoints.value = character.heroPrototype.startMindPts;
-
     storeCharacter(character);
 }
 
-function createInitialCharacter(characterId) {
-    const nameInput = document.getElementById(`character-name-${characterId}`);
-    const typeSelect = document.getElementById(`character-${characterId}-type`);
-    const weaponsAndArmorList = document.getElementById(`character-${characterId}-weapons-armor`).querySelectorAll('li');
-    const curBodyPts = document.getElementById(`body-points-${characterId}`);
-    const curGoldCoins = document.getElementById(`gold-coins-${characterId}`);
-    const potionsItemsList = document.getElementById(`character-${characterId}-potions-items`).querySelectorAll('li');
-    const equippedItemsImages = document.getElementById(`character-${characterId}-equipped-items-section`).querySelectorAll('.item-image');
-    const autoUpdateBtnStatus = getAutoUpdateButtonStatus(characterId);
-
-    const heroType = heroTypes.find(type => type.id === typeSelect.value);
-
-    this.name = nameInput.value;
-    this.type = heroType.value;
-    /************** THIS COULD CAUSE ISSUES, NEED TO REMOVE IF NOT USED ***************/
-    this.heroPrototype = heroType;
-    this.attackDice = heroType.attackDice;
+function createInitialCharacter(character) {
+    this.characterId = character.characterId;
+    this.name = character.name;
+    this.type = character.heroPrototype.id;
+    this.heroPrototype = character.heroPrototype;
+    this.attackDice = character.heroPrototype.attackDice;
     this.attackDiceBucket = [];
-    this.defendDice = heroType.defendDice;
+    this.defendDice = character.heroPrototype.defendDice;
     this.defendDiceBucket = [];
-    this.startBodyPts = heroType.startBodyPts;
+    this.startBodyPts = character.heroPrototype.startBodyPts;
     this.bodyPointsBucket = [];
-    this.startMindPts = heroType.startMindPts;
+    this.startMindPts = character.heroPrototype.startMindPts;
     this.mindPointsBucket = [];
-    this.weaponsAndArmor = createCharacterItemsList(weaponsAndArmorList);
-    this.bodyPts = curBodyPts.value;
-    this.goldCoins = curGoldCoins.value;
-    this.potionsAndItems = createCharacterItemsList(potionsItemsList);
-    this.equippedItems = createEquippedItemsList(equippedItemsImages);
-    this.autoUpdateStatus = autoUpdateBtnStatus;
+    this.weaponsAndArmor = [];
+    this.bodyPts = character.heroPrototype.startBodyPts;
+    this.goldCoins = 0;
+    this.potionsAndItems = [];
+    this.equippedItems = [];
+    this.autoUpdateStatus = false;
 
     const newCharacter = {characterId, name, type, heroPrototype, attackDice, attackDiceBucket, defendDice, defendDiceBucket, startBodyPts, bodyPointsBucket, startMindPts, mindPointsBucket, bodyPts, goldCoins, weaponsAndArmor, potionsAndItems, equippedItems, autoUpdateStatus};
-    addHeroTypeStatsToCharacter(newCharacter);
+    addHeroTypeStatsToBuckets(newCharacter);
 
     return newCharacter;
 }
