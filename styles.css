@@ -37,6 +37,7 @@ a {
 
 header {
     background-color: var(--header-bg-brown);
+    font-family: carter one, 'Times New Roman', Times, serif;
 }
 
 header a {
