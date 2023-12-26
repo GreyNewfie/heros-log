@@ -625,6 +625,8 @@ function createSelectItemsModalUi(listElement, itemFilters) {
         modal.close();
         const selectedItemNames = getSelectedItemNames();
         addItemsListToCharacter(listElement, selectedItemNames);
+        const character = getStoredCharacter(((listElement.id).split('-'))[1]);
+        addSelectedItemsToStoredCharacter(character, selectedItemNames);
         clearModal(modal);
     });
 
@@ -684,7 +686,6 @@ function addItemToCharacterList(characterId, list, item) {
     itemSpan.textContent = item.name;
     li.appendChild(itemSpan);
 
-    // Can I pass item instead of event and it still be accessible when click event is executed?
     itemSpan.addEventListener('click', (event) => {
         const modal = document.getElementById('modal');
         if (modal.querySelector('.item-card')) {
@@ -709,6 +710,7 @@ function addItemsListToCharacter(element, itemsListByName) {
     }
     
     const characterId = ((element.id).split('-'))[1];
+    const character = getStoredCharacter(characterId);
 
     itemsListByName.forEach(itemToAddByName => {
         const foundItem = items.find(item => item.id === itemToAddByName.id || item.name === itemToAddByName);
@@ -924,6 +926,21 @@ function addHeroTypeStatsToBuckets(character) {
     character.bodyPointsBucket.push(bodyPointsModifier);
     character.mindPointsBucket.push(mindPointsModifier);
 
+    storeCharacter(character);
+}
+
+function addSelectedItemsToStoredCharacter(character, itemsByName) {
+    itemsByName.forEach(itemByName => {
+        const item = items.find(storedItem => storedItem.name === itemByName);
+        if (item.classification === 'weapon' || item.classification === 'armor') {
+            character.weaponsAndArmor.push(item);
+        }
+
+        if (item.classification === 'potion' || item.classification === 'item') {
+            character.potionsAndItems.push(item);
+        }
+    });
+    
     storeCharacter(character);
 }
 
