@@ -85,6 +85,11 @@ header ul {
     margin-bottom: 5px;
 }
 
+.character-name-type-container div:last-child {
+    display: flex;
+    gap: .5em;
+}
+
 /* Select Character Type Modal */
 .select-hero-type-modal {
     width: max-content;

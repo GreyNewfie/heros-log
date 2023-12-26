@@ -29,14 +29,14 @@ const characterSheet = (character) => {
         const characterNameDiv = document.createElement('div');
         const characterNameLabel = document.createElement('label');
         characterNameLabel.setAttribute('for', `character-name-${uniqueId}`);
-        characterNameLabel.append('Name');
+        characterNameLabel.append('Name:');
         const characterNameInput = document.createElement('input');
         setAttributes(characterNameInput, {type: 'text', id: `character-name-${uniqueId}`, name: 'character-name', required: ''});
         characterNameDiv.append(characterNameLabel, characterNameInput);
         
-        //Character type select
+        //Character type 
         const characterTypeDiv = document.createElement('div');
-        createCharacterTypeUi(characterTypeDiv, uniqueId);
+        createCharacterTypeUi(characterTypeDiv, character);
 
         // Automatically Update Character Statistics UI
         const characterAutoUpdateUi = createAutoUpdateInitialStatsUI(uniqueId);
@@ -305,24 +305,16 @@ function createAutoUpdateInitialStatsUI(characterId) {
     return autoUpdateUiContainer;
 }
 // Checkc to see if this is being used
-function createCharacterTypeUi(container, uniqueId) {
-    const characterTypeLabel = document.createElement('label');
-    characterTypeLabel.setAttribute('for', `character-${uniqueId}-type`);
-    characterTypeLabel.textContent = 'Character';
+function createCharacterTypeUi(container, character) {
+    const characterTypeLabel = document.createElement('p');
+    characterTypeLabel.setAttribute('for', `character-${character.characterId}-type`);
+    characterTypeLabel.textContent = 'Character:';
 
-    const characterTypeSelect = document.createElement('select');
-    setAttributes(characterTypeSelect, {id: `character-${uniqueId}-type`, name: 'character-type', required: ''});
-    addTypeOptions(characterTypeSelect, {default: '- Select Option -', barbarian: 'Barbarian', wizard: 'Wizard', elf: 'Elf', dwarf: 'Dwarf'});
+    const characterTypeSpan = document.createElement('span');
+    characterTypeSpan.setAttribute('id', `character-${character.characterId}-type`);
+    characterTypeSpan.textContent = character.heroPrototype.name;
 
-    container.append(characterTypeLabel, characterTypeSelect);
-
-    characterTypeSelect.addEventListener('change', (event) => {
-        const heroTypeId = event.target.value;
-        const characterId = uniqueId;
-        const character = createInitialCharacter(uniqueId);
-        storeCharacter(character);
-        // setInitialStats(heroTypeId, characterId);
-    });
+    container.append(characterTypeLabel, characterTypeSpan);
 }
 
 function createDiceUi(typeOfDice, uniqueId, maxNum) {
