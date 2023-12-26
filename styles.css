@@ -8,7 +8,14 @@
 }
 
 :root {
-    --logo-text-yellow: var(#f4a01b);
+    --logo-text-yellow: #f4a01b;
+    --big-stone-blue: #162839;
+    --regent-gray: #8597A6;
+    --matisse-blue: #1A70A9;
+    --tulip-tree-yellow: #EFAF43;
+    --logo-shield-blue: #125c8b;
+    --primary-brown: #45282c;
+    --header-bg-brown: #ecddc6;
 }
 
 h1 {
@@ -26,6 +33,14 @@ h4 {
 a {
     text-decoration: none;
     color: black;
+}
+
+header {
+    background-color: var(--header-bg-brown);
+}
+
+header a {
+    color: var(--logo-shield-blue);
 }
 
 header nav {
@@ -51,7 +66,6 @@ header h1 {
 header ul {
     display: flex;
     gap: 1.5vw;
-    margin-right: 1vw;
     list-style-type: none;
     font-size: clamp(1.125rem, 0.5vw + 1rem, 2rem);
     font-weight: 600;
