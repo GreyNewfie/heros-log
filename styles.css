@@ -58,6 +58,10 @@ header ul {
 /*************************************************/
 /*              CHARACTERS PAGE                  */
 /*************************************************/
+.enter-name-input {
+    display: flex;
+    flex-direction: column;
+}
 
 .character-sheet-container {
     display: flex;
@@ -79,6 +83,31 @@ header ul {
 
 .character-name-type-container {
     margin-bottom: 5px;
+}
+
+.character-name-type-container div:last-child {
+    display: flex;
+    gap: .5em;
+}
+
+/* Select Character Type Modal */
+.select-hero-type-modal {
+    width: max-content;
+}
+
+.hero-types-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+}
+
+.character-type-card {
+    width: 225px;
+}
+
+.character-type-card:hover {
+    border: 2px solid green;
 }
 
 /* Create Automatically Update Stats Toggle Switch */

@@ -1,7 +1,9 @@
 const addCharacterButton = document.getElementById('add-character-button');
 
 addCharacterButton.addEventListener('click', () => {
-    characterSheet();
+    const uniqueId = Date.now();
+    createEnterCharacterNameUi(uniqueId);
+    // characterSheet(character);
 });
 
 
@@ -27,14 +29,14 @@ const characterSheet = (character) => {
         const characterNameDiv = document.createElement('div');
         const characterNameLabel = document.createElement('label');
         characterNameLabel.setAttribute('for', `character-name-${uniqueId}`);
-        characterNameLabel.append('Name');
+        characterNameLabel.append('Name:');
         const characterNameInput = document.createElement('input');
         setAttributes(characterNameInput, {type: 'text', id: `character-name-${uniqueId}`, name: 'character-name', required: ''});
         characterNameDiv.append(characterNameLabel, characterNameInput);
         
-        //Character type select
+        //Character type 
         const characterTypeDiv = document.createElement('div');
-        createCharacterTypeUi(characterTypeDiv, uniqueId);
+        createCharacterTypeUi(characterTypeDiv, character);
 
         // Automatically Update Character Statistics UI
         const characterAutoUpdateUi = createAutoUpdateInitialStatsUI(uniqueId);
@@ -245,7 +247,7 @@ const characterSheet = (character) => {
         curBodyPtsInput.value = character.bodyPts;
         curGoldCoins.value = character.goldCoins;
         addItemsListToCharacter(potionsItemsList, character.potionsAndItems);
-        displayEquippedItems(character.equippedItems, uniqueId);
+        displayEquippedItems(character.equippedItems, character.characterId);
         updateAutoUpdateBtnStatus(character.characterId, character.autoUpdateStatus);
     }
 
@@ -280,6 +282,7 @@ const characterSheet = (character) => {
     }
 }
 
+// Check to see if this is being used
 function createAutoUpdateInitialStatsUI(characterId) {
     const autoUpdateUiContainer = document.createElement('div');
     autoUpdateUiContainer.setAttribute('class', 'auto-update-ui-container')
@@ -301,25 +304,17 @@ function createAutoUpdateInitialStatsUI(characterId) {
 
     return autoUpdateUiContainer;
 }
+// Checkc to see if this is being used
+function createCharacterTypeUi(container, character) {
+    const characterTypeLabel = document.createElement('p');
+    characterTypeLabel.setAttribute('for', `character-${character.characterId}-type`);
+    characterTypeLabel.textContent = 'Character:';
 
-function createCharacterTypeUi(container, uniqueId) {
-    const characterTypeLabel = document.createElement('label');
-    characterTypeLabel.setAttribute('for', `character-${uniqueId}-type`);
-    characterTypeLabel.textContent = 'Character';
+    const characterTypeSpan = document.createElement('span');
+    characterTypeSpan.setAttribute('id', `character-${character.characterId}-type`);
+    characterTypeSpan.textContent = character.heroPrototype.name;
 
-    const characterTypeSelect = document.createElement('select');
-    setAttributes(characterTypeSelect, {id: `character-${uniqueId}-type`, name: 'character-type', required: ''});
-    addTypeOptions(characterTypeSelect, {default: '- Select Option -', barbarian: 'Barbarian', wizard: 'Wizard', elf: 'Elf', dwarf: 'Dwarf'});
-
-    container.append(characterTypeLabel, characterTypeSelect);
-
-    characterTypeSelect.addEventListener('change', (event) => {
-        const heroTypeId = event.target.value;
-        const characterId = uniqueId;
-        const character = createInitialCharacter(uniqueId);
-        storeCharacter(character);
-        // setInitialStats(heroTypeId, characterId);
-    });
+    container.append(characterTypeLabel, characterTypeSpan);
 }
 
 function createDiceUi(typeOfDice, uniqueId, maxNum) {
@@ -355,6 +350,95 @@ function createDiceUi(typeOfDice, uniqueId, maxNum) {
     diceContainer.appendChild(diceDiv);
 
     return diceContainer;
+}
+
+function createEnterCharacterNameUi(characterId) {
+    const modal = document.getElementById('modal');
+
+    createCancelModalUi(modal);
+
+    const enterNameContainer = document.createElement('div');
+    enterNameContainer.setAttribute('class', 'enter-name-input');
+
+    const enterNameLabel = document.createElement('label');
+    enterNameLabel.setAttribute('for', `character-${characterId}-name`);
+    enterNameLabel.textContent = 'Enter your hero\'s name';
+    enterNameContainer.appendChild(enterNameLabel);
+
+    const enterNameInput = document.createElement('input');
+    enterNameInput.setAttribute('type', 'text');
+    enterNameInput.setAttribute('id', `character-${characterId}-name`);
+    enterNameInput.setAttribute('name', `character-${characterId}-name`);
+    enterNameInput.setAttribute('autofocus', '');
+    enterNameContainer.appendChild(enterNameInput);
+
+    const doneButton = document.createElement('button');
+    doneButton.textContent = 'Done';
+    doneButton.addEventListener('click', (e) => {
+        const heroName = document.getElementById(`character-${characterId}-name`).value;
+        const character = {
+            'characterId': characterId,
+            'name': heroName
+        };
+        modal.close();
+        clearModal(modal);
+        createSelectCharacterTypeUi(character);
+    });
+    enterNameContainer.appendChild(doneButton);
+    modal.appendChild(enterNameContainer);
+
+    modal.showModal();
+}
+
+function createSelectCharacterTypeUi(character) {
+    const modal = document.getElementById('modal');
+    modal.setAttribute('class', 'select-hero-type-modal');
+
+    createCancelModalUi(modal);
+    // If cancel button is clicked then delete character
+
+    const heroTypesContainer = document.createElement('div');
+    heroTypesContainer.setAttribute('class', 'hero-types-container');
+
+    const barbarianContainer = createHeroTypeCard('barbarian');
+    const elfContainer = createHeroTypeCard('elf');
+    const dwarfContainer = createHeroTypeCard('dwarf');
+    const wizardContainer = createHeroTypeCard('wizard');
+
+    heroTypesContainer.append(barbarianContainer, elfContainer, dwarfContainer, wizardContainer);
+    modal.appendChild(heroTypesContainer);
+    
+    const heroTypeCards = document.querySelectorAll('.character-type-card');
+
+    heroTypeCards.forEach(card => 
+        card.addEventListener('click', (e) => {
+            const heroPrototype = heroTypes.find(type => type.id === e.target.dataset.heroType);
+            character['heroPrototype'] = heroPrototype;
+            modal.close();
+            modal.classList.remove('select-hero-type-modal');
+            clearModal(modal);
+            const newCharacter = createInitialCharacter(character);
+            characterSheet(newCharacter);
+    }));
+
+    modal.showModal();
+
+    function createHeroTypeCard(heroType) {    
+        const heroTypeContainer = document.createElement('div');
+        heroTypeContainer.setAttribute('class', 'hero-type-image-container');
+
+        let imagePath = `images/character-type-card-${heroType}.png`;
+        let altText = `Heroquest ${heroType} character game card'`
+    
+        const heroTypeImage = document.createElement('img');
+        heroTypeImage.setAttribute('src', imagePath);
+        heroTypeImage.setAttribute('alt', altText);
+        heroTypeImage.setAttribute('class', 'character-type-card');
+        heroTypeImage.setAttribute('data-hero-type', heroType);
+        heroTypeContainer.appendChild(heroTypeImage);
+        
+        return heroTypeContainer;
+    }
 }
 
 function createEquippedItemsUi(uniqueId) {
@@ -554,9 +638,20 @@ function createCancelModalUi(modal) {
     modal.appendChild(cancelModal);
 
     cancelModal.addEventListener('click', () => {
+        const modalClasses = modal.classList;
+        if (modalClasses.contains('select-hero-type-modal')) {
+            modal.classList.remove('select-hero-type-modal');
+            removeCharactersWithoutType();
+        }
         modal.close();
         clearModal(modal);
     }); 
+
+    function removeCharactersWithoutType() {
+        const characters = getCharacters();
+        characters.filter(character => character.type);
+        storeCharacters(characters);
+    }
 }
 
 function createItemModal(itemName, characterId) {
@@ -564,7 +659,6 @@ function createItemModal(itemName, characterId) {
     createCancelModalUi(modal);
 
     const item = findItemWithName(itemName);
-    // const itemContainer = document.getElementById(`character-${characterId}-${item.equippedLocation}-container`);
 
     const itemCard = createItemCard(item);
     modal.appendChild(itemCard);
@@ -790,8 +884,22 @@ function addToDiceOrPointsBucket(characterId, item) {
     storeCharacter(character);
 }
 
-function addHeroTypeStatsToCharacter(character) {
-    
+//********* IS THIS FUNCTION BEING USED? ****************/
+function addHeroTypeStatsToCharacterSheet(character) {
+    const attackDice = document.getElementById(`attack-dice-${character.characterId}`);
+    attackDice.value = character.heroPrototype.attackDice;
+
+    const defendDice = document.getElementById(`defend-dice-${character.characterId}`);
+    defendDice.value = character.heroPrototype.defendDice;
+
+    const bodyPoints = document.getElementById(`body-${character.characterId}`);
+    bodyPoints.value = character.heroPrototype.startBodyPts;
+
+    const mindPoints = document.getElementById(`mind-${character.characterId}`);
+    mindPoints.value = character.heroPrototype.startMindPts;
+}
+
+function addHeroTypeStatsToBuckets(character) {
     const attackDiceModifier = {
         'origin': 'character',
         'attackDice': character.heroPrototype.attackDice
@@ -816,54 +924,31 @@ function addHeroTypeStatsToCharacter(character) {
     character.bodyPointsBucket.push(bodyPointsModifier);
     character.mindPointsBucket.push(mindPointsModifier);
 
-    const attackDice = document.getElementById(`attack-dice-${character.characterId}`);
-    attackDice.value = character.heroPrototype.attackDice;
-
-    const defendDice = document.getElementById(`defend-dice-${character.characterId}`);
-    defendDice.value = character.heroPrototype.defendDice;
-
-    const bodyPoints = document.getElementById(`body-${character.characterId}`);
-    bodyPoints.value = character.heroPrototype.startBodyPts;
-
-    const mindPoints = document.getElementById(`mind-${character.characterId}`);
-    mindPoints.value = character.heroPrototype.startMindPts;
-
     storeCharacter(character);
 }
 
-function createInitialCharacter(characterId) {
-    const nameInput = document.getElementById(`character-name-${characterId}`);
-    const typeSelect = document.getElementById(`character-${characterId}-type`);
-    const weaponsAndArmorList = document.getElementById(`character-${characterId}-weapons-armor`).querySelectorAll('li');
-    const curBodyPts = document.getElementById(`body-points-${characterId}`);
-    const curGoldCoins = document.getElementById(`gold-coins-${characterId}`);
-    const potionsItemsList = document.getElementById(`character-${characterId}-potions-items`).querySelectorAll('li');
-    const equippedItemsImages = document.getElementById(`character-${characterId}-equipped-items-section`).querySelectorAll('.item-image');
-    const autoUpdateBtnStatus = getAutoUpdateButtonStatus(characterId);
-
-    const heroType = heroTypes.find(type => type.id === typeSelect.value);
-
-    this.name = nameInput.value;
-    this.type = heroType.value;
-    /************** THIS COULD CAUSE ISSUES, NEED TO REMOVE IF NOT USED ***************/
-    this.heroPrototype = heroType;
-    this.attackDice = heroType.attackDice;
+function createInitialCharacter(character) {
+    this.characterId = character.characterId;
+    this.name = character.name;
+    this.type = character.heroPrototype.id;
+    this.heroPrototype = character.heroPrototype;
+    this.attackDice = character.heroPrototype.attackDice;
     this.attackDiceBucket = [];
-    this.defendDice = heroType.defendDice;
+    this.defendDice = character.heroPrototype.defendDice;
     this.defendDiceBucket = [];
-    this.startBodyPts = heroType.startBodyPts;
+    this.startBodyPts = character.heroPrototype.startBodyPts;
     this.bodyPointsBucket = [];
-    this.startMindPts = heroType.startMindPts;
+    this.startMindPts = character.heroPrototype.startMindPts;
     this.mindPointsBucket = [];
-    this.weaponsAndArmor = createCharacterItemsList(weaponsAndArmorList);
-    this.bodyPts = curBodyPts.value;
-    this.goldCoins = curGoldCoins.value;
-    this.potionsAndItems = createCharacterItemsList(potionsItemsList);
-    this.equippedItems = createEquippedItemsList(equippedItemsImages);
-    this.autoUpdateStatus = autoUpdateBtnStatus;
+    this.weaponsAndArmor = [];
+    this.bodyPts = character.heroPrototype.startBodyPts;
+    this.goldCoins = 0;
+    this.potionsAndItems = [];
+    this.equippedItems = [];
+    this.autoUpdateStatus = false;
 
     const newCharacter = {characterId, name, type, heroPrototype, attackDice, attackDiceBucket, defendDice, defendDiceBucket, startBodyPts, bodyPointsBucket, startMindPts, mindPointsBucket, bodyPts, goldCoins, weaponsAndArmor, potionsAndItems, equippedItems, autoUpdateStatus};
-    addHeroTypeStatsToCharacter(newCharacter);
+    addHeroTypeStatsToBuckets(newCharacter);
 
     return newCharacter;
 }
