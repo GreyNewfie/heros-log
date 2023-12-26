@@ -8,7 +8,7 @@
 }
 
 :root {
-    --logo-yellow: var(#e7b42f);
+    --logo-text-yellow: var(#f4a01b);
 }
 
 h1 {
@@ -32,13 +32,15 @@ header nav {
     display: flex;
     justify-content: space-between;
     align-items: center;
+
 }
 
 header img {
     width: 100%;
-    min-width: 125px;
-    max-width: 325px;
+    min-width: 100px;
+    max-width: 150px;
     height: auto;
+    margin-left: 1rem;
 }
 
 header h1 {
@@ -53,6 +55,7 @@ header ul {
     list-style-type: none;
     font-size: clamp(1.125rem, 0.5vw + 1rem, 2rem);
     font-weight: 600;
+    margin-right: 1.5rem;
 }
 
 /*************************************************/
