@@ -73,6 +73,27 @@ header ul {
     margin-right: 1.5rem;
 }
 
+.content {
+    position: relative;
+    height: 100vh;
+    background-image: url(/images/HeroQuest_board.jpeg);
+    background-color: var(--header-bg-brown);
+    background-size: cover;
+    background-repeat: repeat-y;
+}
+
+.content::before {
+    content: "";
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    right: 0px;
+    bottom: 0px;
+    height: 100vh;
+    background-color: var(--primary-brown);
+    opacity: .5;
+}
+
 /*************************************************/
 /*              CHARACTERS PAGE                  */
 /*************************************************/
@@ -81,22 +102,32 @@ header ul {
     flex-direction: column;
 }
 
-.character-sheet-container {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 15px;
+.character-sheets-container {
     padding: 1%;
+
+    /* display: flex;
+    flex-wrap: wrap; */
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(325px, 1fr));
+    grid-template-rows: repeat(auto-fit, minmax(500px, 1fr));
+    justify-items: center;
+    gap: 1rem 1rem;
 }
 
 .character-sheet {
     border: 1px solid black;
-    width: 350px;
+    max-width: 352px;
+    min-width: 325px;
+    max-height: 525px;
+    min-height: 500px;
     position: relative;
     padding: 5px;
+    background-image: url(/images/character-sheet-1.png);
+    background-size: cover;
 
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: space-between;
 }
 
 .character-name-type-container {
