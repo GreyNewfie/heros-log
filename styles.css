@@ -79,7 +79,9 @@ header ul {
     background-image: url(/images/HeroQuest_board.jpeg);
     background-color: var(--header-bg-brown);
     background-size: cover;
-    background-repeat: repeat-y;
+
+    display: flex;
+    flex-direction: column;
 }
 
 .content::before {
@@ -108,22 +110,22 @@ header ul {
     /* display: flex;
     flex-wrap: wrap; */
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(325px, 1fr));
-    grid-template-rows: repeat(auto-fit, minmax(500px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+    grid-template-rows: repeat(auto-fit, minmax(525px, 595px));
     justify-items: center;
     gap: 1rem 1rem;
 }
 
 .character-sheet {
-    border: 1px solid black;
-    max-width: 352px;
-    min-width: 325px;
-    max-height: 525px;
-    min-height: 500px;
+    width: 90%;
+    max-width: 396px;
+    min-width: 360px;
+    min-height: 525px;
     position: relative;
-    padding: 5px;
+    padding: 40px 20px 30px;
     background-image: url(/images/character-sheet-1.png);
     background-size: cover;
+    font-family: lumanosimo, 'Times New Roman', Times, serif;
 
     display: flex;
     flex-direction: column;
@@ -132,6 +134,13 @@ header ul {
 
 .character-name-type-container {
     margin-bottom: 5px;
+    margin-left: 10px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
 }
 
 .character-name-type-container div:last-child {
