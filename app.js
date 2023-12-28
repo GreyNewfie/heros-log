@@ -27,12 +27,13 @@ const characterSheet = (character) => {
     
         //Character name input field
         const characterNameDiv = document.createElement('div');
-        const characterNameLabel = document.createElement('label');
-        characterNameLabel.setAttribute('for', `character-name-${uniqueId}`);
-        characterNameLabel.append('Name:');
-        const characterNameInput = document.createElement('input');
-        setAttributes(characterNameInput, {type: 'text', id: `character-name-${uniqueId}`, name: 'character-name', required: ''});
-        characterNameDiv.append(characterNameLabel, characterNameInput);
+        createCharacterNameUi(characterNameDiv, character);
+        // const characterNameLabel = document.createElement('label');
+        // characterNameLabel.setAttribute('for', `character-name-${uniqueId}`);
+        // characterNameLabel.append('Name:');
+        // const characterNameInput = document.createElement('input');
+        // setAttributes(characterNameInput, {type: 'text', id: `character-name-${uniqueId}`, name: 'character-name', required: '', minlength: 1});
+        // characterNameDiv.append(characterNameLabel, characterNameInput);
         
         //Character type 
         const characterTypeDiv = document.createElement('div');
@@ -146,7 +147,7 @@ const characterSheet = (character) => {
     }
 
     function getCharacterName(characterId) {
-        return `character-name-${characterId}`;
+        return `character-${characterId}-name`;
     }
 
     function getCharacterType(characterId) {
@@ -192,8 +193,8 @@ const characterSheet = (character) => {
     const createNewCharacter = () => {
         this.characterId = uniqueId;
 
-        const nameInput = document.getElementById(getCharacterName(uniqueId));
-        const typeSelect = document.getElementById(getCharacterType(uniqueId));
+        const nameSpan = document.getElementById(getCharacterName(uniqueId));
+        const typeSpan = document.getElementById(getCharacterType(uniqueId));
         const attDice = document.getElementById(getAttackDice(uniqueId));
         const defDice = document.getElementById(getDefendDice(uniqueId));
         const startBodyPtsInput = document.getElementById(getStartBodyPoints(uniqueId));
@@ -205,8 +206,8 @@ const characterSheet = (character) => {
         const equippedItemsImages = document.getElementById(getEquippedItems(uniqueId)).querySelectorAll('.item-image');
         const autoUpdateBtnStatus = getAutoUpdateButtonStatus(uniqueId);
 
-        this.name = nameInput.value;
-        this.type = typeSelect.value;
+        this.name = nameSpan.value;
+        this.type = typeSpan.value;
         this.attackDice = attDice.value;
         this.attackDiceBucket = [];
         this.defendDice = defDice.value;
@@ -226,8 +227,8 @@ const characterSheet = (character) => {
     }
 
     function createExistingCharacter(character) {
-        const nameInput = document.getElementById(getCharacterName(character.characterId));
-        const typeSelect = document.getElementById(getCharacterType(character.characterId));
+        const nameSpan = document.getElementById(getCharacterName(character.characterId));
+        const typeSpan = document.getElementById(getCharacterType(character.characterId));
         const attDice = document.getElementById(getAttackDice(character.characterId));
         const defDice = document.getElementById(getDefendDice(character.characterId));
         const startBodyPts = document.getElementById(getStartBodyPoints(character.characterId));
@@ -237,8 +238,8 @@ const characterSheet = (character) => {
         const curGoldCoins = document.getElementById(getCurrentGoldCoins(character.characterId));
         const potionsItemsList= document.getElementById(getPotionsAndItems(character.characterId));
 
-        nameInput.value = character.name;
-        typeSelect.value = character.heroPrototype.id;
+        nameSpan.value = character.name;
+        typeSpan.value = character.heroPrototype.id;
         attDice.value = character.attackDice;
         defDice.value = character.defendDice;
         startBodyPts.value = character.startBodyPts;
@@ -252,7 +253,7 @@ const characterSheet = (character) => {
     }
 
     function updateCharacter(storedCharacter, characterId) {
-        const typeSelect = document.getElementById(getCharacterType(characterId));
+        // const typeSpan = document.getElementById(getCharacterType(characterId));
         const attDiceSel = document.getElementById(getAttackDice(characterId));
         const defDiceSel = document.getElementById(getDefendDice(characterId));
         const startBodyPtsInput = document.getElementById(getStartBodyPoints(characterId));
@@ -265,7 +266,7 @@ const characterSheet = (character) => {
         const equippedItemsImages = document.getElementById(getEquippedItems(uniqueId)).querySelectorAll('.item-image');
         const autoUpdateBtnStatus = getAutoUpdateButtonStatus(uniqueId);
 
-        storedCharacter.type = typeSelect.value;
+        // storedCharacter.type = typeSpan.value;
         storedCharacter.attackDice = parseInt(attDiceSel.value);
         storedCharacter.defendDice = parseInt(defDiceSel.value);
         storedCharacter.startBodyPts = parseInt(startBodyPtsInput.value);
@@ -304,7 +305,7 @@ function createAutoUpdateInitialStatsUI(characterId) {
 
     return autoUpdateUiContainer;
 }
-// Checkc to see if this is being used
+
 function createCharacterTypeUi(container, character) {
     const characterTypeLabel = document.createElement('p');
     characterTypeLabel.setAttribute('for', `character-${character.characterId}-type`);
@@ -315,6 +316,18 @@ function createCharacterTypeUi(container, character) {
     characterTypeSpan.textContent = character.heroPrototype.name;
 
     container.append(characterTypeLabel, characterTypeSpan);
+}
+
+function createCharacterNameUi(container, character) {
+    const characterNameLabel = document.createElement('p');
+    characterNameLabel.setAttribute('for', `character-${character.characterId}-name`);
+    characterNameLabel.textContent = 'Name:';
+
+    const characterNameSpan = document.createElement('span');
+    characterNameSpan.setAttribute('id', `character-${character.characterId}-name`);
+    characterNameSpan.textContent = character.name;
+
+    container.append(characterNameLabel, characterNameSpan);
 }
 
 function createDiceUi(typeOfDice, uniqueId, maxNum) {
