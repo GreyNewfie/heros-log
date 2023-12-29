@@ -1208,7 +1208,7 @@ function createItemCard(item) {
 
 function createItemImage(item, characterId) {
     const itemImage = document.createElement('img');
-    itemImage.setAttribute('class', 'item-image');
+    itemImage.setAttribute('class', 'equipped-item-image');
     itemImage.setAttribute('id', `character-${characterId}-${item.id}`);
     itemImage.setAttribute('src', 'images/' + item.image);
     itemImage.setAttribute('alt', item.imageDescription);

@@ -16,6 +16,7 @@
     --logo-shield-blue: #125c8b;
     --primary-brown: #45282c;
     --header-bg-brown: #ecddc6;
+    --character-sheet-brown: #9C501B;
 }
 
 h1 {
@@ -73,6 +74,10 @@ header ul {
     margin-right: 1.5rem;
 }
 
+/*************************************************/
+/*              CHARACTERS PAGE                  */
+/*************************************************/
+
 .content {
     position: relative;
     height: 100vh;
@@ -95,10 +100,6 @@ header ul {
     background-color: var(--primary-brown);
     opacity: .5;
 }
-
-/*************************************************/
-/*              CHARACTERS PAGE                  */
-/*************************************************/
 
 /***** SELECT CHARACTER TYPE MODAL *****/
 .select-hero-type-modal {
@@ -352,10 +353,11 @@ input[type='checkbox'].toggle:checked + .slider::before {
 /** EQUIPPED ITEMS SECTION **/
 
 .equipped-items-container {
+    position: relative;
+
     display: flex;
     justify-content: center;
     margin-bottom: 10px;
-    position: relative;
 }
 
 .character-outline {
@@ -372,8 +374,23 @@ input[type='checkbox'].toggle:checked + .slider::before {
     position: absolute;
     width: 66px;
     height: 50px;
-    border: 3px solid silver;
-    background-color: white;
+    border: 1px solid var(--primary-brown);
+    /* background-color: var(--character-sheet-brown); */
+}
+
+.equipped-head-item::after,
+.equipped-body-item::after,
+.equipped-left-hand-item::after,
+.equipped-right-hand-item::after,
+.equipped-extra-1-item::after,
+.equipped-extra-2-item::after {
+    content: "";
+    background-color: var(--character-sheet-brown);
+    opacity: .6;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
 }
 
 .equipped-head-item {
@@ -402,8 +419,11 @@ input[type='checkbox'].toggle:checked + .slider::before {
     right: 40px;
 }
 
-.item-image {
+.equipped-item-image {
     cursor: pointer;
+    position: absolute;
+    z-index: 1;
+    width: 100%;
 }
 
 /* WEAPONS & ARMOR AND POTIONS & ITEMS SECTION */
@@ -473,7 +493,7 @@ input[type='checkbox'].toggle:checked + .slider::before {
     border: 1px solid silver;
     border-radius: 10px;
     padding: 2px;
-    transition: opacity 1s ease-in-out 1s;
+    transition: opacity .5s ease-in-out .5s;
 
     position: absolute;
     z-index: 1;
@@ -486,10 +506,10 @@ input[type='checkbox'].toggle:checked + .slider::before {
 
 /* ITEMS MODAL */
 
-.item-image {
+/* .item-image {
     width: 60px;
     object-fit: contain;
-}
+} */
 
 #modal {
     position: absolute;
