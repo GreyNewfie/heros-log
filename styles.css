@@ -243,7 +243,7 @@ input[type='checkbox'].toggle:checked + .slider::before {
     opacity: .4;
 }
 
-/* Dice and Starting Points Section */
+/** DICE AND STARTING POINTS SECTIONS **/
 .initial-stats {
     display: flex;
     justify-content: space-between;
@@ -255,11 +255,14 @@ input[type='checkbox'].toggle:checked + .slider::before {
     flex: auto;
 }
 
+.initial-stats > div:nth-child(-n + 2) {
+    width: min-content;
+}
+
 .starting-points {
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-template-rows: 1fr 2fr;
-    column-gap: 15px;
 }
 
 .starting-points h4 {
@@ -283,15 +286,55 @@ input[type='checkbox'].toggle:checked + .slider::before {
     gap: 5px;
 }
 
-.numeric-tracker > div {
+/* .numeric-tracker > div {
     display: flex;
     gap: 5px;
+} */
+
+.stat-tracker-container {
+    display: flex;
+    justify-content: center;
 }
 
 .hero-number-input {
     width: 25px;
     border: none;
     text-align: center;
+    background-color: transparent;
+    font-family: inherit;
+}
+
+.increase-number-btn::before {
+    content: ' \002B';
+}
+
+.decrease-number-btn::before {
+    content: ' \002D';
+}
+
+.increase-number-btn,
+.decrease-number-btn {
+    width: 1.5em;
+    height: 1.5em;
+    border-radius: 50%;
+    border: none;
+    color: white;
+    background-color: var(--primary-brown);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.increase-number-btn:hover,
+.decrease-number-btn:hover {
+    opacity: .7;
+    transition: .2s;
+}
+
+.increase-number-btn:active,
+.decrease-number-btn:active {
+    opacity: 1;
 }
 
 /* Chrome, Safari, Edge, Opera */

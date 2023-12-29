@@ -345,17 +345,18 @@ function createDiceUi(typeOfDice, uniqueId, maxNum) {
     diceContainer.appendChild(title);
 
     const diceDiv = document.createElement('div');
+    diceDiv.setAttribute('class', 'stat-tracker-container');
 
     const dice = document.createElement('input');
     setAttributes(dice, {type: 'number', id: diceId, class: 'hero-number-input'});
     dice.value = 0;
     
     const plusBtn = document.createElement('button');
-    plusBtn.textContent = '+';
+    plusBtn.setAttribute('class', 'increase-number-btn');
     plusBtn.addEventListener('click', () => increaseNumber(dice, maxNum));
 
     const minusBtn = document.createElement('button');
-    minusBtn.textContent = '-';
+    minusBtn.setAttribute('class', 'decrease-number-btn');
     minusBtn.addEventListener('click', () => decreaseNumber(dice));
 
     diceDiv.append(minusBtn, dice, plusBtn);
@@ -532,17 +533,18 @@ function createStatTrackerUi(trackerLabel, uniqueId) {
     currentStatContainer.appendChild(trackerHeader);
 
     const tracker = document.createElement('div');
+    tracker.setAttribute('class', 'stat-tracker-container');
 
     const trackerInput = document.createElement('input');
     setAttributes(trackerInput, {type: 'number', id: `${labelArray[0]}-${labelArray[1]}-${uniqueId}`, class: 'hero-number-input'});
     trackerInput.value = 0;
 
     const plusBtn = document.createElement('button');
-    plusBtn.textContent = '+';
+    plusBtn.setAttribute('class', 'increase-number-btn');
     plusBtn.addEventListener('click', () => increaseNumber(trackerInput));
 
     const minusBtn = document.createElement('button');
-    minusBtn.textContent = '-';
+    minusBtn.setAttribute('class', 'decrease-number-btn');
     minusBtn.addEventListener('click', () => decreaseNumber(trackerInput));
 
     tracker.append(minusBtn, trackerInput, plusBtn);
