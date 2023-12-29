@@ -290,7 +290,7 @@ function createAutoUpdateInitialStatsUI(characterId) {
 
     const autoUpdateBtnLabel = document.createElement('label');
     autoUpdateBtnLabel.setAttribute('for', `character-${characterId}-auto-update-btn`);
-    autoUpdateBtnLabel.textContent = 'Automatically Update Dice & Points';
+    autoUpdateBtnLabel.textContent = 'Automatically Update Stats';
     autoUpdateUiContainer.appendChild(autoUpdateBtnLabel);
 
     const autoUpdateCheckbox = document.createElement('input');
@@ -320,7 +320,6 @@ function createCharacterTypeUi(container, character) {
 
 function createCharacterNameUi(container, character) {
     const characterNameLabel = document.createElement('p');
-    characterNameLabel.setAttribute('for', `character-${character.characterId}-name`);
     characterNameLabel.textContent = 'Name:';
 
     const characterNameSpan = document.createElement('span');

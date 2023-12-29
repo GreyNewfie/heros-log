@@ -76,7 +76,7 @@ header ul {
 .content {
     position: relative;
     height: 100vh;
-    background-image: url(/images/HeroQuest_board.jpeg);
+    background-image: url(images/HeroQuest_board.jpeg);
     background-color: var(--header-bg-brown);
     background-size: cover;
 
@@ -99,56 +99,8 @@ header ul {
 /*************************************************/
 /*              CHARACTERS PAGE                  */
 /*************************************************/
-.enter-name-input {
-    display: flex;
-    flex-direction: column;
-}
 
-.character-sheets-container {
-    padding: 1%;
-
-    /* display: flex;
-    flex-wrap: wrap; */
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
-    grid-template-rows: repeat(auto-fit, minmax(525px, 595px));
-    justify-items: center;
-    gap: 1rem 1rem;
-}
-
-.character-sheet {
-    width: 90%;
-    max-width: 396px;
-    min-width: 360px;
-    min-height: 525px;
-    position: relative;
-    padding: 40px 20px 30px;
-    background-image: url(/images/character-sheet-1.png);
-    background-size: cover;
-    font-family: lumanosimo, 'Times New Roman', Times, serif;
-
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-}
-
-.character-name-type-container {
-    margin-bottom: 5px;
-    margin-left: 10px;
-
-    display: flex;
-    flex-direction: column;
-    gap: 0.25rem;
-}
-
-}
-
-.character-name-type-container div:last-child {
-    display: flex;
-    gap: .5em;
-}
-
-/* Select Character Type Modal */
+/***** SELECT CHARACTER TYPE MODAL *****/
 .select-hero-type-modal {
     width: max-content;
 }
@@ -168,17 +120,76 @@ header ul {
     border: 2px solid green;
 }
 
-/* Create Automatically Update Stats Toggle Switch */
+.enter-name-input {
+    display: flex;
+    flex-direction: column;
+}
+
+/***** CHARACTER SHEET *****/
+
+.character-sheets-container {
+    padding: 1%;
+
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+    grid-template-rows: repeat(auto-fit, minmax(525px, 595px));
+    justify-items: center;
+    gap: 1rem 1rem;
+}
+
+.character-sheet {
+    width: 90%;
+    max-width: 396px;
+    min-width: 360px;
+    min-height: 525px;
+    position: relative;
+    padding: 40px 20px 30px;
+    background-image: url(images/character-sheet-1.png);
+    background-size: cover;
+    font-family: lumanosimo, 'Times New Roman', Times, serif;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+/** CHARACTER NAME AND TYPE SECTION **/
+.character-name-type-container {
+    margin-bottom: 5px;
+    margin-left: 10px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.character-name-type-container > div {
+    display: flex;
+    gap: .5em;
+}
+
+/* Character Sheet Skull Icon */
+.material-symbols-outlined {
+    font-variation-settings:
+    'FILL' 0,
+    'wght' 400,
+    'GRAD' 0,
+    'opsz' 24
+}
+
+/** AUTOMATICALLY UPDATE STATS SECTION **/
 .auto-update-ui-container {
+    margin-left: 10px;
     margin-bottom: 5px;
 }
 
 .auto-update-ui-container > label {
     display: flex;
-    gap: .1em;
+    gap: .25em;
     cursor: pointer;
 }
 
+/* Creates Automatically Update Stats Toggle Switch */
 input[type='checkbox'].toggle {
     opacity: 0;
     width: 0;
@@ -193,8 +204,8 @@ input[type='checkbox'].toggle + .slider {
 
 input[type='checkbox'].toggle + .slider::before {
     content: "";
-    width: 2em;
-    height: 1em;
+    width: 2.5em;
+    height: 1.25em;
     background-color: #DDD;
     border-radius: 1em;
     margin-right: .25em;
@@ -204,9 +215,9 @@ input[type='checkbox'].toggle + .slider::before {
 input[type='checkbox'].toggle + .slider::after {
     content: "\2715";
     color: white;
-    font-size: .5em;
-    width: 1.8em;
-    height: 1.8em;
+    font-size: .67em;
+    width: 1.6em;
+    height: 1.6em;
     background-color: hsl(233, 3%, 42%);
     border-radius: 50%;
     position: absolute;
@@ -223,24 +234,16 @@ input[type='checkbox'].toggle:checked + .slider::after {
     -webkit-transform: translateX(100%);
     -ms-transform: translateX(100%);
     transform: translateX(100%);
-    background-color: #e7b42f;
+    background-color: green;
     content: "\2713";
 }
 
 input[type='checkbox'].toggle:checked + .slider::before {
-    background-color: #e7b42f;
+    background-color: green;
     opacity: .4;
 }
 
-/* Character sheet skull icon */
-.material-symbols-outlined {
-    font-variation-settings:
-    'FILL' 0,
-    'wght' 400,
-    'GRAD' 0,
-    'opsz' 24
-}
-
+/* Dice and Starting Points Section */
 .initial-stats {
     display: flex;
     justify-content: space-between;
@@ -303,14 +306,14 @@ input[type='checkbox'].toggle:checked + .slider::before {
   -moz-appearance: textfield;
 }
 
+/** EQUIPPED ITEMS SECTION **/
+
 .equipped-items-container {
     display: flex;
     justify-content: center;
     margin-bottom: 10px;
     position: relative;
 }
-
-/* EQUIPPED ITEMS SECTION */
 
 .character-outline {
     width: 260px;
