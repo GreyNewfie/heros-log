@@ -321,6 +321,8 @@ input[type='checkbox'].toggle:checked + .slider::before {
     border: none;
     color: white;
     background-color: var(--primary-brown);
+    opacity: .8;
+    cursor: pointer;
 
     display: flex;
     justify-content: center;
@@ -329,13 +331,15 @@ input[type='checkbox'].toggle:checked + .slider::before {
 
 .increase-number-btn:hover,
 .decrease-number-btn:hover {
-    opacity: .7;
+    opacity: 1;
     transition: .2s;
+    border: 1px solid var(--header-bg-brown);
 }
 
 .increase-number-btn:active,
 .decrease-number-btn:active {
-    opacity: 1;
+    opacity: .5;
+    /* border: none; */
 }
 
 /* Chrome, Safari, Edge, Opera */
