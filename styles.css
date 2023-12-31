@@ -181,6 +181,7 @@ header ul {
 
 .save-button {
     border: none;
+    border-radius: 10px;
     padding: 0.1em 0.3em;
     background-color: transparent;
     font-family: inherit;
@@ -191,7 +192,6 @@ header ul {
 .save-button:hover {
     opacity: .8;
     border: 1px solid #45282c;
-    border-radius: 10px;
     background-color: #9C501B;
     color: #ECDEC9;
     transition: 200ms;
@@ -216,7 +216,7 @@ header ul {
 /* Death Button Skull Icon */
 .material-symbols-outlined {
     font-variation-settings:
-    'FILL' 1,
+    'FILL' 0,
     'wght' 400,
     'GRAD' 0,
     'opsz' 24;
@@ -225,6 +225,8 @@ header ul {
 
 .material-symbols-outlined:hover {
     color: var(--character-sheet-brown);
+    font-variation-settings:
+    'FILL' 1;
 }
 
 .material-symbols-outlined:active {
@@ -365,7 +367,7 @@ input[type='checkbox'].toggle:checked + .slider::before {
     border: none;
     color: white;
     background-color: var(--primary-brown);
-    opacity: .8;
+    opacity: .7;
     cursor: pointer;
 
     display: flex;
@@ -477,30 +479,50 @@ input[type='checkbox'].toggle:checked + .slider::before {
     width: 100%;
 }
 
-/* WEAPONS & ARMOR AND POTIONS & ITEMS SECTION */
-
-.character-sheet ul {
-    list-style-type: none;
-}
+/** WEAPONS & ARMOR AND POTIONS & ITEMS SECTION **/
 
 .weapons-armor-items-container {
+    position: relative;
+    margin: 0 10px;
+    font-size: .9em;
+
     display: flex;
     justify-content: space-around;
-    position: relative;
 }
 
 .weapons-armor-items-header {
+    font-weight: 600;
+
     display: flex;
-    gap: 5px;
+    justify-content: flex-start;
+    align-items: center;
+    gap: .3em;
 }
 
-.weapons-armor-container ul,
-.potions-items-container ul {
+.weapons-armor-container h4,
+.weapons-armor-container li,
+.potions-items-container h4,
+.potions-items-container li {
+    width: max-content;
+}
+
+.weapons-armor-container button,
+.potions-items-container button {
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+}
+
+.weapons-armor-items-container ul {
     list-style-type: none;
     overflow: auto;
     height: 105px;
     padding: 0px 5px;
-    cursor: default;
+    cursor: pointer;
+}
+
+.weapons-armor-items-container li {
+    display: flex;
 }
 
 .equippable-item {
@@ -508,11 +530,11 @@ input[type='checkbox'].toggle:checked + .slider::before {
 }
 
 .equippable-item:hover {
-    color: grey;
+    color: var(--character-sheet-brown);
 }
 
 .incompatible {
-    color: silver;
+    color: var(--header-bg-brown);
     /* position: relative; */
 }
 
@@ -555,7 +577,11 @@ input[type='checkbox'].toggle:checked + .slider::before {
     opacity: 1;
 }
 
-/* ITEMS MODAL */
+.remove-item {
+    font-size: 1.1em;
+}
+
+/***** ITEMS MODAL *****/
 
 /* .item-image {
     width: 60px;

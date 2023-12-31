@@ -496,11 +496,12 @@ function createWeaponsAndArmorUi(uniqueId) {
     headerContainer.setAttribute('class', 'weapons-armor-items-header');
 
     const header = document.createElement('h4');
-    header.textContent = 'Weapons & Armor:';
+    header.textContent = 'Weapons & Armor';
     headerContainer.appendChild(header);
 
     const addBtn = document.createElement('button');
-    addBtn.textContent = '+';
+    addBtn.setAttribute('class', 'material-symbols-outlined');
+    addBtn.textContent = 'add';
     headerContainer.appendChild(addBtn);
 
     weaponsArmorContainer.appendChild(headerContainer);
@@ -565,7 +566,8 @@ function createPotionsItemsUi(uniqueId) {
     headerContainer.appendChild(potionsItemsHeader);
 
     const addPotionsItemsBtn = document.createElement('button');
-    addPotionsItemsBtn.textContent = '+';
+    addPotionsItemsBtn.setAttribute('class', 'material-symbols-outlined');
+    addPotionsItemsBtn.textContent = 'add';
     headerContainer.appendChild(addPotionsItemsBtn);
 
     potionsItemsContainer.appendChild(headerContainer);
@@ -670,21 +672,6 @@ function createCancelModalUi(modal) {
     }
 }
 
-function createItemModal(itemName, characterId) {
-    const modal = document.getElementById('modal');
-    createCancelModalUi(modal);
-
-    const item = findItemWithName(itemName);
-
-    const itemCard = createItemCard(item);
-    modal.appendChild(itemCard);
-
-    const equipOrUnequipBtn = createEquipUnequipOrConsumeBtn(characterId, item);
-    modal.appendChild(equipOrUnequipBtn);
-
-    modal.showModal();
-}
-
 function addCharacter(character) {
     characters.push(character);
     storeCharacters(characters);
@@ -710,8 +697,8 @@ function addItemToCharacterList(characterId, list, item) {
     });
 
     const removeBtn = document.createElement('button');
-    removeBtn.setAttribute('class', 'remove-item');
-    removeBtn.textContent = 'x';
+    removeBtn.setAttribute('class', 'remove-item material-symbols-outlined');
+    removeBtn.textContent = 'close';
     li.appendChild(removeBtn);
     removeBtn.addEventListener('click', (event) => removeItemFromCharacter(characterId, item));
 
@@ -731,111 +718,6 @@ function addItemsListToCharacter(element, itemsListByName) {
         addItemToCharacterList(characterId, element, foundItem);
         checkItemCompatibility(characterId, foundItem);
     });    
-}
-
-function characterDeath(event, character) {
-    if (confirm("Are you sure you want to kill your character?")){
-        const targetCharSheet = event.target.parentNode.parentNode.parentNode;
-        targetCharSheet.remove();
-
-        const index = getCharacterIndex(character.characterId);
-        const characters = getCharacters();
-        characters.splice(index, 1);
-        storeCharacters(characters);
-    }
-}
-
-function checkItemCompatibility(characterId, item) {
-    const characterType = document.getElementById(`character-${characterId}-type`).value;
-    const equippedItems = getCharacterEquippedItems(characterId);
-    const equippedItemsById = equippedItems?.map(equippedItem => equippedItem.id);
-
-    if (item.incompatibilities?.includes(characterType) || item.incompatibilities?.some(incompatibility => equippedItemsById?.includes(incompatibility))) {
-        const element = document.getElementById(`character-${characterId}-${item.id}`);
-        element.classList.add('incompatible');
-        // element.setAttribute('data-hover', `${item.name} can't be equipped. Please check the ${item.name} card for why.`);
-        const incompatibleMessage = createIncompatibleItemMessageBox(item);
-        element.after(incompatibleMessage);
-        return 'incompatible';
-    }
-}
-
-function checkAndAddItemModifiers(characterId, item) {
-    if(checkItemCompatibility(characterId, item) === 'incompatible') {
-        console.log('Item modifiers weren\'t added because item is incompatible.');
-        return;
-    }
-
-    const autoUpdateChecked = document.getElementById(`character-${characterId}-auto-update-btn`).checked;
-    
-    if (!autoUpdateChecked || !item.modifiers) {
-        return;
-    }
-
-    for (const modifier in item.modifiers) {
-        switch (modifier) {
-            case 'attackDice':
-                addToDiceOrPointsBucket(characterId, item);
-                break;
-            case 'defendDice':
-                addToDiceOrPointsBucket(characterId, item);
-                break;
-            case 'bodyPoints':
-                addToDiceOrPointsBucket(characterId, item);
-                break;
-            case 'mindPoints':
-                addToDiceOrPointsBucket(characterId, item);
-                break;
-            case 'redDice':
-                console.log(`${modifier}: ${item.modifiers[modifier]}`);
-                break;
-            }
-
-    }
-}
-
-function checkAndRemoveItemModifiers(characterId, item) {
-    if (!item.modifiers) {
-        return;
-    }
-
-    const character = getStoredCharacter(characterId);
-    const characterPrototype = heroTypes.find(type => type.id === character.type); 
-
-    for (const modifier in item.modifiers) {
-        switch (modifier) {
-            case 'attackDice':
-                const attackDice = document.getElementById(`attack-dice-${characterId}`);
-                attackDice.value = character.heroPrototype.attackDice;
-                character.attackDice = character.heroPrototype.attackDice;
-                removeItemFromBucket(character, item);
-                break;
-            case 'defendDice':
-                const defendDice = document.getElementById(`defend-dice-${characterId}`);
-                removeItemFromBucket(character, item);
-                const numOfDefendDice = getTotalDefendDiceFromBucket(character);
-                character.defendDice = numOfDefendDice;
-                defendDice.value = character.defendDice;
-                break;
-            case 'bodyPoints':
-                const startBodyPoints = document.getElementById(`body-${characterId}`);
-                removeItemFromBucket(character, item);
-                const numOfBodyPoints = getTotalBodyPointsFromBucket(character);
-                character.startBodyPts = numOfBodyPoints;
-                startBodyPoints.value = character.startBodyPts;
-                break;
-            case 'mindPoints':
-                const startMindPoints = document.getElementById(`mind-${characterId}`);
-                removeItemFromBucket(character, item);
-                const numOfMindPoints = getTotalMindPointsFromBucket(character);
-                character.startMindPts = numOfMindPoints;
-                startMindPoints.value = character.startMindPts;
-                break;
-            case 'redDice':
-                console.log(`${modifier}: ${item.modifiers[modifier]}`);
-                break;
-        }
-    }
 }
 
 function addToAttackDiceBucket(characterId, item) {
@@ -958,6 +840,111 @@ function addSelectedItemsToStoredCharacter(character, itemsByName) {
     storeCharacter(character);
 }
 
+function characterDeath(event, character) {
+    if (confirm("Are you sure you want to kill your character?")){
+        const targetCharSheet = event.target.parentNode.parentNode.parentNode;
+        targetCharSheet.remove();
+
+        const index = getCharacterIndex(character.characterId);
+        const characters = getCharacters();
+        characters.splice(index, 1);
+        storeCharacters(characters);
+    }
+}
+
+function checkItemCompatibility(characterId, item) {
+    const characterType = document.getElementById(`character-${characterId}-type`).value;
+    const equippedItems = getCharacterEquippedItems(characterId);
+    const equippedItemsById = equippedItems?.map(equippedItem => equippedItem.id);
+
+    if (item.incompatibilities?.includes(characterType) || item.incompatibilities?.some(incompatibility => equippedItemsById?.includes(incompatibility))) {
+        const element = document.getElementById(`character-${characterId}-${item.id}`);
+        element.classList.add('incompatible');
+        // element.setAttribute('data-hover', `${item.name} can't be equipped. Please check the ${item.name} card for why.`);
+        const incompatibleMessage = createIncompatibleItemMessageBox(item);
+        element.after(incompatibleMessage);
+        return 'incompatible';
+    }
+}
+
+function checkAndAddItemModifiers(characterId, item) {
+    if(checkItemCompatibility(characterId, item) === 'incompatible') {
+        console.log('Item modifiers weren\'t added because item is incompatible.');
+        return;
+    }
+
+    const autoUpdateChecked = document.getElementById(`character-${characterId}-auto-update-btn`).checked;
+    
+    if (!autoUpdateChecked || !item.modifiers) {
+        return;
+    }
+
+    for (const modifier in item.modifiers) {
+        switch (modifier) {
+            case 'attackDice':
+                addToDiceOrPointsBucket(characterId, item);
+                break;
+            case 'defendDice':
+                addToDiceOrPointsBucket(characterId, item);
+                break;
+            case 'bodyPoints':
+                addToDiceOrPointsBucket(characterId, item);
+                break;
+            case 'mindPoints':
+                addToDiceOrPointsBucket(characterId, item);
+                break;
+            case 'redDice':
+                console.log(`${modifier}: ${item.modifiers[modifier]}`);
+                break;
+            }
+
+    }
+}
+
+function checkAndRemoveItemModifiers(characterId, item) {
+    if (!item.modifiers) {
+        return;
+    }
+
+    const character = getStoredCharacter(characterId);
+    const characterPrototype = heroTypes.find(type => type.id === character.type); 
+
+    for (const modifier in item.modifiers) {
+        switch (modifier) {
+            case 'attackDice':
+                const attackDice = document.getElementById(`attack-dice-${characterId}`);
+                attackDice.value = character.heroPrototype.attackDice;
+                character.attackDice = character.heroPrototype.attackDice;
+                removeItemFromBucket(character, item);
+                break;
+            case 'defendDice':
+                const defendDice = document.getElementById(`defend-dice-${characterId}`);
+                removeItemFromBucket(character, item);
+                const numOfDefendDice = getTotalDefendDiceFromBucket(character);
+                character.defendDice = numOfDefendDice;
+                defendDice.value = character.defendDice;
+                break;
+            case 'bodyPoints':
+                const startBodyPoints = document.getElementById(`body-${characterId}`);
+                removeItemFromBucket(character, item);
+                const numOfBodyPoints = getTotalBodyPointsFromBucket(character);
+                character.startBodyPts = numOfBodyPoints;
+                startBodyPoints.value = character.startBodyPts;
+                break;
+            case 'mindPoints':
+                const startMindPoints = document.getElementById(`mind-${characterId}`);
+                removeItemFromBucket(character, item);
+                const numOfMindPoints = getTotalMindPointsFromBucket(character);
+                character.startMindPts = numOfMindPoints;
+                startMindPoints.value = character.startMindPts;
+                break;
+            case 'redDice':
+                console.log(`${modifier}: ${item.modifiers[modifier]}`);
+                break;
+        }
+    }
+}
+
 function createInitialCharacter(character) {
     this.characterId = character.characterId;
     this.name = character.name;
@@ -1073,6 +1060,21 @@ function createCharacterItemsList(nodeList) {
 function checkIfEquippedLocationTaken(characterId, item) {
     const containerToCheck = document.getElementById(`character-${characterId}-${item.equippedLocation}-container`);
     return containerToCheck?.querySelector('.item-image');
+}
+
+function createItemModal(itemName, characterId) {
+    const modal = document.getElementById('modal');
+    createCancelModalUi(modal);
+
+    const item = findItemWithName(itemName);
+
+    const itemCard = createItemCard(item);
+    modal.appendChild(itemCard);
+
+    const equipOrUnequipBtn = createEquipUnequipOrConsumeBtn(characterId, item);
+    modal.appendChild(equipOrUnequipBtn);
+
+    modal.showModal();
 }
 
 function createEquipUnequipOrConsumeBtn(characterId, item) {
