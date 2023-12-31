@@ -101,6 +101,48 @@ header ul {
     opacity: .5;
 }
 
+/*** CREATE CHARACTER SHEET ***/
+
+#create-character-sheet {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5vw;
+}
+
+.create-character-welcome {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: .7em;
+    padding: 2em 20px 0;
+    text-align: center;
+}
+
+#add-character-button {
+    font-family: inherit;
+    font-weight: 600px;
+    font-size: 1em;
+    color: var(--primary-brown);
+    background-color: transparent;
+    border: none;
+    padding: .1em .2em;
+    border-radius: 10px;
+}
+
+#add-character-button:hover {
+    color: var(--header-bg-brown);
+    background-color: var(--character-sheet-brown);
+    border: 1px solid var(--primary-brown);
+}
+
+#add-character-button:active {
+    color: var(--primary-brown);
+    background-color: var(--header-bg-brown);
+    border-color: var(--character-sheet-brown);
+}
+
 /***** SELECT CHARACTER TYPE MODAL *****/
 .select-hero-type-modal {
     width: max-content;
@@ -148,10 +190,11 @@ header ul {
     background-image: url(images/character-sheet-1.png);
     background-size: cover;
     font-family: lumanosimo, 'Times New Roman', Times, serif;
+    color: var(--primary-brown);
 
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    /* justify-content: space-between; */
 }
 
 /** CHARACTER NAME, TYPE, SAVE & DEATH BUTTONS SECTION **/
