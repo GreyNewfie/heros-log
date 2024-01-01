@@ -74,6 +74,11 @@ header ul {
     margin-right: 1.5rem;
 }
 
+dialog::backdrop {
+    background-color: #ecddc6;
+    opacity: .6;
+}
+
 /*************************************************/
 /*              CHARACTERS PAGE                  */
 /*************************************************/
@@ -143,6 +148,85 @@ header ul {
     border-color: var(--character-sheet-brown);
 }
 
+/** ENTER CHARACTER NAME MODAL **/
+
+.enter-name-modal {
+    background-image: url(images/enter-name-bg-scroll-263x180.png);
+    background-color: transparent;
+    background-size: contain;
+    background-repeat: no-repeat;
+    width: clamp(289px, 40vw, 526px);
+    height: clamp(198px, 28vw, 360px);
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: clamp(25px, 5%, 35px);
+}
+
+.enter-name-modal #cancel-modal {
+    background-color: transparent;
+    border: none;
+}
+
+.enter-name-modal #cancel-modal:hover,
+.enter-name-modal #cancel-modal:focus,
+.enter-name-input-container button:hover,
+.enter-name-input-container button:focus {
+    color: var(--header-bg-brown);
+    text-shadow: 2px 2px 6px var(--primary-brown);
+}
+
+.enter-name-modal #cancel-modal:focus,
+.enter-name-input-container button:focus {
+    outline: none;
+}
+
+.enter-name-input-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10%;
+    height: 100%;
+    color: var(--primary-brown);
+}
+
+.enter-name-input-container label {
+    font-size: 1.1em;
+}
+
+.enter-name-input-container input {
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border-bottom: 1px solid var(--primary-brown);
+    background-color: transparent;
+    font-family: inherit;
+    font-size: 1em;
+    text-align: center;
+}
+
+.enter-name-input-container input:hover {
+    border-bottom: 1px solid var(--header-bg-brown);
+}
+
+.enter-name-input-container input:focus {
+    outline: none;
+    border-bottom: 2px solid var(--primary-brown);
+}
+
+.enter-name-input-container button {
+    font-family: inherit;
+    color: inherit;
+    font-size: 1em;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+
 /***** SELECT CHARACTER TYPE MODAL *****/
 .select-hero-type-modal {
     width: max-content;
@@ -163,10 +247,6 @@ header ul {
     border: 2px solid green;
 }
 
-.enter-name-input {
-    display: flex;
-    flex-direction: column;
-}
 
 /***** CHARACTER SHEET *****/
 
@@ -395,11 +475,11 @@ input[type='checkbox'].toggle:checked + .slider::before {
 }
 
 .increase-number-btn::before {
-    content: ' \002B';
+    content: '\002B';
 }
 
 .decrease-number-btn::before {
-    content: ' \002D';
+    content: '\002D';
 }
 
 .increase-number-btn,
@@ -637,7 +717,7 @@ input[type='checkbox'].toggle:checked + .slider::before {
     left: 50%;
     transform: translate(-50%, -50%);
     border: none;
-    padding: 10px;
+    font-family: lumanosimo, 'Times New Roman', Times, serif;
 }
 
 #cancel-modal {

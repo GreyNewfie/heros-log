@@ -367,11 +367,12 @@ function createDiceUi(typeOfDice, uniqueId, maxNum) {
 
 function createEnterCharacterNameUi(characterId) {
     const modal = document.getElementById('modal');
+    modal.classList.add('enter-name-modal')
 
     createCancelModalUi(modal);
 
     const enterNameContainer = document.createElement('div');
-    enterNameContainer.setAttribute('class', 'enter-name-input');
+    enterNameContainer.setAttribute('class', 'enter-name-input-container');
 
     const enterNameLabel = document.createElement('label');
     enterNameLabel.setAttribute('for', `character-${characterId}-name`);
@@ -395,6 +396,7 @@ function createEnterCharacterNameUi(characterId) {
         };
         modal.close();
         clearModal(modal);
+        modal.classList.remove('enter-name-modal');
         createSelectCharacterTypeUi(character);
     });
     enterNameContainer.appendChild(doneButton);
@@ -652,7 +654,8 @@ function createSelectItemsModalUi(listElement, itemFilters) {
 function createCancelModalUi(modal) {
     const cancelModal = document.createElement('button');
     cancelModal.setAttribute('id', 'cancel-modal');
-    cancelModal.textContent = 'X';
+    cancelModal.setAttribute('class', 'material-symbols-outlined')
+    cancelModal.textContent = 'close';
     modal.appendChild(cancelModal);
 
     cancelModal.addEventListener('click', () => {
@@ -660,6 +663,10 @@ function createCancelModalUi(modal) {
         if (modalClasses.contains('select-hero-type-modal')) {
             modal.classList.remove('select-hero-type-modal');
             removeCharactersWithoutType();
+        }
+
+        if (modalClasses.contains('enter-name-modal')) {
+            modal.classList.remove('enter-name-modal');
         }
         modal.close();
         clearModal(modal);
@@ -945,6 +952,49 @@ function checkAndRemoveItemModifiers(characterId, item) {
     }
 }
 
+function checkCharacterItemsCompatibility(characterId) {
+    const storedCharacter = getStoredCharacter(characterId);
+
+    if (storedCharacter) {
+        characterType = storedCharacter.type;
+        weaponsAndArmor = storedCharacter.weaponsAndArmor;
+        potionsAndItems = storedCharacter.potionsAndItems;
+    } else {
+        characterType = document.getElementById(`character-${characterId}-type`).value;
+        weaponsAndArmor = getWeaponsAndArmor(characterId);
+        potionsAndItems = getPotionsAndItems(characterId);
+    }
+
+    const equippedItems = getCharacterEquippedItems(characterId);
+    const characterItems = weaponsAndArmor.concat(potionsAndItems); 
+    const incompatibleItems = [];
+
+    characterItems.forEach(item => {
+        const element = document.getElementById(`character-${characterId}-${item.id}`);
+        // Would this work? item.incompatibilities.includes(...[item.id])
+        if (item.incompatibilities?.includes(characterType) || item.incompatibilities?.some(incompatibility => equippedItems.some(equippedItem => equippedItem.id === incompatibility))) {
+            element.classList.add('incompatible');
+            incompatibleItems.push(item);
+            // element.setAttribute('data-hover', `${item.name} can't be equipped. Please check the ${item.name} card for why.`);
+            const incompatibleMessage = createIncompatibleItemMessageBox(item);
+            element.after(incompatibleMessage);
+        } else {
+            if (!equippedItems.includes(item)){
+                element.classList.remove('incompatible');
+            }
+
+            if (incompatibleItems.indexOf(item) != -1) {
+                incompatibleItems.splice(incompatibleItems.indexOf(item), 1);  
+            }
+        }
+    })
+}
+
+function checkIfEquippedLocationTaken(characterId, item) {
+    const containerToCheck = document.getElementById(`character-${characterId}-${item.equippedLocation}-container`);
+    return containerToCheck?.querySelector('.item-image');
+}
+
 function createInitialCharacter(character) {
     this.characterId = character.characterId;
     this.name = character.name;
@@ -1007,44 +1057,6 @@ function createMindPointsModifier(item) {
     return statModifier;
 }
 
-function checkCharacterItemsCompatibility(characterId) {
-    const storedCharacter = getStoredCharacter(characterId);
-
-    if (storedCharacter) {
-        characterType = storedCharacter.type;
-        weaponsAndArmor = storedCharacter.weaponsAndArmor;
-        potionsAndItems = storedCharacter.potionsAndItems;
-    } else {
-        characterType = document.getElementById(`character-${characterId}-type`).value;
-        weaponsAndArmor = getWeaponsAndArmor(characterId);
-        potionsAndItems = getPotionsAndItems(characterId);
-    }
-
-    const equippedItems = getCharacterEquippedItems(characterId);
-    const characterItems = weaponsAndArmor.concat(potionsAndItems); 
-    const incompatibleItems = [];
-
-    characterItems.forEach(item => {
-        const element = document.getElementById(`character-${characterId}-${item.id}`);
-        // Would this work? item.incompatibilities.includes(...[item.id])
-        if (item.incompatibilities?.includes(characterType) || item.incompatibilities?.some(incompatibility => equippedItems.some(equippedItem => equippedItem.id === incompatibility))) {
-            element.classList.add('incompatible');
-            incompatibleItems.push(item);
-            // element.setAttribute('data-hover', `${item.name} can't be equipped. Please check the ${item.name} card for why.`);
-            const incompatibleMessage = createIncompatibleItemMessageBox(item);
-            element.after(incompatibleMessage);
-        } else {
-            if (!equippedItems.includes(item)){
-                element.classList.remove('incompatible');
-            }
-
-            if (incompatibleItems.indexOf(item) != -1) {
-                incompatibleItems.splice(incompatibleItems.indexOf(item), 1);  
-            }
-        }
-    })
-}
-
 function createCharacterItemsList(nodeList) {
     const characterItems = [];
     nodeList.forEach(li => {
@@ -1055,11 +1067,6 @@ function createCharacterItemsList(nodeList) {
         }
     });
     return characterItems;
-}
-
-function checkIfEquippedLocationTaken(characterId, item) {
-    const containerToCheck = document.getElementById(`character-${characterId}-${item.equippedLocation}-container`);
-    return containerToCheck?.querySelector('.item-image');
 }
 
 function createItemModal(itemName, characterId) {
