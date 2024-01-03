@@ -37,12 +37,22 @@ a {
 }
 
 header {
-    background-color: var(--header-bg-brown);
+    /* background-color: var(--header-bg-brown);
+    box-shadow: inset 0 -10px 6px -6px #45282c; */
     font-family: carter one, 'Times New Roman', Times, serif;
 }
 
 header a {
-    color: var(--logo-shield-blue);
+    color: var(--header-bg-brown);
+    text-shadow: 1px 1px 5px var(--primary-brown);
+}
+
+header a:hover {
+    color: var(--logo-text-yellow);
+}
+
+header a:active {
+    opacity: .8;
 }
 
 header nav {
@@ -57,7 +67,7 @@ header img {
     min-width: 100px;
     max-width: 150px;
     height: auto;
-    margin-left: 1rem;
+    margin-left: 3%;
 }
 
 header h1 {
@@ -83,18 +93,15 @@ dialog::backdrop {
 /*              CHARACTERS PAGE                  */
 /*************************************************/
 
-.content {
+body {
     position: relative;
     height: 100vh;
     background-image: url(images/HeroQuest_board.jpeg);
     background-color: var(--header-bg-brown);
     background-size: cover;
-
-    display: flex;
-    flex-direction: column;
 }
 
-.content::before {
+body::after {
     content: "";
     position: absolute;
     left: 0px;
@@ -103,8 +110,32 @@ dialog::backdrop {
     bottom: 0px;
     height: 100vh;
     background-color: var(--primary-brown);
-    opacity: .5;
+    opacity: .6;
+    z-index: -1;
 }
+
+.content {
+    /* position: relative;
+    height: 100vh;
+    background-image: url(images/HeroQuest_board.jpeg);
+    background-color: var(--header-bg-brown);
+    background-size: cover; */
+
+    display: flex;
+    flex-direction: column;
+}
+
+/* .content::before {
+    content: "";
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    right: 0px;
+    bottom: 0px;
+    height: 100vh;
+    background-color: var(--primary-brown);
+    opacity: .6;
+} */
 
 /*** CREATE CHARACTER SHEET ***/
 
@@ -127,26 +158,27 @@ dialog::backdrop {
 
 #add-character-button {
     font-family: inherit;
-    font-weight: 600px;
     font-size: 1em;
-    text-shadow: 1px 1px 5px #9C501B;
+    text-shadow: 1px 1px #45282c;
     color: var(--primary-brown);
     background-color: transparent;
     border: none;
-    padding: .1em .2em;
-    border-radius: 10px;
+    padding: 0.1em 0.2em;
+    border-bottom: 1px solid var(--primary-brown);
 }
 
 #add-character-button:hover {
     color: var(--header-bg-brown);
     background-color: var(--character-sheet-brown);
     border: 1px solid var(--primary-brown);
+    border-radius: 10px;
 }
 
 #add-character-button:active {
     color: var(--primary-brown);
     background-color: var(--header-bg-brown);
     border-color: var(--character-sheet-brown);
+    border-radius: 10px;
 }
 
 /** ENTER CHARACTER NAME MODAL **/
