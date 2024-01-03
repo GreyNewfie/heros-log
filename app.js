@@ -410,7 +410,6 @@ function createSelectCharacterTypeUi(character) {
     modal.setAttribute('class', 'select-hero-type-modal');
 
     createCancelModalUi(modal);
-    // If cancel button is clicked then delete character
 
     const heroTypesContainer = document.createElement('div');
     heroTypesContainer.setAttribute('class', 'hero-types-container');
@@ -442,7 +441,7 @@ function createSelectCharacterTypeUi(character) {
         const heroTypeContainer = document.createElement('div');
         heroTypeContainer.setAttribute('class', 'hero-type-image-container');
 
-        let imagePath = `images/character-type-card-${heroType}.png`;
+        let imagePath = `images/character-card-${heroType}-1580x2200.png`;
         let altText = `Heroquest ${heroType} character game card'`
     
         const heroTypeImage = document.createElement('img');

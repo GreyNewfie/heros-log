@@ -168,6 +168,8 @@ dialog::backdrop {
 .enter-name-modal #cancel-modal {
     background-color: transparent;
     border: none;
+    margin-left: 90%;
+    cursor: pointer;
 }
 
 .enter-name-modal #cancel-modal:hover,
@@ -179,7 +181,8 @@ dialog::backdrop {
 }
 
 .enter-name-modal #cancel-modal:focus,
-.enter-name-input-container button:focus {
+.enter-name-input-container button:focus,
+.select-hero-type-modal #cancel-modal:focus {
     outline: none;
 }
 
@@ -226,10 +229,30 @@ dialog::backdrop {
     cursor: pointer;
 }
 
-
 /***** SELECT CHARACTER TYPE MODAL *****/
 .select-hero-type-modal {
     width: max-content;
+    background-color: transparent;
+}
+
+.select-hero-type-modal #cancel-modal {
+    background-color: var(--primary-brown);
+    color: var(--header-bg-brown);
+    border: 1px solid var(--character-sheet-brown);
+    border-radius: 5px;
+    margin-left: 95%;
+}
+
+.select-hero-type-modal #cancel-modal:hover {
+    background-color: var(--header-bg-brown);
+    color: var(--primary-brown);
+    border: 1px solid var(--primary-brown);
+}
+
+.select-hero-type-modal #cancel-modal:active {
+    background-color: var(--character-sheet-brown);
+    color: var(--header-bg-brown);
+    border: 1px solid var(--header-bg-brown);
 }
 
 .hero-types-container {
@@ -244,7 +267,13 @@ dialog::backdrop {
 }
 
 .character-type-card:hover {
-    border: 2px solid green;
+    border: 5px solid var(--primary-brown);
+    border-radius: 10px;
+}
+
+.character-type-card:active {
+    border: 5px solid var(--character-sheet-brown);
+    opacity: .8;
 }
 
 
@@ -718,10 +747,6 @@ input[type='checkbox'].toggle:checked + .slider::before {
     transform: translate(-50%, -50%);
     border: none;
     font-family: lumanosimo, 'Times New Roman', Times, serif;
-}
-
-#cancel-modal {
-    margin-left: 90%;
 }
 
 dialog > fieldset {
