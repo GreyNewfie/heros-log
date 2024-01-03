@@ -129,6 +129,7 @@ dialog::backdrop {
     font-family: inherit;
     font-weight: 600px;
     font-size: 1em;
+    text-shadow: 1px 1px 5px #9C501B;
     color: var(--primary-brown);
     background-color: transparent;
     border: none;
