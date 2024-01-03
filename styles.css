@@ -43,12 +43,12 @@ header {
 }
 
 header a {
-    color: var(--header-bg-brown);
+    color: var(--logo-text-yellow);
     text-shadow: 1px 1px 5px var(--primary-brown);
 }
 
 header a:hover {
-    color: var(--logo-text-yellow);
+    color: var(--header-bg-brown);
 }
 
 header a:active {
@@ -447,7 +447,8 @@ input[type='checkbox'].toggle + .slider::before {
     content: "";
     width: 2.5em;
     height: 1.25em;
-    background-color: #DDD;
+    background-color: var(--character-sheet-brown);
+    opacity: .7;
     border-radius: 1em;
     margin-right: .25em;
     transition: background-color 200ms ease-in-out;
@@ -455,11 +456,11 @@ input[type='checkbox'].toggle + .slider::before {
 
 input[type='checkbox'].toggle + .slider::after {
     content: "\2715";
-    color: white;
+    color: var(--header-bg-brown);
     font-size: .67em;
     width: 1.6em;
     height: 1.6em;
-    background-color: hsl(233, 3%, 42%);
+    background-color: var(--primary-brown);
     border-radius: 50%;
     position: absolute;
     left: .2em;
