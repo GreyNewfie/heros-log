@@ -602,10 +602,12 @@ function createSelectItemsModalUi(listElement, itemFilters) {
 
     if (itemFilters.includes('weapon') && itemFilters.includes('armor')) {
         legend.textContent = 'Choose your weapons and armor:';
+        modal.setAttribute('class', 'select-weapons-armor-container');
     }
 
     if (itemFilters.includes('potion') && itemFilters.includes('item')) {
         legend.textContent = 'Choose your potions and items:';
+        modal.setAttribute('class', 'select-potions-items-container');
     }
 
     fieldset.appendChild(legend);
@@ -644,6 +646,7 @@ function createSelectItemsModalUi(listElement, itemFilters) {
         addItemsListToCharacter(listElement, selectedItemNames);
         const character = getStoredCharacter(((listElement.id).split('-'))[1]);
         addSelectedItemsToStoredCharacter(character, selectedItemNames);
+        modal.classList.remove('select-items-container');
         clearModal(modal);
     });
 
@@ -658,15 +661,7 @@ function createCancelModalUi(modal) {
     modal.appendChild(cancelModal);
 
     cancelModal.addEventListener('click', () => {
-        const modalClasses = modal.classList;
-        if (modalClasses.contains('select-hero-type-modal')) {
-            modal.classList.remove('select-hero-type-modal');
-            removeCharactersWithoutType();
-        }
-
-        if (modalClasses.contains('enter-name-modal')) {
-            modal.classList.remove('enter-name-modal');
-        }
+        modal.classList = '';
         modal.close();
         clearModal(modal);
     }); 

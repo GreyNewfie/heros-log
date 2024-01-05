@@ -37,8 +37,8 @@ a {
 }
 
 header {
-    /* background-color: var(--header-bg-brown);
-    box-shadow: inset 0 -10px 6px -6px #45282c; */
+    background-color: var(--header-bg-brown);
+    box-shadow: inset 0 -10px 6px -6px #45282c;
     font-family: carter one, 'Times New Roman', Times, serif;
 }
 
@@ -93,7 +93,7 @@ dialog::backdrop {
 /*              CHARACTERS PAGE                  */
 /*************************************************/
 
-body {
+/* body {
     position: relative;
     height: 100vh;
     background-image: url(images/HeroQuest_board.jpeg);
@@ -112,20 +112,20 @@ body::after {
     background-color: var(--primary-brown);
     opacity: .6;
     z-index: -1;
-}
+} */
 
 .content {
-    /* position: relative;
+    position: relative;
     height: 100vh;
     background-image: url(images/HeroQuest_board.jpeg);
     background-color: var(--header-bg-brown);
-    background-size: cover; */
+    background-size: cover;
 
     display: flex;
     flex-direction: column;
 }
 
-/* .content::before {
+.content::before {
     content: "";
     position: absolute;
     left: 0px;
@@ -135,7 +135,7 @@ body::after {
     height: 100vh;
     background-color: var(--primary-brown);
     opacity: .6;
-} */
+}
 
 /*** CREATE CHARACTER SHEET ***/
 
@@ -182,10 +182,18 @@ body::after {
 }
 
 /** ENTER CHARACTER NAME MODAL **/
+.enter-name-modal,
+.select-hero-type-modal {
+    position:absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: transparent;
+    border: none;
+}
 
 .enter-name-modal {
     background-image: url(images/enter-name-bg-scroll-263x180.png);
-    background-color: transparent;
     background-size: contain;
     background-repeat: no-repeat;
     width: clamp(289px, 40vw, 526px);
@@ -767,25 +775,79 @@ input[type='checkbox'].toggle:checked + .slider::before {
     font-size: 1.1em;
 }
 
-/***** ITEMS MODAL *****/
+/***** SELECT ITEMS MODAL *****/
 
-/* .item-image {
-    width: 60px;
-    object-fit: contain;
-} */
-
-#modal {
+.select-weapons-armor-container,
+.select-potions-items-container {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     border: none;
     font-family: lumanosimo, 'Times New Roman', Times, serif;
+    background-image: url(images/select-items-bg-355x520.png);
+    background-color: transparent;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
 }
 
-dialog > fieldset {
-    margin: 5px 25px 10px;
+.select-weapons-armor-container {
+    height: 675px;
+    width: 460px;
+    padding: 40px 70px 0;
 }
+
+.select-potions-items-container {
+    width: 410px;
+    height: 520px;
+    padding: 30px 70px 0;
+}
+
+.select-weapons-armor-container > #cancel-modal,
+.select-potions-items-container > #cancel-modal {
+    margin-left: 85%;
+    background-color: transparent;
+    border: none;
+    color: var(--primary-brown);
+}
+
+.select-weapons-armor-container > #cancel-modal:hover,
+.select-potions-items-container > #cancel-modal:hover,
+fieldset#choose-items button#close-modal:hover {
+    color: var(--header-bg-brown);
+    text-shadow: 1px 1px 5px 5px var(--primary-brown);
+}
+
+#modal > fieldset {
+    border: none;
+}
+
+fieldset#choose-items > legend {
+    margin-bottom: 5px;
+}
+
+fieldset#choose-items > div {
+    display: flex;
+    gap: 5px;
+}
+
+fieldset#choose-items input {
+    background-color: transparent;
+    border: var(--primary-brown);
+}
+
+fieldset#choose-items div:last-of-type {
+    margin-bottom: 10px;
+}
+
+fieldset#choose-items button#close-modal {
+    font-family: inherit;
+    font-size: 1.1em;
+    border: none;
+    background-color: transparent;
+}
+
 
 /*************************************************/
 /*                QUESTS PAGE                    */

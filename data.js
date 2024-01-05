@@ -40,7 +40,7 @@ const heroTypes= [
     },
     {
         id: 'barbarian',
-        name: 'Barabarian',
+        name: 'Barbarian',
         attackDice: 3,
         defendDice: 2,
         startBodyPts: 8,
