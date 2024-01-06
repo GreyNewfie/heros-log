@@ -601,12 +601,12 @@ function createSelectItemsModalUi(listElement, itemFilters) {
     const legend = document.createElement('legend');
 
     if (itemFilters.includes('weapon') && itemFilters.includes('armor')) {
-        legend.textContent = 'Choose your weapons and armor:';
+        legend.innerHTML = '<strong>Choose Your Weapons & Armor:</strong>';
         modal.setAttribute('class', 'select-weapons-armor-container');
     }
 
     if (itemFilters.includes('potion') && itemFilters.includes('item')) {
-        legend.textContent = 'Choose your potions and items:';
+        legend.innerHTML = '<strong>Choose Your Potions & Items:</strong>';
         modal.setAttribute('class', 'select-potions-items-container');
     }
 
@@ -617,7 +617,8 @@ function createSelectItemsModalUi(listElement, itemFilters) {
         const itemsToAdd = items.filter(item => itemFilters.includes(item.classification));
 
         itemsToAdd.forEach(item => {
-            const inputContainer = document.createElement('div');
+            const itemContainer = document.createElement('div');
+            itemContainer.setAttribute('class', 'item-container');
     
             const label = document.createElement('label');
             label.setAttribute('for', item.id);
@@ -625,9 +626,14 @@ function createSelectItemsModalUi(listElement, itemFilters) {
     
             const input = document.createElement('input');
             setAttributes(input, {type: 'checkbox', id: `${item.id}`, name: `${item.id}`});
+            label.appendChild(input);
+
+            const checkmark = document.createElement('span');
+            checkmark.setAttribute('class', 'checkmark');
+            label.appendChild(checkmark);
     
-            inputContainer.append(input, label);
-            fieldset.appendChild(inputContainer);
+            itemContainer.append(label);
+            fieldset.appendChild(itemContainer);
         });
     }
 
@@ -636,7 +642,7 @@ function createSelectItemsModalUi(listElement, itemFilters) {
     }
 
     const submitItems = document.createElement('button');
-    submitItems.textContent = 'Done';
+    submitItems.innerHTML = '<strong>DONE</strong>';
     submitItems.setAttribute('id', 'close-modal');
     fieldset.appendChild(submitItems);
 
@@ -648,6 +654,7 @@ function createSelectItemsModalUi(listElement, itemFilters) {
         addSelectedItemsToStoredCharacter(character, selectedItemNames);
         modal.classList.remove('select-items-container');
         clearModal(modal);
+        modal.classList = '';
     });
 
     modal.appendChild(fieldset);

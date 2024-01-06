@@ -790,23 +790,27 @@ input[type='checkbox'].toggle:checked + .slider::before {
     background-repeat: no-repeat;
     background-position: center;
     background-size: contain;
+    padding-top: 40px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .select-weapons-armor-container {
     height: 675px;
     width: 460px;
-    padding: 40px 70px 0;
+    padding-top: 40px;
 }
 
 .select-potions-items-container {
-    width: 410px;
+    width: 355px;
     height: 520px;
-    padding: 30px 70px 0;
 }
 
 .select-weapons-armor-container > #cancel-modal,
 .select-potions-items-container > #cancel-modal {
-    margin-left: 85%;
+    margin-left: 68%;
     background-color: transparent;
     border: none;
     color: var(--primary-brown);
@@ -814,9 +818,18 @@ input[type='checkbox'].toggle:checked + .slider::before {
 
 .select-weapons-armor-container > #cancel-modal:hover,
 .select-potions-items-container > #cancel-modal:hover,
-fieldset#choose-items button#close-modal:hover {
+fieldset#choose-items button#close-modal:hover,
+fieldset#choose-items label:hover {
     color: var(--header-bg-brown);
-    text-shadow: 1px 1px 5px 5px var(--primary-brown);
+    text-shadow: 1px 1px 5px var(--primary-brown);
+}
+
+.select-weapons-armor-container > #cancel-modal:active,
+.select-potions-items-container > #cancel-modal:active,
+fieldset#choose-items button#close-modal:active,
+fieldset#choose-items label:active {
+    color: var(--character-sheet-brown);
+    text-shadow: 1px 1px 5px var(--header-bg-brown);
 }
 
 #modal > fieldset {
@@ -827,15 +840,75 @@ fieldset#choose-items > legend {
     margin-bottom: 5px;
 }
 
-fieldset#choose-items > div {
-    display: flex;
-    gap: 5px;
-}
+/* Customize the label (the container) */
+.item-container {
+    position: relative;
+    padding-left: calc(1em + 5px);
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
 
-fieldset#choose-items input {
+  .item-container label {
+    display: flex;
+    align-items: center;
+  }
+  
+  /* Hide the browser's default checkbox */
+  .item-container input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+  }
+  
+  /* Create a custom checkbox */
+  .checkmark {
+    position: absolute;
+    left: 0;
+    height: 1em;
+    width: 1em;
     background-color: transparent;
-    border: var(--primary-brown);
-}
+    border: 1px solid var(--primary-brown);
+    border-radius: 5px;
+  }
+  
+  /* On mouse-over, add a grey background color */
+  .item-container:hover input ~ .checkmark {
+    background-color: var(--header-bg-brown);
+  }
+  
+  /* When the checkbox is checked, add a blue background */
+  .item-container input:checked ~ .checkmark {
+    background-color: var(--primary-brown);
+  }
+  
+  /* Create the checkmark/indicator (hidden when not checked) */
+  .checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+  }
+  
+  /* Show the checkmark when checked */
+  .item-container input:checked ~ .checkmark:after {
+    display: block;
+  }
+  
+  /* Style the checkmark/indicator */
+  .item-container .checkmark:after {
+    left: 5px;
+    top: 2px;
+    width: 5px;
+    height: 10px;
+    border: solid var(--header-bg-brown);
+    border-width: 0 3px 3px 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+  }
 
 fieldset#choose-items div:last-of-type {
     margin-bottom: 10px;
@@ -843,7 +916,7 @@ fieldset#choose-items div:last-of-type {
 
 fieldset#choose-items button#close-modal {
     font-family: inherit;
-    font-size: 1.1em;
+    font-size: 1em;
     border: none;
     background-color: transparent;
 }
