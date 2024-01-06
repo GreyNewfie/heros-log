@@ -8,7 +8,15 @@
 }
 
 :root {
-    --logo-yellow: var(#e7b42f);
+    --logo-text-yellow: #f4a01b;
+    --big-stone-blue: #162839;
+    --regent-gray: #8597A6;
+    --matisse-blue: #1A70A9;
+    --tulip-tree-yellow: #EFAF43;
+    --logo-shield-blue: #125c8b;
+    --primary-brown: #45282c;
+    --header-bg-brown: #ecddc6;
+    --character-sheet-brown: #9C501B;
 }
 
 h1 {
@@ -28,17 +36,38 @@ a {
     color: black;
 }
 
+header {
+    background-color: var(--header-bg-brown);
+    box-shadow: inset 0 -10px 6px -6px #45282c;
+    font-family: carter one, 'Times New Roman', Times, serif;
+}
+
+header a {
+    color: var(--logo-text-yellow);
+    text-shadow: 1px 1px 5px var(--primary-brown);
+}
+
+header a:hover {
+    color: var(--header-bg-brown);
+}
+
+header a:active {
+    opacity: .8;
+}
+
 header nav {
     display: flex;
     justify-content: space-between;
     align-items: center;
+
 }
 
 header img {
     width: 100%;
-    min-width: 125px;
-    max-width: 325px;
+    min-width: 100px;
+    max-width: 150px;
     height: auto;
+    margin-left: 3%;
 }
 
 header h1 {
@@ -49,50 +78,222 @@ header h1 {
 header ul {
     display: flex;
     gap: 1.5vw;
-    margin-right: 1vw;
     list-style-type: none;
     font-size: clamp(1.125rem, 0.5vw + 1rem, 2rem);
     font-weight: 600;
+    margin-right: 1.5rem;
+}
+
+dialog::backdrop {
+    background-color: #ecddc6;
+    opacity: .6;
 }
 
 /*************************************************/
 /*              CHARACTERS PAGE                  */
 /*************************************************/
-.enter-name-input {
+
+/* body {
+    position: relative;
+    height: 100vh;
+    background-image: url(images/HeroQuest_board.jpeg);
+    background-color: var(--header-bg-brown);
+    background-size: cover;
+}
+
+body::after {
+    content: "";
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    right: 0px;
+    bottom: 0px;
+    height: 100vh;
+    background-color: var(--primary-brown);
+    opacity: .6;
+    z-index: -1;
+} */
+
+.content {
+    position: relative;
+    height: 100vh;
+    background-image: url(images/HeroQuest_board.jpeg);
+    background-color: var(--header-bg-brown);
+    background-size: cover;
+
     display: flex;
     flex-direction: column;
 }
 
-.character-sheet-container {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 15px;
-    padding: 1%;
+.content::before {
+    content: "";
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    right: 0px;
+    bottom: 0px;
+    height: 100vh;
+    background-color: var(--primary-brown);
+    opacity: .6;
 }
 
-.character-sheet {
-    border: 1px solid black;
-    width: 350px;
-    position: relative;
-    padding: 5px;
+/*** CREATE CHARACTER SHEET ***/
+
+#create-character-sheet {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5vw;
+}
+
+.create-character-welcome {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: .7em;
+    padding: 2em 20px 0;
+    text-align: center;
+}
+
+#add-character-button {
+    font-family: inherit;
+    font-size: 1em;
+    text-shadow: 1px 1px #45282c;
+    color: var(--primary-brown);
+    background-color: transparent;
+    border: none;
+    padding: 0.1em 0.2em;
+    border-bottom: 1px solid var(--primary-brown);
+}
+
+#add-character-button:hover {
+    color: var(--header-bg-brown);
+    background-color: var(--character-sheet-brown);
+    border: 1px solid var(--primary-brown);
+    border-radius: 10px;
+}
+
+#add-character-button:active {
+    color: var(--primary-brown);
+    background-color: var(--header-bg-brown);
+    border-color: var(--character-sheet-brown);
+    border-radius: 10px;
+}
+
+/** ENTER CHARACTER NAME MODAL **/
+.enter-name-modal,
+.select-hero-type-modal {
+    position:absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: transparent;
+    border: none;
+}
+
+.enter-name-modal {
+    background-image: url(images/enter-name-bg-scroll-263x180.png);
+    background-size: contain;
+    background-repeat: no-repeat;
+    width: clamp(289px, 40vw, 526px);
+    height: clamp(198px, 28vw, 360px);
 
     display: flex;
     flex-direction: column;
     justify-content: center;
+    align-items: center;
+    padding: clamp(25px, 5%, 35px);
 }
 
-.character-name-type-container {
-    margin-bottom: 5px;
+.enter-name-modal #cancel-modal {
+    background-color: transparent;
+    border: none;
+    margin-left: 90%;
+    cursor: pointer;
 }
 
-.character-name-type-container div:last-child {
+.enter-name-modal #cancel-modal:hover,
+.enter-name-modal #cancel-modal:focus,
+.enter-name-input-container button:hover,
+.enter-name-input-container button:focus {
+    color: var(--header-bg-brown);
+    text-shadow: 2px 2px 6px var(--primary-brown);
+}
+
+.enter-name-modal #cancel-modal:focus,
+.enter-name-input-container button:focus,
+.select-hero-type-modal #cancel-modal:focus {
+    outline: none;
+}
+
+.enter-name-input-container {
     display: flex;
-    gap: .5em;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10%;
+    height: 100%;
+    color: var(--primary-brown);
 }
 
-/* Select Character Type Modal */
+.enter-name-input-container label {
+    font-size: 1.1em;
+}
+
+.enter-name-input-container input {
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border-bottom: 1px solid var(--primary-brown);
+    background-color: transparent;
+    font-family: inherit;
+    font-size: 1em;
+    text-align: center;
+}
+
+.enter-name-input-container input:hover {
+    border-bottom: 1px solid var(--header-bg-brown);
+}
+
+.enter-name-input-container input:focus {
+    outline: none;
+    border-bottom: 2px solid var(--primary-brown);
+}
+
+.enter-name-input-container button {
+    font-family: inherit;
+    color: inherit;
+    font-size: 1em;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+/***** SELECT CHARACTER TYPE MODAL *****/
 .select-hero-type-modal {
     width: max-content;
+    background-color: transparent;
+}
+
+.select-hero-type-modal #cancel-modal {
+    background-color: var(--primary-brown);
+    color: var(--header-bg-brown);
+    border: 1px solid var(--character-sheet-brown);
+    border-radius: 5px;
+    margin-left: 95%;
+}
+
+.select-hero-type-modal #cancel-modal:hover {
+    background-color: var(--header-bg-brown);
+    color: var(--primary-brown);
+    border: 1px solid var(--primary-brown);
+}
+
+.select-hero-type-modal #cancel-modal:active {
+    background-color: var(--character-sheet-brown);
+    color: var(--header-bg-brown);
+    border: 1px solid var(--header-bg-brown);
 }
 
 .hero-types-container {
@@ -107,20 +308,137 @@ header ul {
 }
 
 .character-type-card:hover {
-    border: 2px solid green;
+    border: 5px solid var(--primary-brown);
+    border-radius: 10px;
 }
 
-/* Create Automatically Update Stats Toggle Switch */
+.character-type-card:active {
+    border: 5px solid var(--character-sheet-brown);
+    opacity: .8;
+}
+
+
+/***** CHARACTER SHEET *****/
+
+.character-sheets-container {
+    padding: 1%;
+
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+    grid-template-rows: repeat(auto-fit, minmax(525px, 595px));
+    justify-items: center;
+    gap: 1rem 1rem;
+}
+
+.character-sheet {
+    width: 90%;
+    max-width: 396px;
+    min-width: 360px;
+    min-height: 525px;
+    position: relative;
+    padding: 40px 20px 30px;
+    background-image: url(images/character-sheet-1.png);
+    background-size: cover;
+    font-family: lumanosimo, 'Times New Roman', Times, serif;
+    color: var(--primary-brown);
+
+    display: flex;
+    flex-direction: column;
+    /* justify-content: space-between; */
+}
+
+/** CHARACTER NAME, TYPE, SAVE & DEATH BUTTONS SECTION **/
+.character-name-type-container {
+    margin-bottom: 5px;
+    margin-left: 10px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.character-name-type-container > div {
+    display: flex;
+    gap: .5em;
+}
+
+/** Save and Death Buttons **/
+.char-btns {
+    position: absolute;
+    right: 45px;
+    top: 40px;
+
+    display: flex;
+    gap: 10px;
+}
+
+.save-button {
+    border: none;
+    border-radius: 10px;
+    padding: 0.1em 0.3em;
+    background-color: transparent;
+    font-family: inherit;
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.save-button:hover {
+    opacity: .8;
+    border: 1px solid #45282c;
+    background-color: #9C501B;
+    color: #ECDEC9;
+    transition: 200ms;
+}
+
+.save-button:active {
+    background-color: var(--header-bg-brown);
+    color: var(--primary-brown);
+    transition: 100ms;
+}
+
+.killed-button {
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+}
+
+.killed-button:hover {
+    opacity: .8;
+}
+
+/* Death Button Skull Icon */
+.material-symbols-outlined {
+    font-variation-settings:
+    'FILL' 0,
+    'wght' 400,
+    'GRAD' 0,
+    'opsz' 24;
+    color: var(--primary-brown);
+}
+
+.material-symbols-outlined:hover {
+    color: var(--character-sheet-brown);
+    font-variation-settings:
+    'FILL' 1;
+}
+
+.material-symbols-outlined:active {
+    color: var(--header-bg-brown);
+}
+
+/** AUTOMATICALLY UPDATE STATS SECTION **/
 .auto-update-ui-container {
+    margin-left: 10px;
     margin-bottom: 5px;
 }
 
 .auto-update-ui-container > label {
     display: flex;
-    gap: .1em;
+    gap: .25em;
     cursor: pointer;
 }
 
+/* Creates Automatically Update Stats Toggle Switch */
 input[type='checkbox'].toggle {
     opacity: 0;
     width: 0;
@@ -135,9 +453,10 @@ input[type='checkbox'].toggle + .slider {
 
 input[type='checkbox'].toggle + .slider::before {
     content: "";
-    width: 2em;
-    height: 1em;
-    background-color: #DDD;
+    width: 2.5em;
+    height: 1.25em;
+    background-color: var(--character-sheet-brown);
+    opacity: .7;
     border-radius: 1em;
     margin-right: .25em;
     transition: background-color 200ms ease-in-out;
@@ -145,11 +464,11 @@ input[type='checkbox'].toggle + .slider::before {
 
 input[type='checkbox'].toggle + .slider::after {
     content: "\2715";
-    color: white;
-    font-size: .5em;
-    width: 1.8em;
-    height: 1.8em;
-    background-color: hsl(233, 3%, 42%);
+    color: var(--header-bg-brown);
+    font-size: .67em;
+    width: 1.6em;
+    height: 1.6em;
+    background-color: var(--primary-brown);
     border-radius: 50%;
     position: absolute;
     left: .2em;
@@ -165,24 +484,16 @@ input[type='checkbox'].toggle:checked + .slider::after {
     -webkit-transform: translateX(100%);
     -ms-transform: translateX(100%);
     transform: translateX(100%);
-    background-color: #e7b42f;
+    background-color: green;
     content: "\2713";
 }
 
 input[type='checkbox'].toggle:checked + .slider::before {
-    background-color: #e7b42f;
+    background-color: green;
     opacity: .4;
 }
 
-/* Character sheet skull icon */
-.material-symbols-outlined {
-    font-variation-settings:
-    'FILL' 0,
-    'wght' 400,
-    'GRAD' 0,
-    'opsz' 24
-}
-
+/** DICE AND STARTING POINTS SECTIONS **/
 .initial-stats {
     display: flex;
     justify-content: space-between;
@@ -194,11 +505,14 @@ input[type='checkbox'].toggle:checked + .slider::before {
     flex: auto;
 }
 
+.initial-stats > div:nth-child(-n + 2) {
+    width: min-content;
+}
+
 .starting-points {
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-template-rows: 1fr 2fr;
-    column-gap: 15px;
 }
 
 .starting-points h4 {
@@ -213,24 +527,62 @@ input[type='checkbox'].toggle:checked + .slider::before {
     text-align: center;
 }
 
-.char-btns {
-    position: absolute;
-    right: 10px;
-    top: 5px;
-
+/* .numeric-tracker > div {
     display: flex;
     gap: 5px;
-}
+} */
 
-.numeric-tracker > div {
+.stat-tracker-container {
     display: flex;
-    gap: 5px;
+    justify-content: center;
 }
 
 .hero-number-input {
     width: 25px;
     border: none;
     text-align: center;
+    background-color: transparent;
+    font-family: inherit;
+}
+
+.increase-number-btn::before {
+    content: '\002B';
+}
+
+.decrease-number-btn::before {
+    content: '\002D';
+}
+
+.increase-number-btn,
+.decrease-number-btn {
+    width: 1.5em;
+    height: 1.5em;
+    border-radius: 50%;
+    border: none;
+    color: white;
+    background-color: var(--primary-brown);
+    opacity: .7;
+    cursor: pointer;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.increase-number-btn:hover,
+.decrease-number-btn:hover {
+    opacity: 1;
+    transition: 100ms;
+    border: 1px solid var(--header-bg-brown);
+    background-color: var(--character-sheet-brown);
+    color: var(--header-bg-brown);
+}
+
+.increase-number-btn:active,
+.decrease-number-btn:active {
+    background-color: var(--header-bg-brown);
+    color: var(--primary-brown);
+    /* border: none; */
 }
 
 /* Chrome, Safari, Edge, Opera */
@@ -245,14 +597,15 @@ input[type='checkbox'].toggle:checked + .slider::before {
   -moz-appearance: textfield;
 }
 
+/** EQUIPPED ITEMS SECTION **/
+
 .equipped-items-container {
+    position: relative;
+
     display: flex;
     justify-content: center;
     margin-bottom: 10px;
-    position: relative;
 }
-
-/* EQUIPPED ITEMS SECTION */
 
 .character-outline {
     width: 260px;
@@ -268,8 +621,23 @@ input[type='checkbox'].toggle:checked + .slider::before {
     position: absolute;
     width: 66px;
     height: 50px;
-    border: 3px solid silver;
-    background-color: white;
+    border: 1px solid var(--primary-brown);
+    /* background-color: var(--character-sheet-brown); */
+}
+
+.equipped-head-item::after,
+.equipped-body-item::after,
+.equipped-left-hand-item::after,
+.equipped-right-hand-item::after,
+.equipped-extra-1-item::after,
+.equipped-extra-2-item::after {
+    content: "";
+    background-color: var(--character-sheet-brown);
+    opacity: .6;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
 }
 
 .equipped-head-item {
@@ -298,34 +666,57 @@ input[type='checkbox'].toggle:checked + .slider::before {
     right: 40px;
 }
 
-.item-image {
+.equipped-item-image {
     cursor: pointer;
+    position: absolute;
+    z-index: 1;
+    width: 100%;
 }
 
-/* WEAPONS & ARMOR AND POTIONS & ITEMS SECTION */
-
-.character-sheet ul {
-    list-style-type: none;
-}
+/** WEAPONS & ARMOR AND POTIONS & ITEMS SECTION **/
 
 .weapons-armor-items-container {
+    position: relative;
+    margin: 0 10px;
+    font-size: .9em;
+
     display: flex;
     justify-content: space-around;
-    position: relative;
 }
 
 .weapons-armor-items-header {
+    font-weight: 600;
+
     display: flex;
-    gap: 5px;
+    justify-content: flex-start;
+    align-items: center;
+    gap: .3em;
 }
 
-.weapons-armor-container ul,
-.potions-items-container ul {
+.weapons-armor-container h4,
+.weapons-armor-container li,
+.potions-items-container h4,
+.potions-items-container li {
+    width: max-content;
+}
+
+.weapons-armor-container button,
+.potions-items-container button {
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+}
+
+.weapons-armor-items-container ul {
     list-style-type: none;
     overflow: auto;
     height: 105px;
     padding: 0px 5px;
-    cursor: default;
+    cursor: pointer;
+}
+
+.weapons-armor-items-container li {
+    display: flex;
 }
 
 .equippable-item {
@@ -333,11 +724,11 @@ input[type='checkbox'].toggle:checked + .slider::before {
 }
 
 .equippable-item:hover {
-    color: grey;
+    color: var(--character-sheet-brown);
 }
 
 .incompatible {
-    color: silver;
+    color: var(--header-bg-brown);
     /* position: relative; */
 }
 
@@ -369,7 +760,7 @@ input[type='checkbox'].toggle:checked + .slider::before {
     border: 1px solid silver;
     border-radius: 10px;
     padding: 2px;
-    transition: opacity 1s ease-in-out 1s;
+    transition: opacity .5s ease-in-out .5s;
 
     position: absolute;
     z-index: 1;
@@ -380,29 +771,156 @@ input[type='checkbox'].toggle:checked + .slider::before {
     opacity: 1;
 }
 
-/* ITEMS MODAL */
-
-.item-image {
-    width: 60px;
-    object-fit: contain;
+.remove-item {
+    font-size: 1.1em;
 }
 
-#modal {
+/***** SELECT ITEMS MODAL *****/
+
+.select-weapons-armor-container,
+.select-potions-items-container {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     border: none;
-    padding: 10px;
+    font-family: lumanosimo, 'Times New Roman', Times, serif;
+    background-image: url(images/select-items-bg-355x520.png);
+    background-color: transparent;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    padding-top: 40px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
-#cancel-modal {
-    margin-left: 90%;
+.select-weapons-armor-container {
+    height: 675px;
+    width: 460px;
+    padding-top: 40px;
 }
 
-dialog > fieldset {
-    margin: 5px 25px 10px;
+.select-potions-items-container {
+    width: 355px;
+    height: 520px;
 }
+
+.select-weapons-armor-container > #cancel-modal,
+.select-potions-items-container > #cancel-modal {
+    margin-left: 68%;
+    background-color: transparent;
+    border: none;
+    color: var(--primary-brown);
+}
+
+.select-weapons-armor-container > #cancel-modal:hover,
+.select-potions-items-container > #cancel-modal:hover,
+fieldset#choose-items button#close-modal:hover,
+fieldset#choose-items label:hover {
+    color: var(--header-bg-brown);
+    text-shadow: 1px 1px 5px var(--primary-brown);
+}
+
+.select-weapons-armor-container > #cancel-modal:active,
+.select-potions-items-container > #cancel-modal:active,
+fieldset#choose-items button#close-modal:active,
+fieldset#choose-items label:active {
+    color: var(--character-sheet-brown);
+    text-shadow: 1px 1px 5px var(--header-bg-brown);
+}
+
+#modal > fieldset {
+    border: none;
+}
+
+fieldset#choose-items > legend {
+    margin-bottom: 5px;
+}
+
+/* Customize the label (the container) */
+.item-container {
+    position: relative;
+    padding-left: calc(1em + 5px);
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+
+  .item-container label {
+    display: flex;
+    align-items: center;
+  }
+  
+  /* Hide the browser's default checkbox */
+  .item-container input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+  }
+  
+  /* Create a custom checkbox */
+  .checkmark {
+    position: absolute;
+    left: 0;
+    height: 1em;
+    width: 1em;
+    background-color: transparent;
+    border: 1px solid var(--primary-brown);
+    border-radius: 5px;
+  }
+  
+  /* On mouse-over, add a grey background color */
+  .item-container:hover input ~ .checkmark {
+    background-color: var(--header-bg-brown);
+  }
+  
+  /* When the checkbox is checked, add a blue background */
+  .item-container input:checked ~ .checkmark {
+    background-color: var(--primary-brown);
+  }
+  
+  /* Create the checkmark/indicator (hidden when not checked) */
+  .checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+  }
+  
+  /* Show the checkmark when checked */
+  .item-container input:checked ~ .checkmark:after {
+    display: block;
+  }
+  
+  /* Style the checkmark/indicator */
+  .item-container .checkmark:after {
+    left: 5px;
+    top: 2px;
+    width: 5px;
+    height: 10px;
+    border: solid var(--header-bg-brown);
+    border-width: 0 3px 3px 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+  }
+
+fieldset#choose-items div:last-of-type {
+    margin-bottom: 10px;
+}
+
+fieldset#choose-items button#close-modal {
+    font-family: inherit;
+    font-size: 1em;
+    border: none;
+    background-color: transparent;
+}
+
 
 /*************************************************/
 /*                QUESTS PAGE                    */
