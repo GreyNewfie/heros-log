@@ -45,7 +45,6 @@ header {
 
 header a {
     color: var(--logo-text-yellow);
-    text-shadow: 1px 1px 5px var(--primary-brown);
 }
 
 header a:hover {
@@ -68,14 +67,9 @@ header img {
     margin-left: 4%;
 }
 
-header h1 {
-    text-align: center;
-    margin-right: 1vw;
-}
-
 header ul {
     display: flex;
-    gap: 1.5vw;
+    gap: 4vw;
     list-style-type: none;
     font-size: clamp(1.125rem, 0.5vw + 1rem, 2rem);
     font-weight: 600;
@@ -115,7 +109,7 @@ body::after {
 .content {
     position: relative;
     height: 100vh;
-    background-image: url(images/HeroQuest_board.jpeg);
+    background-image: url(images/HeroQuest-board-1450x1150.png);
     background-color: var(--header-bg-brown);
     background-size: cover;
 
