@@ -15,8 +15,10 @@
     --tulip-tree-yellow: #EFAF43;
     --logo-shield-blue: #125c8b;
     --primary-brown: #45282c;
-    --header-bg-brown: #ecddc6;
+    --header-bg-brown: #2B191B;
+    --primary-text-brown: #ecddc6;
     --character-sheet-brown: #9C501B;
+    --border-black: #221416;
 }
 
 h1 {
@@ -37,8 +39,7 @@ a {
 }
 
 header {
-    background-color: var(--header-bg-brown);
-    box-shadow: inset 0 -10px 6px -6px #45282c;
+    background-color: var(--border-black);
     font-family: carter one, 'Times New Roman', Times, serif;
 }
 
@@ -48,7 +49,7 @@ header a {
 }
 
 header a:hover {
-    color: var(--header-bg-brown);
+    color: var(--primary-text-brown);
 }
 
 header a:active {
@@ -63,11 +64,8 @@ header nav {
 }
 
 header img {
-    width: 100%;
-    min-width: 100px;
-    max-width: 150px;
-    height: auto;
-    margin-left: 3%;
+    width: clamp(75px, 8%, 100px);
+    margin-left: 4%;
 }
 
 header h1 {
@@ -134,7 +132,7 @@ body::after {
     bottom: 0px;
     height: 100vh;
     background-color: var(--primary-brown);
-    opacity: .6;
+    opacity: .5;
 }
 
 /*** CREATE CHARACTER SHEET ***/
@@ -168,7 +166,7 @@ body::after {
 }
 
 #add-character-button:hover {
-    color: var(--header-bg-brown);
+    color: var(--primary-text-brown);
     background-color: var(--character-sheet-brown);
     border: 1px solid var(--primary-brown);
     border-radius: 10px;
@@ -176,7 +174,7 @@ body::after {
 
 #add-character-button:active {
     color: var(--primary-brown);
-    background-color: var(--header-bg-brown);
+    background-color: var(--primary-text-brown);
     border-color: var(--character-sheet-brown);
     border-radius: 10px;
 }
@@ -217,7 +215,7 @@ body::after {
 .enter-name-modal #cancel-modal:focus,
 .enter-name-input-container button:hover,
 .enter-name-input-container button:focus {
-    color: var(--header-bg-brown);
+    color: var(--primary-text-brown);
     text-shadow: 2px 2px 6px var(--primary-brown);
 }
 
@@ -253,7 +251,7 @@ body::after {
 }
 
 .enter-name-input-container input:hover {
-    border-bottom: 1px solid var(--header-bg-brown);
+    border-bottom: 1px solid var(--primary-text-brown);
 }
 
 .enter-name-input-container input:focus {
@@ -278,22 +276,22 @@ body::after {
 
 .select-hero-type-modal #cancel-modal {
     background-color: var(--primary-brown);
-    color: var(--header-bg-brown);
+    color: var(--primary-text-brown);
     border: 1px solid var(--character-sheet-brown);
     border-radius: 5px;
     margin-left: 95%;
 }
 
 .select-hero-type-modal #cancel-modal:hover {
-    background-color: var(--header-bg-brown);
+    background-color: var(--primary-text-brown);
     color: var(--primary-brown);
     border: 1px solid var(--primary-brown);
 }
 
 .select-hero-type-modal #cancel-modal:active {
     background-color: var(--character-sheet-brown);
-    color: var(--header-bg-brown);
-    border: 1px solid var(--header-bg-brown);
+    color: var(--primary-text-brown);
+    border: 1px solid var(--primary-text-brown);
 }
 
 .hero-types-container {
@@ -321,7 +319,7 @@ body::after {
 /***** CHARACTER SHEET *****/
 
 .character-sheets-container {
-    padding: 1%;
+    padding: 2% 1%;
 
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
@@ -391,7 +389,7 @@ body::after {
 }
 
 .save-button:active {
-    background-color: var(--header-bg-brown);
+    background-color: var(--primary-text-brown);
     color: var(--primary-brown);
     transition: 100ms;
 }
@@ -423,7 +421,7 @@ body::after {
 }
 
 .material-symbols-outlined:active {
-    color: var(--header-bg-brown);
+    color: var(--primary-text-brown);
 }
 
 /** AUTOMATICALLY UPDATE STATS SECTION **/
@@ -464,7 +462,7 @@ input[type='checkbox'].toggle + .slider::before {
 
 input[type='checkbox'].toggle + .slider::after {
     content: "\2715";
-    color: var(--header-bg-brown);
+    color: var(--primary-text-brown);
     font-size: .67em;
     width: 1.6em;
     height: 1.6em;
@@ -903,7 +901,7 @@ fieldset#choose-items > legend {
     top: 2px;
     width: 5px;
     height: 10px;
-    border: solid var(--header-bg-brown);
+    border: solid var(--primary-text-brown);
     border-width: 0 3px 3px 0;
     -webkit-transform: rotate(45deg);
     -ms-transform: rotate(45deg);
