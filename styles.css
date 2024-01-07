@@ -175,7 +175,8 @@ body::after {
 
 /** ENTER CHARACTER NAME MODAL **/
 .enter-name-modal,
-.select-hero-type-modal {
+.select-hero-type-modal,
+#modal {
     position:absolute;
     top: 50%;
     left: 50%;
@@ -215,7 +216,8 @@ body::after {
 
 .enter-name-modal #cancel-modal:focus,
 .enter-name-input-container button:focus,
-.select-hero-type-modal #cancel-modal:focus {
+.select-hero-type-modal #cancel-modal:focus,
+.character-sheet-item-card #cancel-modal {
     outline: none;
 }
 
@@ -266,23 +268,32 @@ body::after {
 .select-hero-type-modal {
     width: max-content;
     background-color: transparent;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 10px;
 }
 
-.select-hero-type-modal #cancel-modal {
+.select-hero-type-modal #cancel-modal,
+.character-sheet-item-card #cancel-modal,
+.character-sheet-item-card > button:last-child {
     background-color: var(--primary-brown);
     color: var(--primary-text-brown);
-    border: 1px solid var(--character-sheet-brown);
+    border: 1px solid var(--primary-text-brown);
     border-radius: 5px;
-    margin-left: 95%;
 }
 
-.select-hero-type-modal #cancel-modal:hover {
+.select-hero-type-modal #cancel-modal:hover,
+.character-sheet-item-card #cancel-modal:hover,
+.character-sheet-item-card > button:last-child:hover {
     background-color: var(--primary-text-brown);
     color: var(--primary-brown);
     border: 1px solid var(--primary-brown);
 }
 
-.select-hero-type-modal #cancel-modal:active {
+.select-hero-type-modal #cancel-modal:active,
+.character-sheet-item-card #cancel-modal:active,
+.character-sheet-item-card > button:last-child:active {
     background-color: var(--character-sheet-brown);
     color: var(--primary-text-brown);
     border: 1px solid var(--primary-text-brown);
@@ -331,12 +342,11 @@ body::after {
     padding: 40px 20px 30px;
     background-image: url(images/character-sheet-1.png);
     background-size: cover;
-    font-family: lumanosimo, 'Times New Roman', Times, serif;
     color: var(--primary-brown);
+    font-family: 'Alegreya', serif;
 
     display: flex;
     flex-direction: column;
-    /* justify-content: space-between; */
 }
 
 /** CHARACTER NAME, TYPE, SAVE & DEATH BUTTONS SECTION **/
@@ -346,7 +356,11 @@ body::after {
 
     display: flex;
     flex-direction: column;
-    gap: 0.25rem;
+}
+
+.character-sheet-title {
+    font-weight: 500;
+    font-style: italic;
 }
 
 .character-name-type-container > div {
@@ -497,7 +511,13 @@ input[type='checkbox'].toggle:checked + .slider::before {
     flex: auto;
 }
 
-.initial-stats > div:nth-child(-n + 2) {
+.initial-stats > div:nth-child(-n +2) {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.initial-stats > div:nth-child(-n + 2) h4 {
     width: min-content;
 }
 
@@ -518,11 +538,6 @@ input[type='checkbox'].toggle:checked + .slider::before {
     margin-bottom: 10px;
     text-align: center;
 }
-
-/* .numeric-tracker > div {
-    display: flex;
-    gap: 5px;
-} */
 
 .stat-tracker-container {
     display: flex;
@@ -574,7 +589,6 @@ input[type='checkbox'].toggle:checked + .slider::before {
 .decrease-number-btn:active {
     background-color: var(--header-bg-brown);
     color: var(--primary-brown);
-    /* border: none; */
 }
 
 /* Chrome, Safari, Edge, Opera */
@@ -913,6 +927,49 @@ fieldset#choose-items button#close-modal {
     background-color: transparent;
 }
 
+/***** ITEMS CARD MODAL *****/
+.character-sheet-item-card {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 10px;
+}
+
+.character-sheet-item-card > .item-card {
+    position: relative;
+    background-image: url(images/item-card-bg-324x455.png);
+    background-size: contain;
+    width: 324px;
+    height: 455px;
+    border: none;
+    padding-top: 40px;
+    font-size: 1.1em;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.character-sheet-item-card .item-card-image {
+    width: 210px;
+    height: 152px;
+    position: absolute;
+    top: 76px;
+}
+
+.character-sheet-item-card .item-card > p {
+    position: absolute;
+    top: 240px;
+    width: 250px;
+}
+
+.character-sheet-item-card > button:last-child {
+    padding: 8px 12px;
+    font-family: inherit;
+    font-size: 1.1em;
+
+    align-self: flex-start;
+}
 
 /*************************************************/
 /*                QUESTS PAGE                    */
@@ -1050,7 +1107,7 @@ fieldset#choose-items button#close-modal {
     margin-bottom: 20%;
 }
 
-.item-card {
+.items-card-container .item-card {
     display: flex;
     flex-direction: column;
     align-items: center;

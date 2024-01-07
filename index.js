@@ -308,7 +308,7 @@ function createAutoUpdateInitialStatsUI(characterId) {
 
 function createCharacterTypeUi(container, character) {
     const characterTypeLabel = document.createElement('p');
-    characterTypeLabel.setAttribute('for', `character-${character.characterId}-type`);
+    characterTypeLabel.setAttribute('class', 'character-sheet-title');
     characterTypeLabel.textContent = 'Character:';
 
     const characterTypeSpan = document.createElement('span');
@@ -320,6 +320,7 @@ function createCharacterTypeUi(container, character) {
 
 function createCharacterNameUi(container, character) {
     const characterNameLabel = document.createElement('p');
+    characterNameLabel.setAttribute('class', 'character-sheet-title');
     characterNameLabel.textContent = 'Name:';
 
     const characterNameSpan = document.createElement('span');
@@ -1072,6 +1073,8 @@ function createCharacterItemsList(nodeList) {
 
 function createItemModal(itemName, characterId) {
     const modal = document.getElementById('modal');
+    modal.setAttribute('class', 'character-sheet-item-card');
+
     createCancelModalUi(modal);
 
     const item = findItemWithName(itemName);
@@ -1083,72 +1086,77 @@ function createItemModal(itemName, characterId) {
     modal.appendChild(equipOrUnequipBtn);
 
     modal.showModal();
-}
 
-function createEquipUnequipOrConsumeBtn(characterId, item) {
-    const currentCharacter = getStoredCharacter(characterId);
-    const equippedItem = currentCharacter?.equippedItems?.find(equippedItem => equippedItem.id === item.id); 
-
-    if (!equippedItem && !isEquippedItemDisplayed(characterId, item) && item.equippedLocation) {
-        const equipItemBtn = document.createElement('button');
-        // Is this ID being utilized? Remove if not
-        equipItemBtn.setAttribute('id', `character-${characterId}-equip-${item.name}`);
-        equipItemBtn.textContent = 'Equip';
+    function createEquipUnequipOrConsumeBtn(characterId, item) {
+        const currentCharacter = getStoredCharacter(characterId);
+        const equippedItem = currentCharacter?.equippedItems?.find(equippedItem => equippedItem.id === item.id); 
     
-        equipItemBtn.addEventListener('click', () => {
-            if (!checkIfEquippedLocationTaken(characterId, item)) {
-                equipItem(characterId, item);
-                checkAndAddItemModifiers(characterId, item);
-                checkCharacterItemsCompatibility(characterId);
-                modal.close();
-                clearModal(modal);    
-            } else {
-                alert('You must unequip your existing item before you can equip another one in the same location');
+        if (!equippedItem && !isEquippedItemDisplayed(characterId, item) && item.equippedLocation) {
+            const equipItemBtn = document.createElement('button');
+            // Is this ID being utilized? Remove if not
+            equipItemBtn.setAttribute('id', `character-${characterId}-equip-${item.name}`);
+            equipItemBtn.textContent = 'Equip';
+        
+            equipItemBtn.addEventListener('click', () => {
+                if (!checkIfEquippedLocationTaken(characterId, item)) {
+                    equipItem(characterId, item);
+                    checkAndAddItemModifiers(characterId, item);
+                    checkCharacterItemsCompatibility(characterId);
+                    modal.close();
+                    clearModal(modal);
+                    modal.classList.remove('character-sheet-item-card');   
+                } else {
+                    alert('You must unequip your existing item before you can equip another one in the same location');
+                    modal.close();
+                    clearModal(modal);
+                    modal.classList.remove('character-sheet-item-card');
+                }
+            });
+            
+            return equipItemBtn;
+    
+        } else if (!item.equippedLocation) {
+            const consumeItemBtn = document.createElement('button');
+    
+            switch (item.name) {
+                case 'Holy Water':
+                    consumeItemBtn.textContent = 'Use';
+                    break;
+                case 'Tool Kit':
+                    consumeItemBtn.textContent = 'Disarm a Trap';
+                    break;
+                case 'Rod of Telekinesis':
+                    consumeItemBtn.textContent = 'Use';
+                    break;
+                default:
+                    consumeItemBtn.textContent = 'Consume';
+            }
+    
+            consumeItemBtn.addEventListener('click', () => {
+                removeItemFromCharacter(characterId, item);
                 modal.close();
                 clearModal(modal);
-            }
-        });
-        
-        return equipItemBtn;
-
-    } else if (!item.equippedLocation) {
-        const consumeItemBtn = document.createElement('button');
-
-        switch (item.name) {
-            case 'Holy Water':
-                consumeItemBtn.textContent = 'Use';
-                break;
-            case 'Tool Kit':
-                consumeItemBtn.textContent = 'Disarm a Trap';
-                break;
-            case 'Rod of Telekinesis':
-                consumeItemBtn.textContent = 'Use';
-                break;
-            default:
-                consumeItemBtn.textContent = 'Consume';
+                modal.classList.remove('character-sheet-item-card');
+                checkCharacterItemsCompatibility(characterId);
+            })
+            return consumeItemBtn;
+        } else {
+            const unequipItemBtn = document.createElement('button');
+            unequipItemBtn.setAttribute('id', `character-${characterId}-unequip-${item.name}`);
+            unequipItemBtn.textContent = 'Unequip';
+    
+            unequipItemBtn.addEventListener('click', () => {
+                unequipItem(characterId, item);
+                modal.close();
+                clearModal(modal);
+                checkCharacterItemsCompatibility(characterId);
+                modal.classList.remove('character-sheet-item-card');
+            });
+    
+            return unequipItemBtn;
         }
-
-        consumeItemBtn.addEventListener('click', () => {
-            removeItemFromCharacter(characterId, item);
-            modal.close();
-            clearModal(modal);
-            checkCharacterItemsCompatibility(characterId);
-        })
-        return consumeItemBtn;
-    } else {
-        const unequipItemBtn = document.createElement('button');
-        unequipItemBtn.setAttribute('id', `character-${characterId}-unequip-${item.name}`);
-        unequipItemBtn.textContent = 'Unequip';
-
-        unequipItemBtn.addEventListener('click', () => {
-            unequipItem(characterId, item);
-            modal.close();
-            clearModal(modal);
-            checkCharacterItemsCompatibility(characterId);
-        });
-
-        return unequipItemBtn;
     }
+    
 }
 
 function createEquippedItemsList(imagesNodeList) {
