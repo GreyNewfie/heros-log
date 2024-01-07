@@ -308,7 +308,7 @@ function createAutoUpdateInitialStatsUI(characterId) {
 
 function createCharacterTypeUi(container, character) {
     const characterTypeLabel = document.createElement('p');
-    characterTypeLabel.setAttribute('for', `character-${character.characterId}-type`);
+    characterTypeLabel.setAttribute('class', 'character-sheet-title');
     characterTypeLabel.textContent = 'Character:';
 
     const characterTypeSpan = document.createElement('span');
@@ -320,6 +320,7 @@ function createCharacterTypeUi(container, character) {
 
 function createCharacterNameUi(container, character) {
     const characterNameLabel = document.createElement('p');
+    characterNameLabel.setAttribute('class', 'character-sheet-title');
     characterNameLabel.textContent = 'Name:';
 
     const characterNameSpan = document.createElement('span');
