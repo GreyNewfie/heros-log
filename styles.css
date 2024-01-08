@@ -135,7 +135,7 @@ body::after {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 1.5vw;
+    gap: 6vw;
 }
 
 .create-character-welcome {
@@ -150,26 +150,23 @@ body::after {
 
 #add-character-button {
     font-family: inherit;
-    font-size: 1em;
-    text-shadow: 1px 1px #45282c;
-    color: var(--primary-brown);
-    background-color: transparent;
-    border: none;
+    font-size: 1.1em;
+    font-weight: 600;
+    color: var(--primary-text-brown);
+    background-color: var(--character-sheet-brown);
+    border: 1px solid var(--primary-text-brown);
+    border-radius: 10px;
     padding: 0.1em 0.2em;
-    border-bottom: 1px solid var(--primary-brown);
 }
 
 #add-character-button:hover {
-    color: var(--primary-text-brown);
-    background-color: var(--character-sheet-brown);
-    border: 1px solid var(--primary-brown);
-    border-radius: 10px;
+    background-color: var(--primary-brown);
 }
 
 #add-character-button:active {
     color: var(--primary-brown);
     background-color: var(--primary-text-brown);
-    border-color: var(--character-sheet-brown);
+    border-color: var(--primary-brown);
     border-radius: 10px;
 }
 
@@ -328,20 +325,23 @@ body::after {
 
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
-    grid-template-rows: repeat(auto-fit, minmax(525px, 595px));
+    grid-template-rows: repeat(auto-fit, minmax(525px, 735px));
     justify-items: center;
     gap: 1rem 1rem;
 }
 
 .character-sheet {
     width: 90%;
-    max-width: 396px;
     min-width: 360px;
-    min-height: 525px;
+    max-width: 396px;
+    min-height: 624px;
+    max-height: 686px;
     position: relative;
     padding: 40px 20px 30px;
-    background-image: url(images/character-sheet-1.png);
+    background-image: url(images/character-sheet-bg-335x580.png);
     background-size: cover;
+    background-repeat: no-repeat;
+    font-size: 1.1em;
     color: var(--primary-brown);
     font-family: 'Alegreya', serif;
 
@@ -349,7 +349,22 @@ body::after {
     flex-direction: column;
 }
 
-/** CHARACTER NAME, TYPE, SAVE & DEATH BUTTONS SECTION **/
+/** HEADER **/
+.character-sheet-header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    margin: 7px 0 10px;
+}
+
+.character-sheet-header h4 {
+    font-weight: 700;
+    font-size: 1.35em;
+    text-shadow: var(--primary-text-brown) 1px -1px 10px;
+}
+
+/** NAME, TYPE, SAVE & DEATH BUTTONS SECTION **/
 .character-name-type-container {
     margin-bottom: 5px;
     margin-left: 10px;
@@ -359,24 +374,35 @@ body::after {
 }
 
 .character-sheet-title {
-    font-weight: 500;
+    font-weight: 600;
     font-style: italic;
 }
 
 .character-name-type-container > div {
     display: flex;
-    gap: .5em;
+    gap: 5px;
 }
 
 /** Save and Death Buttons **/
 .char-btns {
+    display: flex;
+    position: absolute;
+    gap: 5px;
+    right: 35px;
+    top: 97px;
+}
+
+/* .killed-button {
     position: absolute;
     right: 45px;
     top: 40px;
+} */
 
-    display: flex;
-    gap: 10px;
-}
+/* .save-button {
+    position: absolute;
+    top: 40px;
+    left: 28px;
+} */
 
 .save-button {
     border: none;
@@ -384,8 +410,7 @@ body::after {
     padding: 0.1em 0.3em;
     background-color: transparent;
     font-family: inherit;
-    font-size: 1rem;
-    font-weight: 600;
+    font-size: 1.1em;
 }
 
 .save-button:hover {
@@ -501,10 +526,24 @@ input[type='checkbox'].toggle:checked + .slider::before {
 
 /** DICE AND STARTING POINTS SECTIONS **/
 .initial-stats {
+    border: 1px solid var(--primary-brown);
+}
+
+.initial-stats > div:nth-child(-n + 2),
+.starting-points div:first-of-type {
+    border-right: 1px solid var(--primary-brown);
+}
+
+.starting-points > h4 {
+    border-bottom: 1px solid var(--primary-brown);
+}
+
+.initial-stats {
     display: flex;
     justify-content: space-between;
-    margin-bottom: 10px;
+    margin: 10px;
     text-align: center;
+    
 }
 
 .initial-stats > div {
@@ -534,8 +573,8 @@ input[type='checkbox'].toggle:checked + .slider::before {
 
 .body-points-gold-tracker {
     display: flex;
-    justify-content: space-around;
-    margin-bottom: 10px;
+    justify-content: space-evenly;
+    margin-bottom: 15px;
     text-align: center;
 }
 
@@ -826,7 +865,7 @@ input[type='checkbox'].toggle:checked + .slider::before {
 .select-potions-items-container > #cancel-modal:hover,
 fieldset#choose-items button#close-modal:hover,
 fieldset#choose-items label:hover {
-    color: var(--header-bg-brown);
+    color: var(--primary-text-brown);
     text-shadow: 1px 1px 5px var(--primary-brown);
 }
 
@@ -883,7 +922,7 @@ fieldset#choose-items > legend {
   
   /* On mouse-over, add a grey background color */
   .item-container:hover input ~ .checkmark {
-    background-color: var(--header-bg-brown);
+    background-color: var(--primary-text-brown);
   }
   
   /* When the checkbox is checked, add a blue background */

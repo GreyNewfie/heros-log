@@ -20,6 +20,10 @@ const characterSheet = (character) => {
     function createCharacterSheet(uniqueId) {
         const characterSheetDiv = document.createElement('div');
         characterSheetDiv.setAttribute('class', 'character-sheet');
+
+        // Character Header
+        const characterHeader = createCharacterSheetHeader();
+        characterSheetDiv.appendChild(characterHeader);
     
         //Character name & type container
         const CharacterNameTypeDiv = document.createElement('div');
@@ -280,6 +284,29 @@ const characterSheet = (character) => {
         storedCharacter.autoUpdateStatus = autoUpdateBtnStatus;
 
         storeCharacter(storedCharacter);
+    }
+
+    function createCharacterSheetHeader() {
+        const headerContainer = document.createElement('div');
+        headerContainer.setAttribute('class', 'character-sheet-header');
+
+        const headerImageleft = document.createElement('img');
+        headerImageleft.setAttribute('class', 'character-sheet-header-img');
+        headerImageleft.setAttribute('src', 'images/character-sheet-title-axe-left-50x40.png');
+        headerImageleft.setAttribute('alt', 'Battle axe with a double sided blade and a wooden handle');
+        headerContainer.appendChild(headerImageleft);
+
+        const header = document.createElement('h4');
+        header.textContent = 'Character Sheet';
+        headerContainer.appendChild(header);
+
+        const headerImageRight = document.createElement('img');
+        headerImageRight.setAttribute('class', 'character-sheet-header-img');
+        headerImageRight.setAttribute('src', 'images/character-sheet-title-axe-right-50x40.png');
+        headerImageRight.setAttribute('alt', 'Battle axe with a double sided blade and a wooden handle');
+        headerContainer.appendChild(headerImageRight);
+
+        return headerContainer;
     }
 }
 
