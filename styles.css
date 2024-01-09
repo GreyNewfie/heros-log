@@ -135,7 +135,7 @@ body::after {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 6vw;
+    gap: 55px;
 }
 
 .create-character-welcome {
