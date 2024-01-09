@@ -21,17 +21,17 @@
     --border-black: #221416;
 }
 
-h1 {
+body {
+    font-family: 'Alegreya', serif;
+}
+
+/* h1 {
     font-size: clamp(1.25rem, 1vw + 1rem, 2.5rem);
 }
 
 h2 {
     font-size: clamp(1.125rem, 0.5vw + 1rem, 2rem);
-}
-
-h4 {
-    font-weight: 400;
-}
+} */
 
 a {
     text-decoration: none;
@@ -40,7 +40,6 @@ a {
 
 header {
     background-color: var(--border-black);
-    font-family: carter one, 'Times New Roman', Times, serif;
 }
 
 header a {
@@ -63,7 +62,7 @@ header nav {
 }
 
 header img {
-    width: clamp(75px, 8%, 100px);
+    width: clamp(65px, 7%, 100px);
     margin-left: 4%;
 }
 
@@ -71,9 +70,10 @@ header ul {
     display: flex;
     gap: 4vw;
     list-style-type: none;
-    font-size: clamp(1.125rem, 0.5vw + 1rem, 2rem);
-    font-weight: 600;
-    margin-right: 1.5rem;
+    font-size: clamp(1.125rem, 1vw + 1rem, 3rem);
+    font-weight: 700;
+    font-style: italic;
+    margin-right: 4vw;
 }
 
 dialog::backdrop {
@@ -156,7 +156,7 @@ body::after {
     background-color: var(--character-sheet-brown);
     border: 1px solid var(--primary-text-brown);
     border-radius: 10px;
-    padding: 0.1em 0.2em;
+    padding: 5px 10px;
 }
 
 #add-character-button:hover {
@@ -199,8 +199,9 @@ body::after {
 .enter-name-modal #cancel-modal {
     background-color: transparent;
     border: none;
-    margin-left: 90%;
     cursor: pointer;
+
+    align-self: flex-end;
 }
 
 .enter-name-modal #cancel-modal:hover,
@@ -219,17 +220,22 @@ body::after {
 }
 
 .enter-name-input-container {
+    gap: 5%;
+    height: 100%;
+    color: var(--primary-brown);
+    margin-bottom: 25px;
+
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: 10%;
-    height: 100%;
-    color: var(--primary-brown);
 }
 
-.enter-name-input-container label {
-    font-size: 1.1em;
+.enter-name-input-container label,
+.enter-name-input-container button {
+    font-size: 1.2em;
+    font-style: italic;
+    font-weight: 600;
 }
 
 .enter-name-input-container input {
@@ -239,7 +245,7 @@ body::after {
     border-bottom: 1px solid var(--primary-brown);
     background-color: transparent;
     font-family: inherit;
-    font-size: 1em;
+    font-size: 1.1em;
     text-align: center;
 }
 
@@ -255,7 +261,6 @@ body::after {
 .enter-name-input-container button {
     font-family: inherit;
     color: inherit;
-    font-size: 1em;
     background-color: transparent;
     border: none;
     cursor: pointer;
@@ -343,10 +348,20 @@ body::after {
     background-repeat: no-repeat;
     font-size: 1.1em;
     color: var(--primary-brown);
-    font-family: 'Alegreya', serif;
 
     display: flex;
     flex-direction: column;
+}
+
+.character-sheet h3 {
+    font-weight: 700;
+    font-size: 1.35em;
+    font-style: italic;
+}
+
+.character-sheet h4 {
+    font-weight: 500;
+    font-style: italic;
 }
 
 /** HEADER **/
@@ -356,12 +371,6 @@ body::after {
     align-items: center;
     gap: 15px;
     margin: 7px 0 10px;
-}
-
-.character-sheet-header h4 {
-    font-weight: 700;
-    font-size: 1.35em;
-    text-shadow: var(--primary-text-brown) 1px -1px 10px;
 }
 
 /** NAME, TYPE, SAVE & DEATH BUTTONS SECTION **/
@@ -407,7 +416,7 @@ body::after {
 .save-button {
     border: none;
     border-radius: 10px;
-    padding: 0.1em 0.3em;
+    padding: 0 5px;
     background-color: transparent;
     font-family: inherit;
     font-size: 1.1em;
@@ -581,6 +590,7 @@ input[type='checkbox'].toggle:checked + .slider::before {
 .stat-tracker-container {
     display: flex;
     justify-content: center;
+    align-items: center;
 }
 
 .hero-number-input {
@@ -589,6 +599,7 @@ input[type='checkbox'].toggle:checked + .slider::before {
     text-align: center;
     background-color: transparent;
     font-family: inherit;
+    font-size: inherit;
 }
 
 .increase-number-btn::before {
@@ -723,19 +734,20 @@ input[type='checkbox'].toggle:checked + .slider::before {
 .weapons-armor-items-container {
     position: relative;
     margin: 0 10px;
-    font-size: .9em;
 
     display: flex;
     justify-content: space-around;
 }
 
 .weapons-armor-items-header {
-    font-weight: 600;
-
     display: flex;
     justify-content: flex-start;
     align-items: center;
     gap: .3em;
+}
+
+.weapons-armor-items-header > h4 {
+    font-weight: 600;
 }
 
 .weapons-armor-container h4,

@@ -53,9 +53,7 @@ const characterSheet = (character) => {
         //Save button
         const characterSaveBtn = document.createElement('button');
         characterSaveBtn.setAttribute('class', 'save-button');
-        const characterSaveSpan = document.createElement('span');
-        characterSaveSpan.append('Save');
-        characterSaveBtn.append(characterSaveSpan);
+        characterSaveBtn.textContent = 'Save';
         characterSaveBtn.addEventListener('click', (event) => {
             const character = getStoredCharacter(uniqueId);
             if (!character) {
@@ -296,7 +294,7 @@ const characterSheet = (character) => {
         headerImageleft.setAttribute('alt', 'Battle axe with a double sided blade and a wooden handle');
         headerContainer.appendChild(headerImageleft);
 
-        const header = document.createElement('h4');
+        const header = document.createElement('h3');
         header.textContent = 'Character Sheet';
         headerContainer.appendChild(header);
 
@@ -404,7 +402,7 @@ function createEnterCharacterNameUi(characterId) {
 
     const enterNameLabel = document.createElement('label');
     enterNameLabel.setAttribute('for', `character-${characterId}-name`);
-    enterNameLabel.textContent = 'Enter your hero\'s name';
+    enterNameLabel.textContent = 'Enter Your Hero\'s Name';
     enterNameContainer.appendChild(enterNameLabel);
 
     const enterNameInput = document.createElement('input');
