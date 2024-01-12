@@ -737,7 +737,7 @@ input[type='checkbox'].toggle:checked + .slider::before {
 
 .weapons-armor-items-container ul {
     list-style: none;
-    height: 68px;
+    height: 69px;
     padding-bottom: 5px;
     margin: 0 5px;
     overflow-x: auto;
@@ -768,12 +768,18 @@ input[type='checkbox'].toggle:checked + .slider::before {
 
 .weapons-armor-items-container ul::-webkit-scrollbar-thumb:hover {
     background: var(--character-sheet-brown);
-    /* border: 1px solid var(--primary-text-brown); */
 }
 
+@supports (scrollbar-color: var(--primary-brown) var(--faded-character-sheet-brown)) {
+    .weapons-armor-items-container {
+        scrollbar-color: var(--primary-brown) var(--faded-character-sheet-brown);
+        scrollbar-width: thin;
+    }
+}
 
 .weapons-armor-items-container li {
     display: flex;
+    width: max-content;
 }
 
 .equippable-item {
