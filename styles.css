@@ -19,6 +19,7 @@
     --primary-text-brown: #ecddc6;
     --character-sheet-brown: #9C501B;
     --border-black: #221416;
+    --faded-character-sheet-brown: #B88149;
 }
 
 body {
@@ -117,7 +118,6 @@ dialog::backdrop {
     flex-direction: column;
     align-items: center;
     gap: 55px;
-    height: 686px;
 }
 
 .create-character-welcome {
@@ -312,7 +312,7 @@ dialog::backdrop {
 
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(375px, 1fr));
-    grid-template-rows: repeat(auto-fill, minmax(525px, 685px));
+    grid-template-rows: repeat(auto-fill, minmax(525px, 725px));
     justify-items: center;
     gap: 3vh;
 }
@@ -323,10 +323,10 @@ dialog::backdrop {
     max-width: 396px;
     min-height: 624px; */
     width: 396px;
-    height: 686px;
+    height: 721px;
     position: relative;
     padding: 35px 20px 30px;
-    background-image: url(images/character-sheet-bg-335x580.png);
+    background-image: url(images/character-sheet-bg-335x610.png);
     background-size: cover;
     background-repeat: no-repeat;
     font-size: 1.1em;
@@ -710,11 +710,15 @@ input[type='checkbox'].toggle:checked + .slider::before {
     display: flex;
     justify-content: flex-start;
     align-items: center;
-    gap: .3em;
+    gap: 5px;
 }
 
 .weapons-armor-items-header > h4 {
     font-weight: 600;
+}
+
+.weapons-armor-container {
+    margin-bottom: 5px;
 }
 
 .weapons-armor-container h4,
@@ -733,17 +737,40 @@ input[type='checkbox'].toggle:checked + .slider::before {
 
 .weapons-armor-items-container ul {
     list-style: none;
-    height: 53px;
+    height: 68px;
     padding-bottom: 5px;
     margin: 0 5px;
-    overflow: auto;
+    overflow-x: auto;
     cursor: pointer;
 
     display: grid;
     grid-template-rows: repeat(2, 1fr);
     grid-auto-flow: column;
     grid-column-gap: 10px;
+    align-items: start;
 }
+
+.weapons-armor-items-container ul::-webkit-scrollbar {
+    height: .6em;
+}
+
+.weapons-armor-items-container ul::-webkit-scrollbar-track {
+    background: transparent;
+    border-radius: 100vw;
+    border: 1px solid var(--primary-brown);
+}
+
+.weapons-armor-items-container ul::-webkit-scrollbar-thumb {
+    background-color: var(--faded-character-sheet-brown);
+    border: 1px solid var(--primary-brown);
+    border-radius: 100vw;
+}
+
+.weapons-armor-items-container ul::-webkit-scrollbar-thumb:hover {
+    background: var(--character-sheet-brown);
+    /* border: 1px solid var(--primary-text-brown); */
+}
+
 
 .weapons-armor-items-container li {
     display: flex;
