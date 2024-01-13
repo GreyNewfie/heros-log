@@ -1031,10 +1031,6 @@ fieldset#choose-items button#close-modal {
 /*************************************************/
 /*                QUESTS PAGE                    */
 /*************************************************/
-main {
-    font-family: 'Alegreya', serif;
-}
-
 .quests-contents {
     position: relative;
     min-height: 100vh;
@@ -1042,8 +1038,7 @@ main {
     background-position: center;
     background-size: cover;
 
-    display: grid;
-    grid-template-columns: max-content 1fr;
+    display: flex;
     gap: 2vw;
 }
 
@@ -1058,8 +1053,7 @@ main {
     opacity: .5;
 }
 
-/* Quest list */
-
+/*** QUESTS LIST ***/
 .quests-contents > aside {
     /* position: relative; */
     padding: 10px;
@@ -1094,18 +1088,55 @@ main {
     justify-content: space-around;
 }
 
+/*** QUESTS SECTION ***/
 .quests-container {
     z-index: 1;
+    padding: 10px;
+    width: 100%;
+
     display: grid;
-    grid-template-columns: repeat(auto-fit, 300px);
-    gap: 25px;
+    grid-template-columns: repeat(auto-fill, 350px);
+    grid-template-rows: repeat(auto-fill, 530px);
+    gap: 2vw;
 }
 
 .quest-sheet {
-    width: 300px;
+    width: 350px;
+    height: 530px;
+    background-image: url(images/quest-scroll-345x530.png);
+    background-size: contain;
+    background-repeat: no-repeat;
+    padding: 55px 40px 55px 50px;
+
     display: flex;
     flex-direction: column;
     align-items: center;
+}
+
+.quest-title {
+    display: flex;
+}
+
+.quest-heroes {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+}
+
+.quest-heroes > h4 {
+    text-align: center;
+}
+
+.quest-sheet ul {
+    font-style: italic;
+
+
+    display: grid;
+    grid-template-rows: repeat(2, 1fr);
+    grid-auto-flow: column;
+    grid-column-gap: 35px;
+    align-items: start;
 }
 
 /* Pick Heroes Popup */
