@@ -1031,9 +1031,11 @@ fieldset#choose-items button#close-modal {
 /*************************************************/
 /*                QUESTS PAGE                    */
 /*************************************************/
+main {
+    font-family: 'Alegreya', serif;
+}
 
-/* Quest list */
-.quests-main {
+.quests-contents {
     position: relative;
     min-height: 100vh;
     background-image: url(images/heroquest-background-2048x1365.jpg);
@@ -1045,7 +1047,7 @@ fieldset#choose-items button#close-modal {
     gap: 2vw;
 }
 
-.quests-main::before {
+.quests-contents::before {
     content: "";
     position: absolute;
     left: 0px;
@@ -1055,7 +1057,45 @@ fieldset#choose-items button#close-modal {
     background-color: var(--primary-brown);
     opacity: .5;
 }
+
+/* Quest list */
+
+.quests-contents > aside {
+    /* position: relative; */
+    padding: 10px;
+}
+
+/* .quests-contents > aside::before {
+    content: "";
+    position: absolute;
+    left: 0px;
+    right: 0px;
+    top: 0px;
+    bottom: 0px;
+    background-color: var(--primary-brown);
+    opacity: .7;
+} */
+
+#quest-list {
+    list-style-type: none;
+    background-image: url(images/scroll-85x350.png);
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+    position: relative;
+    width: 98px;
+    height: 403px;
+    padding: 10px 0;
+    color: var(--header-bg-brown);
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+}
+
 .quests-container {
+    z-index: 1;
     display: grid;
     grid-template-columns: repeat(auto-fit, 300px);
     gap: 25px;
@@ -1076,6 +1116,7 @@ fieldset#choose-items button#close-modal {
     right: 0;
     top: 0;
     bottom: 0;
+    z-index: 1;
     background-color: #675450;
     opacity: .9;
     font-size: 1.75rem;
@@ -1090,7 +1131,7 @@ fieldset#choose-items button#close-modal {
 }
 
 .not-started {
-    color: silver;
+    color: var(--character-sheet-brown);
 }
 
 /*************************************************/
