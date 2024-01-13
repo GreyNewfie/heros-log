@@ -751,7 +751,7 @@ input[type='checkbox'].toggle:checked + .slider::before {
 }
 
 .weapons-armor-items-container ul::-webkit-scrollbar {
-    height: .6em;
+    height: .4em;
 }
 
 .weapons-armor-items-container ul::-webkit-scrollbar-track {
@@ -1034,11 +1034,27 @@ fieldset#choose-items button#close-modal {
 
 /* Quest list */
 .quests-main {
+    position: relative;
+    min-height: 100vh;
+    background-image: url(images/heroquest-background-2048x1365.jpg);
+    background-position: center;
+    background-size: cover;
+
     display: grid;
     grid-template-columns: max-content 1fr;
     gap: 2vw;
 }
 
+.quests-main::before {
+    content: "";
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    right: 0px;
+    bottom: 0px;
+    background-color: var(--primary-brown);
+    opacity: .5;
+}
 .quests-container {
     display: grid;
     grid-template-columns: repeat(auto-fit, 300px);
