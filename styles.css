@@ -1095,15 +1095,15 @@ fieldset#choose-items button#close-modal {
     width: 100%;
 
     display: grid;
-    grid-template-columns: repeat(auto-fill, 350px);
-    grid-template-rows: repeat(auto-fill, 530px);
+    grid-template-columns: repeat(auto-fill, 345px);
+    grid-template-rows: repeat(auto-fill, 555px);
     gap: 2vw;
 }
 
 .quest-sheet {
-    width: 350px;
-    height: 530px;
-    background-image: url(images/quest-scroll-345x530.png);
+    width: 345px;
+    height: 555px;
+    background-image: url(images/quest-scroll-bg-image-345x555.png);
     background-size: contain;
     background-repeat: no-repeat;
     padding: 55px 40px 55px 50px;
@@ -1111,10 +1111,13 @@ fieldset#choose-items button#close-modal {
     display: flex;
     flex-direction: column;
     align-items: center;
+    gap: 10px;
 }
 
 .quest-title {
     display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .quest-heroes {

@@ -79,6 +79,7 @@ function displayQuests() {
                     updateQuestStatus(questSheet, storedQuest);
                 break;
                 case 'complete':
+                    addQuestDescription(questSheet, quest.description);
                     addCompletedQuestHeroes(questSheet, storedQuest.heroes);
                     updateQuestStatus(questSheet, storedQuest);
                     if (quest.id === (storedQuests.length)) {
@@ -120,7 +121,7 @@ function updateQuest(quests, questSheet, questStatus) {
     const storedQuest = getStoredQuest(quest);
     switch (questStatus) {
         case 'not-started':
-            removeQuestHeroesAndDescriptions(questSheet);
+            removeQuestHeroes(questSheet);
             deleteQuest(questSheet);
             break;
         case 'current-quest':
@@ -128,7 +129,7 @@ function updateQuest(quests, questSheet, questStatus) {
                 alert('Input your characters before starting your quest');
                 updateQuestStatus(questSheet);
             } else {
-                removeQuestHeroesAndDescriptions(questSheet);
+                removeQuestHeroes(questSheet);
                 const quest = getQuest(quests, questSheet);
                 addQuestDescription(questSheet, quest.description);
                 addHeroOptions(questSheet);
@@ -138,7 +139,7 @@ function updateQuest(quests, questSheet, questStatus) {
         case 'complete':
             if (storedQuest) {
                 addCompletedHeroOptions(questSheet);
-                removeQuestHeroesAndDescriptions(questSheet);
+                removeQuestHeroes(questSheet);
                 displayNextQuest(questSheet); 
             } else {
                 alert('Slow your roll. You mush start a quest before you can complete it.');
@@ -323,13 +324,13 @@ function removeHeroOptions() {
     });
 }
 
-function removeQuestHeroesAndDescriptions(currentQuest) {
+function removeQuestHeroes(currentQuest) {
     const currentQuestDescription = currentQuest.querySelector('.quest-description');
     const currentHeroesOnQuest = currentQuest.querySelector('.quest-heroes');
 
-    if (currentQuestDescription) {
-        currentQuestDescription.remove();
-    }
+    // if (currentQuestDescription) {
+    //     currentQuestDescription.remove();
+    // }
     if (currentHeroesOnQuest) {
         currentHeroesOnQuest.remove();
     }
