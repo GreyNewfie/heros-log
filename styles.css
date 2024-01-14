@@ -1037,6 +1037,8 @@ fieldset#choose-items button#close-modal {
     background-image: url(images/heroquest-background-2048x1365.jpg);
     background-position: center;
     background-size: cover;
+    font-size: 1.1em;
+    font-style: italic;
 
     display: flex;
     gap: 2vw;
@@ -1096,28 +1098,48 @@ fieldset#choose-items button#close-modal {
 
     display: grid;
     grid-template-columns: repeat(auto-fill, 345px);
-    grid-template-rows: repeat(auto-fill, 555px);
+    grid-template-rows: repeat(auto-fill, 600px);
     gap: 2vw;
 }
 
 .quest-sheet {
     width: 345px;
-    height: 555px;
-    background-image: url(images/quest-scroll-bg-image-345x555.png);
+    height: 600px;
+    background-image: url(images/quest-scroll-bg-image-345x600.png);
     background-size: contain;
     background-repeat: no-repeat;
-    padding: 55px 40px 55px 50px;
+    padding: 65px 40px 55px 50px;
 
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 10px;
+    gap: 8px;
 }
 
 .quest-title {
+    font-size: 1.15em;
+    
     display: flex;
     flex-direction: column;
     align-items: center;
+}
+
+.quest-title > h3 {
+    font-size: 1.15em;
+}
+
+.quest-title > h4 {
+    font-weight: 400;
+    text-align: center;
+}
+
+.quest-status > label {
+    font-weight: 600;
+}
+
+.quest-description {
+    max-height: 285px;
+    overflow: scroll;
 }
 
 .quest-heroes {
@@ -1129,6 +1151,7 @@ fieldset#choose-items button#close-modal {
 
 .quest-heroes > h4 {
     text-align: center;
+    font-weight: 600;
 }
 
 .quest-sheet ul {
