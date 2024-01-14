@@ -1118,7 +1118,7 @@ fieldset#choose-items button#close-modal {
 
 .quest-title {
     font-size: 1.15em;
-    
+
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -1135,6 +1135,15 @@ fieldset#choose-items button#close-modal {
 
 .quest-status > label {
     font-weight: 600;
+}
+
+.quest-status > select {
+    background: transparent;
+    border: none;
+    font-family: inherit;
+    font-size: inherit;
+    font-style: inherit;
+    cursor: pointer;
 }
 
 .quest-description {
