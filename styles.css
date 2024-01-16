@@ -1079,8 +1079,8 @@ fieldset#choose-items button#close-modal {
     justify-content: space-around;
 }
 
-#quest-list > li:hover {
-    color: var(--primary-brown);
+#quest-list > li {
+    pointer-events: none;
 }
 
 .not-started {
