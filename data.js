@@ -330,7 +330,7 @@ const items = [
         classification: 'weapon',
         type: 'equipment',
         cost: '450 gold coins',
-        image: 'battle-axe.png',
+        image: 'item-battle-axe-132x100.png',
         imageDescription: 'A hand holding up a double sided axe',
         equippedLocation: 'right-hand',
         incompatibilities: ['shield', 'wizard'],
