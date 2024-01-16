@@ -93,6 +93,12 @@ function displayQuests() {
 
 function displayQuestList() {
     const questList = document.getElementById('quest-list');
+
+    const questListHeader = document.createElement('h3');
+    questListHeader.setAttribute('class', 'quest-list-header');
+    questListHeader.textContent = 'Quests List';
+    questList.appendChild(questListHeader);
+
     quests.forEach(quest => {
         const listLi = document.createElement('li');
         listLi.setAttribute('id', `quest-${quest.id}`);
@@ -179,22 +185,26 @@ function addHeroOptions(questSheet) {
     const heroes = getCharacters();
     const heroesFieldset = document.getElementById('heroes-fieldset');
     const startQuestBtn = document.getElementById('start-quest-btn');
-    startQuestBtn.textContent = 'Start Quest!';
+    startQuestBtn.textContent = 'Start Quest';
 
     heroes.forEach((hero) => {
-        const newDiv = document.createElement('div');
-        newDiv.setAttribute('class', 'hero-option');
+        const heroOptionContainer = document.createElement('div');
+        heroOptionContainer.setAttribute('class', 'hero-option');
 
-        const newInput = document.createElement('input');
-        setAttributes(newInput, {type: 'checkbox', id: hero.name, name: hero.name});
+        const heroOptionLabel = document.createElement('label');
+        heroOptionLabel.setAttribute('for', hero.name);
+        heroOptionLabel.textContent = hero.name;
+        heroOptionContainer.appendChild(heroOptionLabel);
 
-        const newLabel = document.createElement('label');
-        newLabel.setAttribute('for', hero.name);
-        newLabel.textContent = hero.name;
+        const heroOptionInput = document.createElement('input');
+        setAttributes(heroOptionInput, {type: 'checkbox', id: hero.name, name: hero.name});
+        heroOptionLabel.appendChild(heroOptionInput);
 
-        newDiv.append(newInput, newLabel);
+        const checkmark = document.createElement('span');
+        checkmark.setAttribute('class', 'checkmark');
+        heroOptionLabel.appendChild(checkmark);
 
-        heroesFieldset.insertBefore(newDiv, startQuestBtn);
+        heroesFieldset.insertBefore(heroOptionContainer, startQuestBtn);
     });
 
     const heroesPopup = document.querySelector('.pick-heroes');
@@ -224,19 +234,37 @@ function addCompletedHeroOptions(questSheet) {
         }
     
         heroes.forEach((hero) => {
-            const newDiv = document.createElement('div');
-            newDiv.setAttribute('class', 'hero-option');
+            // const newDiv = document.createElement('div');
+            // newDiv.setAttribute('class', 'hero-option');
     
-            const newInput = document.createElement('input');
-            setAttributes(newInput, {type: 'checkbox', id: hero, name: hero});
+            // const newInput = document.createElement('input');
+            // setAttributes(newInput, {type: 'checkbox', id: hero, name: hero});
     
-            const newLabel = document.createElement('label');
-            newLabel.setAttribute('for', hero);
-            newLabel.textContent = hero;
+            // const newLabel = document.createElement('label');
+            // newLabel.setAttribute('for', hero);
+            // newLabel.textContent = hero;
     
-            newDiv.append(newInput, newLabel);
+            // newDiv.append(newInput, newLabel);
     
-            heroesFieldset.insertBefore(newDiv, startQuestBtn);
+            // heroesFieldset.insertBefore(newDiv, startQuestBtn);
+
+            const heroOptionContainer = document.createElement('div');
+            heroOptionContainer.setAttribute('class', 'hero-option');
+    
+            const heroOptionLabel = document.createElement('label');
+            heroOptionLabel.setAttribute('for', hero);
+            heroOptionLabel.textContent = hero;
+            heroOptionContainer.appendChild(heroOptionLabel);
+    
+            const heroOptionInput = document.createElement('input');
+            setAttributes(heroOptionInput, {type: 'checkbox', id: hero, name: hero});
+            heroOptionLabel.appendChild(heroOptionInput);
+    
+            const checkmark = document.createElement('span');
+            checkmark.setAttribute('class', 'checkmark');
+            heroOptionLabel.appendChild(checkmark);
+    
+            heroesFieldset.insertBefore(heroOptionContainer, startQuestBtn);    
         });
     
         const chooseHeroesLabel = document.getElementById('heroes-fieldset').querySelector('legend');

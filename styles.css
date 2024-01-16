@@ -444,9 +444,11 @@ dialog::backdrop {
 }
 
 .auto-update-ui-container > label {
+    cursor: pointer;
+    width: max-content;
+
     display: flex;
     gap: .25em;
-    cursor: pointer;
 }
 
 /* Creates Automatically Update Stats Toggle Switch */
@@ -847,7 +849,9 @@ input[type='checkbox'].toggle:checked + .slider::before {
     left: 50%;
     transform: translate(-50%, -50%);
     border: none;
-    font-family: lumanosimo, 'Times New Roman', Times, serif;
+    font-family: 'Alegreya', serif;
+    font-size: 1.1em;
+    font-style: italic;
     background-image: url(images/select-items-bg-355x520.png);
     background-color: transparent;
     background-repeat: no-repeat;
@@ -918,7 +922,6 @@ fieldset#choose-items > legend {
     align-items: center;
   }
   
-  /* Hide the browser's default checkbox */
   .item-container input {
     position: absolute;
     opacity: 0;
@@ -927,7 +930,6 @@ fieldset#choose-items > legend {
     width: 0;
   }
   
-  /* Create a custom checkbox */
   .checkmark {
     position: absolute;
     left: 0;
@@ -938,29 +940,24 @@ fieldset#choose-items > legend {
     border-radius: 5px;
   }
   
-  /* On mouse-over, add a grey background color */
   .item-container:hover input ~ .checkmark {
     background-color: var(--primary-text-brown);
   }
   
-  /* When the checkbox is checked, add a blue background */
   .item-container input:checked ~ .checkmark {
     background-color: var(--primary-brown);
   }
   
-  /* Create the checkmark/indicator (hidden when not checked) */
   .checkmark:after {
     content: "";
     position: absolute;
     display: none;
   }
   
-  /* Show the checkmark when checked */
   .item-container input:checked ~ .checkmark:after {
     display: block;
   }
   
-  /* Style the checkmark/indicator */
   .item-container .checkmark:after {
     left: 5px;
     top: 2px;
@@ -980,6 +977,7 @@ fieldset#choose-items div:last-of-type {
 fieldset#choose-items button#close-modal {
     font-family: inherit;
     font-size: 1em;
+    font-style: italic;
     border: none;
     background-color: transparent;
 }
@@ -1039,6 +1037,7 @@ fieldset#choose-items button#close-modal {
     background-size: cover;
     font-size: 1.1em;
     font-style: italic;
+    color: var(--primary-brown);
 
     display: flex;
     gap: 2vw;
@@ -1057,32 +1056,22 @@ fieldset#choose-items button#close-modal {
 
 /*** QUESTS LIST ***/
 .quests-contents > aside {
-    /* position: relative; */
     padding: 10px;
 }
 
-/* .quests-contents > aside::before {
-    content: "";
-    position: absolute;
-    left: 0px;
-    right: 0px;
-    top: 0px;
-    bottom: 0px;
-    background-color: var(--primary-brown);
-    opacity: .7;
-} */
+
 
 #quest-list {
     list-style-type: none;
-    background-image: url(images/scroll-85x350.png);
+    background-image: url(images/quest-list-bg-image-100x400.png);
     background-position: center;
     background-size: contain;
     background-repeat: no-repeat;
     position: relative;
-    width: 98px;
-    height: 403px;
-    padding: 10px 0;
-    color: var(--header-bg-brown);
+    width: 120px;
+    height: 477px;
+    padding: 15px 5px 25px 0;
+    color: var(--primary-brown);
 
     display: flex;
     flex-direction: column;
@@ -1090,7 +1079,15 @@ fieldset#choose-items button#close-modal {
     justify-content: space-around;
 }
 
-/*** QUESTS SECTION ***/
+#quest-list > li:hover {
+    color: var(--primary-brown);
+}
+
+.not-started {
+    color: var(--faded-character-sheet-brown);
+}
+
+/*** QUEST SHEETS SECTION ***/
 .quests-container {
     z-index: 1;
     padding: 10px;
@@ -1146,9 +1143,42 @@ fieldset#choose-items button#close-modal {
     cursor: pointer;
 }
 
+.quest-status > select:hover {
+    color: var(--character-sheet-brown);
+    /* text-shadow: 1px 1px 5px var(--primary-text-brown); */
+}
+
 .quest-description {
     max-height: 285px;
-    overflow: scroll;
+    overflow-y: auto;
+    padding-right: 3px;
+}
+
+.quest-description::-webkit-scrollbar {
+    width: .4em;
+}
+
+.quest-description::-webkit-scrollbar-track {
+    background: transparent;
+    border-radius: 100vw;
+    border: 1px solid var(--primary-brown);
+}
+
+.quest-description::-webkit-scrollbar-thumb {
+    background: var(--faded-character-sheet-brown);
+    border: 1px solid var(--primary-brown);
+    border-radius: 100vw;
+}
+
+.quest-description::-webkit-scrollbar-thumb:hover {
+    background: var(--character-sheet-brown);
+}
+
+@supports (scrollbar-color: var(--primary-brown) var(--faded-character-sheet-brown)) {
+    .quest-description {
+        scrollbar-color: var(--primary-brown) var(--faded-character-sheet-brown);
+        scrollbar-width: thin;
+    }
 }
 
 .quest-heroes {
@@ -1175,30 +1205,123 @@ fieldset#choose-items button#close-modal {
 }
 
 /* Pick Heroes Popup */
+.pick-heroes-bg-image {
+    background-image: url(images/select-heroes-bg-image-340x194.png);
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    padding: 25px 54px 35px 54px;
+}
+
 .pick-heroes {
-    display: none;
     position: fixed;
     left: 0;
     right: 0;
     top: 0;
     bottom: 0;
     z-index: 1;
-    background-color: #675450;
-    opacity: .9;
-    font-size: 1.75rem;
-    color: white;
+    background-color:rgb(236, 221, 198, 0.6);
+    color: var(--primary-brown);
+    font-family: inherit;
+    font-style: italic;
+    font-size: 1.4em;
 
+    display: none;
     flex-direction: column;
     align-items: center;
     justify-content: center;
 }
+
+.pick-heroes fieldset {
+    border: none;
+}
+
+.pick-heroes fieldset > legend {
+    font-weight: 500;
+}
+
 .show {
     display: flex;
 }
 
-.not-started {
-    color: var(--character-sheet-brown);
+.hero-option {
+    position: relative;
+    width: max-content;
+    padding-left: calc(1em + 5px);
+
+    display: flex;
+    gap: 5px;
 }
+
+.hero-option > label {
+    display: flex;
+    align-items: center;
+}
+
+.hero-option input {
+    position: absolute;
+    width: 0;
+    height: 0;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.hero-option .checkmark {
+    position: absolute;
+    height: .9em;
+    width: .9em;
+    background-color: transparent;
+}
+
+.hero-option:hover input ~ .checkmark {
+    background-color: var(--primary-text-brown);
+  }
+  
+  .hero-option input:checked ~ .checkmark {
+    background-color: var(--primary-brown);
+  }
+  
+  .hero-option .checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+  }
+  
+  .hero-option input:checked ~ .checkmark:after {
+    display: block;
+  }
+  
+  .hero-option .checkmark:after {
+    left: 0.225em;
+    width: 0.3em;
+    height: 0.65em;
+    border: solid var(--primary-text-brown);
+    border-width: 0 3px 3px 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+  }
+
+  .start-quest-btn {
+    font-family: inherit;
+    font-size: .9em;
+    font-style: italic;
+    border: none;
+    background: transparent;
+    font-weight: 500;
+  }
+
+  .hero-option > label:hover,
+  .start-quest-btn:hover {
+    color: var(--primary-text-brown);
+    text-shadow: 1px 1px 5px var(--header-bg-brown);
+  }
+
+  .hero-option > label:active,
+  .start-quest-btn:active {
+    color: var(--primary-brown);
+    text-shadow: var(--primary-text-brown);
+  }
 
 /*************************************************/
 /*                 ITEMS PAGE                    */
