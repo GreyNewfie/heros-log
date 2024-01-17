@@ -1006,17 +1006,26 @@ fieldset#choose-items button#close-modal {
     align-items: center;
 }
 
-.character-sheet-item-card .item-card-image {
+.character-sheet-item-card .item-card-image,
+.items-card-container .item-card-image {
     width: 210px;
     height: 152px;
     position: absolute;
     top: 76px;
 }
 
-.character-sheet-item-card .item-card > p {
+.character-sheet-item-card .item-card > p,
+.items-card-container > .item-card > p {
     position: absolute;
     top: 240px;
     width: 250px;
+}
+
+.item-card .item-card-cost {
+    position: absolute;
+    bottom: 28px;
+    left: 36px;
+    text-shadow: 1px 1px 10px var(--primary-text-brown);
 }
 
 .character-sheet-item-card > button:last-child {
@@ -1437,7 +1446,7 @@ fieldset#choose-items button#close-modal {
     margin-bottom: 20%;
 }
 
-.items-card-container .item-card {
+/* .items-card-container .item-card {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -1449,15 +1458,15 @@ fieldset#choose-items button#close-modal {
     padding: 20px;
     border: 2px solid black;
     font-size: 1.2rem;
-}
+} */
 
-.item-card-image {
+/* .item-card-image {
     width: 148px;
     height: 110px;
-}
+} */
 
 
-.item-card-cost {
+/* .item-card-cost {
     align-self: flex-start;
     margin-top: auto;
-}} */
+} */
