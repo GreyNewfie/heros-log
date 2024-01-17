@@ -990,7 +990,8 @@ fieldset#choose-items button#close-modal {
     gap: 10px;
 }
 
-.character-sheet-item-card > .item-card {
+.character-sheet-item-card > .item-card,
+.items-card-container > .item-card {
     position: relative;
     background-image: url(images/item-card-bg-324x455.png);
     background-size: contain;
@@ -1328,18 +1329,42 @@ fieldset#choose-items button#close-modal {
 /*************************************************/
 
 .content-container {
+    position: relative;
+    height: 100vh;
+    background-image: url(images/heroquest-background-1200x800.jpg);
+    background-size: cover;
+    background-position: center;
+
     display: flex;
 }
+
+.content-container::before {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    content: "";
+    background: var(--primary-brown);
+    opacity: .5;
+}
+
 
 .items-container {
     width: max-content;
     height: 78vh;
     overflow: auto;
     padding: 5px 1vw;
+    position: relative;
+    z-index: 1;
 
     display: flex;
     flex-direction: column;
     gap: 3vh;
+}
+
+.items-card-container > .item-card {
+
 }
 
 .items-container, .search-wrapper input {
@@ -1391,6 +1416,8 @@ fieldset#choose-items button#close-modal {
 
 .items-card-container {
     width: 100%;
+    position: relative;
+    z-index: 1;
     display: grid;
     grid-template: 1fr / 1fr;
     justify-items: center;
@@ -1433,4 +1460,4 @@ fieldset#choose-items button#close-modal {
 .item-card-cost {
     align-self: flex-start;
     margin-top: auto;
-}
+}} */
