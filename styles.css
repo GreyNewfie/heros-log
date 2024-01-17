@@ -1354,7 +1354,7 @@ fieldset#choose-items button#close-modal {
     left: 0;
     right: 0;
     content: "";
-    background: var(--primary-brown);
+    background: var(--faded-character-sheet-brown);
     opacity: .5;
 }
 
