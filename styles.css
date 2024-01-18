@@ -1358,6 +1358,20 @@ fieldset#choose-items button#close-modal {
     opacity: .5;
 }
 
+.instruction-card {
+    background-image: url(images/items-library-greeting-bg-324x455.png);
+    background-size: contain;
+    background-position: center;
+    width: 270px;
+    height: 380px;
+    padding: 20px 30px;
+    text-align: center;
+    font-size: 1.2rem;
+}
+
+.instruction-card > h3 {
+    margin-bottom: 15px;
+}
 
 .items-container {
     width: max-content;
@@ -1428,17 +1442,3 @@ fieldset#choose-items button#close-modal {
     justify-items: center;
     align-items: center;
 }
-
-.instruction-card {
-    border: 2px solid black;
-    width: 270px;
-    height: 340px;
-    padding: 20px;
-    text-align: center;
-    font-size: 1.2rem;
-}
-
-.instruction-card > h3 {
-    margin-bottom: 20%;
-}
-
