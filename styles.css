@@ -25,6 +25,10 @@
 body {
     font-family: 'Alegreya', serif;
     position: relative;
+    height: 100vh;
+
+    display: flex;
+    flex-direction: column;
 }
 
 /* h1 {
@@ -83,6 +87,10 @@ header ul {
 dialog::backdrop {
     background-color: #ecddc6;
     opacity: .6;
+}
+
+main {
+    flex-grow: 1;
 }
 
 /*************************************************/
@@ -1339,7 +1347,7 @@ fieldset#choose-items button#close-modal {
 
 .content-container {
     position: relative;
-    height: 100vh;
+    height: 100%;
     background-image: url(images/heroquest-background-1200x800.jpg);
     background-size: cover;
     background-position: center;
