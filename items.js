@@ -49,14 +49,19 @@ function createItemsList(classification) {
 (function addItems() {
     const itemsContainer = document.getElementById('items-container');
 
+    const listsWrapper = document.createElement('div');
+    listsWrapper.setAttribute('class', 'lists');
+
     const treasureList = createItemsList('treasure');
-    itemsContainer.appendChild(treasureList);
+    listsWrapper.appendChild(treasureList);
 
     const artifactList = createItemsList('artifact');
-    itemsContainer.appendChild(artifactList);
+    listsWrapper.appendChild(artifactList);
 
     const itemsList = createItemsList('equipment');
-    itemsContainer.appendChild(itemsList);
+    listsWrapper.appendChild(itemsList);
+
+    itemsContainer.appendChild(listsWrapper);
 })();
 
 function createInstructionCard() {
