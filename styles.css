@@ -1383,7 +1383,7 @@ fieldset#choose-items button#close-modal {
 
 .items-container {
     width: max-content;
-    height: 78vh;
+    height: 90vh;
     overflow: auto;
     padding: 5px 1vw;
     position: relative;
