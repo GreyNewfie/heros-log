@@ -78,7 +78,7 @@ header ul {
     display: flex;
     gap: 4vw;
     list-style-type: none;
-    font-size: clamp(1.125rem, 1vw + 1rem, 2.25rem);
+    font-size: clamp(1.125rem, 1vw + 1rem, 1.7rem);
     font-weight: 700;
     font-style: italic;
     margin-right: 4vw;
@@ -1385,17 +1385,17 @@ fieldset#choose-items button#close-modal {
     width: max-content;
     height: 90vh;
     overflow: auto;
-    padding: 5px 1vw;
+    padding: 30px 20px;
     position: relative;
     z-index: 1;
+     border-image-source: url(images/items-list-bg-220x385.png);
+     border-image-slice: 90 48 90 55 fill;
+     border-image-width: 35px 25px;
+     border-image-repeat: stretch stretch;
 
     display: flex;
     flex-direction: column;
-    gap: 3vh;
-}
-
-.items-card-container > .item-card {
-
+    gap: 3%;
 }
 
 .items-container, .search-wrapper input {
