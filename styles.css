@@ -433,13 +433,21 @@ main {
 }
 
 .material-symbols-outlined:hover {
-    color: var(--character-sheet-brown);
     font-variation-settings:
     'FILL' 1;
+    border: 1px solid var(--primary-brown);
+    border-radius: 5px;
+    width: 1em;
+    height: 1em;
 }
 
 .material-symbols-outlined:active {
-    color: var(--primary-text-brown);
+    color: var(--faded-character-sheet-brown);
+    border: 1px solid var(--faded-character-sheet-brown);
+    border-radius: 5px;
+    width: 1em;
+    height: 1em;
+
 }
 
 /** AUTOMATICALLY UPDATE STATS SECTION **/
@@ -739,6 +747,10 @@ input[type='checkbox'].toggle:checked + .slider::before {
     border: none;
     background-color: transparent;
     cursor: pointer;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .weapons-armor-items-container ul {
@@ -793,33 +805,20 @@ input[type='checkbox'].toggle:checked + .slider::before {
 }
 
 .equippable-item:hover {
-    color: var(--character-sheet-brown);
+    font-weight: 600;
+}
+
+.equippable-item:hover + .remove-item {
+    font-weight: 600;
 }
 
 .incompatible {
-    color: var(--header-bg-brown);
-    /* position: relative; */
+    color: var(--faded-character-sheet-brown);
 }
 
-/* .incompatible::before {
-    content: attr(data-hover);
-    visibility: hidden;
-    opacity: 0;
-    background-color: black;
-    color: orange;
-    border: solid 1px silver;
-    border-radius: 8%;
-    transition: opacity 1s ease-in-out 1s;
-    
-    position: absolute;
-    z-index: 1;
-    top: 110%;
+.incompatible + .remove-item {
+    color: var(--faded-character-sheet-brown);
 }
-
-.incompatible:hover::before {
-    visibility: visible;
-    opacity: 1;
-} */
 
 .hide {
     visibility: hidden;
@@ -835,10 +834,10 @@ input[type='checkbox'].toggle:checked + .slider::before {
     z-index: 1;
 }
 
-.incompatible:hover + .hide {
+/* .incompatible:hover + .hide {
     visibility: visible;
     opacity: 1;
-}
+} */
 
 .remove-item {
     font-size: 1.1em;
