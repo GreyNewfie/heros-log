@@ -1422,16 +1422,16 @@ fieldset#choose-items button#close-modal {
 }
 
 .list-item:hover {
-    color: grey;
+    color: var(--character-sheet-brown);
 }
 
 .list-item:focus {
-    font-weight: 600;
+    font-weight: 700;
 }
 
 .list-item:hover:focus {
     color: black;
-    font-weight: 600;
+    font-weight: 700;
 }
 
 .items-card-container {
