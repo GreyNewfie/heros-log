@@ -895,8 +895,8 @@ function checkItemCompatibility(characterId, item) {
         const element = document.getElementById(`character-${characterId}-${item.id}`);
         element.classList.add('incompatible');
         // element.setAttribute('data-hover', `${item.name} can't be equipped. Please check the ${item.name} card for why.`);
-        const incompatibleMessage = createIncompatibleItemMessageBox(item);
-        element.after(incompatibleMessage);
+        // const incompatibleMessage = createIncompatibleItemMessageBox(item);
+        // element.after(incompatibleMessage);
         return 'incompatible';
     }
 }
@@ -1003,8 +1003,8 @@ function checkCharacterItemsCompatibility(characterId) {
             element.classList.add('incompatible');
             incompatibleItems.push(item);
             // element.setAttribute('data-hover', `${item.name} can't be equipped. Please check the ${item.name} card for why.`);
-            const incompatibleMessage = createIncompatibleItemMessageBox(item);
-            element.after(incompatibleMessage);
+            // const incompatibleMessage = createIncompatibleItemMessageBox(item);
+            // element.after(incompatibleMessage);
         } else {
             if (!equippedItems.includes(item)){
                 element.classList.remove('incompatible');
@@ -1107,8 +1107,14 @@ function createItemModal(itemName, characterId) {
     const itemCard = createItemCard(item);
     modal.appendChild(itemCard);
 
-    const equipOrUnequipBtn = createEquipUnequipOrConsumeBtn(characterId, item);
-    modal.appendChild(equipOrUnequipBtn);
+    if (checkItemCompatibility(characterId, item) !== 'incompatible') {
+        const equipOrUnequipBtn = createEquipUnequipOrConsumeBtn(characterId, item);
+        modal.appendChild(equipOrUnequipBtn);    
+    } else if (checkItemCompatibility(characterId, item) === 'incompatible') {
+        const incompatibleMessage = createIncompatibleItemMessageBox(item);
+        modal.appendChild(incompatibleMessage);
+    }
+
 
     modal.showModal();
 
@@ -1182,6 +1188,18 @@ function createItemModal(itemName, characterId) {
         }
     }
     
+    function createIncompatibleItemMessageBox(item) {
+        const messageBox = document.createElement('div');
+        messageBox.setAttribute('class', 'incompatible-message');
+        // messageBox.classList.add('hide');
+    
+        const message = document.createElement('p');
+        message.textContent = `${item.name} is incompatible and can't be equipped.`;
+        
+        messageBox.appendChild(message);
+    
+        return messageBox;
+    }
 }
 
 function createEquippedItemsList(imagesNodeList) {
@@ -1202,19 +1220,6 @@ function createEquippedItemContainer(equippedItemLocation, playerId) {
     equippedItemContainer.setAttribute('id', `character-${playerId}-${equippedItemLocation}-container`);
     equippedItemContainer.setAttribute('class', `equipped-${equippedItemLocation}-item`);
     return equippedItemContainer;
-}
-
-function createIncompatibleItemMessageBox(item) {
-    const messageBox = document.createElement('div');
-    messageBox.setAttribute('class', 'incompatible-message');
-    messageBox.setAttribute('class', 'hide');
-
-    const message = document.createElement('span');
-    message.textContent = `${item.name} can't be equipped. Please check the ${item.name} card for why.`;
-    
-    messageBox.appendChild(message);
-
-    return messageBox;
 }
 
 function createItemCard(item) {
