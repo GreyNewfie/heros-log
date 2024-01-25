@@ -850,7 +850,7 @@ input[type='checkbox'].toggle:checked + .slider::before {
     font-family: 'Alegreya', serif;
     font-size: 1.1em;
     font-style: italic;
-    padding-top: 40px;
+    padding: 53px 0 0 10px;
     border-image-source: url(images/scroll-bg-340x620.png);
     border-image-slice: 118 115 160 117 fill;
     border-image-width: 80px 80px 90px 70px;
@@ -862,15 +862,17 @@ input[type='checkbox'].toggle:checked + .slider::before {
     align-items: center;
 }
 
-.select-weapons-armor-container {
+.select-weapons-armor-container,
+.select-potions-items-container {
     width: 320px;
+}
+
+.select-weapons-armor-container {
     height: 680px;
-    padding: 53px 0 0 10px;
 }
 
 .select-potions-items-container {
-    width: 355px;
-    height: 520px;
+    height: 525px;
 }
 
 .select-weapons-armor-container > #cancel-modal,
@@ -915,11 +917,13 @@ fieldset#choose-items > legend {
 /* Customize the label (the container) */
 .item-container {
     position: relative;
+    margin-left: 20px;
     padding-left: calc(1em + 5px);
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
+    width: max-content;
   }
 
   .item-container label {
