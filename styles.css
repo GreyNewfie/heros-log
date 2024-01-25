@@ -834,11 +834,6 @@ input[type='checkbox'].toggle:checked + .slider::before {
     z-index: 1;
 }
 
-/* .incompatible:hover + .hide {
-    visibility: visible;
-    opacity: 1;
-} */
-
 .remove-item {
     font-size: 1.1em;
 }
@@ -855,11 +850,6 @@ input[type='checkbox'].toggle:checked + .slider::before {
     font-family: 'Alegreya', serif;
     font-size: 1.1em;
     font-style: italic;
-    /* background-image: url(images/select-weapons-scroll-bg-315x620.png);
-    background-color: transparent;
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: contain; */
     padding-top: 40px;
     border-image-source: url(images/scroll-bg-340x620.png);
     border-image-slice: 118 115 160 117 fill;
