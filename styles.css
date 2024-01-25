@@ -169,7 +169,7 @@ main {
     left: 50%;
     transform: translate(-50%, -50%);
     background-color: transparent;
-    border: none;
+    /* border: none; */
 }
 
 .enter-name-modal {
@@ -732,9 +732,7 @@ input[type='checkbox'].toggle:checked + .slider::before {
 }
 
 .weapons-armor-container h4,
-.weapons-armor-container li,
-.potions-items-container h4,
-.potions-items-container li {
+.potions-items-container h4 {
     width: max-content;
 }
 
@@ -754,6 +752,8 @@ input[type='checkbox'].toggle:checked + .slider::before {
     cursor: pointer;
 
     display: grid;
+    grid-template-columns: max-content;
+    grid-auto-columns: max-content;
     grid-template-rows: repeat(2, 1fr);
     grid-auto-flow: column;
     grid-column-gap: 10px;
@@ -818,11 +818,6 @@ input[type='checkbox'].toggle:checked + .slider::before {
     z-index: 1;
 }
 
-.incompatible:hover + .hide {
-    visibility: visible;
-    opacity: 1;
-}
-
 .remove-item {
     font-size: 1.1em;
 }
@@ -831,35 +826,37 @@ input[type='checkbox'].toggle:checked + .slider::before {
 
 .select-weapons-armor-container,
 .select-potions-items-container {
-    position: absolute;
+    /* position: absolute;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%); */
     border: none;
     font-family: 'Alegreya', serif;
     font-size: 1.1em;
     font-style: italic;
-    background-image: url(images/select-items-bg-355x520.png);
-    background-color: transparent;
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: contain;
-    padding-top: 40px;
+    padding: 53px 0 0 10px;
+    border-image-source: url(images/scroll-bg-340x620.png);
+    border-image-slice: 118 115 160 117 fill;
+    border-image-width: 80px 80px 90px 70px;
+    border-image-outset: 0px 0px 0px 0px;
+    border-image-repeat: stretch stretch;
 
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
+.select-weapons-armor-container,
+.select-potions-items-container {
+    width: 320px;
+}
+
 .select-weapons-armor-container {
-    height: 675px;
-    width: 460px;
-    padding-top: 40px;
+    height: 680px;
 }
 
 .select-potions-items-container {
-    width: 355px;
-    height: 520px;
+    height: 525px;
 }
 
 .select-weapons-armor-container > #cancel-modal,
@@ -867,11 +864,14 @@ input[type='checkbox'].toggle:checked + .slider::before {
     margin-left: 68%;
     background-color: transparent;
     border: none;
-    color: var(--primary-brown);
+    color: var(--primary-text-brown);
 }
 
 .select-weapons-armor-container > #cancel-modal:hover,
-.select-potions-items-container > #cancel-modal:hover,
+.select-potions-items-container > #cancel-modal:hover {
+    color: white;
+}
+
 fieldset#choose-items button#close-modal:hover,
 fieldset#choose-items label:hover {
     color: var(--primary-text-brown);
@@ -894,14 +894,20 @@ fieldset#choose-items > legend {
     margin-bottom: 5px;
 }
 
+.select-weapons-armor-container .item-container {
+    margin-left: 20px;
+}
+
 /* Customize the label (the container) */
 .item-container {
     position: relative;
+    margin-left: 20px;
     padding-left: calc(1em + 5px);
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
+    width: max-content;
   }
 
   .item-container label {
@@ -958,7 +964,7 @@ fieldset#choose-items > legend {
   }
 
 fieldset#choose-items div:last-of-type {
-    margin-bottom: 10px;
+    margin-bottom: 5px;
 }
 
 fieldset#choose-items button#close-modal {
@@ -967,6 +973,7 @@ fieldset#choose-items button#close-modal {
     font-style: italic;
     border: none;
     background-color: transparent;
+    margin-left: 20px;
 }
 
 /***** ITEMS CARD MODAL *****/
