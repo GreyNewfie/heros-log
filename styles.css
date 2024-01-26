@@ -1354,9 +1354,9 @@ fieldset#choose-items button#close-modal {
     background-image: url(images/items-library-greeting-bg-324x455.png);
     background-size: contain;
     background-position: center;
-    width: 270px;
-    height: 380px;
-    padding: 20px 30px;
+    width: 315px;
+    height: 443px;
+    padding: 50px 35px;
     text-align: center;
     font-size: 1.2rem;
 }
