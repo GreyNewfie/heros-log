@@ -1421,12 +1421,12 @@ fieldset#choose-items button#close-modal {
 }
 
 .lists::-webkit-scrollbar-track {
-    background: var(--primary-text-brown);
+    background: transparent;
     border-radius: 100vw;
 }
 
 .lists::-webkit-scrollbar-thumb {
-    background-color: var(--faded-character-sheet-brown);
+    background-color: var(--primary-text-brown);
     border-radius: 100vw;
 }
 
