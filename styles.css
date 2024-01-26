@@ -1416,6 +1416,33 @@ fieldset#choose-items button#close-modal {
     list-style-type: none;
 }
 
+.lists::-webkit-scrollbar {
+    width: .4em;
+}
+
+.lists::-webkit-scrollbar-track {
+    background: transparent;
+    border-radius: 100vw;
+    border: 1px solid var(--primary-brown);
+}
+
+.lists::-webkit-scrollbar-thumb {
+    background-color: var(--primary-text-brown);
+    border: 1px solid var(--primary-brown);
+    border-radius: 100vw;
+}
+
+.lists::-webkit-scrollbar-thumb:hover {
+    background: var(--faded-character-sheet-brown);
+}
+
+@supports (scrollbar-color: var(--primary-brown) var(--faded-character-sheet-brown)) {
+    .lists {
+        scrollbar-color: var(--primary-brown) var(--faded-character-sheet-brown);
+        scrollbar-width: thin;
+    }
+}
+
 .items-list-header {
     display: flex;
     align-items: center;
