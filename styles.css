@@ -987,12 +987,12 @@ fieldset#choose-items button#close-modal {
 .character-sheet-item-card > .item-card,
 .items-card-container > .item-card {
     position: relative;
-    background-image: url(images/item-card-bg-324x455.png);
+    background-image: url(images/item-card-bg-315x480.png);
     background-size: contain;
-    width: 324px;
-    height: 455px;
+    width: 315px;
+    height: 480px;
     border: none;
-    padding-top: 40px;
+    padding-top: 33px;
     font-size: 1.1em;
 
     display: flex;
@@ -1002,17 +1002,17 @@ fieldset#choose-items button#close-modal {
 
 .character-sheet-item-card .item-card-image,
 .items-card-container .item-card-image {
-    width: 210px;
+    width: 206px;
     height: 152px;
     position: absolute;
-    top: 76px;
+    top: 71px;
 }
 
 .character-sheet-item-card .item-card > p,
 .items-card-container > .item-card > p {
     position: absolute;
-    top: 240px;
-    width: 250px;
+    top: 233px;
+    width: 234px;
 }
 
 .item-card .item-card-cost {
