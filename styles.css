@@ -169,7 +169,7 @@ main {
     left: 50%;
     transform: translate(-50%, -50%);
     background-color: transparent;
-    /* border: none; */
+    border: none;
 }
 
 .enter-name-modal {
@@ -1063,8 +1063,6 @@ fieldset#choose-items button#close-modal {
     padding: 10px;
 }
 
-
-
 #quest-list {
     list-style-type: none;
     background-image: url(images/quest-list-bg-image-100x400.png);
@@ -1402,6 +1400,8 @@ fieldset#choose-items button#close-modal {
 
 .search-wrapper input {
     font-family: inherit;
+    background-color: var(--primary-text-brown);
+    border: none;
 }
 
 .lists {
