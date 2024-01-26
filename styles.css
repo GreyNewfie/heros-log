@@ -70,7 +70,7 @@ header nav {
 }
 
 header img {
-    width: clamp(60px, 5%, 75px);
+    width: clamp(60px, 6%, 85px);
     margin-left: 4%;
 }
 
@@ -98,11 +98,11 @@ main {
 /*************************************************/
 .content {
     position: relative;
+    min-height: 100%;
     background-image: url(images/HeroQuest-board-1450x1150.png);
     background-color: var(--header-bg-brown);
     background-size: contain;
     background-repeat: repeat;
-    height: 100%;
 
     display: flex;
     flex-direction: column;
@@ -169,7 +169,7 @@ main {
     left: 50%;
     transform: translate(-50%, -50%);
     background-color: transparent;
-    /* border: none; */
+    border: none;
 }
 
 .enter-name-modal {
@@ -316,21 +316,24 @@ main {
 /***** CHARACTER SHEET *****/
 
 .character-sheets-container {
-    padding-top: 10px;
+    padding: 2% 1%;
 
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(375px, 1fr));
     grid-template-rows: repeat(auto-fill, minmax(525px, 725px));
     justify-items: center;
-    align-items: center;
     gap: 3vh;
 }
 
 .character-sheet {
-    width: 388px;
-    height: 706px;
+    /* width: 90%;
+    min-width: 360px;
+    max-width: 396px;
+    min-height: 624px; */
+    width: 396px;
+    height: 721px;
     position: relative;
-    padding: 35px 27px 30px;
+    padding: 35px 20px 30px;
     background-image: url(images/character-sheet-bg-335x610.png);
     background-size: cover;
     background-repeat: no-repeat;
@@ -433,21 +436,13 @@ main {
 }
 
 .material-symbols-outlined:hover {
+    color: var(--character-sheet-brown);
     font-variation-settings:
     'FILL' 1;
-    border: 1px solid var(--primary-brown);
-    border-radius: 5px;
-    width: 1em;
-    height: 1em;
 }
 
 .material-symbols-outlined:active {
-    color: var(--faded-character-sheet-brown);
-    border: 1px solid var(--faded-character-sheet-brown);
-    border-radius: 5px;
-    width: 1em;
-    height: 1em;
-
+    color: var(--primary-text-brown);
 }
 
 /** AUTOMATICALLY UPDATE STATS SECTION **/
@@ -646,6 +641,7 @@ input[type='checkbox'].toggle:checked + .slider::before {
 
     display: flex;
     justify-content: center;
+    margin-bottom: 10px;
 }
 
 .character-outline {
@@ -745,10 +741,6 @@ input[type='checkbox'].toggle:checked + .slider::before {
     border: none;
     background-color: transparent;
     cursor: pointer;
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
 }
 
 .weapons-armor-items-container ul {
@@ -805,19 +797,11 @@ input[type='checkbox'].toggle:checked + .slider::before {
 }
 
 .equippable-item:hover {
-    font-weight: 600;
-}
-
-.equippable-item:hover + .remove-item {
-    font-weight: 600;
+    color: var(--character-sheet-brown);
 }
 
 .incompatible {
-    color: var(--faded-character-sheet-brown);
-}
-
-.incompatible + .remove-item {
-    color: var(--faded-character-sheet-brown);
+    color: var(--header-bg-brown);
 }
 
 .hide {
@@ -994,8 +978,6 @@ fieldset#choose-items button#close-modal {
 
 /***** ITEMS CARD MODAL *****/
 .character-sheet-item-card {
-    width: min-content;
-
     display: flex;
     flex-direction: column;
     align-items: flex-end;
@@ -1005,12 +987,12 @@ fieldset#choose-items button#close-modal {
 .character-sheet-item-card > .item-card,
 .items-card-container > .item-card {
     position: relative;
-    background-image: url(images/item-card-bg-324x455.png);
+    background-image: url(images/item-card-bg-315x480.png);
     background-size: contain;
-    width: 324px;
-    height: 455px;
+    width: 315px;
+    height: 480px;
     border: none;
-    padding-top: 40px;
+    padding-top: 33px;
     font-size: 1.1em;
 
     display: flex;
@@ -1020,17 +1002,17 @@ fieldset#choose-items button#close-modal {
 
 .character-sheet-item-card .item-card-image,
 .items-card-container .item-card-image {
-    width: 210px;
+    width: 206px;
     height: 152px;
     position: absolute;
-    top: 76px;
+    top: 71px;
 }
 
 .character-sheet-item-card .item-card > p,
 .items-card-container > .item-card > p {
     position: absolute;
-    top: 240px;
-    width: 250px;
+    top: 233px;
+    width: 234px;
 }
 
 .item-card .item-card-cost {
@@ -1048,22 +1030,12 @@ fieldset#choose-items button#close-modal {
     align-self: flex-start;
 }
 
-.incompatible-message {
-    font-size: 1.1em;
-    text-align: center;
-    border: 2px solid var(--primary-brown);
-    background: var(--primary-text-brown);
-    border-radius: 5px;
-    font-weight: 600;
-    padding: 4px;
-}
-
 /*************************************************/
 /*                QUESTS PAGE                    */
 /*************************************************/
 .quests-contents {
     position: relative;
-    min-height: 100vh;
+    min-height: 100%;
     background-image: url(images/heroquest-background-2048x1365.jpg);
     background-position: center;
     background-size: cover;
@@ -1090,8 +1062,6 @@ fieldset#choose-items button#close-modal {
 .quests-contents > aside {
     padding: 10px;
 }
-
-
 
 #quest-list {
     list-style-type: none;
@@ -1384,9 +1354,9 @@ fieldset#choose-items button#close-modal {
     background-image: url(images/items-library-greeting-bg-324x455.png);
     background-size: contain;
     background-position: center;
-    width: 270px;
-    height: 380px;
-    padding: 20px 30px;
+    width: 315px;
+    height: 443px;
+    padding: 50px 35px;
     text-align: center;
     font-size: 1.2rem;
 }
@@ -1430,6 +1400,8 @@ fieldset#choose-items button#close-modal {
 
 .search-wrapper input {
     font-family: inherit;
+    background-color: var(--primary-text-brown);
+    border: none;
 }
 
 .lists {
@@ -1442,6 +1414,31 @@ fieldset#choose-items button#close-modal {
 
 .lists ul {
     list-style-type: none;
+}
+
+.lists::-webkit-scrollbar {
+    width: .4em;
+}
+
+.lists::-webkit-scrollbar-track {
+    background: transparent;
+    border-radius: 100vw;
+}
+
+.lists::-webkit-scrollbar-thumb {
+    background-color: var(--primary-text-brown);
+    border-radius: 100vw;
+}
+
+.lists::-webkit-scrollbar-thumb:hover {
+    background: var(--faded-character-sheet-brown);
+}
+
+@supports (scrollbar-color: var(--primary-brown) var(--faded-character-sheet-brown)) {
+    .lists {
+        scrollbar-color: var(--primary-brown) var(--faded-character-sheet-brown);
+        scrollbar-width: thin;
+    }
 }
 
 .items-list-header {
@@ -1457,16 +1454,16 @@ fieldset#choose-items button#close-modal {
 }
 
 .list-item:hover {
-    color: grey;
+    color: var(--character-sheet-brown);
 }
 
 .list-item:focus {
-    font-weight: 600;
+    font-weight: 700;
 }
 
 .list-item:hover:focus {
     color: black;
-    font-weight: 600;
+    font-weight: 700;
 }
 
 .items-card-container {

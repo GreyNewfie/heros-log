@@ -381,7 +381,7 @@ const items = [
     {
         id: 'crossbow',
         name: 'Crossbow',
-        description: 'This long-range weapon gives you the attack strength of 3 combat dice. You may fire at any monster that you can see. However, you cannot fire at a monster that is adjacent to you. You have an unlimited supply of arrows. May not be used by the wizard.',
+        description: 'This long-range weapon gives you the attack strength of 3 combat dice. You may fire at any monster that you can see and have unlimited arrows. However, you cannot fire at a monster adjacent to you. May not be used by the wizard.',
         classification: 'weapon',
         type: 'equipment',
         cost: '350 gold coins',

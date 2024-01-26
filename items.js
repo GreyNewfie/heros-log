@@ -73,7 +73,7 @@ function createInstructionCard() {
     instructionCard.appendChild(instructionCardHeader);
 
     const instructionCardP = document.createElement('p');
-    instructionCardP.textContent = 'Select an item from the right to reveal it\'s power and expand your understanding of it\'s capabilities... or to simply refresh your elderly heroes memory.';
+    instructionCardP.textContent = 'Select an item from the items list to reveal it\'s power and expand your understanding of it\'s capabilities... or to simply refresh your weary heroes memory.';
     instructionCard.appendChild(instructionCardP);
 
     return instructionCard;
