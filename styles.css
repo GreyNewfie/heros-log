@@ -769,14 +769,12 @@ input[type='checkbox'].toggle:checked + .slider::before {
 }
 
 .weapons-armor-items-container ul::-webkit-scrollbar-track {
-    background: transparent;
+    background-color: rgb(236, 221, 198, .7);
     border-radius: 100vw;
-    border: 1px solid var(--primary-brown);
 }
 
 .weapons-armor-items-container ul::-webkit-scrollbar-thumb {
     background-color: var(--faded-character-sheet-brown);
-    border: 1px solid var(--primary-brown);
     border-radius: 100vw;
 }
 
@@ -788,6 +786,10 @@ input[type='checkbox'].toggle:checked + .slider::before {
     .weapons-armor-items-container {
         scrollbar-color: var(--faded-character-sheet-brown) transparent;
         scrollbar-width: thin;
+    }
+
+    .weapons-armor-items-container {
+        scrollbar-color: var(--character-sheet-brown);
     }
 }
 
