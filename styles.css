@@ -978,10 +978,22 @@ fieldset#choose-items button#close-modal {
 
 /***** ITEMS CARD MODAL *****/
 .character-sheet-item-card {
+    width: min-content;
+
     display: flex;
     flex-direction: column;
     align-items: flex-end;
     gap: 10px;
+}
+
+.incompatible-message {
+    font-size: 1.1em;
+    text-align: center;
+    border: 2px solid var(--primary-brown);
+    background: var(--primary-text-brown);
+    border-radius: 5px;
+    font-weight: 600;
+    padding: 4px;
 }
 
 .character-sheet-item-card > .item-card,
