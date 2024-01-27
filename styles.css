@@ -169,6 +169,10 @@ main {
     left: 50%;
     transform: translate(-50%, -50%);
     background-color: transparent;
+}
+
+.enter-name-modal,
+.select-hero-type-modal {
     border: none;
 }
 
@@ -782,7 +786,7 @@ input[type='checkbox'].toggle:checked + .slider::before {
 
 @supports (scrollbar-color: var(--primary-brown) var(--faded-character-sheet-brown)) {
     .weapons-armor-items-container {
-        scrollbar-color: var(--primary-brown) var(--faded-character-sheet-brown);
+        scrollbar-color: var(--faded-character-sheet-brown) transparent;
         scrollbar-width: thin;
     }
 }
@@ -848,7 +852,7 @@ input[type='checkbox'].toggle:checked + .slider::before {
 
 .select-weapons-armor-container,
 .select-potions-items-container {
-    width: 320px;
+    width: 315px;
 }
 
 .select-weapons-armor-container {
@@ -979,6 +983,7 @@ fieldset#choose-items button#close-modal {
 /***** ITEMS CARD MODAL *****/
 .character-sheet-item-card {
     width: min-content;
+    border: none;
 
     display: flex;
     flex-direction: column;
