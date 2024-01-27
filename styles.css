@@ -440,7 +440,7 @@ main {
 }
 
 .material-symbols-outlined:hover {
-    color: var(--character-sheet-brown);
+    color: var(--primary-brown);
     font-variation-settings:
     'FILL' 1;
 }
@@ -792,8 +792,10 @@ input[type='checkbox'].toggle:checked + .slider::before {
 }
 
 .weapons-armor-items-container li {
-    display: flex;
     width: max-content;
+
+    display: flex;
+    align-items: center;
 }
 
 .equippable-item {
@@ -801,11 +803,20 @@ input[type='checkbox'].toggle:checked + .slider::before {
 }
 
 .equippable-item:hover {
-    color: var(--character-sheet-brown);
+    font-weight: 700;
 }
 
 .incompatible {
-    color: var(--header-bg-brown);
+    color: var(--character-sheet-brown);
+    font-style: italic;
+}
+
+.incompatible ~ .remove-item {
+    color: var(--character-sheet-brown);
+}
+
+.incompatible ~ .remove-item:hover {
+    border-color: var(--character-sheet-brown);
 }
 
 .hide {
@@ -824,6 +835,18 @@ input[type='checkbox'].toggle:checked + .slider::before {
 
 .remove-item {
     font-size: 1.1em;
+    color: var(--primary-brown);
+}
+
+.remove-item:hover {
+    border: 1px solid var(--primary-brown);
+    border-radius: 5px;
+    height: .9em;
+    width: .9em;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 /***** SELECT ITEMS MODAL *****/
