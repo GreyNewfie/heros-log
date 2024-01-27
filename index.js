@@ -1019,7 +1019,7 @@ function checkCharacterItemsCompatibility(characterId) {
 
 function checkIfEquippedLocationTaken(characterId, item) {
     const containerToCheck = document.getElementById(`character-${characterId}-${item.equippedLocation}-container`);
-    return containerToCheck?.querySelector('.item-image');
+    return containerToCheck?.querySelector('.equipped-item-image');
 }
 
 function createInitialCharacter(character) {
