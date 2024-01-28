@@ -1260,12 +1260,7 @@ fieldset#choose-items button#close-modal {
 
 /* Pick Heroes Popup */
 .pick-heroes-bg-image {
-    /* background-image: url(images/select-heroes-bg-image-340x194.png);
-    background-size: contain;
-    background-position: center;
-    background-repeat: no-repeat; */
     padding: 25px 54px 35px 54px;
-
     border-image-source: url(images/select-heroes-bg-image-340x194.png);
     border-image-slice: 62 70 fill;
     border-image-width: 30px 50px;
