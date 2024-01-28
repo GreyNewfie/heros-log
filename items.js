@@ -202,7 +202,7 @@ function createItemCard(itemName) {
     const itemsDropdown = document.getElementById('items-dropdown');
 
     const itemsLabel = document.createElement('label');
-    itemsLabel.setAttribute('for', 'item-menu');
+    itemsLabel.setAttribute('for', 'items-menu');
     itemsLabel.textContent = 'HeroQuest Items List';
     itemsDropdown.appendChild(itemsLabel);
 
