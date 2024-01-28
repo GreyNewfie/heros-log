@@ -20,6 +20,9 @@
     --character-sheet-brown: #9C501B;
     --border-black: #221416;
     --faded-character-sheet-brown: #B88149;
+    --scrollbar-background-color: rgb(236, 221, 198, .6);
+    --scrollbar-thumb-dark-brown: rgb(69,40,44, .8);
+    --scrollbar-thumb-light-brown: rgb(184, 129, 73);
 }
 
 body {
@@ -749,8 +752,7 @@ input[type='checkbox'].toggle:checked + .slider::before {
 
 .weapons-armor-items-container ul {
     list-style: none;
-    height: 69px;
-    padding-bottom: 5px;
+    height: 65px;
     margin: 0 5px;
     overflow-x: auto;
     cursor: pointer;
@@ -769,7 +771,7 @@ input[type='checkbox'].toggle:checked + .slider::before {
 }
 
 .weapons-armor-items-container ul::-webkit-scrollbar-track {
-    background-color: rgb(236, 221, 198, .7);
+    background-color: rgb(236, 221, 198, .6);
     border-radius: 100vw;
 }
 
@@ -782,14 +784,17 @@ input[type='checkbox'].toggle:checked + .slider::before {
     background: var(--character-sheet-brown);
 }
 
-@supports (scrollbar-color: var(--primary-brown) var(--faded-character-sheet-brown)) {
+/* @supports (scrollbar-color: var(--faded-character-sheet-brown) transparent) {
     .weapons-armor-items-container {
         scrollbar-color: var(--faded-character-sheet-brown) transparent;
         scrollbar-width: thin;
     }
+} */
 
+@-moz-document url-prefix() {
     .weapons-armor-items-container {
-        scrollbar-color: var(--character-sheet-brown);
+        scrollbar-color: var(--faded-character-sheet-brown) rgb(236, 221, 198, .4);
+        scrollbar-width: thin;
     }
 }
 
@@ -1203,14 +1208,12 @@ fieldset#choose-items button#close-modal {
 }
 
 .quest-description::-webkit-scrollbar-track {
-    background: transparent;
+    background-color: var(--scrollbar-background-color);
     border-radius: 100vw;
-    border: 1px solid var(--primary-brown);
 }
 
 .quest-description::-webkit-scrollbar-thumb {
-    background: var(--faded-character-sheet-brown);
-    border: 1px solid var(--primary-brown);
+    background: var(--scrollbar-thumb-dark-brown);
     border-radius: 100vw;
 }
 
@@ -1218,9 +1221,16 @@ fieldset#choose-items button#close-modal {
     background: var(--character-sheet-brown);
 }
 
-@supports (scrollbar-color: var(--primary-brown) var(--faded-character-sheet-brown)) {
+/* @supports (scrollbar-color: var(--primary-brown) var(--faded-character-sheet-brown)) {
     .quest-description {
-        scrollbar-color: var(--primary-brown) var(--faded-character-sheet-brown);
+        scrollbar-color: var(--scrollbar-thumb-color) rgb(236, 221, 198, .5);
+        scrollbar-width: thin;
+    }
+} */
+
+@-moz-document url-prefix() {
+    .quest-description {
+        scrollbar-color: var(--scrollbar-thumb-dark-brown) rgb(236, 221, 198, .5);
         scrollbar-width: thin;
     }
 }
@@ -1250,11 +1260,17 @@ fieldset#choose-items button#close-modal {
 
 /* Pick Heroes Popup */
 .pick-heroes-bg-image {
-    background-image: url(images/select-heroes-bg-image-340x194.png);
+    /* background-image: url(images/select-heroes-bg-image-340x194.png);
     background-size: contain;
     background-position: center;
-    background-repeat: no-repeat;
+    background-repeat: no-repeat; */
     padding: 25px 54px 35px 54px;
+
+    border-image-source: url(images/select-heroes-bg-image-340x194.png);
+    border-image-slice: 62 70 fill;
+    border-image-width: 30px 50px;
+    border-image-outset: 0px;
+    border-image-repeat: stretch stretch;
 }
 
 .pick-heroes {
@@ -1463,12 +1479,12 @@ fieldset#choose-items button#close-modal {
 }
 
 .lists::-webkit-scrollbar-track {
-    background: transparent;
+    background: var(--scrollbar-background-color);
     border-radius: 100vw;
 }
 
 .lists::-webkit-scrollbar-thumb {
-    background-color: var(--primary-text-brown);
+    background-color: var(--scrollbar-thumb-dark-brown);
     border-radius: 100vw;
 }
 
@@ -1476,9 +1492,16 @@ fieldset#choose-items button#close-modal {
     background: var(--faded-character-sheet-brown);
 }
 
-@supports (scrollbar-color: var(--primary-brown) var(--faded-character-sheet-brown)) {
+/* @supports (scrollbar-color: var(--primary-brown) var(--faded-character-sheet-brown)) {
     .lists {
         scrollbar-color: var(--primary-brown) var(--faded-character-sheet-brown);
+        scrollbar-width: thin;
+    }
+} */
+
+@-moz-document url-prefix() {
+    .lists {
+        scrollbar-color: var(--scrollbar-thumb-dark-brown) var(--scrollbar-background-color);
         scrollbar-width: thin;
     }
 }
