@@ -3,6 +3,7 @@
 }
 
 * {
+    font-family: 'Alegreya', serif;
     margin: 0;
     padding: 0;
 }
@@ -26,7 +27,7 @@
 }
 
 body {
-    font-family: 'Alegreya', serif;
+
     position: relative;
     height: 100vh;
 
@@ -1388,6 +1389,7 @@ fieldset#choose-items button#close-modal {
     background-image: url(images/heroquest-background-1200x800.jpg);
     background-size: cover;
     background-position: center;
+    color: var(--primary-brown);
 
     display: flex;
 }
@@ -1455,6 +1457,7 @@ fieldset#choose-items button#close-modal {
     font-family: inherit;
     background-color: var(--primary-text-brown);
     border: none;
+    color: inherit;
 }
 
 .lists {
@@ -1467,6 +1470,7 @@ fieldset#choose-items button#close-modal {
 
 .lists ul {
     list-style-type: none;
+    color: var(--primary-brown);
 }
 
 .lists::-webkit-scrollbar {
@@ -1559,9 +1563,24 @@ fieldset#choose-items button#close-modal {
     flex-direction: column;
 }
 
-.items-dropdown select {
+.items-dropdown > label {
+    font-size: 1.1rem;
+    font-weight: 600;
+    text-align: center;
+}
+
+.items-dropdown > select {
     font-size: 1rem;
     padding: .5em .25em;
+    color: var(--primary-brown);
+    background-color: var(--scrollbar-background-color);
+    border: none;
+    border-radius: 10px;
+    box-shadow: 1px 1px 5px var(--scrollbar-thumb-light-brown);
+}
+
+.items-dropdown > select:hover {
+    font-weight: 500;
 }
 
 @media (max-width: 425px) {
