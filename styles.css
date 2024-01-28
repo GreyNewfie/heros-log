@@ -20,6 +20,8 @@
     --character-sheet-brown: #9C501B;
     --border-black: #221416;
     --faded-character-sheet-brown: #B88149;
+    --scrollbar-background-color: rgb(236, 221, 198, .7);
+    --scrollbar-thumb-color: rgb(69,40,44, .8);
 }
 
 body {
@@ -1203,9 +1205,9 @@ fieldset#choose-items button#close-modal {
 }
 
 .quest-description::-webkit-scrollbar-track {
-    background: transparent;
-    border-radius: 100vw;
+    background-color: rgb(236, 221, 198, .7);
     border: 1px solid var(--primary-brown);
+    border-radius: 100vw;
 }
 
 .quest-description::-webkit-scrollbar-thumb {
@@ -1220,7 +1222,7 @@ fieldset#choose-items button#close-modal {
 
 @supports (scrollbar-color: var(--primary-brown) var(--faded-character-sheet-brown)) {
     .quest-description {
-        scrollbar-color: var(--primary-brown) var(--faded-character-sheet-brown);
+        scrollbar-color: var(--faded-character-sheet-brown) rgb(236, 221, 198, .5);
         scrollbar-width: thin;
     }
 }
