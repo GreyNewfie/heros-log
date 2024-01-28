@@ -1535,3 +1535,19 @@ fieldset#choose-items button#close-modal {
     justify-items: center;
     align-items: center;
 }
+
+.items-dropdown {
+    z-index: 1;
+}
+
+@media (max-width: 425px) {
+    .side-menu {
+        display: none;
+    }
+
+    .content-container {
+        justify-content: center;
+        align-items: flex-start;
+    }
+
+}
