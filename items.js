@@ -149,7 +149,6 @@ function createItemCard(itemName) {
 
 (function searchItems() {
     const searchInput = document.querySelector('[data-search]');
-    // const listItemElements = document.querySelectorAll('#items-container a');
     const treasureItems = document.querySelector('#treasure-items + ul').querySelectorAll('a');
     const artifactItems = document.querySelector('#artifact-items + ul').querySelectorAll('a');
     const equipmentItems = document.querySelector('#equipment-items + ul').querySelectorAll('a');
@@ -195,5 +194,72 @@ function createItemCard(itemName) {
         //     const isVisible = lowerCaseItemName.includes(value);
         //     itemElement.classList.toggle('hide', !isVisible);
         // });
+    });
+})();
+
+(function createItemsMobileDropdownUi() {
+    const itemsDropdown = document.getElementById('items-dropdown');
+
+    const itemsLabel = document.createElement('label');
+    itemsLabel.setAttribute('for', 'items-menu');
+    itemsLabel.textContent = 'HeroQuest Items List';
+    itemsDropdown.appendChild(itemsLabel);
+
+    const itemsMenu = document.createElement('select');
+    itemsMenu.setAttribute('name', 'items-menu');
+    itemsMenu.setAttribute('id', 'items-menu');
+    itemsDropdown.appendChild(itemsMenu);
+
+    const defaultOption = document.createElement('option');
+    defaultOption.setAttribute('value', '');
+    defaultOption.textContent = '--Please Choose an Item--';
+    itemsMenu.appendChild(defaultOption);
+
+    const treasure = document.createElement('optgroup');
+    treasure.setAttribute('label', 'Treasure');
+    itemsMenu.appendChild(treasure);
+
+    const artifacts = document.createElement('optgroup');
+    artifacts.setAttribute('label', 'Artifacts');
+    itemsMenu.appendChild(artifacts);
+
+    const equipment = document.createElement('optgroup');
+    equipment.setAttribute('label', 'Equipment');
+    itemsMenu.appendChild(equipment);
+
+    items.forEach( item => {
+        const menuItem = document.createElement('option');
+        menuItem.setAttribute('value', item.id);
+        menuItem.textContent = item.name;
+
+        switch (item.type) {
+            case 'treasure':
+                treasure.appendChild(menuItem);
+                break;
+            case 'artifact':
+                artifacts.appendChild(menuItem);
+                break;
+            case 'equipment':
+                equipment.appendChild(menuItem);
+                break;
+        } 
+    });
+
+    itemsMenu.addEventListener('change', event => {
+        const SelectedItemId = event.target.value;
+        const selectedItem = items.find( item => item.id === SelectedItemId);
+
+        const itemCard = createItemCard(selectedItem.name);
+        const cardContainer = document.getElementById('items-card-container');
+        const instructionCard = document.querySelector('.instruction-card');
+
+        if (instructionCard) {
+            instructionCard.remove();
+        } else {
+            const currentItemCard = document.querySelector('.item-card');
+            currentItemCard.remove();
+        }
+        
+        cardContainer.appendChild(itemCard);
     });
 })();
