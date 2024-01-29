@@ -149,7 +149,6 @@ function createItemCard(itemName) {
 
 (function searchItems() {
     const searchInput = document.querySelector('[data-search]');
-    // const listItemElements = document.querySelectorAll('#items-container a');
     const treasureItems = document.querySelector('#treasure-items + ul').querySelectorAll('a');
     const artifactItems = document.querySelector('#artifact-items + ul').querySelectorAll('a');
     const equipmentItems = document.querySelector('#equipment-items + ul').querySelectorAll('a');
@@ -243,6 +242,24 @@ function createItemCard(itemName) {
             case 'equipment':
                 equipment.appendChild(menuItem);
                 break;
-        }        
-    })
+        } 
+    });
+
+    itemsMenu.addEventListener('change', event => {
+        const SelectedItemId = event.target.value;
+        const selectedItem = items.find( item => item.id === SelectedItemId);
+
+        const itemCard = createItemCard(selectedItem.name);
+        const cardContainer = document.getElementById('items-card-container');
+        const instructionCard = document.querySelector('.instruction-card');
+
+        if (instructionCard) {
+            instructionCard.remove();
+        } else {
+            const currentItemCard = document.querySelector('.item-card');
+            currentItemCard.remove();
+        }
+        
+        cardContainer.appendChild(itemCard);
+    });
 })();

@@ -148,7 +148,7 @@ function updateQuest(quests, questSheet, questStatus) {
                 removeQuestHeroes(questSheet);
                 displayNextQuest(questSheet); 
             } else {
-                alert('Slow your roll. You mush start a quest before you can complete it.');
+                alert('You\'re not quite there. You mush start a quest before you can complete it.');
                 updateQuestStatus(questSheet, storedQuest);
             }
             break;
