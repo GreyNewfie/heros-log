@@ -1559,7 +1559,7 @@ fieldset#choose-items button#close-modal {
     border-image-repeat: stretch stretch;
     padding: 3em 2em;
 
-    display: flex;
+    display: none;
     flex-direction: column;
 }
 
@@ -1586,6 +1586,10 @@ fieldset#choose-items button#close-modal {
 @media (max-width: 425px) {
     .side-menu {
         display: none;
+    }
+
+    .items-dropdown {
+        display: flex;
     }
 
     .content-container {
