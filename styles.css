@@ -1142,25 +1142,32 @@ fieldset#choose-items button#close-modal {
     z-index: 1;
     padding: 10px;
     width: 100%;
+    height: 100%;
 
     display: grid;
-    grid-template-columns: repeat(auto-fill, 345px);
-    grid-template-rows: repeat(auto-fill, 600px);
-    gap: 2vw;
+    grid-template-columns: repeat(auto-fill, minmax(315px, 365px));
+    /* grid-template-rows: repeat(auto-fill, 600px); */
+    gap: 2rem;
 }
 
 .quest-sheet {
-    width: 345px;
-    height: 600px;
-    background-image: url(images/quest-scroll-bg-image-345x600.png);
+    min-width: 315px;
+    max-width: 365px;
+    /* height: 600px; */
+    /* background-image: url(images/quest-scroll-bg-image-345x600.png);
     background-size: contain;
-    background-repeat: no-repeat;
-    padding: 65px 40px 55px 50px;
+    background-repeat: no-repeat; */
+    border-image-source: url(images/quest-scroll-bg-image-345x600.png);
+    border-image-slice: 121 101 131 140 fill;
+    border-image-width: 80px 80px 80px 80px;
+    border-image-outset: 0px 0px 0px 0px;
+    border-image-repeat: stretch stretch;
+    padding: 68px 45px 60px 45px; 
 
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 8px;
+    gap: 10px;
 }
 
 .quest-title {
@@ -1248,14 +1255,16 @@ fieldset#choose-items button#close-modal {
     font-weight: 600;
 }
 
-.quest-sheet ul {
+.quest-heroes ul {
     font-style: italic;
-
+    list-style-type: none;
+    max-width: 100%;
+    overflow-x: auto;
 
     display: grid;
     grid-template-rows: repeat(2, 1fr);
     grid-auto-flow: column;
-    grid-column-gap: 35px;
+    grid-column-gap: 15px;
     align-items: start;
 }
 
@@ -1378,6 +1387,16 @@ fieldset#choose-items button#close-modal {
     color: var(--primary-brown);
     text-shadow: var(--primary-text-brown);
   }
+
+  @media (max-width: 550px) {
+    .quests-contents > aside {
+        display: none;
+    }
+
+    .quests-container {
+        padding: .5rem 0 0 0;
+    }
+  } 
 
 /*************************************************/
 /*                 ITEMS PAGE                    */
