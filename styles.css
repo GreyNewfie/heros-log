@@ -1395,6 +1395,14 @@ fieldset#choose-items button#close-modal {
 
     .quests-container {
         padding: .5rem 0 0 0;
+        display: flex;
+        overflow-x: auto;
+        --webkit-overflow-scroll: touch;
+        scroll-snap-type: x mandatory;
+    }
+
+    .quest-sheet {
+        scroll-snap-align: center;
     }
   } 
 
