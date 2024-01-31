@@ -1153,6 +1153,7 @@ fieldset#choose-items button#close-modal {
 .quest-sheet {
     min-width: 315px;
     max-width: 365px;
+    min-height: 525px;
     /* height: 600px; */
     /* background-image: url(images/quest-scroll-bg-image-345x600.png);
     background-size: contain;
