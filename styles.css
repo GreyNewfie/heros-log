@@ -1187,17 +1187,24 @@ fieldset#choose-items button#close-modal {
     text-align: center;
 }
 
+.quest-status {
+    display: flex;
+    gap: 5px;
+}
+
 .quest-status > label {
     font-weight: 600;
 }
 
 .quest-status > select {
-    background: transparent;
-    border: none;
-    font-family: inherit;
     font-size: inherit;
     font-style: inherit;
     cursor: pointer;
+    color: var(--primary-brown);
+    background-color: var(--scrollbar-background-color);
+    border: none;
+    border-radius: 5px;
+    box-shadow: 1px 1px 5px var(--scrollbar-thumb-light-brown);
 }
 
 .quest-status > select:hover {
