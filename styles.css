@@ -545,11 +545,12 @@ input[type='checkbox'].toggle:checked + .slider::before {
 }
 
 .initial-stats {
-    display: flex;
-    justify-content: space-between;
-    margin: 5px 10px;
+    width: clamp(270px, 100%, 333px);
+    margin: 8px 0;
     text-align: center;
-    
+
+    display: flex;
+    justify-content: space-between;    
 }
 
 .initial-stats > div {
@@ -580,7 +581,7 @@ input[type='checkbox'].toggle:checked + .slider::before {
 .body-points-gold-tracker {
     display: flex;
     justify-content: space-evenly;
-    margin-bottom: 8px;
+    margin-bottom: 10px;
     text-align: center;
 }
 
@@ -675,7 +676,6 @@ input[type='checkbox'].toggle:checked + .slider::before {
     width: 66px;
     height: 50px;
     border: 1px solid var(--primary-brown);
-    /* background-color: var(--character-sheet-brown); */
 }
 
 .equipped-head-item::after,
@@ -717,6 +717,26 @@ input[type='checkbox'].toggle:checked + .slider::before {
 
 .equipped-extra-2-item {
     right: 40px;
+}
+
+@media (max-width: 320px) {        
+    .equipped-right-hand-item {
+        top: 110px;
+        left: 30px;
+    }
+    
+    .equipped-left-hand-item {
+        top: 110px;
+        right: 30px;
+    }
+    
+    .equipped-extra-1-item {
+        left: 25px;
+    }
+    
+    .equipped-extra-2-item {
+        right: 25px;
+    }    
 }
 
 .equipped-item-image {
