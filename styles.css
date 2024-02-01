@@ -30,6 +30,7 @@ body {
 
     position: relative;
     height: 100vh;
+    width: 100vw;
 
     display: flex;
     flex-direction: column;
@@ -324,28 +325,35 @@ main {
 /***** CHARACTER SHEET *****/
 
 .character-sheets-container {
-    padding: 2% 1%;
+    padding: 2vh 1vw;
 
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(375px, 1fr));
+    /* display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
     grid-template-rows: repeat(auto-fill, minmax(525px, 725px));
     justify-items: center;
-    gap: 3vh;
+    gap: 3vh; */
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    gap: calc(1vw + 1vh);
 }
 
 .character-sheet {
-    /* width: 90%;
-    min-width: 360px;
-    max-width: 396px;
-    min-height: 624px; */
-    width: 396px;
-    height: 721px;
+    /* width: 90%; */
+    width: clamp(315px, 100%, 396px);
+    /* width: 396px; */
+    /* height: 721px; */
     position: relative;
-    padding: 35px 20px 30px;
-    background-image: url(images/character-sheet-bg-335x610.png);
+    padding: 35px 20px 35px;
+    /* background-image: url(images/character-sheet-bg-335x610.png);
     background-size: cover;
-    background-repeat: no-repeat;
-    font-size: 1.1em;
+    background-repeat: no-repeat; */
+    border-image-source: url(images/character-sheet-bg-335x610.png);
+    border-image-slice: 40 20 25 25 fill;
+    border-image-width: 44px 20px 20px 26px;
+    border-image-outset: 0px 0px 0px 0px;
+    border-image-repeat: stretch stretch;
+    font-size: 1.1em;   
     color: var(--primary-brown);
 
     display: flex;
@@ -368,7 +376,7 @@ main {
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 15px;
+    gap: clamp(5px, 3%, 15px);
     margin: 5px 0;
 }
 
