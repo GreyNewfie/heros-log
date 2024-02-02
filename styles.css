@@ -30,6 +30,7 @@ body {
 
     position: relative;
     height: 100vh;
+    width: 100vw;
 
     display: flex;
     flex-direction: column;
@@ -324,28 +325,35 @@ main {
 /***** CHARACTER SHEET *****/
 
 .character-sheets-container {
-    padding: 2% 1%;
+    padding: 2vh 1vw;
 
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(375px, 1fr));
+    /* display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
     grid-template-rows: repeat(auto-fill, minmax(525px, 725px));
     justify-items: center;
-    gap: 3vh;
+    gap: 3vh; */
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    gap: calc(1vw + 1vh);
 }
 
 .character-sheet {
-    /* width: 90%;
-    min-width: 360px;
-    max-width: 396px;
-    min-height: 624px; */
-    width: 396px;
-    height: 721px;
+    /* width: 90%; */
+    width: clamp(315px, 100%, 396px);
+    /* width: 396px; */
+    /* height: 721px; */
     position: relative;
-    padding: 35px 20px 30px;
-    background-image: url(images/character-sheet-bg-335x610.png);
+    padding: 35px 20px 35px;
+    /* background-image: url(images/character-sheet-bg-335x610.png);
     background-size: cover;
-    background-repeat: no-repeat;
-    font-size: 1.1em;
+    background-repeat: no-repeat; */
+    border-image-source: url(images/character-sheet-bg-335x610.png);
+    border-image-slice: 40 20 25 25 fill;
+    border-image-width: 44px 20px 20px 26px;
+    border-image-outset: 0px 0px 0px 0px;
+    border-image-repeat: stretch stretch;
+    font-size: 1.1em;   
     color: var(--primary-brown);
 
     display: flex;
@@ -368,7 +376,7 @@ main {
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 15px;
+    gap: clamp(5px, 3%, 15px);
     margin: 5px 0;
 }
 
@@ -537,11 +545,12 @@ input[type='checkbox'].toggle:checked + .slider::before {
 }
 
 .initial-stats {
-    display: flex;
-    justify-content: space-between;
-    margin: 5px 10px;
+    width: clamp(270px, 100%, 333px);
+    margin: 8px 0;
     text-align: center;
-    
+
+    display: flex;
+    justify-content: space-between;    
 }
 
 .initial-stats > div {
@@ -572,7 +581,7 @@ input[type='checkbox'].toggle:checked + .slider::before {
 .body-points-gold-tracker {
     display: flex;
     justify-content: space-evenly;
-    margin-bottom: 8px;
+    margin-bottom: 10px;
     text-align: center;
 }
 
@@ -667,7 +676,6 @@ input[type='checkbox'].toggle:checked + .slider::before {
     width: 66px;
     height: 50px;
     border: 1px solid var(--primary-brown);
-    /* background-color: var(--character-sheet-brown); */
 }
 
 .equipped-head-item::after,
@@ -709,6 +717,26 @@ input[type='checkbox'].toggle:checked + .slider::before {
 
 .equipped-extra-2-item {
     right: 40px;
+}
+
+@media (max-width: 320px) {        
+    .equipped-right-hand-item {
+        top: 110px;
+        left: 30px;
+    }
+    
+    .equipped-left-hand-item {
+        top: 110px;
+        right: 30px;
+    }
+    
+    .equipped-extra-1-item {
+        left: 25px;
+    }
+    
+    .equipped-extra-2-item {
+        right: 25px;
+    }    
 }
 
 .equipped-item-image {
@@ -861,10 +889,6 @@ input[type='checkbox'].toggle:checked + .slider::before {
 
 .select-weapons-armor-container,
 .select-potions-items-container {
-    /* position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%); */
     border: none;
     font-family: 'Alegreya', serif;
     font-size: 1.1em;
@@ -887,7 +911,7 @@ input[type='checkbox'].toggle:checked + .slider::before {
 }
 
 .select-weapons-armor-container {
-    height: 680px;
+    min-height: 680px;
 }
 
 .select-potions-items-container {
