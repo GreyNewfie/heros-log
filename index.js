@@ -627,12 +627,12 @@ function createSelectItemsModalUi(listElement, itemFilters) {
     const legend = document.createElement('legend');
 
     if (itemFilters.includes('weapon') && itemFilters.includes('armor')) {
-        legend.innerHTML = '<strong>Choose Your Weapons & Armor:</strong>';
+        legend.innerHTML = 'Choose Your Weapons & Armor:';
         modal.setAttribute('class', 'select-weapons-armor-container');
     }
 
     if (itemFilters.includes('potion') && itemFilters.includes('item')) {
-        legend.innerHTML = '<strong>Choose Your Potions & Items:</strong>';
+        legend.innerHTML = 'Choose Your Potions & Items:';
         modal.setAttribute('class', 'select-potions-items-container');
     }
 
@@ -668,7 +668,7 @@ function createSelectItemsModalUi(listElement, itemFilters) {
     }
 
     const submitItems = document.createElement('button');
-    submitItems.innerHTML = '<strong>DONE</strong>';
+    submitItems.innerHTML = 'DONE';
     submitItems.setAttribute('id', 'close-modal');
     fieldset.appendChild(submitItems);
 
