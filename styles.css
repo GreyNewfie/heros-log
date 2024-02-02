@@ -333,15 +333,10 @@ main {
 }
 
 .character-sheet {
-    /* width: 90%; */
     min-width: 315px;
     max-width: 396px;
-    /* height: 721px; */
     position: relative;
     padding: 35px 20px 35px;
-    /* background-image: url(images/character-sheet-bg-335x610.png);
-    background-size: cover;
-    background-repeat: no-repeat; */
     border-image-source: url(images/character-sheet-bg-335x610.png);
     border-image-slice: 40 20 25 25 fill;
     border-image-width: 44px 20px 20px 26px;
