@@ -889,10 +889,6 @@ input[type='checkbox'].toggle:checked + .slider::before {
 
 .select-weapons-armor-container,
 .select-potions-items-container {
-    /* position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%); */
     border: none;
     font-family: 'Alegreya', serif;
     font-size: 1.1em;
@@ -915,7 +911,7 @@ input[type='checkbox'].toggle:checked + .slider::before {
 }
 
 .select-weapons-armor-container {
-    height: 680px;
+    min-height: 680px;
 }
 
 .select-potions-items-container {
