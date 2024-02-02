@@ -467,7 +467,7 @@ function createSelectCharacterTypeUi(character) {
         const heroTypeContainer = document.createElement('div');
         heroTypeContainer.setAttribute('class', 'hero-type-image-container');
 
-        let imagePath = `images/character-card-${heroType}-1580x2200.png`;
+        let imagePath = `images/character-card-${heroType}-790x1100.png`;
         let altText = `Heroquest ${heroType} character game card'`
     
         const heroTypeImage = document.createElement('img');
