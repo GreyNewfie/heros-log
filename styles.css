@@ -327,21 +327,15 @@ main {
 .character-sheets-container {
     padding: 2vh 1vw;
 
-    /* display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-    grid-template-rows: repeat(auto-fill, minmax(525px, 725px));
-    justify-items: center;
-    gap: 3vh; */
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 396px));
     gap: calc(1vw + 1vh);
 }
 
 .character-sheet {
     /* width: 90%; */
-    width: clamp(315px, 100%, 396px);
-    /* width: 396px; */
+    min-width: 315px;
+    max-width: 396px;
     /* height: 721px; */
     position: relative;
     padding: 35px 20px 35px;
@@ -358,6 +352,19 @@ main {
 
     display: flex;
     flex-direction: column;
+}
+
+@media (max-width: 550px) {
+    .character-sheets-container {
+        display: flex;
+        overflow-x: auto;
+        --webkit-overflow-scroll: touch;
+        scroll-snap-type: x mandatory;
+    }
+
+    .character-sheet {
+        scroll-snap-align: center;
+    }
 }
 
 .character-sheet h3 {
@@ -749,7 +756,7 @@ input[type='checkbox'].toggle:checked + .slider::before {
 /** WEAPONS & ARMOR AND POTIONS & ITEMS SECTION **/
 
 .weapons-armor-items-container {
-    margin: 0 20px;
+    margin: 0 20px 10px;
 }
 
 .weapons-armor-items-header {

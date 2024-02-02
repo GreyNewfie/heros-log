@@ -467,7 +467,7 @@ function createSelectCharacterTypeUi(character) {
         const heroTypeContainer = document.createElement('div');
         heroTypeContainer.setAttribute('class', 'hero-type-image-container');
 
-        let imagePath = `images/character-card-${heroType}-1580x2200.png`;
+        let imagePath = `images/character-card-${heroType}-790x1100.png`;
         let altText = `Heroquest ${heroType} character game card'`
     
         const heroTypeImage = document.createElement('img');
@@ -627,12 +627,12 @@ function createSelectItemsModalUi(listElement, itemFilters) {
     const legend = document.createElement('legend');
 
     if (itemFilters.includes('weapon') && itemFilters.includes('armor')) {
-        legend.innerHTML = '<strong>Choose Your Weapons & Armor:</strong>';
+        legend.innerHTML = 'Choose Your Weapons & Armor:';
         modal.setAttribute('class', 'select-weapons-armor-container');
     }
 
     if (itemFilters.includes('potion') && itemFilters.includes('item')) {
-        legend.innerHTML = '<strong>Choose Your Potions & Items:</strong>';
+        legend.innerHTML = 'Choose Your Potions & Items:';
         modal.setAttribute('class', 'select-potions-items-container');
     }
 
@@ -668,7 +668,7 @@ function createSelectItemsModalUi(listElement, itemFilters) {
     }
 
     const submitItems = document.createElement('button');
-    submitItems.innerHTML = '<strong>DONE</strong>';
+    submitItems.innerHTML = 'DONE';
     submitItems.setAttribute('id', 'close-modal');
     fieldset.appendChild(submitItems);
 
