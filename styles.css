@@ -749,7 +749,7 @@ input[type='checkbox'].toggle:checked + .slider::before {
 /** WEAPONS & ARMOR AND POTIONS & ITEMS SECTION **/
 
 .weapons-armor-items-container {
-    margin: 0 20px;
+    margin: 0 20px 10px;
 }
 
 .weapons-armor-items-header {
