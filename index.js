@@ -20,6 +20,7 @@ const characterSheet = (character) => {
     function createCharacterSheet(uniqueId) {
         const characterSheetDiv = document.createElement('div');
         characterSheetDiv.setAttribute('class', 'character-sheet');
+        characterSheetDiv.setAttribute('id', `character-${uniqueId}`);
 
         // Character Header
         const characterHeader = createCharacterSheetHeader();
@@ -51,22 +52,22 @@ const characterSheet = (character) => {
         characterButtonsDiv.setAttribute('class', 'char-btns');
     
         //Save button
-        const characterSaveBtn = document.createElement('button');
-        characterSaveBtn.setAttribute('class', 'save-button');
-        characterSaveBtn.textContent = 'Save';
-        characterSaveBtn.addEventListener('click', (event) => {
-            const character = getStoredCharacter(uniqueId);
-            if (!character) {
-                character = createNewCharacter();
-                checkCharacterItemsCompatibility(uniqueId);
-            }
-            if (isCurrentCharacter(character)) {
-                // const storedCharacter = getStoredCharacter(uniqueId);
-                updateCharacter(character, character.characterId);
-            } else {
-                addCharacter(character);
-            }
-        });
+        // const characterSaveBtn = document.createElement('button');
+        // characterSaveBtn.setAttribute('class', 'save-button');
+        // characterSaveBtn.textContent = 'Save';
+        // characterSaveBtn.addEventListener('click', (event) => {
+        //     const character = getStoredCharacter(uniqueId);
+        //     if (!character) {
+        //         character = createNewCharacter();
+        //         checkCharacterItemsCompatibility(uniqueId);
+        //     }
+        //     if (isCurrentCharacter(character)) {
+        //         // const storedCharacter = getStoredCharacter(uniqueId);
+        //         updateCharacter(character, character.characterId);
+        //     } else {
+        //         addCharacter(character);
+        //     }
+        // });
     
         //Killed button
         const characterKilledBtn = document.createElement('button');
@@ -77,7 +78,7 @@ const characterSheet = (character) => {
         characterKilledBtn.append(characterKilledSpan);
         characterKilledBtn.addEventListener('click', (event) => characterDeath(event, character));
     
-        characterButtonsDiv.append(characterSaveBtn, characterKilledBtn);
+        characterButtonsDiv.append(characterKilledBtn);
     
         // Initial attack dice, defend dice and starting body and mind points
         const initialStatsDiv = document.createElement('div');
@@ -308,7 +309,6 @@ const characterSheet = (character) => {
     }
 }
 
-// Check to see if this is being used
 function createAutoUpdateInitialStatsUI(characterId) {
     const autoUpdateUiContainer = document.createElement('div');
     autoUpdateUiContainer.setAttribute('class', 'auto-update-ui-container')
@@ -327,6 +327,13 @@ function createAutoUpdateInitialStatsUI(characterId) {
     const autoUpdateSlider = document.createElement('span');
     autoUpdateSlider.setAttribute('class', 'slider');
     autoUpdateBtnLabel.appendChild(autoUpdateSlider);
+
+    autoUpdateCheckbox.addEventListener('change', (event) => {
+        const character = getStoredCharacter(characterId);
+        character.autoUpdateStatus = autoUpdateCheckbox.checked ? true : false;
+        storeCharacter(character);
+        showOrHideIncreaseDecreaseBtns(character);
+    });
 
     return autoUpdateUiContainer;
 }
@@ -360,6 +367,8 @@ function createDiceUi(typeOfDice, uniqueId, maxNum) {
         const maxNum = 999;
     }
 
+    const character = getStoredCharacter(uniqueId);
+
     const typeOfDiceArray = (typeOfDice.toLowerCase()).split(' ');
     // Setting ID attribute for multiple word descriptions & single word descriptions, ex. 'Attack Dice' & 'Body' (starting body pts)
     const diceId = typeOfDiceArray[1] ? `${typeOfDiceArray[0]}-${typeOfDiceArray[1]}-${uniqueId}` : `${typeOfDiceArray[0]}-${uniqueId}`;
@@ -384,6 +393,11 @@ function createDiceUi(typeOfDice, uniqueId, maxNum) {
     const minusBtn = document.createElement('button');
     minusBtn.setAttribute('class', 'decrease-number-btn');
     minusBtn.addEventListener('click', () => decreaseNumber(dice));
+
+    if (character.autoUpdateStatus) {
+        plusBtn.classList.add('hide-btn');
+        minusBtn.classList.add('hide-btn');
+    }
 
     diceDiv.append(minusBtn, dice, plusBtn);
     diceContainer.appendChild(diceDiv);
@@ -553,6 +567,7 @@ function createWeaponsAndArmorUi(uniqueId) {
 
 function createStatTrackerUi(trackerLabel, uniqueId) {
     const labelArray = trackerLabel.toLowerCase().split(' ');
+    const character = getStoredCharacter(uniqueId);
 
     const currentStatContainer = document.createElement('div');
 
@@ -574,6 +589,11 @@ function createStatTrackerUi(trackerLabel, uniqueId) {
     const minusBtn = document.createElement('button');
     minusBtn.setAttribute('class', 'decrease-number-btn');
     minusBtn.addEventListener('click', () => decreaseNumber(trackerInput));
+
+    if (character.autoUpdateStatus) {
+        plusBtn.classList.add('.hide-btn');
+        minusBtn.classList.add('.hide-btn');
+    }
 
     tracker.append(minusBtn, trackerInput, plusBtn);
     currentStatContainer.appendChild(tracker);
@@ -1191,7 +1211,6 @@ function createItemModal(itemName, characterId) {
     function createIncompatibleItemMessageBox(item) {
         const messageBox = document.createElement('div');
         messageBox.setAttribute('class', 'incompatible-message');
-        // messageBox.classList.add('hide');
     
         const message = document.createElement('p');
         message.textContent = `${item.name} is incompatible and can't be equipped.`;
@@ -1269,7 +1288,11 @@ function clearModal(modal) {
 
 function decreaseNumber(element) {
     const currentNum = parseInt(element.value);
-    return element.value = currentNum === 0 ? currentNum : currentNum - 1;
+    element.value = currentNum === 0 ? currentNum : currentNum - 1;
+    if (currentNum === 0) {
+        return
+    }
+    updateCharacterStats(element);
 }
 
 function displayEquippedItems(equippedItems, characterId) {
@@ -1446,7 +1469,11 @@ function getWeaponsAndArmor(characterId) {
 
 function increaseNumber(element, maxNum) {
     const currentNum = parseInt(element.value);
-    return element.value = currentNum < maxNum || !maxNum ? currentNum + 1 : currentNum;
+    element.value = currentNum < maxNum || !maxNum ? currentNum + 1 : currentNum;
+    if (currentNum === maxNum) {
+        return
+    }
+    updateCharacterStats(element);
 }
 
 function isCurrentCharacter(character) {
@@ -1551,8 +1578,8 @@ function removeItemFromCharacter(characterId, item) {
     }
 
     if (character.weaponsAndArmor.find(weaponOrArmor => weaponOrArmor.name === item.name)) {
-        const index = character.weaponsAndArmor.indexOf(item);
-        character.weaponsAndArmor.splice(index, 1);
+        const index = character.weaponsAndArmor.findIndex(weaponOrArmor => weaponOrArmor.name === item.name);
+        index === -1 ? console.log('Can\'t find weapon or armor to remove from character.') : character.weaponsAndArmor.splice(index, 1);
     } else if (character.potionsAndItems.find(potionOrItem => potionOrItem.name === item.name)) {
         const index = character.potionsAndItems.findIndex(potionOrItem => potionOrItem.id === item.id);
         if (index != -1) {
@@ -1580,6 +1607,15 @@ function setInitialStats(heroTypeId, characterId) {
     mindPoints.value = heroType.startMindPts;
 }
 
+function showOrHideIncreaseDecreaseBtns(character) {
+    const characterSheet = document.getElementById(`character-${character.characterId}`);
+    const decreaseBtns = characterSheet.querySelectorAll('.decrease-number-btn');
+    const increaseBtns = characterSheet.querySelectorAll('.increase-number-btn');
+
+    decreaseBtns.forEach(button => button.classList.toggle('hide-btn'));
+    increaseBtns.forEach(button => button.classList.toggle('hide-btn'));
+}
+
 function unequipItem(characterId, item) {
     const imageToRemove = document.getElementById(`character-${characterId}-${item.id}`);
     imageToRemove.remove();
@@ -1591,6 +1627,43 @@ function unequipItem(characterId, item) {
 function updateAutoUpdateBtnStatus(characterId, boolean) {
     const autoUpdateBtn = document.getElementById(`character-${characterId}-auto-update-btn`);
     autoUpdateBtn.checked = boolean;
+}
+
+function updateCharacterStats(element) {
+    let changedStat = '';
+    let characterId = '';
+    const splitElementId = element.id.split('-');
+    if (splitElementId.length === 3) {
+        changedStat = splitElementId[0] + '-' + splitElementId[1];
+        characterId = splitElementId[2];    
+    } else {
+        changedStat = splitElementId[0];
+        characterId = splitElementId[1];
+    }
+    const character = getStoredCharacter(characterId);
+
+    switch (changedStat) {
+        case 'attack-dice':
+            character.attackDice = parseInt(element.value);
+            break;
+        case 'defend-dice':
+            character.defendDice = parseInt(element.value);
+            break;
+        case 'body':
+            character.startBodyPts = parseInt(element.value);
+            break;
+        case 'mind':
+            character.startMindPts = parseInt(element.value);
+            break;
+        case 'body-points':
+            character.bodyPts = parseInt(element.value);
+            break;
+        case 'gold-coins':
+            character.goldCoins = parseInt(element.value);
+            break;
+    }
+
+    storeCharacter(character);
 }
 
 const displayCharacters = (function () {
