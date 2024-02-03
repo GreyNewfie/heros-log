@@ -1274,7 +1274,11 @@ function clearModal(modal) {
 
 function decreaseNumber(element) {
     const currentNum = parseInt(element.value);
-    return element.value = currentNum === 0 ? currentNum : currentNum - 1;
+    element.value = currentNum === 0 ? currentNum : currentNum - 1;
+    if (currentNum === 0) {
+        return
+    }
+    updateCharacterStats(element);
 }
 
 function displayEquippedItems(equippedItems, characterId) {
@@ -1451,7 +1455,11 @@ function getWeaponsAndArmor(characterId) {
 
 function increaseNumber(element, maxNum) {
     const currentNum = parseInt(element.value);
-    return element.value = currentNum < maxNum || !maxNum ? currentNum + 1 : currentNum;
+    element.value = currentNum < maxNum || !maxNum ? currentNum + 1 : currentNum;
+    if (currentNum === maxNum) {
+        return
+    }
+    updateCharacterStats(element);
 }
 
 function isCurrentCharacter(character) {
@@ -1596,6 +1604,43 @@ function unequipItem(characterId, item) {
 function updateAutoUpdateBtnStatus(characterId, boolean) {
     const autoUpdateBtn = document.getElementById(`character-${characterId}-auto-update-btn`);
     autoUpdateBtn.checked = boolean;
+}
+
+function updateCharacterStats(element) {
+    let changedStat = '';
+    let characterId = '';
+    const splitElementId = element.id.split('-');
+    if (splitElementId.length === 3) {
+        changedStat = splitElementId[0] + '-' + splitElementId[1];
+        characterId = splitElementId[2];    
+    } else {
+        changedStat = splitElementId[0];
+        characterId = splitElementId[1];
+    }
+    const character = getStoredCharacter(characterId);
+
+    switch (changedStat) {
+        case 'attack-dice':
+            character.attackDice = parseInt(element.value);
+            break;
+        case 'defend-dice':
+            character.defendDice = parseInt(element.value);
+            break;
+        case 'body':
+            character.startBodyPts = parseInt(element.value);
+            break;
+        case 'mind':
+            character.startMindPts = parseInt(element.value);
+            break;
+        case 'body-points':
+            character.bodyPts = parseInt(element.value);
+            break;
+        case 'gold-coins':
+            character.goldCoins = parseInt(element.value);
+            break;
+    }
+
+    storeCharacter(character);
 }
 
 const displayCharacters = (function () {
