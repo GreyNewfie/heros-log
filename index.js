@@ -20,6 +20,7 @@ const characterSheet = (character) => {
     function createCharacterSheet(uniqueId) {
         const characterSheetDiv = document.createElement('div');
         characterSheetDiv.setAttribute('class', 'character-sheet');
+        characterSheetDiv.setAttribute('id', `character-${uniqueId}`);
 
         // Character Header
         const characterHeader = createCharacterSheetHeader();
@@ -331,6 +332,7 @@ function createAutoUpdateInitialStatsUI(characterId) {
         const character = getStoredCharacter(characterId);
         character.autoUpdateStatus = autoUpdateCheckbox.checked ? true : false;
         storeCharacter(character);
+        showOrHideIncreaseDecreaseBtns(character);
     });
 
     return autoUpdateUiContainer;
@@ -365,6 +367,8 @@ function createDiceUi(typeOfDice, uniqueId, maxNum) {
         const maxNum = 999;
     }
 
+    const character = getStoredCharacter(uniqueId);
+
     const typeOfDiceArray = (typeOfDice.toLowerCase()).split(' ');
     // Setting ID attribute for multiple word descriptions & single word descriptions, ex. 'Attack Dice' & 'Body' (starting body pts)
     const diceId = typeOfDiceArray[1] ? `${typeOfDiceArray[0]}-${typeOfDiceArray[1]}-${uniqueId}` : `${typeOfDiceArray[0]}-${uniqueId}`;
@@ -389,6 +393,11 @@ function createDiceUi(typeOfDice, uniqueId, maxNum) {
     const minusBtn = document.createElement('button');
     minusBtn.setAttribute('class', 'decrease-number-btn');
     minusBtn.addEventListener('click', () => decreaseNumber(dice));
+
+    if (character.autoUpdateStatus) {
+        plusBtn.classList.add('hide-btn');
+        minusBtn.classList.add('hide-btn');
+    }
 
     diceDiv.append(minusBtn, dice, plusBtn);
     diceContainer.appendChild(diceDiv);
@@ -558,6 +567,7 @@ function createWeaponsAndArmorUi(uniqueId) {
 
 function createStatTrackerUi(trackerLabel, uniqueId) {
     const labelArray = trackerLabel.toLowerCase().split(' ');
+    const character = getStoredCharacter(uniqueId);
 
     const currentStatContainer = document.createElement('div');
 
@@ -579,6 +589,11 @@ function createStatTrackerUi(trackerLabel, uniqueId) {
     const minusBtn = document.createElement('button');
     minusBtn.setAttribute('class', 'decrease-number-btn');
     minusBtn.addEventListener('click', () => decreaseNumber(trackerInput));
+
+    if (character.autoUpdateStatus) {
+        plusBtn.classList.add('.hide-btn');
+        minusBtn.classList.add('.hide-btn');
+    }
 
     tracker.append(minusBtn, trackerInput, plusBtn);
     currentStatContainer.appendChild(tracker);
@@ -1196,7 +1211,6 @@ function createItemModal(itemName, characterId) {
     function createIncompatibleItemMessageBox(item) {
         const messageBox = document.createElement('div');
         messageBox.setAttribute('class', 'incompatible-message');
-        // messageBox.classList.add('hide');
     
         const message = document.createElement('p');
         message.textContent = `${item.name} is incompatible and can't be equipped.`;
@@ -1591,6 +1605,15 @@ function setInitialStats(heroTypeId, characterId) {
 
     const mindPoints = document.getElementById(`mind-${characterId}`);
     mindPoints.value = heroType.startMindPts;
+}
+
+function showOrHideIncreaseDecreaseBtns(character) {
+    const characterSheet = document.getElementById(`character-${character.characterId}`);
+    const decreaseBtns = characterSheet.querySelectorAll('.decrease-number-btn');
+    const increaseBtns = characterSheet.querySelectorAll('.increase-number-btn');
+
+    decreaseBtns.forEach(button => button.classList.toggle('hide-btn'));
+    increaseBtns.forEach(button => button.classList.toggle('hide-btn'));
 }
 
 function unequipItem(characterId, item) {
