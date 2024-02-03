@@ -51,22 +51,22 @@ const characterSheet = (character) => {
         characterButtonsDiv.setAttribute('class', 'char-btns');
     
         //Save button
-        const characterSaveBtn = document.createElement('button');
-        characterSaveBtn.setAttribute('class', 'save-button');
-        characterSaveBtn.textContent = 'Save';
-        characterSaveBtn.addEventListener('click', (event) => {
-            const character = getStoredCharacter(uniqueId);
-            if (!character) {
-                character = createNewCharacter();
-                checkCharacterItemsCompatibility(uniqueId);
-            }
-            if (isCurrentCharacter(character)) {
-                // const storedCharacter = getStoredCharacter(uniqueId);
-                updateCharacter(character, character.characterId);
-            } else {
-                addCharacter(character);
-            }
-        });
+        // const characterSaveBtn = document.createElement('button');
+        // characterSaveBtn.setAttribute('class', 'save-button');
+        // characterSaveBtn.textContent = 'Save';
+        // characterSaveBtn.addEventListener('click', (event) => {
+        //     const character = getStoredCharacter(uniqueId);
+        //     if (!character) {
+        //         character = createNewCharacter();
+        //         checkCharacterItemsCompatibility(uniqueId);
+        //     }
+        //     if (isCurrentCharacter(character)) {
+        //         // const storedCharacter = getStoredCharacter(uniqueId);
+        //         updateCharacter(character, character.characterId);
+        //     } else {
+        //         addCharacter(character);
+        //     }
+        // });
     
         //Killed button
         const characterKilledBtn = document.createElement('button');
@@ -77,7 +77,7 @@ const characterSheet = (character) => {
         characterKilledBtn.append(characterKilledSpan);
         characterKilledBtn.addEventListener('click', (event) => characterDeath(event, character));
     
-        characterButtonsDiv.append(characterSaveBtn, characterKilledBtn);
+        characterButtonsDiv.append(characterKilledBtn);
     
         // Initial attack dice, defend dice and starting body and mind points
         const initialStatsDiv = document.createElement('div');

@@ -410,7 +410,7 @@ main {
     top: 97px;
 }
 
-.save-button {
+/* .save-button {
     border: none;
     border-radius: 10px;
     padding: 0 5px;
@@ -431,7 +431,7 @@ main {
     background-color: var(--primary-text-brown);
     color: var(--primary-brown);
     transition: 100ms;
-}
+} */
 
 .killed-button {
     border: none;
