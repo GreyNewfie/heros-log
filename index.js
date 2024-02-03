@@ -308,7 +308,6 @@ const characterSheet = (character) => {
     }
 }
 
-// Check to see if this is being used
 function createAutoUpdateInitialStatsUI(characterId) {
     const autoUpdateUiContainer = document.createElement('div');
     autoUpdateUiContainer.setAttribute('class', 'auto-update-ui-container')
@@ -327,6 +326,12 @@ function createAutoUpdateInitialStatsUI(characterId) {
     const autoUpdateSlider = document.createElement('span');
     autoUpdateSlider.setAttribute('class', 'slider');
     autoUpdateBtnLabel.appendChild(autoUpdateSlider);
+
+    autoUpdateCheckbox.addEventListener('change', (event) => {
+        const character = getStoredCharacter(characterId);
+        character.autoUpdateStatus = autoUpdateCheckbox.checked ? true : false;
+        storeCharacter(character);
+    });
 
     return autoUpdateUiContainer;
 }
