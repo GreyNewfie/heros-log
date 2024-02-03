@@ -1564,8 +1564,8 @@ function removeItemFromCharacter(characterId, item) {
     }
 
     if (character.weaponsAndArmor.find(weaponOrArmor => weaponOrArmor.name === item.name)) {
-        const index = character.weaponsAndArmor.indexOf(item);
-        character.weaponsAndArmor.splice(index, 1);
+        const index = character.weaponsAndArmor.findIndex(weaponOrArmor => weaponOrArmor.name === item.name);
+        index === -1 ? console.log('Can\'t find weapon or armor to remove from character.') : character.weaponsAndArmor.splice(index, 1);
     } else if (character.potionsAndItems.find(potionOrItem => potionOrItem.name === item.name)) {
         const index = character.potionsAndItems.findIndex(potionOrItem => potionOrItem.id === item.id);
         if (index != -1) {
