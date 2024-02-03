@@ -641,6 +641,10 @@ input[type='checkbox'].toggle:checked + .slider::before {
     color: var(--primary-brown);
 }
 
+.hide-btn {
+    display: none;
+}
+
 /* Chrome, Safari, Edge, Opera */
 .hero-number-input::-webkit-outer-spin-button,
 .hero-number-input::-webkit-inner-spin-button {
