@@ -12,3 +12,12 @@ function addTypeOptions(parent, types) {
         parent.appendChild(typeOption);
     }
 }
+
+function closeAlert() {
+    const alertCloseBtn = document.querySelector('.alert-close-btn');
+    const alert = document.querySelector('.alert');
+
+    alertCloseBtn.addEventListener('click', () => {
+        alert.classList.add('hide-element');
+    });
+}
