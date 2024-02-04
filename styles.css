@@ -329,6 +329,8 @@ main {
 
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(320px, 396px));
+    grid-template-rows: 722px;
+    grid-auto-rows: 722px;
     gap: calc(1vw + 1vh);
 }
 
@@ -349,6 +351,10 @@ main {
 
     display: flex;
     flex-direction: column;
+}
+
+@media (max-width: 320px) {
+
 }
 
 /* @media (max-width: 550px) {
@@ -416,7 +422,7 @@ main {
     gap: 5px;
 }
 
-/** Save and Death Buttons **/
+/** Death Button **/
 .char-btns {
     display: flex;
     position: absolute;
@@ -424,29 +430,6 @@ main {
     right: 35px;
     top: 97px;
 }
-
-/* .save-button {
-    border: none;
-    border-radius: 10px;
-    padding: 0 5px;
-    background-color: transparent;
-    font-family: inherit;
-    font-size: 1.1em;
-}
-
-.save-button:hover {
-    opacity: .8;
-    border: 1px solid #45282c;
-    background-color: #9C501B;
-    color: #ECDEC9;
-    transition: 200ms;
-}
-
-.save-button:active {
-    background-color: var(--primary-text-brown);
-    color: var(--primary-brown);
-    transition: 100ms;
-} */
 
 .killed-button {
     border: none;
@@ -591,6 +574,7 @@ input[type='checkbox'].toggle:checked + .slider::before {
 /** DICE AND STARTING POINTS SECTIONS **/
 .initial-stats {
     border: 1px solid var(--primary-brown);
+    align-self: center;
 }
 
 .initial-stats > div:nth-child(-n + 2),
@@ -781,7 +765,7 @@ input[type='checkbox'].toggle:checked + .slider::before {
     right: 40px;
 }
 
-/* @media (max-width: 320px) {        
+@media (max-width: 320px) {        
     .equipped-right-hand-item {
         top: 110px;
         left: 30px;
@@ -799,7 +783,19 @@ input[type='checkbox'].toggle:checked + .slider::before {
     .equipped-extra-2-item {
         right: 25px;
     }    
-} */
+}
+
+@media (min-width: 321px) and (max-width: 375px) {
+    .equipped-right-hand-item {
+        top: 110px;
+        left: 50px;
+    }
+    
+    .equipped-left-hand-item {
+        top: 110px;
+        right: 50px;
+    }
+}
 
 .equipped-item-image {
     cursor: pointer;
