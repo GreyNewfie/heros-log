@@ -895,7 +895,7 @@ function addSelectedItemsToStoredCharacter(character, itemsByName) {
 }
 
 function characterDeath(event, character) {
-    if (confirmCharacterDeath()){
+    confirmCharacterDeath(() => {
         const targetCharSheet = event.target.parentNode.parentNode.parentNode;
         targetCharSheet.remove();
 
@@ -903,22 +903,21 @@ function characterDeath(event, character) {
         const characters = getCharacters();
         characters.splice(index, 1);
         storeCharacters(characters);
-    }
+    });
 }
 
-function confirmCharacterDeath() {
+function confirmCharacterDeath(callback) {
     const confirmDeath = document.querySelector('.confirm-death-alert');
     const cancelBtn = document.querySelector('.cancel-death');
     const confirmBtn = document.querySelector('.confirm-death');
 
     cancelBtn.addEventListener('click', () => {
         confirmDeath.classList.add('hide-element');
-        return false;
     });
 
     confirmBtn.addEventListener('click', () => {
         confirmDeath.classList.add('hide-element');
-        return true;
+        callback();
     })
 
     confirmDeath.classList.remove('hide-element');
