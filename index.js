@@ -688,7 +688,7 @@ function createSelectItemsModalUi(listElement, itemFilters) {
     }
 
     const submitItems = document.createElement('button');
-    submitItems.innerHTML = 'DONE';
+    submitItems.innerHTML = 'Done';
     submitItems.setAttribute('id', 'close-modal');
     fieldset.appendChild(submitItems);
 

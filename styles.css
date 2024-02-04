@@ -134,13 +134,17 @@ main {
 }
 
 .create-character-welcome {
+    width: 100%;
+    min-width: 315px;
+    max-width: 396px;
+    padding: 2em 20px 0;
+    text-align: center;
+
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     gap: .7em;
-    padding: 2em 20px 0;
-    text-align: center;
 }
 
 #add-character-button {
@@ -335,11 +339,11 @@ main {
 }
 
 .character-sheet {
-    /* min-width: 315px;
-    max-width: 396px; */
-    width: clamp(315px, 100%, 396px);
-    max-height: 722px;
     position: relative;
+    width: 100%;
+    min-width: 315px;
+    max-width: 396px;
+    max-height: 722px;
     padding: 35px 20px 35px;
     border-image-source: url(images/character-sheet-bg-335x610.png);
     border-image-slice: 40 20 25 25 fill;
@@ -354,12 +358,9 @@ main {
 }
 
 @media (max-width: 320px) {
-
-}
-
-/* @media (max-width: 550px) {
     .character-sheets-container {
         display: flex;
+        padding: 2vh 0;
         overflow-x: auto;
         --webkit-overflow-scroll: touch;
         scroll-snap-type: x mandatory;
@@ -368,9 +369,9 @@ main {
     .character-sheet {
         scroll-snap-align: center;
     }
-} */
+}
 
-/* @media (max-width: 768px) {
+/* @media (min-width: 321px) and (max-width: 500px) {
     .character-sheets-container {
         display: flex;
         overflow-x: auto;
@@ -1009,7 +1010,6 @@ input[type='checkbox'].toggle:checked + .slider::before {
     color: white;
 }
 
-fieldset#choose-items button#close-modal:hover,
 fieldset#choose-items label:hover {
     color: var(--primary-text-brown);
     text-shadow: 1px 1px 5px var(--primary-brown);
@@ -1017,7 +1017,6 @@ fieldset#choose-items label:hover {
 
 .select-weapons-armor-container > #cancel-modal:active,
 .select-potions-items-container > #cancel-modal:active,
-fieldset#choose-items button#close-modal:active,
 fieldset#choose-items label:active {
     color: var(--character-sheet-brown);
     text-shadow: 1px 1px 5px var(--header-bg-brown);
@@ -1106,12 +1105,26 @@ fieldset#choose-items div:last-of-type {
 
 fieldset#choose-items button#close-modal {
     font-family: inherit;
-    font-size: 1em;
+    font-size: .9em;
     font-style: italic;
-    border: none;
-    background-color: transparent;
     margin-left: 20px;
+    border: 1px solid var(--primary-text-brown);
+    background-color: var(--primary-brown);
+    color: var(--primary-text-brown);
+    border-radius: 5px;
+    padding: 0px 8px;
 }
+
+fieldset#choose-items button#close-modal:hover {
+    border: 1px solid var(--primary-brown);
+    background-color: var(--primary-text-brown);
+    color: var(--primary-brown);
+}
+
+fieldset#choose-items button#close-modal:active {
+    background-color: var(--faded-character-sheet-brown);
+}
+
 
 /***** ITEMS CARD MODAL *****/
 .character-sheet-item-card {
