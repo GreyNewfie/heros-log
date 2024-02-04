@@ -785,7 +785,27 @@ input[type='checkbox'].toggle:checked + .slider::before {
     }    
 }
 
-@media (min-width: 321px) and (max-width: 375px) {
+@media (min-width: 321px) and (max-width: 355px) {        
+    .equipped-right-hand-item {
+        top: 110px;
+        left: 36px;
+    }
+    
+    .equipped-left-hand-item {
+        top: 110px;
+        right: 36px;
+    }
+    
+    .equipped-extra-1-item {
+        left: 26px;
+    }
+    
+    .equipped-extra-2-item {
+        right: 26px;
+    }    
+}
+
+@media (min-width: 356px) and (max-width: 375px) {
     .equipped-right-hand-item {
         top: 110px;
         left: 50px;
