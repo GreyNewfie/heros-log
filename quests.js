@@ -132,7 +132,12 @@ function updateQuest(quests, questSheet, questStatus) {
             break;
         case 'current-quest':
             if (characters === null || characters.length === 0) {
-                alert('Input your characters before starting your quest');
+                // alert('Input your characters before starting your quest');
+                const alert = document.querySelector('.alert');
+                const alertMessage = document.querySelector('.alert-message');
+                alertMessage.textContent = 'Input your character(s) before starting your quest';
+                alert.classList.remove('hide-element');
+                closeAlert();
                 updateQuestStatus(questSheet);
             } else {
                 removeQuestHeroes(questSheet);
@@ -148,7 +153,12 @@ function updateQuest(quests, questSheet, questStatus) {
                 removeQuestHeroes(questSheet);
                 displayNextQuest(questSheet); 
             } else {
-                alert('You\'re not quite there. You mush start a quest before you can complete it.');
+                // alert('You\'re not quite there. You mush start a quest before you can complete it.');
+                const alert = document.querySelector('.alert');
+                const alertMessage = document.querySelector('.alert-message');
+                alertMessage.textContent = 'You\'re not quite there. You mush start a quest before you can complete it.';
+                alert.classList.remove('hide-element');
+                closeAlert();
                 updateQuestStatus(questSheet, storedQuest);
             }
             break;

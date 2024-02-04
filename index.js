@@ -1177,7 +1177,6 @@ function createItemModal(itemName, characterId) {
                     const alert = document.querySelector('.alert');
                     const alertMessage = document.querySelector('.alert-message');
                     alertMessage.textContent = 'You must unequip your existing item before you can equip another one in the same location';
-                    // alert('You must unequip your existing item before you can equip another one in the same location');
                     alert.classList.remove('hide-element');
                     closeAlert();
                     modal.close();
@@ -1228,15 +1227,6 @@ function createItemModal(itemName, characterId) {
     
             return unequipItemBtn;
         }
-    }
-
-    function closeAlert() {
-        const alertCloseBtn = document.querySelector('.alert-close-btn');
-        const alert = document.querySelector('.alert');
-
-        alertCloseBtn.addEventListener('click', () => {
-            alert.classList.add('hide-element');
-        });
     }
     
     function createIncompatibleItemMessageBox(item) {
