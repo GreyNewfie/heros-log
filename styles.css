@@ -1113,6 +1113,8 @@ fieldset#choose-items button#close-modal {
     color: var(--primary-text-brown);
     border-radius: 5px;
     padding: 0px 8px;
+    -webkit-appearance: none;
+    -moz-appearance: none;
 }
 
 fieldset#choose-items button#close-modal:hover {
