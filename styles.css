@@ -478,6 +478,47 @@ main {
     color: var(--primary-text-brown);
 }
 
+/* Character Death Confirmation Popup */
+.confirm-death-alert {
+    position:absolute;
+    z-index: 999;
+    top: clamp(60px, 6vw, 85px);
+    right: 0;
+    padding: 20px;
+    background-color: var(--logo-text-yellow);
+    color: var(--primary-brown);
+    margin-bottom: 15px;
+    font-size: 1.1em;
+    font-weight: 600;
+
+    display: flex;
+    gap: .5em;
+}
+
+.cancel-death,
+.confirm-death {
+    padding: 0 5px;
+    border-radius: 5px;
+    font-size: inherit;
+    background-color: var(--header-bg-brown);
+    border: 1px solid var(--primary-text-brown);
+    color: var(--primary-text-brown);
+}
+
+.cancel-death:hover,
+.confirm-death:hover {
+    background-color: var(--primary-text-brown);
+    border: 1px solid var(--header-bg-brown);
+    color: var(--header-bg-brown);
+}
+
+.cancel-death:active,
+.confirm-death:active {
+    background-color: var(--header-bg-brown);
+    border: 1px solid var(--primary-text-brown);
+    color: var(--primary-text-brown);
+}
+
 /** AUTOMATICALLY UPDATE STATS SECTION **/
 .auto-update-ui-container {
     margin-left: 10px;
@@ -656,7 +697,7 @@ input[type='checkbox'].toggle:checked + .slider::before {
     color: var(--primary-brown);
 }
 
-.hide-btn {
+.hide-element {
     display: none;
 }
 
@@ -1122,6 +1163,33 @@ fieldset#choose-items button#close-modal {
 
     align-self: flex-start;
 }
+
+/** ALERT POPUP **/
+.alert {
+    position:absolute;
+    z-index: 999;
+    top: clamp(60px, 6vw, 85px);
+    right: 0;
+    padding: 20px;
+    background-color: var(--logo-text-yellow);
+    color: var(--primary-brown);
+    margin-bottom: 15px;
+  }
+
+  .alert-close-btn {
+    margin-left: 15px;
+    color: var(--primary-brown);
+    font-weight: bold;
+    float: right;
+    font-size: 22px;
+    line-height: 20px;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+  
+  .alert-close-btn:hover {
+    color: var(--primary-text-brown);
+  }
 
 /*************************************************/
 /*                QUESTS PAGE                    */

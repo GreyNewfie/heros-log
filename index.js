@@ -51,7 +51,7 @@ const characterSheet = (character) => {
         const characterButtonsDiv = document.createElement('div');
         characterButtonsDiv.setAttribute('class', 'char-btns');
     
-        //Save button
+        //Kill Character button
         // const characterSaveBtn = document.createElement('button');
         // characterSaveBtn.setAttribute('class', 'save-button');
         // characterSaveBtn.textContent = 'Save';
@@ -395,8 +395,8 @@ function createDiceUi(typeOfDice, uniqueId, maxNum) {
     minusBtn.addEventListener('click', () => decreaseNumber(dice));
 
     if (character.autoUpdateStatus) {
-        plusBtn.classList.add('hide-btn');
-        minusBtn.classList.add('hide-btn');
+        plusBtn.classList.add('hide-element');
+        minusBtn.classList.add('hide-element');
     }
 
     diceDiv.append(minusBtn, dice, plusBtn);
@@ -591,8 +591,8 @@ function createStatTrackerUi(trackerLabel, uniqueId) {
     minusBtn.addEventListener('click', () => decreaseNumber(trackerInput));
 
     if (character.autoUpdateStatus) {
-        plusBtn.classList.add('.hide-btn');
-        minusBtn.classList.add('.hide-btn');
+        plusBtn.classList.add('.hide-element');
+        minusBtn.classList.add('.hide-element');
     }
 
     tracker.append(minusBtn, trackerInput, plusBtn);
@@ -895,7 +895,7 @@ function addSelectedItemsToStoredCharacter(character, itemsByName) {
 }
 
 function characterDeath(event, character) {
-    if (confirm("Are you sure you want to kill your character?")){
+    if (confirmCharacterDeath()){
         const targetCharSheet = event.target.parentNode.parentNode.parentNode;
         targetCharSheet.remove();
 
@@ -904,6 +904,24 @@ function characterDeath(event, character) {
         characters.splice(index, 1);
         storeCharacters(characters);
     }
+}
+
+function confirmCharacterDeath() {
+    const confirmDeath = document.querySelector('.confirm-death-alert');
+    const cancelBtn = document.querySelector('.cancel-death');
+    const confirmBtn = document.querySelector('.confirm-death');
+
+    cancelBtn.addEventListener('click', () => {
+        confirmDeath.classList.add('hide-element');
+        return false;
+    });
+
+    confirmBtn.addEventListener('click', () => {
+        confirmDeath.classList.add('hide-element');
+        return true;
+    })
+
+    confirmDeath.classList.remove('hide-element');
 }
 
 function checkItemCompatibility(characterId, item) {
@@ -1157,7 +1175,12 @@ function createItemModal(itemName, characterId) {
                     clearModal(modal);
                     modal.classList.remove('character-sheet-item-card');   
                 } else {
-                    alert('You must unequip your existing item before you can equip another one in the same location');
+                    const alert = document.querySelector('.alert');
+                    const alertMessage = document.querySelector('.alert-message');
+                    alertMessage.textContent = 'You must unequip your existing item before you can equip another one in the same location';
+                    // alert('You must unequip your existing item before you can equip another one in the same location');
+                    alert.classList.remove('hide-element');
+                    closeAlert();
                     modal.close();
                     clearModal(modal);
                     modal.classList.remove('character-sheet-item-card');
@@ -1206,6 +1229,15 @@ function createItemModal(itemName, characterId) {
     
             return unequipItemBtn;
         }
+    }
+
+    function closeAlert() {
+        const alertCloseBtn = document.querySelector('.alert-close-btn');
+        const alert = document.querySelector('.alert');
+
+        alertCloseBtn.addEventListener('click', () => {
+            alert.classList.add('hide-element');
+        });
     }
     
     function createIncompatibleItemMessageBox(item) {
@@ -1306,15 +1338,15 @@ function equipItem(characterId, item) {
         return
     }
 
-    if (checkItemCompatibility(characterId, item) === 'incompatible') {
-        alert('This item can\'t be equipped. Please reference the item card to see why it can\'t be used.');
-        return;
-    }
+    // if (checkItemCompatibility(characterId, item) === 'incompatible') {
+    //     alert('This item can\'t be equipped. Please reference the item card to see why it can\'t be used.');
+    //     return;
+    // }
 
-    if (item.equippedLocation === 'extra' && !isExtraItemContainerAvailable(characterId, item)) {
-        alert(`${item.name} can\'t be equipped. Please unequip one of your extra items to equip ${item.name}.`);
-        return;
-    }
+    // if (item.equippedLocation === 'extra' && !isExtraItemContainerAvailable(characterId, item)) {
+    //     alert(`${item.name} can\'t be equipped. Please unequip one of your extra items to equip ${item.name}.`);
+    //     return;
+    // }
 
     switch (item.equippedLocation) {
         case 'head':
@@ -1612,8 +1644,8 @@ function showOrHideIncreaseDecreaseBtns(character) {
     const decreaseBtns = characterSheet.querySelectorAll('.decrease-number-btn');
     const increaseBtns = characterSheet.querySelectorAll('.increase-number-btn');
 
-    decreaseBtns.forEach(button => button.classList.toggle('hide-btn'));
-    increaseBtns.forEach(button => button.classList.toggle('hide-btn'));
+    increaseBtns.forEach(button => button.classList.toggle('hide-element'));
+    decreaseBtns.forEach(button => button.classList.toggle('hide-element'));
 }
 
 function unequipItem(characterId, item) {
