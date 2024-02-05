@@ -590,11 +590,6 @@ function createStatTrackerUi(trackerLabel, uniqueId) {
     minusBtn.setAttribute('class', 'decrease-number-btn');
     minusBtn.addEventListener('click', () => decreaseNumber(trackerInput));
 
-    if (character.autoUpdateStatus) {
-        plusBtn.classList.add('.hide-element');
-        minusBtn.classList.add('.hide-element');
-    }
-
     tracker.append(minusBtn, trackerInput, plusBtn);
     currentStatContainer.appendChild(tracker);
 
@@ -1630,8 +1625,8 @@ function setInitialStats(heroTypeId, characterId) {
 
 function showOrHideIncreaseDecreaseBtns(character) {
     const characterSheet = document.getElementById(`character-${character.characterId}`);
-    const decreaseBtns = characterSheet.querySelectorAll('.decrease-number-btn');
-    const increaseBtns = characterSheet.querySelectorAll('.increase-number-btn');
+    const decreaseBtns = characterSheet.querySelector('.initial-stats').querySelectorAll('.decrease-number-btn');
+    const increaseBtns = characterSheet.querySelector('.initial-stats').querySelectorAll('.increase-number-btn');
 
     increaseBtns.forEach(button => button.classList.toggle('hide-element'));
     decreaseBtns.forEach(button => button.classList.toggle('hide-element'));
@@ -1654,6 +1649,7 @@ function updateCharacterStats(element) {
     let changedStat = '';
     let characterId = '';
     const splitElementId = element.id.split('-');
+
     if (splitElementId.length === 3) {
         changedStat = splitElementId[0] + '-' + splitElementId[1];
         characterId = splitElementId[2];    
@@ -1661,6 +1657,7 @@ function updateCharacterStats(element) {
         changedStat = splitElementId[0];
         characterId = splitElementId[1];
     }
+    
     const character = getStoredCharacter(characterId);
 
     switch (changedStat) {
