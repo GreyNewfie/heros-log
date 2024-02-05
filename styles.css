@@ -134,13 +134,17 @@ main {
 }
 
 .create-character-welcome {
+    width: 100%;
+    min-width: 315px;
+    max-width: 396px;
+    padding: 2em 20px 0;
+    text-align: center;
+
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     gap: .7em;
-    padding: 2em 20px 0;
-    text-align: center;
 }
 
 #add-character-button {
@@ -174,6 +178,12 @@ main {
     left: 50%;
     transform: translate(-50%, -50%);
     background-color: transparent;
+}
+
+@media (max-height: 690px) {
+    dialog#modal.select-weapons-armor-container {
+        top: 400px;
+    }
 }
 
 .enter-name-modal,
@@ -329,15 +339,17 @@ main {
 
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(320px, 396px));
+    grid-template-rows: 722px;
+    grid-auto-rows: 722px;
     gap: calc(1vw + 1vh);
 }
 
 .character-sheet {
-    /* min-width: 315px;
-    max-width: 396px; */
-    width: clamp(315px, 100%, 396px);
-    max-height: 722px;
     position: relative;
+    width: 100%;
+    min-width: 315px;
+    max-width: 396px;
+    max-height: 722px;
     padding: 35px 20px 35px;
     border-image-source: url(images/character-sheet-bg-335x610.png);
     border-image-slice: 40 20 25 25 fill;
@@ -351,9 +363,10 @@ main {
     flex-direction: column;
 }
 
-/* @media (max-width: 550px) {
+@media (max-width: 320px) {
     .character-sheets-container {
         display: flex;
+        padding: 2vh 0;
         overflow-x: auto;
         --webkit-overflow-scroll: touch;
         scroll-snap-type: x mandatory;
@@ -362,9 +375,9 @@ main {
     .character-sheet {
         scroll-snap-align: center;
     }
-} */
+}
 
-/* @media (max-width: 768px) {
+/* @media (min-width: 321px) and (max-width: 500px) {
     .character-sheets-container {
         display: flex;
         overflow-x: auto;
@@ -416,7 +429,7 @@ main {
     gap: 5px;
 }
 
-/** Save and Death Buttons **/
+/** Death Button **/
 .char-btns {
     display: flex;
     position: absolute;
@@ -424,29 +437,6 @@ main {
     right: 35px;
     top: 97px;
 }
-
-/* .save-button {
-    border: none;
-    border-radius: 10px;
-    padding: 0 5px;
-    background-color: transparent;
-    font-family: inherit;
-    font-size: 1.1em;
-}
-
-.save-button:hover {
-    opacity: .8;
-    border: 1px solid #45282c;
-    background-color: #9C501B;
-    color: #ECDEC9;
-    transition: 200ms;
-}
-
-.save-button:active {
-    background-color: var(--primary-text-brown);
-    color: var(--primary-brown);
-    transition: 100ms;
-} */
 
 .killed-button {
     border: none;
@@ -591,6 +581,7 @@ input[type='checkbox'].toggle:checked + .slider::before {
 /** DICE AND STARTING POINTS SECTIONS **/
 .initial-stats {
     border: 1px solid var(--primary-brown);
+    align-self: center;
 }
 
 .initial-stats > div:nth-child(-n + 2),
@@ -781,7 +772,7 @@ input[type='checkbox'].toggle:checked + .slider::before {
     right: 40px;
 }
 
-/* @media (max-width: 320px) {        
+@media (max-width: 320px) {        
     .equipped-right-hand-item {
         top: 110px;
         left: 30px;
@@ -799,7 +790,39 @@ input[type='checkbox'].toggle:checked + .slider::before {
     .equipped-extra-2-item {
         right: 25px;
     }    
-} */
+}
+
+@media (min-width: 321px) and (max-width: 355px) {        
+    .equipped-right-hand-item {
+        top: 110px;
+        left: 36px;
+    }
+    
+    .equipped-left-hand-item {
+        top: 110px;
+        right: 36px;
+    }
+    
+    .equipped-extra-1-item {
+        left: 26px;
+    }
+    
+    .equipped-extra-2-item {
+        right: 26px;
+    }    
+}
+
+@media (min-width: 356px) and (max-width: 375px) {
+    .equipped-right-hand-item {
+        top: 110px;
+        left: 50px;
+    }
+    
+    .equipped-left-hand-item {
+        top: 110px;
+        right: 50px;
+    }
+}
 
 .equipped-item-image {
     cursor: pointer;
@@ -993,7 +1016,6 @@ input[type='checkbox'].toggle:checked + .slider::before {
     color: white;
 }
 
-fieldset#choose-items button#close-modal:hover,
 fieldset#choose-items label:hover {
     color: var(--primary-text-brown);
     text-shadow: 1px 1px 5px var(--primary-brown);
@@ -1001,7 +1023,6 @@ fieldset#choose-items label:hover {
 
 .select-weapons-armor-container > #cancel-modal:active,
 .select-potions-items-container > #cancel-modal:active,
-fieldset#choose-items button#close-modal:active,
 fieldset#choose-items label:active {
     color: var(--character-sheet-brown);
     text-shadow: 1px 1px 5px var(--header-bg-brown);
@@ -1090,11 +1111,24 @@ fieldset#choose-items div:last-of-type {
 
 fieldset#choose-items button#close-modal {
     font-family: inherit;
-    font-size: 1em;
+    font-size: .9em;
     font-style: italic;
-    border: none;
-    background-color: transparent;
     margin-left: 20px;
+    border: 1px solid var(--primary-text-brown);
+    background-color: var(--primary-brown);
+    color: var(--primary-text-brown);
+    border-radius: 5px;
+    padding: 0px 8px;
+}
+
+fieldset#choose-items button#close-modal:hover {
+    border: 1px solid var(--primary-brown);
+    background-color: var(--primary-text-brown);
+    color: var(--primary-brown);
+}
+
+fieldset#choose-items button#close-modal:active {
+    background-color: var(--faded-character-sheet-brown);
 }
 
 /***** ITEMS CARD MODAL *****/
@@ -1166,7 +1200,7 @@ fieldset#choose-items button#close-modal {
 
 /** ALERT POPUP **/
 .alert {
-    position:absolute;
+    position: fixed;
     z-index: 999;
     top: clamp(60px, 6vw, 85px);
     right: 0;
@@ -1495,16 +1529,31 @@ fieldset#choose-items button#close-modal {
     border: none;
     background: transparent;
     font-weight: 500;
+    background-color: var(--primary-brown);
+    border: 1px solid var(--primary-text-brown);
+    border-radius: 5px;
+    padding: 0 8px;
+    margin-top: 5px;
+    box-shadow: 1px 1px 5px var(--faded-character-sheet-brown);
+    color: var(--primary-text-brown);
   }
 
-  .hero-option > label:hover,
   .start-quest-btn:hover {
+    background-color: var(--primary-text-brown);
+    color: var(--primary-brown);
+    border: 1px solid var(--primary-brown);
+  }
+
+  .start-quest-btn:active {
+    background-color: var(--character-sheet-brown);
+  }
+
+  .hero-option > label:hover {
     color: var(--primary-text-brown);
     text-shadow: 1px 1px 5px var(--header-bg-brown);
   }
 
-  .hero-option > label:active,
-  .start-quest-btn:active {
+  .hero-option > label:active {
     color: var(--primary-brown);
     text-shadow: var(--primary-text-brown);
   }

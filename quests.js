@@ -235,7 +235,7 @@ function addCompletedHeroOptions(questSheet) {
         const liList = document.getElementById(`hero-options-${questSheet.id}`).getElementsByTagName('li');
         const heroesFieldset = document.getElementById('heroes-fieldset');
         const startQuestBtn = document.getElementById('start-quest-btn');
-        startQuestBtn.textContent = 'Complete Quest!';
+        startQuestBtn.textContent = 'Complete Quest';
         const heroes = [];
     
         for (let i = 0; i < liList.length; i++) {
