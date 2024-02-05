@@ -180,6 +180,12 @@ main {
     background-color: transparent;
 }
 
+@media (max-height: 690px) {
+    dialog#modal.select-weapons-armor-container {
+        top: 400px;
+    }
+}
+
 .enter-name-modal,
 .select-hero-type-modal {
     border: none;
@@ -1113,8 +1119,6 @@ fieldset#choose-items button#close-modal {
     color: var(--primary-text-brown);
     border-radius: 5px;
     padding: 0px 8px;
-    -webkit-appearance: none;
-    -moz-appearance: none;
 }
 
 fieldset#choose-items button#close-modal:hover {
@@ -1126,7 +1130,6 @@ fieldset#choose-items button#close-modal:hover {
 fieldset#choose-items button#close-modal:active {
     background-color: var(--faded-character-sheet-brown);
 }
-
 
 /***** ITEMS CARD MODAL *****/
 .character-sheet-item-card {
@@ -1197,7 +1200,7 @@ fieldset#choose-items button#close-modal:active {
 
 /** ALERT POPUP **/
 .alert {
-    position:absolute;
+    position: fixed;
     z-index: 999;
     top: clamp(60px, 6vw, 85px);
     right: 0;
@@ -1526,16 +1529,31 @@ fieldset#choose-items button#close-modal:active {
     border: none;
     background: transparent;
     font-weight: 500;
+    background-color: var(--primary-brown);
+    border: 1px solid var(--primary-text-brown);
+    border-radius: 5px;
+    padding: 0 8px;
+    margin-top: 5px;
+    box-shadow: 1px 1px 5px var(--faded-character-sheet-brown);
+    color: var(--primary-text-brown);
   }
 
-  .hero-option > label:hover,
   .start-quest-btn:hover {
+    background-color: var(--primary-text-brown);
+    color: var(--primary-brown);
+    border: 1px solid var(--primary-brown);
+  }
+
+  .start-quest-btn:active {
+    background-color: var(--character-sheet-brown);
+  }
+
+  .hero-option > label:hover {
     color: var(--primary-text-brown);
     text-shadow: 1px 1px 5px var(--header-bg-brown);
   }
 
-  .hero-option > label:active,
-  .start-quest-btn:active {
+  .hero-option > label:active {
     color: var(--primary-brown);
     text-shadow: var(--primary-text-brown);
   }
