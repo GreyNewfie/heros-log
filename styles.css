@@ -137,7 +137,7 @@ main {
     width: 100%;
     min-width: 315px;
     max-width: 396px;
-    padding: 2em 20px 0;
+    padding: 1.7rem 20px 0;
     text-align: center;
 
     display: flex;

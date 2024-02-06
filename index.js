@@ -3,7 +3,6 @@ const addCharacterButton = document.getElementById('add-character-button');
 addCharacterButton.addEventListener('click', () => {
     const uniqueId = Date.now();
     createEnterCharacterNameUi(uniqueId);
-    // characterSheet(character);
 });
 
 
@@ -33,12 +32,6 @@ const characterSheet = (character) => {
         //Character name input field
         const characterNameDiv = document.createElement('div');
         createCharacterNameUi(characterNameDiv, character);
-        // const characterNameLabel = document.createElement('label');
-        // characterNameLabel.setAttribute('for', `character-name-${uniqueId}`);
-        // characterNameLabel.append('Name:');
-        // const characterNameInput = document.createElement('input');
-        // setAttributes(characterNameInput, {type: 'text', id: `character-name-${uniqueId}`, name: 'character-name', required: '', minlength: 1});
-        // characterNameDiv.append(characterNameLabel, characterNameInput);
         
         //Character type 
         const characterTypeDiv = document.createElement('div');
@@ -47,29 +40,11 @@ const characterSheet = (character) => {
         // Automatically Update Character Statistics UI
         const characterAutoUpdateUi = createAutoUpdateInitialStatsUI(uniqueId);
     
-        //Character buttons div
+        // Character buttons div
         const characterButtonsDiv = document.createElement('div');
         characterButtonsDiv.setAttribute('class', 'char-btns');
-    
-        //Kill Character button
-        // const characterSaveBtn = document.createElement('button');
-        // characterSaveBtn.setAttribute('class', 'save-button');
-        // characterSaveBtn.textContent = 'Save';
-        // characterSaveBtn.addEventListener('click', (event) => {
-        //     const character = getStoredCharacter(uniqueId);
-        //     if (!character) {
-        //         character = createNewCharacter();
-        //         checkCharacterItemsCompatibility(uniqueId);
-        //     }
-        //     if (isCurrentCharacter(character)) {
-        //         // const storedCharacter = getStoredCharacter(uniqueId);
-        //         updateCharacter(character, character.characterId);
-        //     } else {
-        //         addCharacter(character);
-        //     }
-        // });
-    
-        //Killed button
+        
+        // Killed button
         const characterKilledBtn = document.createElement('button');
         characterKilledBtn.setAttribute('class', 'killed-button');
         const characterKilledSpan = document.createElement('span');
@@ -256,7 +231,6 @@ const characterSheet = (character) => {
     }
 
     function updateCharacter(storedCharacter, characterId) {
-        // const typeSpan = document.getElementById(getCharacterType(characterId));
         const attDiceSel = document.getElementById(getAttackDice(characterId));
         const defDiceSel = document.getElementById(getDefendDice(characterId));
         const startBodyPtsInput = document.getElementById(getStartBodyPoints(characterId));
@@ -269,7 +243,6 @@ const characterSheet = (character) => {
         const equippedItemsImages = document.getElementById(getEquippedItems(uniqueId)).querySelectorAll('.item-image');
         const autoUpdateBtnStatus = getAutoUpdateButtonStatus(uniqueId);
 
-        // storedCharacter.type = typeSpan.value;
         storedCharacter.attackDice = parseInt(attDiceSel.value);
         storedCharacter.defendDice = parseInt(defDiceSel.value);
         storedCharacter.startBodyPts = parseInt(startBodyPtsInput.value);
@@ -832,19 +805,19 @@ function addToDiceOrPointsBucket(characterId, item) {
 }
 
 //********* IS THIS FUNCTION BEING USED? ****************/
-function addHeroTypeStatsToCharacterSheet(character) {
-    const attackDice = document.getElementById(`attack-dice-${character.characterId}`);
-    attackDice.value = character.heroPrototype.attackDice;
+// function addHeroTypeStatsToCharacterSheet(character) {
+//     const attackDice = document.getElementById(`attack-dice-${character.characterId}`);
+//     attackDice.value = character.heroPrototype.attackDice;
 
-    const defendDice = document.getElementById(`defend-dice-${character.characterId}`);
-    defendDice.value = character.heroPrototype.defendDice;
+//     const defendDice = document.getElementById(`defend-dice-${character.characterId}`);
+//     defendDice.value = character.heroPrototype.defendDice;
 
-    const bodyPoints = document.getElementById(`body-${character.characterId}`);
-    bodyPoints.value = character.heroPrototype.startBodyPts;
+//     const bodyPoints = document.getElementById(`body-${character.characterId}`);
+//     bodyPoints.value = character.heroPrototype.startBodyPts;
 
-    const mindPoints = document.getElementById(`mind-${character.characterId}`);
-    mindPoints.value = character.heroPrototype.startMindPts;
-}
+//     const mindPoints = document.getElementById(`mind-${character.characterId}`);
+//     mindPoints.value = character.heroPrototype.startMindPts;
+// }
 
 function addHeroTypeStatsToBuckets(character) {
     const attackDiceModifier = {
@@ -1533,6 +1506,11 @@ function isItemEquipped(characterId, item) {
 function removeItemFromBucket(character, item) {
     const modifiers = item.modifiers;
     let modifierIndex = '';
+
+    // If auto update stats is off, don't try to remove item from bucket
+    if (!character.autoUpdateStatus) {
+        return;
+    }
 
     for (const statToModify in modifiers) {
         switch (statToModify) {
