@@ -804,21 +804,6 @@ function addToDiceOrPointsBucket(characterId, item) {
     storeCharacter(character);
 }
 
-//********* IS THIS FUNCTION BEING USED? ****************/
-// function addHeroTypeStatsToCharacterSheet(character) {
-//     const attackDice = document.getElementById(`attack-dice-${character.characterId}`);
-//     attackDice.value = character.heroPrototype.attackDice;
-
-//     const defendDice = document.getElementById(`defend-dice-${character.characterId}`);
-//     defendDice.value = character.heroPrototype.defendDice;
-
-//     const bodyPoints = document.getElementById(`body-${character.characterId}`);
-//     bodyPoints.value = character.heroPrototype.startBodyPts;
-
-//     const mindPoints = document.getElementById(`mind-${character.characterId}`);
-//     mindPoints.value = character.heroPrototype.startMindPts;
-// }
-
 function addHeroTypeStatsToBuckets(character) {
     const attackDiceModifier = {
         'origin': 'character',
@@ -899,9 +884,6 @@ function checkItemCompatibility(characterId, item) {
     if (item.incompatibilities?.includes(characterType) || item.incompatibilities?.some(incompatibility => equippedItemsById?.includes(incompatibility))) {
         const element = document.getElementById(`character-${characterId}-${item.id}`);
         element.classList.add('incompatible');
-        // element.setAttribute('data-hover', `${item.name} can't be equipped. Please check the ${item.name} card for why.`);
-        // const incompatibleMessage = createIncompatibleItemMessageBox(item);
-        // element.after(incompatibleMessage);
         return 'incompatible';
     }
 }
@@ -1003,13 +985,10 @@ function checkCharacterItemsCompatibility(characterId) {
 
     characterItems.forEach(item => {
         const element = document.getElementById(`character-${characterId}-${item.id}`);
-        // Would this work? item.incompatibilities.includes(...[item.id])
+
         if (item.incompatibilities?.includes(characterType) || item.incompatibilities?.some(incompatibility => equippedItems.some(equippedItem => equippedItem.id === incompatibility))) {
             element.classList.add('incompatible');
             incompatibleItems.push(item);
-            // element.setAttribute('data-hover', `${item.name} can't be equipped. Please check the ${item.name} card for why.`);
-            // const incompatibleMessage = createIncompatibleItemMessageBox(item);
-            // element.after(incompatibleMessage);
         } else {
             if (!equippedItems.includes(item)){
                 element.classList.remove('incompatible');
@@ -1129,7 +1108,6 @@ function createItemModal(itemName, characterId) {
     
         if (!equippedItem && !isEquippedItemDisplayed(characterId, item) && item.equippedLocation) {
             const equipItemBtn = document.createElement('button');
-            // Is this ID being utilized? Remove if not
             equipItemBtn.setAttribute('id', `character-${characterId}-equip-${item.name}`);
             equipItemBtn.textContent = 'Equip';
         
@@ -1294,16 +1272,6 @@ function equipItem(characterId, item) {
     if (isEquippedItemDisplayed(characterId, item)) {
         return
     }
-
-    // if (checkItemCompatibility(characterId, item) === 'incompatible') {
-    //     alert('This item can\'t be equipped. Please reference the item card to see why it can\'t be used.');
-    //     return;
-    // }
-
-    // if (item.equippedLocation === 'extra' && !isExtraItemContainerAvailable(characterId, item)) {
-    //     alert(`${item.name} can\'t be equipped. Please unequip one of your extra items to equip ${item.name}.`);
-    //     return;
-    // }
 
     switch (item.equippedLocation) {
         case 'head':
@@ -1584,23 +1552,6 @@ function removeItemFromCharacter(characterId, item) {
     storeCharacters(characters);
 }
 
-/*********** CHECK IS THIS FUNCTION IS STILL BEING USED ***********/
-function setInitialStats(heroTypeId, characterId) {
-    const heroType = heroTypes.find(type => type.id === heroTypeId);
-
-    const attackDice = document.getElementById(`attack-dice-${characterId}`);
-    attackDice.value = heroType.attackDice;
-
-    const defendDice = document.getElementById(`defend-dice-${characterId}`);
-    defendDice.value = heroType.defendDice;
-
-    const bodyPoints = document.getElementById(`body-${characterId}`);
-    bodyPoints.value = heroType.startBodyPts;
-
-    const mindPoints = document.getElementById(`mind-${characterId}`);
-    mindPoints.value = heroType.startMindPts;
-}
-
 function showOrHideIncreaseDecreaseBtns(character) {
     const characterSheet = document.getElementById(`character-${character.characterId}`);
     const decreaseBtns = characterSheet.querySelector('.initial-stats').querySelectorAll('.decrease-number-btn');
@@ -1663,18 +1614,6 @@ function updateCharacterStats(element) {
 }
 
 const displayCharacters = (function () {
-    // Initializtion
     const characters = getCharacters();
     characters.forEach(character => characterSheet(character));
-
-    // characters.forEach(character => {
-    //     const sheetDiv = createSheetDivUi(character)
-    //     const charTitle = createTitleUi(character)
-    //     const inventory = createInventoryUi(character);
-
-    //     sheetDiv.append(charTitle);
-    //     sheetDiv.append(inventory);
-
-    //     bigList.append(sheetDiv)
-    // })
 })();
