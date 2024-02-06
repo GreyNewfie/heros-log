@@ -79,12 +79,6 @@ function createInstructionCard() {
     return instructionCard;
 }
 
-// *** Not being used ***
-function removeInstructionCard() {
-    const instructionCard = document.querySelector('.instruction-card');
-    instructionCard.remove();
-}
-
 (function displayInstructionCard() {
     const itemsCardContainer = document.getElementById('items-card-container');
 
@@ -187,13 +181,6 @@ function createItemCard(itemName) {
             }
 
         });    
-
-
-        // listItemElements.forEach(itemElement => {
-        //     const lowerCaseItemName = itemElement.innerText.toLowerCase();
-        //     const isVisible = lowerCaseItemName.includes(value);
-        //     itemElement.classList.toggle('hide', !isVisible);
-        // });
     });
 })();
 

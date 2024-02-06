@@ -132,7 +132,6 @@ function updateQuest(quests, questSheet, questStatus) {
             break;
         case 'current-quest':
             if (characters === null || characters.length === 0) {
-                // alert('Input your characters before starting your quest');
                 const alert = document.querySelector('.alert');
                 const alertMessage = document.querySelector('.alert-message');
                 alertMessage.textContent = 'Input your character(s) before starting your quest';
@@ -153,7 +152,6 @@ function updateQuest(quests, questSheet, questStatus) {
                 removeQuestHeroes(questSheet);
                 displayNextQuest(questSheet); 
             } else {
-                // alert('You\'re not quite there. You mush start a quest before you can complete it.');
                 const alert = document.querySelector('.alert');
                 const alertMessage = document.querySelector('.alert-message');
                 alertMessage.textContent = 'You\'re not quite there. You mush start a quest before you can complete it.';
@@ -244,20 +242,6 @@ function addCompletedHeroOptions(questSheet) {
         }
     
         heroes.forEach((hero) => {
-            // const newDiv = document.createElement('div');
-            // newDiv.setAttribute('class', 'hero-option');
-    
-            // const newInput = document.createElement('input');
-            // setAttributes(newInput, {type: 'checkbox', id: hero, name: hero});
-    
-            // const newLabel = document.createElement('label');
-            // newLabel.setAttribute('for', hero);
-            // newLabel.textContent = hero;
-    
-            // newDiv.append(newInput, newLabel);
-    
-            // heroesFieldset.insertBefore(newDiv, startQuestBtn);
-
             const heroOptionContainer = document.createElement('div');
             heroOptionContainer.setAttribute('class', 'hero-option');
     
@@ -366,9 +350,6 @@ function removeQuestHeroes(currentQuest) {
     const currentQuestDescription = currentQuest.querySelector('.quest-description');
     const currentHeroesOnQuest = currentQuest.querySelector('.quest-heroes');
 
-    // if (currentQuestDescription) {
-    //     currentQuestDescription.remove();
-    // }
     if (currentHeroesOnQuest) {
         currentHeroesOnQuest.remove();
     }
