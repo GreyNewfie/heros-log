@@ -489,91 +489,9 @@ const items = [
         imageDescription: 'Metal armor lying on the floor propped up against a stone wall',
         equippedLocation: 'left-hand',
         incompatibilities: ['wizard'],
-        // See dynamic items below
         modifiers: {
             defendDice: 2,
             redDice: 1
         }
     }
 ]
-
-// const itemFilter = (filters) => {
-//     return item => filters.includes(item.classification)
-// }
-
-// items.filter(itemFilter(['']))
-
-/**
- * OPtional chaining, null coalscing, combined items/artifacts/equipment 
- */
-
-// const items = [
-//     ...equipment,
-//     ...artifacts,
-//     ...treasure
-// ]
-
-// const arti = items.filter(item => item.classification === 'artifact')
-
-// arti[0].cost
-
-// const equip =  items.filter(item => item.classification === 'equipment')
-
-// equip[0].cost
-
-// console.log(equipment[0].cost ?? 'N/A')
-
-// const foo = {
-//     name: 'blah',
-//     favourites: {
-//         drink: 'water',
-//         food: 'nachos'
-//     }
-// }
-
-// if (foo && foo.favourites && foo.favourites.drink) {
-//     console.log('My favourite drink is ', foo.favourites.drink)
-// }
-
-// console.log('My favourite drink is ', foo?.favourites?.drink ?? 'No drink')
-
-
-/**
- * Dynamic items and stat breakdowns
- */
-
-// // Add object to bucket
-// addToMindBucket()
-
-// // Calculate final stat, calculate tooltip breakdown
-// updateMindBucket()
-
-// const mindPointsBucket = [
-//     {
-//         mindPointsBucket: 2,
-//         origin: 'character'
-//     }
-// ]
-
-// mindPointsBucket.push(character.mindPointsBucket)   // Base
-// mindPointsBucket.push(potion.mindPointsBucket)      // Items
-
-// const objects = {
-//     mindPointsBucket: 2,
-//     origin: 'potion'
-// }
-
-
-/**
- * Set
- */
-// const set = new Set()
-
-// set.add('bob'); // ['bob']
-// set.add('joe'); // ['bob', 'joe']
-// set.add('bob'); // ['bob', 'joe']
-
-// set.add('plate-mail');
-
-// set.has('plate-mail') // true
-// set.clear();
