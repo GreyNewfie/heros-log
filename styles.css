@@ -625,10 +625,16 @@ input[type='checkbox'].toggle:checked + .slider::before {
 .hero-number-input {
     width: 25px;
     border: none;
+    border-radius: 5px;
     text-align: center;
     background-color: transparent;
     font-family: inherit;
     font-size: inherit;
+    cursor: pointer;
+}
+
+.hero-number-input:hover {
+    background-color: var(--primary-text-brown);
 }
 
 .increase-number-btn::before {
