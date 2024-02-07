@@ -43,7 +43,7 @@ a {
 
 header {
     background-color: var(--border-black);
-    position: sticky;
+    position: fixed;
     top: 0;
     z-index: 999;
 }
@@ -87,6 +87,7 @@ dialog::backdrop {
 }
 
 main {
+    margin-top: clamp(60px, 6vw, 85px);
     flex-grow: 1;
 }
 
