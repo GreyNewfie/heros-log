@@ -450,7 +450,7 @@ main {
 
 /* Character Death Confirmation Popup */
 .confirm-death-alert {
-    position:absolute;
+    position:fixed;
     z-index: 999;
     top: clamp(60px, 6vw, 85px);
     right: 0;
