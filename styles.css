@@ -27,7 +27,6 @@
 }
 
 body {
-
     position: relative;
     height: 100vh;
     width: 100vw;
@@ -35,14 +34,6 @@ body {
     display: flex;
     flex-direction: column;
 }
-
-/* h1 {
-    font-size: clamp(1.25rem, 1vw + 1rem, 2.5rem);
-}
-
-h2 {
-    font-size: clamp(1.125rem, 0.5vw + 1rem, 2rem);
-} */
 
 a {
     text-decoration: none;
@@ -1797,4 +1788,35 @@ fieldset#choose-items button#close-modal:active {
     .items-cards-dropdown-wrapper {
         padding-bottom: 10px;
     }
+}
+
+footer {
+    background-color: var(--header-bg-brown);
+    color: var(--primary-text-brown);
+    font-size: 1.1rem;
+    text-align: center;
+    padding: 1vh 0;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+
+.footer-logos {
+    display: flex;
+    gap: calc(1rem + 1vw);
+}
+
+footer a {
+    color: var(--logo-text-yellow);
+    text-decoration: underline;
+}
+
+.github-footer-logo {
+    width: 30px;
+}
+
+.linkedin-footer-logo {
+    width: 36px;
 }
