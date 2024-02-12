@@ -627,7 +627,7 @@ input[type='checkbox'].toggle:checked + .slider::before {
     border: none;
     border-radius: 5px;
     text-align: center;
-    background-color: transparent;
+    background-color: rgb(236, 221, 198, .5);
     font-family: inherit;
     font-size: inherit;
     cursor: pointer;
