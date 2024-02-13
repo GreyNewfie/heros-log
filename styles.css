@@ -631,6 +631,13 @@ input[type='checkbox'].toggle:checked + .slider::before {
     font-family: inherit;
     font-size: inherit;
     cursor: pointer;
+    margin: 0 3px;
+}
+
+@media (max-width: 360px) {
+    .hero-number-input {
+        margin: 0;
+    }
 }
 
 .hero-number-input:hover {
@@ -649,7 +656,7 @@ input[type='checkbox'].toggle:checked + .slider::before {
 .decrease-number-btn {
     width: 1.5em;
     height: 1.5em;
-    border-radius: 50%;
+    border-radius: 5px;
     border: 1px solid var(--primary-brown);
     color: white;
     background-color: var(--primary-brown);
@@ -1266,6 +1273,10 @@ fieldset#choose-items button#close-modal:active {
 
 #quest-list > li {
     pointer-events: none;
+}
+
+#quest-list > li[class='list-item'] {
+    font-weight: 500;
 }
 
 .not-started {
