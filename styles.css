@@ -1798,14 +1798,18 @@ footer {
     padding: 1vh 0;
 
     display: flex;
-    flex-direction: column;
+    justify-content: center;
     align-items: center;
     gap: 1rem;
 }
 
 .footer-logos {
     display: flex;
-    gap: calc(1rem + 1vw);
+    gap: calc(1rem);
+}
+
+.footer-logos > a {
+    display: flex;
 }
 
 footer a {
@@ -1814,9 +1818,9 @@ footer a {
 }
 
 .github-footer-logo {
-    width: 25px;
+    width: 22px;
 }
 
 .linkedin-footer-logo {
-    width: 31px;
+    width: 28px;
 }
