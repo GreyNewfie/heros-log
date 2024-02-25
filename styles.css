@@ -27,7 +27,6 @@
 }
 
 body {
-
     position: relative;
     height: 100vh;
     width: 100vw;
@@ -68,7 +67,7 @@ header nav {
 }
 
 header img {
-    width: clamp(60px, 6%, 85px);
+    width: 60px;
     margin-left: 4%;
 }
 
@@ -1604,14 +1603,14 @@ fieldset#choose-items button#close-modal:active {
 }
 
 .side-menu {
-    padding: 1% 0 0 1%;
+    padding: .5rem 0 .5rem .5rem;
 
     display: flex;
 }
 
 .items-list-container {
     width: max-content;
-    height: 86vh;
+    height: 85vh;
     max-height: 1051px;
     padding: 35px 25px;
     position: relative;
@@ -1768,4 +1767,39 @@ fieldset#choose-items button#close-modal:active {
     .items-cards-dropdown-wrapper {
         padding-bottom: 10px;
     }
+}
+
+footer {
+    background-color: var(--header-bg-brown);
+    color: var(--primary-text-brown);
+    font-size: 1rem;
+    text-align: center;
+    padding: 1vh 0;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+}
+
+.footer-logos {
+    display: flex;
+    gap: calc(1rem);
+}
+
+.footer-logos > a {
+    display: flex;
+}
+
+footer a {
+    color: var(--logo-text-yellow);
+    text-decoration: underline;
+}
+
+.github-footer-logo {
+    width: 22px;
+}
+
+.linkedin-footer-logo {
+    width: 28px;
 }
