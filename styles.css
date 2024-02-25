@@ -87,7 +87,7 @@ dialog::backdrop {
 }
 
 main {
-    margin-top: clamp(60px, 6vw, 85px);
+    margin-top: 60px;
     flex-grow: 1;
 }
 
@@ -452,7 +452,7 @@ main {
 .confirm-death-alert {
     position:fixed;
     z-index: 999;
-    top: clamp(60px, 6vw, 85px);
+    top: 60px;
     right: 0;
     padding: 20px;
     background-color: var(--logo-text-yellow);
@@ -1189,7 +1189,7 @@ fieldset#choose-items button#close-modal:active {
 .alert {
     position: fixed;
     z-index: 999;
-    top: clamp(60px, 6vw, 85px);
+    top: 60px;
     right: 0;
     padding: 20px;
     background-color: var(--logo-text-yellow);
