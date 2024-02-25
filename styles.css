@@ -66,7 +66,7 @@ header nav {
 }
 
 header img {
-    width: clamp(60px, 6%, 85px);
+    width: 60px;
     margin-left: 4%;
 }
 
@@ -1617,14 +1617,14 @@ fieldset#choose-items button#close-modal:active {
 }
 
 .side-menu {
-    padding: 1% 0 0 1%;
+    padding: .5rem 0 .5rem .5rem;
 
     display: flex;
 }
 
 .items-list-container {
     width: max-content;
-    height: 86vh;
+    height: 85vh;
     max-height: 1051px;
     padding: 35px 25px;
     position: relative;
@@ -1686,13 +1686,6 @@ fieldset#choose-items button#close-modal:active {
 .lists::-webkit-scrollbar-thumb:hover {
     background: var(--faded-character-sheet-brown);
 }
-
-/* @supports (scrollbar-color: var(--primary-brown) var(--faded-character-sheet-brown)) {
-    .lists {
-        scrollbar-color: var(--primary-brown) var(--faded-character-sheet-brown);
-        scrollbar-width: thin;
-    }
-} */
 
 @-moz-document url-prefix() {
     .lists {
@@ -1793,7 +1786,7 @@ fieldset#choose-items button#close-modal:active {
 footer {
     background-color: var(--header-bg-brown);
     color: var(--primary-text-brown);
-    font-size: 1.1rem;
+    font-size: 1rem;
     text-align: center;
     padding: 1vh 0;
 
