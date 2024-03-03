@@ -1784,7 +1784,7 @@ footer {
 
 .footer-logos {
     display: flex;
-    gap: calc(1rem);
+    gap: 1rem;
 }
 
 .footer-logos > a {
