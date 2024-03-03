@@ -3,7 +3,7 @@ HeroQuest character, items and quest tracker. View the app live [here](https://g
 
 ## Description
 
-This is my first project for the [Get Coding](https://www.getcoding.ca/) program. I used html, css and vabilla javascript. Hero's Log is a companion app for the HeroQuest board game. It allows players to track their character(s), items and quest progress. There's also an items library that contains all of the item cards in the game for players to be able to reference.
+Hero's Log is a companion app for the HeroQuest board game. It allows players to track their character(s), character items and quest progress. There's also an items library that contains all of the item cards in the game for players to be able to reference.
 
 ## Motivation
 
@@ -12,5 +12,6 @@ I play HeroQuest with some friends, and found that the paper character sheet pro
 ## Technologies
 
 **Web Fundamentals**: HTML, CSS and Javascript
+
 **Responsive Design**: Used Grid, Flexbox and media queries to adapt to various screen sizes
 
