@@ -15,3 +15,4 @@ I play HeroQuest with some friends, and found that the paper character sheet pro
 
 **Responsive Design**: Used Grid, Flexbox and media queries to adapt to various screen sizes
 
+**Video Walkthrough**: https://www.loom.com/share/3fe738b61d4f4ada8b821852d7363757?sid=bf1e4af0-701d-44f9-918f-9c19993f4b3c
